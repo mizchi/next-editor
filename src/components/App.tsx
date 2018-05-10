@@ -3,30 +3,33 @@ import styled from "styled-components"
 import { log } from "util"
 
 type Props = {}
-
-export default (props: Props) => {
-  return (
-    <Container>
-      <h1>Hello</h1>
-    </Container>
-  )
+type State = {
+  text: string
 }
 
-const v: number = 1
+export default class App extends React.Component<Props, State> {
+  public state = {
+    text: ""
+  }
+  public async componentDidMount() {
+    const API_ENDPOINT =
+      location.protocol + "//" + location.host + "/.netlify/functions"
+    const res = await fetch(`${API_ENDPOINT}/hello`, {
+      mode: "cors"
+    })
+    const data = await res.text()
+    this.setState({ text: data })
+  }
+  public render() {
+    return (
+      <Container>
+        <h1>Hello/ {this.state.text}</h1>
+      </Container>
+    )
+  }
+}
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
 `
-
-const main = async () => {
-  const API_ENDPOINT =
-    process.env.NODE_ENV !== "production"
-      ? "http://localhost:9000"
-      : location.protocol + "//" + location.host + "/.netlify/functions"
-  const res = await fetch(`${API_ENDPOINT}/hello`)
-  const data = await res.text()
-  ;(console as any).log(data)
-}
-
-main()
