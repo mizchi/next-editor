@@ -21,7 +21,7 @@ const Container = styled.div`
 
 const main = async () => {
   const API_ENDPOINT =
-    process.env.NODE_ENV === "production"
+    process.env.NODE_ENV !== "production"
       ? "http://localhost:9000"
       : location.protocol + "//" + location.host + "/.netlify/functions"
   const res = await fetch(`${API_ENDPOINT}/hello`)
