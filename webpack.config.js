@@ -16,10 +16,7 @@ module.exports = {
         test: /\.js$/,
         exclude: [/node_modules/],
         use: {
-          loader: "babel-loader",
-          options: {
-            forceEnv: "development:client"
-          }
+          loader: "babel-loader"
         }
       },
       {
@@ -28,7 +25,7 @@ module.exports = {
           loader: "awesome-typescript-loader",
           options: {
             useBabel: true,
-            babelCore: "@babel/core"
+            babelCore: "babel-core"
           }
         }
       }
