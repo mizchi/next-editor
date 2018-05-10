@@ -25,7 +25,7 @@ const main = async () => {
       ? "http://localhost:9000"
       : location.protocol + "//" + location.host + "/.netlify/functions"
   const res = await fetch(`${API_ENDPOINT}/hello`)
-  const data = await res.json()
+  const data = await res.text()
   ;(console as any).log(data)
 }
 
