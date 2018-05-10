@@ -2,7 +2,7 @@ const HtmlPlugin = require("html-webpack-plugin")
 const mode = process.env.NODE_ENV || "development"
 module.exports = {
   mode,
-  entry: [__dirname + "/src/index.tsx"],
+  entry: ["babel-polyfill", __dirname + "/src/index.tsx"],
   output: {
     path: __dirname + "/public",
     filename: "bundle.js"
