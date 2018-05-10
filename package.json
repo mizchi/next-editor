@@ -1,12 +1,8 @@
 {
-  "name": "isomogit-playground",
-  "version": "1.0.0",
+  "name": "tsproj-20180511",
+  "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
-  "dependencies": {
-    "browserfs": "^1.4.3",
-    "isomorphic-git": "^0.12.0"
-  },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.46",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.46",
