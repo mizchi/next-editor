@@ -1,4 +1,4 @@
 [build]
   publish = "public"
-  command = "yarn build:prod"
+  command = "yarn build:prod && netlify-lambda build src/functions"
   functions = "functions"
