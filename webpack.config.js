@@ -1,7 +1,8 @@
-const HtmlPlugin = require("html-webpack-plugin");
-const mode = process.env.NODE_ENV || "development";
+const HtmlPlugin = require("html-webpack-plugin")
+const mode = process.env.NODE_ENV || "development"
 module.exports = {
   mode,
+  entry: [__dirname + "/src/index.tsx"],
   output: {
     path: __dirname + "/public",
     filename: "bundle.js"
@@ -38,4 +39,4 @@ module.exports = {
       template: "src/index.html"
     })
   ]
-};
+}
