@@ -11,11 +11,12 @@ export type Repository = {
 export async function initGitProject(repo: Repository) {
   try {
     await pify(fs.mkdir)(repo.dir)
+    console.log("Git: create")
   } catch (e) {
     console.log("Git: already exists")
   }
 
-  // const existed = await pify(window.fs.exists)(path.join(repo.dir, ".git"))
+  // const existed = await pify(fs.exists)(path.join(repo.dir, ".git"))
   // if (!existed) {
   //   await git.init(repo)
   // } else {

@@ -10,6 +10,7 @@ import { BabelCodePreview } from "../atoms/BabelCodePreview"
 import { JavaScriptEditor } from "../atoms/JavaScriptEditor"
 import { ProjectProvider } from "../atoms/ProjectContext"
 import { FileBrowser } from "../molecules/FileBrowser"
+import { GlobalHeader } from "../molecules/GlobalHeader"
 
 type Props = {
   projectRoot: string
@@ -60,7 +61,9 @@ export class RepositoryEdit extends React.Component<Props, State> {
     return (
       <ProjectProvider projectRoot={this.props.projectRoot}>
         <Layout>
-          <Header>Playground</Header>
+          <Header>
+            <GlobalHeader />
+          </Header>
           <Menu>
             <FileBrowser />
           </Menu>
@@ -77,7 +80,7 @@ export class RepositoryEdit extends React.Component<Props, State> {
             />
           </Editor>
           <Preview>
-            <BabelCodePreview code={editorValue} />
+            <BabelCodePreview source={editorValue} />
           </Preview>
         </Layout>
       </ProjectProvider>
@@ -87,7 +90,7 @@ export class RepositoryEdit extends React.Component<Props, State> {
 
 export const Layout = styled.div`
   width: 100vx;
-  height: 90vh;
+  height: 100vh;
   display: grid;
   grid-template-columns: 250px 1fr 1fr;
   grid-template-rows: 40px 1fr 1fr;
@@ -95,17 +98,25 @@ export const Layout = styled.div`
 `
 
 export const Header = styled.div`
+  width: 100%;
+  height: 100%;
   grid-area: header;
 `
 
 export const Menu = styled.div`
+  width: 100%;
+  height: 100%;
   grid-area: menu;
 `
 
 export const Editor = styled.div`
+  width: 100%;
+  height: 100%;
   grid-area: editor;
 `
 
 export const Preview = styled.div`
+  width: 100%;
+  height: 100%;
   grid-area: preview;
 `

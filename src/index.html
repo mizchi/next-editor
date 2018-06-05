@@ -34,16 +34,20 @@ async function setupServiceWorker() {
 ;(async () => {
   const el = document.querySelector('.root')
 
-  // SW
-  el.innerHTML = 'Checking service worker ...'
-  await import('/sw.js')
+  try {
+    // SW
+    el.innerHTML = 'Checking service worker ...'
+    await import('/sw.js')
 
-  // setup
-  await setupBrowserFS()
+    // setup
+    await setupBrowserFS()
 
-  // Run
-  el.innerHTML = 'Loading...'
-  await import('/main.js')
+    // Run
+    el.innerHTML = 'Loading...'
+    await import('/main.js')
+  } catch (e) {
+    el.innerHTML = 'Something wrong: ' + e.message
+  }
 })()
   </script>
 </body>

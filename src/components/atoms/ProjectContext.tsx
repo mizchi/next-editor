@@ -32,17 +32,3 @@ export class ProjectProvider extends React.Component<Props, State> {
 }
 
 export const ProjectConsumer: any = ProjectContext.Consumer
-
-// export class ProjectConsumer extends React.Component<Props, State> {
-//   constructor(props: Props) {
-//     super(props)
-//     this.state = { repo: { fs, dir: props.projectRoot } }
-//   }
-//   render() {
-//     const Provider = RepositoryContext.Consumber
-//     return (
-//       // tslint:disable
-//       <Provider repo={this.state.repo}>{this.props.children}</Provider>
-//     )
-//   }
-// }

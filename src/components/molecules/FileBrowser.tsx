@@ -1,6 +1,8 @@
+import range from "lodash/range"
 import path from "path"
-import React, { Children } from "react"
+import React from "react"
 import { readFiles, Repository } from "../../lib/gitActions"
+import { DataLoader } from "../atoms/DataLoader"
 import { ProjectConsumer } from "../atoms/ProjectContext"
 
 export function FileBrowser() {
@@ -9,8 +11,12 @@ export function FileBrowser() {
       {(context: any) => {
         return (
           <div>
-            <div>Proj: {context.repo.dir}</div>
-            <DirectoryNode repo={context.repo} dirpath="." />
+            {/* <div>Proj: {context.repo.dir}</div> */}
+            <DirectoryNode
+              repo={context.repo}
+              dPath={context.repo.dir}
+              depth={0}
+            />
           </div>
         )
       }}
@@ -19,7 +25,8 @@ export function FileBrowser() {
 }
 
 type Props = {
-  dirpath: string
+  dPath: string
+  depth: number
   repo: Repository
 }
 
@@ -31,14 +38,30 @@ export class DirectoryNode extends React.Component<Props, { opened: boolean }> {
     }
   }
   render() {
-    const { dirpath, repo } = this.props
+    const { dPath, repo, depth } = this.props
     const { opened } = this.state
-    const dirname = path.dirname(dirpath)
-    const basename = path.basename(dirpath)
+
+    const relPath = path.relative(repo.dir, dPath)
+    // const dirname = path.dirname()
+    // const basename = path.basename(dPath)
+
+    const prefix = range(depth)
+      .map(_ => "  ")
+      .join("")
     return (
       <div>
+        <div>
+          <button
+            onClick={() => {
+              this.setState({ opened: !this.state.opened })
+            }}
+          >
+            {opened ? "-" : "+"}
+          </button>
+          &nbsp;{relPath || "<root>"}
+        </div>
         {opened && (
-          <FileListLoader aPath={path.join(repo.dir, dirpath)}>
+          <FileListLoader aPath={path.join(repo.dir, relPath)}>
             {({ files }: { files: string[] }) => {
               return (
                 <>
@@ -55,32 +78,23 @@ export class DirectoryNode extends React.Component<Props, { opened: boolean }> {
   }
 }
 
-class FileListLoader extends React.Component<
-  { aPath: string; children: any },
-  { loading: boolean; loaded: boolean; files: string[]; error: boolean }
-> {
-  constructor(props: any) {
-    super(props)
-    this.state = {
-      error: false,
-      files: [],
-      loaded: false,
-      loading: true
-    }
-  }
-
-  async componentDidMount() {
-    const { aPath } = this.props
-    const files = await readFiles(aPath)
-    this.setState({ files, loaded: true, loading: false })
-  }
-
-  render() {
-    const { loading, loaded, files } = this.state
-    if (!loaded) {
-      return <span>...</span>
-    } else {
-      return <this.props.children files={this.state.files} />
-    }
-  }
+function FileListLoader(props: { aPath: string; children: any }) {
+  const { aPath, children } = props
+  return (
+    <DataLoader<{ files: string[] }>
+      loader={async () => {
+        const files = await readFiles(aPath)
+        return { files }
+      }}
+    >
+      {({ loading, loaded, data }: any) => {
+        const { files } = data
+        if (!loaded) {
+          return <span>...</span>
+        } else {
+          return <props.children files={files} />
+        }
+      }}
+    </DataLoader>
+  )
 }

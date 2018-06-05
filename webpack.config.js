@@ -2,6 +2,8 @@
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 const mode = process.env.NODE_ENV || "development"
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin")
+
 module.exports = {
   mode,
   entry: {

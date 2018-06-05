@@ -2,12 +2,12 @@ import React from "react"
 import styled from "styled-components"
 import { compileWithBabel } from "../../lib/babel"
 
-type Props = { source: string }
+type Props = { code: string }
 
-export class BabelCodePreview extends React.Component<Props, {}> {
+export class GitHistoryPreview extends React.Component<Props, {}> {
   render() {
-    const { source } = this.props
-    const ret = compileWithBabel(source)
+    const { code } = this.props
+    const ret = compileWithBabel(code)
     return (
       <Container>
         <pre>{ret}</pre>
