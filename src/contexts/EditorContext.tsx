@@ -2,6 +2,7 @@ import fs from "fs"
 import path from "path"
 import pify from "pify"
 import React from "react"
+import { extToFileType } from "../lib/extToFileType"
 
 const Context: any = React.createContext("editor")
 
@@ -17,23 +18,13 @@ export type State = {
 }
 
 export type EditorContext = State & {
-  update(s: string): void
-}
-
-function detectFileType(filePath: string) {
-  const type = path.extname(filePath)
-  switch (type) {
-    case ".md":
-      return "markdown"
-    case ".js":
-      return "javascript"
-    default:
-      return "text"
-  }
+  load(s: string): void
+  updateCurrentFileValue(s: string): void
 }
 
 export class EditorProvider extends React.Component<OuterProps, State> {
   load: (s: string) => Promise<void>
+  updateCurrentFileValue: (s: string) => Promise<void>
   constructor(props: OuterProps) {
     super(props)
     this.state = {
@@ -50,21 +41,36 @@ export class EditorProvider extends React.Component<OuterProps, State> {
       this.setState((s: State) => {
         return {
           filePath,
-          fileType: detectFileType(filePath),
+          fileType: extToFileType(filePath),
           loading: false,
           value: fileContent.toString()
+        }
+      })
+    }
+
+    this.updateCurrentFileValue = async (value: string) => {
+      this.setState((s: State) => {
+        return {
+          ...s,
+          value
         }
       })
     }
   }
 
   componentDidMount() {
-    this.load("/react-app/README.md")
+    this.load("/playground/README.md")
   }
 
   render() {
     return (
-      <Context.Provider value={{ ...this.state, load: this.load }}>
+      <Context.Provider
+        value={{
+          ...this.state,
+          load: this.load,
+          updateCurrentFileValue: this.updateCurrentFileValue
+        }}
+      >
         {this.props.children}
       </Context.Provider>
     )

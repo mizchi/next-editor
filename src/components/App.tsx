@@ -1,4 +1,4 @@
 import React from "react"
 import { RepositoryEdit } from "./organisms/RepositoryEdit"
 
-export const App = () => <RepositoryEdit projectRoot={"/react-app"} />
+export const App = () => <RepositoryEdit projectRoot={"/playground"} />

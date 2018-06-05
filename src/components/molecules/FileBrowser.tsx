@@ -1,6 +1,7 @@
 import range from "lodash/range"
 import path from "path"
 import React from "react"
+import { EditorConsumer } from "../../contexts/EditorContext"
 import { ProjectConsumer } from "../../contexts/ProjectContext"
 import { FileInfo, readFileStats, Repository } from "../../lib/gitActions"
 import { DataLoader } from "../atoms/DataLoader"
@@ -41,7 +42,21 @@ export class FileNode extends React.Component<{
     const prefix = range(depth)
       .map(_ => "◽")
       .join("")
-    return <div>{`${prefix}  - ${basename}`}</div>
+    // return <div>{`${prefix}  - ${basename}`}</div>
+    return (
+      <EditorConsumer>
+        {(context: any) => {
+          return (
+            <div
+              onClick={() => {
+                console.log("load start", fPath)
+                context.load(fPath)
+              }}
+            >{`${prefix}  - ${basename}`}</div>
+          )
+        }}
+      </EditorConsumer>
+    )
   }
 }
 
@@ -73,7 +88,7 @@ export class DirectoryNode extends React.Component<Props, { opened: boolean }> {
             {opened ? "-" : "+"}
           </button>
           &nbsp;
-          {basename || "<root>"}
+          {basename || `${dPath}`}
         </div>
         {opened && (
           <FileListLoader aPath={path.join(repo.dir, relPath)}>

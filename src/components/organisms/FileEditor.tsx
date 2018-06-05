@@ -4,6 +4,7 @@ import { EditorConsumer, EditorContext } from "../../contexts/EditorContext"
 import { writeFile } from "../../lib/gitActions"
 import { JavaScriptEditor } from "../atoms/JavaScriptEditor"
 import { MarkdownEditor } from "../atoms/MarkdownEditor"
+import { EditorContent } from "../molecules/EditorContent"
 
 const initialCode = `// code
 import React from 'https://dev.jspm.io/react';
@@ -56,55 +57,6 @@ function EditorFileTitle() {
     <EditorConsumer>
       {(context: EditorContext) => {
         return <span>{context.filePath || "Not Selected"}</span>
-      }}
-    </EditorConsumer>
-  )
-}
-
-function EditorContent() {
-  return (
-    <EditorConsumer>
-      {(context: EditorContext) => {
-        switch (context.fileType) {
-          case "javascript": {
-            return (
-              <JavaScriptEditor
-                initialValue={context.value || ""}
-                onSave={newValue => {
-                  console.log("on save", newValue)
-                  // this.setState({ editorValue: value })
-                }}
-                onChange={async newValue => {
-                  console.log("on change", newValue)
-                  if (context.filePath) {
-                    await writeFile(context.filePath, newValue)
-                    console.log("saved", newValue)
-                  }
-                }}
-              />
-            )
-          }
-          case "markdown": {
-            return (
-              <MarkdownEditor
-                initialValue={context.value || ""}
-                onSave={newValue => {
-                  console.log("on save", newValue)
-                  // this.setState({ editorValue: value })
-                }}
-                onChange={async newValue => {
-                  if (context.filePath) {
-                    await writeFile(context.filePath, newValue)
-                    console.log("saved", newValue)
-                  }
-                }}
-              />
-            )
-          }
-          default: {
-            return "Loading..."
-          }
-        }
       }}
     </EditorConsumer>
   )

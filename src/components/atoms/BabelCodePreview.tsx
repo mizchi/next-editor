@@ -7,12 +7,16 @@ type Props = { source: string }
 export class BabelCodePreview extends React.Component<Props, {}> {
   render() {
     const { source } = this.props
-    const ret = compileWithBabel(source)
-    return (
-      <Container>
-        <pre>{ret}</pre>
-      </Container>
-    )
+    try {
+      const ret = compileWithBabel(source)
+      return (
+        <Container>
+          <pre>{ret}</pre>
+        </Container>
+      )
+    } catch (e) {
+      return e.massage || "syntax error"
+    }
   }
 }
 

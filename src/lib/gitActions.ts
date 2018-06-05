@@ -14,10 +14,17 @@ export type FileInfo = {
   type: "file" | "dir"
 }
 
+const sampleJs = `import React from 'react'
+export default () => <h1>Hello, JS</h1>
+`
+
 export async function initGitProject(repo: Repository) {
   try {
     await pify(fs.mkdir)(repo.dir)
     console.log("Git: create")
+    await pify(fs.writeFile)(repo.dir + "/README.md", "# Hello!")
+    await pify(fs.writeFile)(repo.dir + "/index.js", sampleJs)
+    location.reload()
   } catch (e) {
     console.log("Git: already exists")
   }

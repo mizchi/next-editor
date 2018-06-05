@@ -1,15 +1,16 @@
 import fs from "fs"
 import * as React from "react"
 import styled from "styled-components"
+import { EditorProvider } from "../../contexts/EditorContext"
 import { ProjectProvider } from "../../contexts/ProjectContext"
 import {
   commitSingleFileInRepository,
   initGitProject,
   Repository
 } from "../../lib/gitActions"
-import { EditorProvider } from "../../contexts/EditorContext"
 import { BabelCodePreview } from "../atoms/BabelCodePreview"
 import { FileBrowser } from "../molecules/FileBrowser"
+import { FilePreview } from "../molecules/FilePreview"
 import { GlobalHeader } from "../molecules/GlobalHeader"
 import { FileEditor } from "./FileEditor"
 
@@ -20,19 +21,11 @@ type State = {
   editorValue: string
 }
 
-const initialCode = `// code
-import React from 'https://dev.jspm.io/react';
-import ReactDOM from 'https://dev.jspm.io/react-dom';
-
-const el = document.querySelector('#app-root')
-ReactDOM.render(<h1>Hello</h1>, el)
-`
-
 export class RepositoryEdit extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      editorValue: initialCode
+      editorValue: ""
     }
   }
 
@@ -73,7 +66,8 @@ export class RepositoryEdit extends React.Component<Props, State> {
               <FileEditor />
             </Editor>
             <Preview>
-              <BabelCodePreview source={editorValue} />
+              <FilePreview />
+              {/* <BabelCodePreview source={editorValue} /> */}
             </Preview>
           </Layout>
         </EditorProvider>
