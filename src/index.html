@@ -6,10 +6,12 @@
 </head>
 
 <body>
-  <div class=root />
+  <div class=root>
+    Loading...
+  </div>
   <script src="/assets/browserfs.js"></script>
   <script nomodule type=text/javascript>
-  document.body.innerHTML = "Legacy Browser / Not supported"
+  document.body.innerHTML = "Please use modern browser. (I checked to work only latest chrome)"
   </script>
   <script type=module>
 function setupBrowserFS() {
@@ -30,8 +32,17 @@ async function setupServiceWorker() {
 }
 
 ;(async () => {
-  await setupBrowserFS()
+  const el = document.querySelector('.root')
+
+  // SW
+  el.innerHTML = 'Checking service worker ...'
   await import('/sw.js')
+
+  // setup
+  await setupBrowserFS()
+
+  // Run
+  el.innerHTML = 'Loading...'
   await import('/main.js')
 })()
   </script>
