@@ -1,3 +1,4 @@
+import fs from "fs"
 import * as git from "isomorphic-git"
 import path from "path"
 import pify from "pify"
@@ -9,9 +10,9 @@ export type Repository = {
 
 export async function initGitProject(repo: Repository) {
   try {
-    await pify(window.fs.mkdir)(repo.dir)
+    await pify(fs.mkdir)(repo.dir)
   } catch (e) {
-    console.log("already exists")
+    console.log("Git: already exists")
   }
 
   // const existed = await pify(window.fs.exists)(path.join(repo.dir, ".git"))
@@ -28,30 +29,36 @@ export async function writeFileInRepository(
   filepath: string,
   content: string
 ): Promise<void> {
-  return await pify(window.fs.writeFile)(path.join(repo.dir, filepath), content)
+  return await pify(fs.writeFile)(path.join(repo.dir, filepath), content)
+}
+
+export function readFiles(aPath: string): Promise<string[]> {
+  return pify(fs.readdir)(aPath)
 }
 
 export async function readFilesInRepository(
   repo: Repository,
-  dirpath: string
+  relPath: string
 ): Promise<string[]> {
-  return await pify(window.fs.readdir)(repo.dir + "/" + dirpath)
+  const aPath = path.join(repo.dir, relPath)
+  return readFiles(aPath)
 }
 
 export async function addFileInRepository(
   repo: Repository,
   filepath: string
-): Promise<string[]> {
+): Promise<any> {
   return await git.add({ ...repo, filepath })
 }
 
 export async function commitChangesInRepository(
   repo: Repository,
   message: string,
-  author?: { name: string; email: string }
+  _author?: { name: string; email: string }
 ): Promise<string> {
-  const author2 = author || { name: "anonymous", email: "dummy" }
-  return await git.commit({ ...repo, message, author: author2 })
+  const author = _author || { name: "anonymous", email: "dummy" }
+  const ret: any = { ...repo, message, author }
+  return await git.commit(ret)
 }
 
 export async function commitSingleFileInRepository(

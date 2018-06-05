@@ -445,6 +445,10 @@
   version "10.3.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.3.0.tgz#078516315a84d56216b5d4fed8f75d59d3b16cac"
 
+"@types/pify@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@types/pify/-/pify-3.0.2.tgz#1bc75dac43e31dba981c37e0a08edddc1b49cd39"
+
 "@types/power-assert-formatter@*":
   version "1.4.28"
   resolved "https://registry.yarnpkg.com/@types/power-assert-formatter/-/power-assert-formatter-1.4.28.tgz#25b8fddb6322259c6b91c35338d39b0f8e524252"
@@ -8358,14 +8362,6 @@ react-modal@^3.3.2:
     prop-types "^15.5.10"
     react-lifecycles-compat "^3.0.0"
     warning "^3.0.0"
-
-react-monaco-editor@^0.17.1:
-  version "0.17.1"
-  resolved "https://registry.yarnpkg.com/react-monaco-editor/-/react-monaco-editor-0.17.1.tgz#33b021dd7f4004aacb1706e5b081c3e8a90ff64b"
-  dependencies:
-    "@types/react" "*"
-    monaco-editor "^0.13.1"
-    prop-types "^15.6.1"
 
 react-split-pane@^0.1.77:
   version "0.1.77"

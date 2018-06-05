@@ -1,8 +1,9 @@
 import React from "react"
-import MonacoEditor from "react-monaco-editor"
+import MonacoEditor from "./MonacoEditor"
 
 type Props = {
   initialValue: string
+  onChange: (s: string) => void
   onSave: (s: string) => void
 }
 
@@ -33,7 +34,7 @@ function setupEditor(editor: any, monaco: any, onSaveFunc: () => void) {
   editor.focus()
 }
 
-export class MyMonacoEditor extends React.Component<Props, State> {
+export class JavaScriptEditor extends React.Component<Props, State> {
   constructor(props: any) {
     super(props)
     this.state = {
@@ -41,17 +42,6 @@ export class MyMonacoEditor extends React.Component<Props, State> {
     }
   }
 
-  editorDidMount(editor: any, monaco: any) {
-    console.log("editorDidMount", editor)
-    setupEditor(editor, monaco, () => {
-      this.props.onSave(this.state.value)
-    })
-    editor.focus()
-  }
-
-  public onChange(newValue: any, e: Event) {
-    this.setState({ value: newValue })
-  }
   render() {
     const { value } = this.state
     return (
@@ -62,8 +52,16 @@ export class MyMonacoEditor extends React.Component<Props, State> {
         theme="vs-dark"
         value={value}
         options={monacoOptions}
-        onChange={this.onChange.bind(this)}
-        editorDidMount={this.editorDidMount.bind(this)}
+        onChange={(newValue: string, e: Event) => {
+          this.setState({ value: newValue })
+          this.props.onChange(this.state.value)
+        }}
+        editorDidMount={(editor: any, monaco: any) => {
+          setupEditor(editor, monaco, () => {
+            this.props.onSave(this.state.value)
+          })
+          editor.focus()
+        }}
       />
     )
   }

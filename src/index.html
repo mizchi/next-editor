@@ -3,11 +3,38 @@
 <head>
   <title>Git</title>
   <meta charset="utf8">
-  <script src="/assets/browserfs.js"></script>
 </head>
 
 <body>
   <div class=root />
+  <script src="/assets/browserfs.js"></script>
+  <script nomodule type=text/javascript>
+  document.body.innerHTML = "Legacy Browser / Not supported"
+  </script>
+  <script type=module>
+function setupBrowserFS() {
+  return new Promise(resolve => {
+    BrowserFS.configure({ fs: "IndexedDB", options: {} }, err => {
+      if (err) {
+        throw err
+      }
+      resolve()
+    })
+  })
+}
+
+async function setupServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    await navigator.serviceWorker.register('/sw.js');
+  }  
+}
+
+;(async () => {
+  await setupBrowserFS()
+  await import('/sw.js')
+  await import('/main.js')
+})()
+  </script>
 </body>
 
 </html>

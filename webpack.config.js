@@ -1,18 +1,26 @@
-const HtmlPlugin = require("html-webpack-plugin")
+// const HtmlPlugin = require("html-webpack-plugin")
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 const mode = process.env.NODE_ENV || "development"
 module.exports = {
   mode,
-  entry: ["babel-polyfill", __dirname + "/src/index.tsx"],
+  entry: {
+    sw: ["babel-polyfill", __dirname + "/src/sw.js"],
+    main: [__dirname + "/src/main.tsx"]
+  },
   output: {
     path: __dirname + "/public",
-    filename: "bundle.js"
+    filename: "[name].js"
   },
   resolve: {
+    alias: {
+      fs: __dirname + "/src/lib/fs.js"
+    },
     extensions: [".ts", ".tsx", ".js"]
   },
-  stats: "errors-only",
+  stats: {
+    colors: false
+  },
   module: {
     rules: [
       {
@@ -39,11 +47,15 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlPlugin({
-      template: "src/index.html"
-    }),
+    // new HtmlPlugin({
+    //   template: "src/index.html"
+    // }),
     new CopyPlugin([
-      { from: __dirname + "/assets/*", to: __dirname + "/pubilc/assets/" }
+      {
+        from: __dirname + "/src/index.html",
+        to: __dirname + "/public/index.html"
+      },
+      { from: __dirname + "/assets/*", to: __dirname + "/public" }
     ]),
     new MonacoWebpackPlugin()
   ]

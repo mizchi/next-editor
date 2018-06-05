@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { compileWithBabel } from "../lib/babel"
+import { compileWithBabel } from "../../lib/babel"
 
 type Props = { code: string }
 
