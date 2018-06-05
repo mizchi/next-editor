@@ -1,11 +1,17 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
+import orderBy from "lodash/orderBy"
 import path from "path"
 import pify from "pify"
 
 export type Repository = {
   fs: any
   dir: string
+}
+
+export type FileInfo = {
+  name: string
+  type: "file" | "dir"
 }
 
 export async function initGitProject(repo: Repository) {
@@ -25,6 +31,10 @@ export async function initGitProject(repo: Repository) {
   return
 }
 
+export async function writeFile(aPath: string, content: string): Promise<void> {
+  return await pify(fs.writeFile)(aPath, content)
+}
+
 export async function writeFileInRepository(
   repo: Repository,
   filepath: string,
@@ -33,16 +43,32 @@ export async function writeFileInRepository(
   return await pify(fs.writeFile)(path.join(repo.dir, filepath), content)
 }
 
-export function readFiles(aPath: string): Promise<string[]> {
-  return pify(fs.readdir)(aPath)
+export async function readFileStats(dPath: string): Promise<FileInfo[]> {
+  const filenames: string[] = await pify(fs.readdir)(dPath)
+
+  const ret: any = await Promise.all(
+    filenames.map(async name => {
+      const childPath = path.join(dPath, name)
+      const stat = await pify(fs.stat)(childPath)
+      return {
+        name,
+        type: stat.isDirectory() ? "dir" : "file"
+      }
+    })
+  )
+  // return ret
+  return orderBy(ret, [(s: FileInfo) => s.type + "" + s.name])
+  // return orderBy(ret, (s: FileInfo) => {
+  //   return (s.type === "dir" ? "0_" : "1_") + s.name
+  // })
 }
 
 export async function readFilesInRepository(
   repo: Repository,
   relPath: string
-): Promise<string[]> {
+): Promise<FileInfo[]> {
   const aPath = path.join(repo.dir, relPath)
-  return readFiles(aPath)
+  return readFileStats(aPath)
 }
 
 export async function addFileInRepository(

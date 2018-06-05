@@ -1,16 +1,17 @@
 import fs from "fs"
 import * as React from "react"
 import styled from "styled-components"
+import { ProjectProvider } from "../../contexts/ProjectContext"
 import {
   commitSingleFileInRepository,
   initGitProject,
   Repository
 } from "../../lib/gitActions"
+import { EditorProvider } from "../../contexts/EditorContext"
 import { BabelCodePreview } from "../atoms/BabelCodePreview"
-import { JavaScriptEditor } from "../atoms/JavaScriptEditor"
-import { ProjectProvider } from "../atoms/ProjectContext"
 import { FileBrowser } from "../molecules/FileBrowser"
 import { GlobalHeader } from "../molecules/GlobalHeader"
+import { FileEditor } from "./FileEditor"
 
 type Props = {
   projectRoot: string
@@ -60,29 +61,22 @@ export class RepositoryEdit extends React.Component<Props, State> {
     const { editorValue } = this.state
     return (
       <ProjectProvider projectRoot={this.props.projectRoot}>
-        <Layout>
-          <Header>
-            <GlobalHeader />
-          </Header>
-          <Menu>
-            <FileBrowser />
-          </Menu>
-          <Editor>
-            <JavaScriptEditor
-              initialValue={editorValue}
-              onSave={value => {
-                console.log("on save", value)
-                this.setState({ editorValue: value })
-              }}
-              onChange={value => {
-                console.log("on change", value)
-              }}
-            />
-          </Editor>
-          <Preview>
-            <BabelCodePreview source={editorValue} />
-          </Preview>
-        </Layout>
+        <EditorProvider>
+          <Layout>
+            <Header>
+              <GlobalHeader />
+            </Header>
+            <Menu>
+              <FileBrowser />
+            </Menu>
+            <Editor>
+              <FileEditor />
+            </Editor>
+            <Preview>
+              <BabelCodePreview source={editorValue} />
+            </Preview>
+          </Layout>
+        </EditorProvider>
       </ProjectProvider>
     )
   }
@@ -106,6 +100,7 @@ export const Header = styled.div`
 export const Menu = styled.div`
   width: 100%;
   height: 100%;
+  padding: 4px;
   grid-area: menu;
 `
 

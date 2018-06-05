@@ -1,8 +1,8 @@
 import React from "react"
 
 export class DataLoader<T> extends React.Component<
-  { loader: () => Promise<T>, children: any },
-  { loading: boolean, loaded: boolean, data: T | null, error: boolean }
+  { loader: () => Promise<T>; children: any },
+  { loading: boolean; loaded: boolean; data: T | null; error: boolean }
 > {
   constructor(props: any) {
     super(props)
@@ -22,10 +22,6 @@ export class DataLoader<T> extends React.Component<
 
   render() {
     const { loading, loaded, data } = this.state
-    if (!loaded) {
-      return <span>...</span>
-    } else {
-      return <this.props.children {...this.state} />
-    }
+    return <this.props.children {...this.state} />
   }
 }
