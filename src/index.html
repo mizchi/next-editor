@@ -14,6 +14,9 @@
   document.body.innerHTML = "Please use modern browser. (I checked to work only latest chrome)"
   </script>
   <script type=module>
+
+const el = document.querySelector('.root')
+
 function setupBrowserFS() {
   return new Promise(resolve => {
     BrowserFS.configure({ fs: "IndexedDB", options: {} }, err => {
@@ -26,24 +29,42 @@ function setupBrowserFS() {
 }
 
 async function setupServiceWorker() {
-  if ('serviceWorker' in navigator) {
-    await navigator.serviceWorker.register('/sw.js');
-  }  
+  if (navigator.serviceWorker == null) {
+    throw new Error('Your browser can not use serviceWorker')
+  }
+
+  let installed = !!navigator.serviceWorker.controller
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (installed) {
+      const modal = document.createElement('div')
+      modal.innerHTML = `
+        <div style='position: absolute; outline: 1px solid black; right: 10px; bottom: 10px; width: 350px; height: 50px'>
+          <div>New version available!</div>
+          <span>It will be applied from the next</span> - <button onclick="location.reload()">Reload</button>
+        </div>
+      `
+      document.body.appendChild(modal)
+    }
+  });
+
+  const reg = await navigator.serviceWorker.register('/sw.js');
+  await navigator.serviceWorker.ready
+  installed = true
+
+  setInterval(() => {
+    reg.update();
+  }, 60 * 1000);
 }
 
 ;(async () => {
-  const el = document.querySelector('.root')
-
   try {
     // SW
     el.innerHTML = 'Checking service worker ...'
-    await import('/sw.js')
-
-    // setup
-    await setupBrowserFS()
+    await setupServiceWorker()
 
     // Run
     el.innerHTML = 'Loading...'
+    await setupBrowserFS()
     await import('/main.js')
   } catch (e) {
     el.innerHTML = 'Something wrong: ' + e.message

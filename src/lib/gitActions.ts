@@ -24,17 +24,16 @@ export async function initGitProject(repo: Repository) {
     console.log("Git: create")
     await pify(fs.writeFile)(repo.dir + "/README.md", "# Hello!")
     await pify(fs.writeFile)(repo.dir + "/index.js", sampleJs)
-    location.reload()
   } catch (e) {
     console.log("Git: already exists")
   }
 
-  // const existed = await pify(fs.exists)(path.join(repo.dir, ".git"))
-  // if (!existed) {
-  //   await git.init(repo)
-  // } else {
-  //   console.log("Git: already exists")
-  // }
+  const existed = await pify(fs.exists)(path.join(repo.dir, ".git"))
+  if (!existed) {
+    await git.init(repo)
+  } else {
+    console.log("Git: already exists")
+  }
   return
 }
 
@@ -63,11 +62,7 @@ export async function readFileStats(dPath: string): Promise<FileInfo[]> {
       }
     })
   )
-  // return ret
   return orderBy(ret, [(s: FileInfo) => s.type + "" + s.name])
-  // return orderBy(ret, (s: FileInfo) => {
-  //   return (s.type === "dir" ? "0_" : "1_") + s.name
-  // })
 }
 
 export async function readFilesInRepository(

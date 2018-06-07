@@ -1,9 +1,15 @@
 import range from "lodash/range"
 import path from "path"
 import React from "react"
+import { lifecycle } from "recompose"
 import { EditorConsumer } from "../../contexts/EditorContext"
 import { ProjectConsumer } from "../../contexts/ProjectContext"
-import { FileInfo, readFileStats, Repository } from "../../lib/gitActions"
+import {
+  FileInfo,
+  initGitProject,
+  readFileStats,
+  Repository
+} from "../../lib/gitActions"
 import { DataLoader } from "../atoms/DataLoader"
 
 export function FileBrowser() {
@@ -12,7 +18,7 @@ export function FileBrowser() {
       {(context: any) => {
         return (
           <div>
-            <DirectoryNode
+            <RootDirectoryNode
               repo={context.repo}
               dPath={context.repo.dir}
               depth={0}
@@ -49,7 +55,7 @@ export class FileNode extends React.Component<{
           return (
             <div
               onClick={() => {
-                console.log("load start", fPath)
+                console.log("load start2", fPath)
                 context.load(fPath)
               }}
             >{`${prefix}  - ${basename}`}</div>
@@ -143,3 +149,12 @@ function FileListLoader(props: { aPath: string; children: any }) {
     </DataLoader>
   )
 }
+
+export const RootDirectoryNode: React.ComponentType<Props> = lifecycle({
+  async componentDidMount() {
+    const { repo } = this.props as any
+    await initGitProject(repo)
+    console.log("git init")
+    console.log("started!4")
+  }
+})(DirectoryNode)

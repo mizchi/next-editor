@@ -3,11 +3,12 @@ const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 const mode = process.env.NODE_ENV || "development"
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin")
+const WorkboxPlugin = require("workbox-webpack-plugin")
 
 module.exports = {
   mode,
   entry: {
-    sw: ["babel-polyfill", __dirname + "/src/sw.js"],
+    // sw: ["babel-polyfill", __dirname + "/src/sw.js"],
     main: [__dirname + "/src/main.tsx"]
   },
   output: {
@@ -32,15 +33,26 @@ module.exports = {
           loader: "babel-loader"
         }
       },
+      // {
+      //   test: /\.tsx?$/,
+      //   use: {
+      //     loader: "awesome-typescript-loader",
+      //     options: {
+      //       useBabel: true,
+      //       babelCore: "babel-core"
+      //     }
+      //   }
+      // },
       {
         test: /\.tsx?$/,
-        use: {
-          loader: "awesome-typescript-loader",
-          options: {
-            useBabel: true,
-            babelCore: "babel-core"
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              transpileOnly: true
+            }
           }
-        }
+        ]
       },
       {
         test: /\.css$/,
@@ -59,6 +71,11 @@ module.exports = {
       },
       { from: __dirname + "/assets/*", to: __dirname + "/public" }
     ]),
-    new MonacoWebpackPlugin()
+    new MonacoWebpackPlugin(),
+    new WorkboxPlugin.GenerateSW({
+      swDest: "sw.js",
+      clientsClaim: true,
+      skipWaiting: true
+    })
   ]
 }

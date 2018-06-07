@@ -14,9 +14,7 @@ import { FilePreview } from "../molecules/FilePreview"
 import { GlobalHeader } from "../molecules/GlobalHeader"
 import { FileEditor } from "./FileEditor"
 
-type Props = {
-  projectRoot: string
-}
+type Props = {}
 type State = {
   editorValue: string
 }
@@ -29,31 +27,10 @@ export class RepositoryEdit extends React.Component<Props, State> {
     }
   }
 
-  async commitFile(filepath: string, content: string) {
-    const repo: Repository = {
-      dir: this.props.projectRoot,
-      fs
-    }
-    const hash = await commitSingleFileInRepository(repo, filepath, content)
-    console.log("commited", Date.now().toString())
-  }
-
-  async componentDidMount() {
-    const repo: Repository = {
-      dir: this.props.projectRoot,
-      fs
-    }
-    await initGitProject(repo)
-
-    // const status = await git.status({ ...repo, filepath: "README.md" })
-    // console.log(status)
-    // const list = await git.listFiles(repo)
-    // console.log("lsret", list)
-  }
   render() {
     const { editorValue } = this.state
     return (
-      <ProjectProvider projectRoot={this.props.projectRoot}>
+      <ProjectProvider projectRoot={"/playground"}>
         <EditorProvider>
           <Layout>
             <Header>
@@ -67,7 +44,6 @@ export class RepositoryEdit extends React.Component<Props, State> {
             </Editor>
             <Preview>
               <FilePreview />
-              {/* <BabelCodePreview source={editorValue} /> */}
             </Preview>
           </Layout>
         </EditorProvider>
