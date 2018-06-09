@@ -26,7 +26,9 @@ export class File extends React.Component<{
           return (
             <div>
               <ContextMenuProvider id="menu_id" data={{ filepath }}>
-                <div>{`${prefix}  - ${basename}`}</div>
+                <div
+                  onClick={() => context.load(filepath)}
+                >{`${prefix}  - ${basename}`}</div>
               </ContextMenuProvider>
               {/* <FileContextMenu filepath={filepath} /> */}
             </div>

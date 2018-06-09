@@ -7,6 +7,8 @@ export function extToFileType(filePath: string) {
       return "markdown"
     case ".js":
       return "javascript"
+    case ".txt":
+      return "text"
     default:
       return "text"
   }
