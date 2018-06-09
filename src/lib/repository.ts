@@ -4,6 +4,8 @@ import orderBy from "lodash/orderBy"
 import path from "path"
 import pify from "pify"
 
+const j = path.join
+
 export type Repository = {
   fs: any
   dir: string
@@ -14,65 +16,7 @@ export type FileInfo = {
   type: "file" | "dir"
 }
 
-const j = path.join
-
-export async function ensureProjectRepository(repo: Repository) {
-  // ensure directory
-  if (await existsPath(repo.dir)) {
-    console.log("Project: already exists")
-  } else {
-    console.log("Project: creating...")
-    await mkdirInRepository(repo, "")
-    await mkdirInRepository(repo, "src")
-    await writeFileInRepository(repo, "README.md", "# Hello!")
-    await writeFileInRepository(repo, "src/index.js", "export default {}")
-    console.log("Project: creating done")
-  }
-
-  // ensure git
-  if (await existsPath(j(repo.dir, ".git"))) {
-    console.log(".git: already exists")
-  } else {
-    await git.init(repo)
-  }
-}
-
-export async function existsPath(aPath: string): Promise<boolean> {
-  try {
-    // NOTE: fs.access is not supported
-    await pify(fs.stat)(aPath)
-    return true
-  } catch (e) {
-    return false
-  }
-}
-
-export async function writeFile(aPath: string, content: string): Promise<void> {
-  return await pify(fs.writeFile)(aPath, content)
-}
-
-export async function writeFileInRepository(
-  repo: Repository,
-  filepath: string,
-  content: string
-): Promise<void> {
-  return await pify(fs.writeFile)(j(repo.dir, filepath), content)
-}
-
-export async function mkdirInRepository(
-  repo: Repository,
-  filepath: string
-): Promise<void> {
-  const aPath = j(repo.dir, filepath)
-  if (await existsPath(aPath)) {
-    // Do nothing
-    console.info("mkdir: exists", aPath)
-  } else {
-    await pify(fs.mkdir)(aPath)
-    console.info("mkdir: done", aPath)
-  }
-}
-
+/* READ */
 export async function readFileStats(dPath: string): Promise<FileInfo[]> {
   const filenames: string[] = await pify(fs.readdir)(dPath)
 
@@ -95,6 +39,69 @@ export async function readFilesInRepository(
 ): Promise<FileInfo[]> {
   const aPath = j(repo.dir, relPath)
   return readFileStats(aPath)
+}
+
+export async function existsPath(aPath: string): Promise<boolean> {
+  try {
+    // NOTE: fs.access is not supported
+    await pify(fs.stat)(aPath)
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
+/* WRITE */
+export async function ensureProjectRepository(repo: Repository) {
+  // ensure directory
+  if (await existsPath(repo.dir)) {
+    console.log("Project: already exists")
+  } else {
+    console.log("Project: creating...")
+    await mkdirInRepository(repo, "")
+    await mkdirInRepository(repo, "src")
+    await writeFileInRepository(repo, "README.md", "# Hello!")
+    await writeFileInRepository(repo, "src/index.js", "export default {}")
+    console.log("Project: creating done")
+  }
+
+  // ensure git
+  if (await existsPath(j(repo.dir, ".git"))) {
+    console.log(".git: already exists")
+  } else {
+    await git.init(repo)
+  }
+}
+
+/* WRITE */
+export async function writeFile(aPath: string, content: string): Promise<void> {
+  await pify(fs.writeFile)(aPath, content)
+}
+
+export async function writeFileInRepository(
+  repo: Repository,
+  filepath: string,
+  content: string
+): Promise<void> {
+  const aPath = j(repo.dir, filepath)
+  await pify(fs.writeFile)(aPath, content)
+}
+
+export async function mkdir(dirpath: string): Promise<void> {
+  if (await existsPath(dirpath)) {
+    // Do nothing
+    console.info("mkdir: exists", dirpath)
+  } else {
+    await pify(fs.mkdir)(dirpath)
+    console.info("mkdir: done", dirpath)
+  }
+}
+export async function mkdirInRepository(
+  repo: Repository,
+  dirpath: string
+): Promise<void> {
+  const aPath = j(repo.dir, dirpath)
+  return mkdir(aPath)
 }
 
 export async function addFileInRepository(
@@ -123,4 +130,8 @@ export async function commitSingleFileInRepository(
   await writeFileInRepository(repo, filepath, content)
   await addFileInRepository(repo, filepath)
   return await commitChangesInRepository(repo, message)
+}
+
+export async function unlink(aPath: string): Promise<void> {
+  await pify(fs.unlink)(aPath)
 }

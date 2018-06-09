@@ -1,6 +1,6 @@
 import React from "react"
 import { EditorConsumer, EditorContext } from "../../contexts/EditorContext"
-import { writeFile } from "../../lib/repositoryActions"
+import { writeFile } from "../../lib/repository"
 import { JavaScriptEditor } from "../atoms/JavaScriptEditor"
 import { MarkdownEditor } from "../atoms/MarkdownEditor"
 

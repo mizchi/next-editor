@@ -2,13 +2,10 @@ import range from "lodash/range"
 import path from "path"
 import React from "react"
 import lifecycle from "recompose/lifecycle"
-import {
-  FileInfo,
-  readFileStats,
-  Repository
-} from "../../../lib/repositoryActions"
-import { DataLoader } from "../../atoms/DataLoader"
+import { FileInfo, Repository } from "../../../lib/repository"
+import { AddFile } from "./AddFile"
 import { File } from "./File"
+import { FileListLoader } from "./FileListLoader"
 
 type Props = {
   dPath: string
@@ -27,9 +24,11 @@ export class Directory extends React.Component<Props, { opened: boolean }> {
     const { opened } = this.state
 
     const relPath = path.relative(repo.dir, dPath)
-    // const rootPrefix = range(depth + 2)
     const basename = path.basename(relPath)
     const prefix = range(depth)
+      .map(_ => "◽")
+      .join("")
+    const prefixPlusOne = range(depth + 1)
       .map(_ => "◽")
       .join("")
 
@@ -48,64 +47,74 @@ export class Directory extends React.Component<Props, { opened: boolean }> {
           {basename || `${dPath}`}
         </div>
         {opened && (
-          <FileListLoader aPath={path.join(repo.dir, relPath)}>
-            {({ fileList }: { fileList: FileInfo[] }) => {
-              return (
-                <>
-                  {fileList.map((f: FileInfo) => {
-                    const name = path.join(dPath, f.name)
-                    return (
-                      <div key={f.name}>
-                        {f.type === "file" && (
-                          <File depth={depth + 1} fPath={name} />
-                        )}
-                        {f.type === "dir" && (
-                          <Directory
-                            dPath={path.join(dPath, f.name)}
-                            depth={depth + 1}
-                            repo={repo}
-                          />
-                        )}
-                      </div>
-                    )
-                  })}
-                </>
-              )
-            }}
-          </FileListLoader>
+          <>
+            <div>
+              {prefixPlusOne}
+              <AddFile parentDir={dPath} />
+            </div>
+            <FileListLoader aPath={path.join(repo.dir, relPath)}>
+              {({
+                data,
+                loading
+              }: {
+                loading: boolean
+                data: { fileList: FileInfo[] } | null
+              }) => {
+                if (loading) {
+                  return null
+                } else if (data != null) {
+                  return (
+                    <DirectoryFileList
+                      fileList={data.fileList}
+                      depth={depth}
+                      dPath={dPath}
+                      repo={repo}
+                    />
+                  )
+                }
+              }}
+            </FileListLoader>
+          </>
         )}
       </div>
     )
   }
 }
 
-function FileListLoader(props: { aPath: string; children: any }) {
-  const { aPath, children } = props
+function DirectoryFileList({
+  fileList,
+  depth,
+  dPath,
+  repo
+}: {
+  fileList: FileInfo[]
+  dPath: string
+  depth: number
+  repo: Repository
+}) {
   return (
-    <DataLoader<{ fileList: FileInfo[] }>
-      loader={async () => {
-        const fileList = await readFileStats(aPath)
-        return { fileList }
-      }}
-    >
-      {({ loading, loaded, data }: any) => {
-        if (!loaded) {
-          // return <span>...</span>
-          return ""
-        } else {
-          const { fileList } = data
-          return <props.children fileList={fileList} />
-        }
-      }}
-    </DataLoader>
+    <>
+      {fileList.map((f: FileInfo) => {
+        const filepath = path.join(dPath, f.name)
+        return (
+          <div key={f.name}>
+            {f.type === "file" && (
+              <File depth={depth + 1} filepath={filepath} />
+            )}
+            {f.type === "dir" && (
+              <Directory
+                dPath={path.join(dPath, f.name)}
+                depth={depth + 1}
+                repo={repo}
+              />
+            )}
+          </div>
+        )
+      })}
+    </>
   )
 }
 
 export const RootDirectory: React.ComponentType<Props> = lifecycle({
-  async componentDidMount() {
-    // const { repo } = this.props as any
-    // await ensureProjectRepository(repo)
-    // console.log("git init")
-    // console.log("started!4")
-  }
+  // async componentDidMount() {}
 })(Directory)

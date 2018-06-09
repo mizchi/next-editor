@@ -16,6 +16,14 @@ const main = async () => {
     singleBranch: true,
     depth: 1
   })
+  let pushResponse = await git.push({
+    ...repo,
+    remote: "origin",
+    ref: "master",
+    authUsername: process.env.GITHUB_TOKEN,
+    authPassword: process.env.GITHUB_TOKEN
+  })
+  console.log(pushResponse)
   console.log("done")
 }
 

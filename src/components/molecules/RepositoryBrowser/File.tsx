@@ -1,15 +1,22 @@
 import range from "lodash/range"
 import path from "path"
 import React from "react"
+import { ContextMenu, ContextMenuProvider, Item } from "react-contexify"
+import "react-contexify/dist/ReactContexify.min.css"
+import { connect } from "react-redux"
 import { EditorConsumer } from "../../../contexts/EditorContext"
+import * as RepositoryActions from "../../../reducers/repository"
 
 export class File extends React.Component<{
   depth: number
-  fPath: string
+  filepath: string
 }> {
+  componentDidCatch(e: Error) {
+    console.log("error catched", e)
+  }
   render() {
-    const { depth, fPath } = this.props
-    const basename = path.basename(fPath)
+    const { depth, filepath } = this.props
+    const basename = path.basename(filepath)
     const prefix = range(depth)
       .map((_: any) => "◽")
       .join("")
@@ -17,15 +24,44 @@ export class File extends React.Component<{
       <EditorConsumer>
         {(context: any) => {
           return (
-            <div
-              onClick={() => {
-                console.log("load start", fPath)
-                context.load(fPath)
-              }}
-            >{`${prefix}  - ${basename}`}</div>
+            <div>
+              <ContextMenuProvider id="menu_id" data={{ filepath }}>
+                <div>{`${prefix}  - ${basename}`}</div>
+              </ContextMenuProvider>
+              {/* <FileContextMenu filepath={filepath} /> */}
+            </div>
           )
         }}
       </EditorConsumer>
     )
   }
 }
+
+// type Props = (typeof RepositoryActions) & {
+//   filepath: string
+// }
+
+// const onClick: any = ({ event, ref, data, dataFromProvider }: any) =>
+//   console.log("Hello", ref, data, dataFromProvider)
+
+// const FileContextMenu = connect(
+//   (_: any, ownProps: any) => ownProps,
+//   RepositoryActions
+// )((props: Props) => {
+//   return (
+//     <ContextMenu id="menu_id">
+//       <Item
+//         data={{
+//           exec: props.deleteFile,
+//           filepath: props.filepath
+//         }}
+//         onClick={onClick}
+//         //   console.log("delete file", data)
+//         //   // props.deleteFile(props.filepath)
+//         // }}
+//       >
+//         Delete
+//       </Item>
+//     </ContextMenu>
+//   )
+// })
