@@ -1,10 +1,13 @@
 import { combineReducers } from "redux"
-import { reducer as repository, State as Repository } from "./repository"
+import { EditorState, reducer as editor } from "./editor"
+import { reducer as repository, RepositoryState } from "./repository"
 
 export type RootState = {
-  repository: Repository
+  repository: RepositoryState
+  editor: EditorState
 }
 
 export const rootReducer = combineReducers({
+  editor,
   repository
 })

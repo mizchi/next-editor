@@ -1,7 +1,5 @@
 import * as React from "react"
 import styled from "styled-components"
-import { EditorProvider } from "../../contexts/EditorContext"
-import { ProjectProvider } from "../../contexts/ProjectContext"
 import { FilePreview } from "../molecules/FilePreview"
 import { GlobalHeader } from "../molecules/GlobalHeader"
 import { RepositoryBrowser } from "../molecules/RepositoryBrowser"
@@ -9,24 +7,20 @@ import { FileEditor } from "./FileEditor"
 
 export function RepositoryEdit() {
   return (
-    <ProjectProvider projectRoot={"/playground"}>
-      <EditorProvider>
-        <Layout>
-          <Header>
-            <GlobalHeader />
-          </Header>
-          <Menu>
-            <RepositoryBrowser />
-          </Menu>
-          <Editor>
-            <FileEditor />
-          </Editor>
-          <Preview>
-            <FilePreview />
-          </Preview>
-        </Layout>
-      </EditorProvider>
-    </ProjectProvider>
+    <Layout>
+      <Header>
+        <GlobalHeader />
+      </Header>
+      <Menu>
+        <RepositoryBrowser />
+      </Menu>
+      <Editor>
+        <FileEditor />
+      </Editor>
+      <Preview>
+        <FilePreview />
+      </Preview>
+    </Layout>
   )
 }
 

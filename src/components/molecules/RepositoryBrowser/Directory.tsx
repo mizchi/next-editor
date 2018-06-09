@@ -8,9 +8,9 @@ import { File } from "./File"
 import { FileListLoader } from "./FileListLoader"
 
 type Props = {
+  root: string
   dPath: string
   depth: number
-  repo: Repository
   open?: boolean
 }
 
@@ -20,10 +20,10 @@ export class Directory extends React.Component<Props, { opened: boolean }> {
     this.state = { opened: this.props.open || false }
   }
   render() {
-    const { dPath, repo, depth } = this.props
+    const { dPath, depth, root } = this.props
     const { opened } = this.state
 
-    const relPath = path.relative(repo.dir, dPath)
+    const relPath = path.relative(root, dPath)
     const basename = path.basename(relPath)
     const prefix = range(depth)
       .map(_ => "◽")
@@ -52,7 +52,7 @@ export class Directory extends React.Component<Props, { opened: boolean }> {
               {prefixPlusOne}
               <AddFile parentDir={dPath} />
             </div>
-            <FileListLoader aPath={path.join(repo.dir, relPath)}>
+            <FileListLoader aPath={path.join(root, relPath)}>
               {({
                 data,
                 loading
@@ -68,7 +68,7 @@ export class Directory extends React.Component<Props, { opened: boolean }> {
                       fileList={data.fileList}
                       depth={depth}
                       dPath={dPath}
-                      repo={repo}
+                      root={root}
                     />
                   )
                 }
@@ -82,15 +82,15 @@ export class Directory extends React.Component<Props, { opened: boolean }> {
 }
 
 function DirectoryFileList({
+  root,
   fileList,
   depth,
-  dPath,
-  repo
+  dPath
 }: {
+  root: string
   fileList: FileInfo[]
   dPath: string
   depth: number
-  repo: Repository
 }) {
   return (
     <>
@@ -103,9 +103,9 @@ function DirectoryFileList({
             )}
             {f.type === "dir" && (
               <Directory
+                root={root}
                 dPath={path.join(dPath, f.name)}
                 depth={depth + 1}
-                repo={repo}
               />
             )}
           </div>

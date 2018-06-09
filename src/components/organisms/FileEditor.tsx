@@ -1,9 +1,7 @@
 import React from "react"
+import { connect } from "react-redux"
 import styled from "styled-components"
-import { EditorConsumer, EditorContext } from "../../contexts/EditorContext"
-import { writeFile } from "../../lib/repositoryActions"
-import { JavaScriptEditor } from "../atoms/JavaScriptEditor"
-import { MarkdownEditor } from "../atoms/MarkdownEditor"
+import { RootState } from "../../reducers"
 import { EditorContent } from "../molecules/EditorContent"
 
 const initialCode = `// code
@@ -20,6 +18,7 @@ type Props = {
 type State = {
   editorValue: string
 }
+
 export class FileEditor extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
@@ -27,15 +26,6 @@ export class FileEditor extends React.Component<Props, State> {
       editorValue: initialCode
     }
   }
-
-  // async commitFile(filepath: string, content: string) {
-  //   const repo: Repository = {
-  //     dir: this.props.projectRoot,
-  //     fs
-  //   }
-  //   const hash = await commitSingleFileInRepository(repo, filepath, content)
-  //   console.log("commited", Date.now().toString())
-  // }
 
   render() {
     const { editorValue } = this.state
@@ -52,15 +42,11 @@ export class FileEditor extends React.Component<Props, State> {
   }
 }
 
-function EditorFileTitle() {
-  return (
-    <EditorConsumer>
-      {(context: EditorContext) => {
-        return <span>{context.filePath || "Not Selected"}</span>
-      }}
-    </EditorConsumer>
-  )
-}
+const EditorFileTitle = connect((state: RootState) => {
+  return { filePath: state.editor.filePath }
+})(({ filePath }: any) => {
+  return <span>{filePath || "Not Selected"}</span>
+})
 
 const Layout = styled.div`
   display: flex;

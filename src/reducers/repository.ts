@@ -1,5 +1,5 @@
 import path from "path"
-import { mkdir, writeFile, unlink } from "../lib/repository"
+import { mkdir, unlink, writeFile } from "../lib/repository"
 
 const j = path.join
 
@@ -28,17 +28,19 @@ type Action = {
   }
 }
 
-export type State = {
+export type RepositoryState = {
+  currentProjectRoot: string
   lastChangedPath: string
   touchCounter: number
 }
 
 const initialState = {
+  currentProjectRoot: "/playground",
   lastChangedPath: "/playground",
   touchCounter: 0
 }
 
-export function reducer(state: State = initialState, action: Action) {
+export function reducer(state: RepositoryState = initialState, action: Action) {
   switch (action.type) {
     case PATH_CHANGED: {
       return {

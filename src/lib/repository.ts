@@ -33,6 +33,11 @@ export async function readFileStats(dPath: string): Promise<FileInfo[]> {
   return orderBy(ret, [(s: FileInfo) => s.type + "" + s.name])
 }
 
+export async function readFile(filepath: string): Promise<string> {
+  const file = await pify(fs.readFile)(filepath)
+  return file.toString()
+}
+
 export async function readFilesInRepository(
   repo: Repository,
   relPath: string
