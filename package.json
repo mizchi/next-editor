@@ -83,6 +83,7 @@
     "@babel/preset-react": "^7.0.0-beta.49",
     "@babel/standalone": "^7.0.0-beta.49",
     "browserfs": "^1.4.3",
+    "globby": "^8.0.1",
     "isomorphic-git": "^0.17.1",
     "lodash": "^4.17.10",
     "monaco-editor": "^0.13.1",

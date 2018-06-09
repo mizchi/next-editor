@@ -13,18 +13,25 @@ export type Repository = {
 
 export type FileInfo = {
   name: string
+  gitStatus: string
   type: "file" | "dir"
 }
 
 /* READ */
-export async function readFileStats(dPath: string): Promise<FileInfo[]> {
-  const filenames: string[] = await pify(fs.readdir)(dPath)
+export async function readFileStats(
+  projectRoot: string,
+  dirpath: string
+): Promise<FileInfo[]> {
+  const filenames: string[] = await pify(fs.readdir)(dirpath)
 
   const ret: any = await Promise.all(
     filenames.map(async name => {
-      const childPath = j(dPath, name)
+      const childPath = j(dirpath, name)
       const stat = await pify(fs.stat)(childPath)
+      const relpath = path.relative(projectRoot, childPath)
+      const gitStatus = await getFileStatusInRepository(projectRoot, relpath)
       return {
+        gitStatus,
         name,
         type: stat.isDirectory() ? "dir" : "file"
       }
@@ -38,17 +45,16 @@ export async function readFile(filepath: string): Promise<string> {
   return file.toString()
 }
 
-export async function readFilesInRepository(
-  repo: Repository,
-  relPath: string
-): Promise<FileInfo[]> {
-  const aPath = j(repo.dir, relPath)
-  return readFileStats(aPath)
-}
+// export async function readFilesInRepository(
+//   projectRoot: string,
+//   relpath: string
+// ): Promise<FileInfo[]> {
+//   return readFileStats(projectRoot, j(projectRoot, relpath) )
+// }
 
 export async function existsPath(aPath: string): Promise<boolean> {
   try {
-    // NOTE: fs.access is not supported
+    // NOTE: fs.access is not supported in browserfs
     await pify(fs.stat)(aPath)
     return true
   } catch (e) {
@@ -75,6 +81,17 @@ export async function ensureProjectRepository(repo: Repository) {
     console.log(".git: already exists")
   } else {
     await git.init(repo)
+  }
+}
+
+export async function getFileStatusInRepository(
+  projectRoot: string,
+  filepath: string
+): Promise<string> {
+  try {
+    return await git.status({ fs, dir: projectRoot, filepath })
+  } catch (e) {
+    return "untracked"
   }
 }
 
@@ -109,33 +126,33 @@ export async function mkdirInRepository(
   return mkdir(aPath)
 }
 
-export async function addFileInRepository(
-  repo: Repository,
-  filepath: string
+export function addFileInRepository(
+  projectRoot: string,
+  relpath: string
 ): Promise<any> {
-  return await git.add({ ...repo, filepath })
+  return git.add({ fs, dir: projectRoot, filepath: relpath })
 }
 
-export async function commitChangesInRepository(
-  repo: Repository,
-  message: string,
+export function commitChangesInRepository(
+  projectRoot: string,
+  message: string = "Update",
   _author?: { name: string; email: string }
 ): Promise<string> {
   const author = _author || { name: "anonymous", email: "dummy" }
-  const ret: any = { ...repo, message, author }
-  return await git.commit(ret)
+  const ret = { fs, dir: projectRoot, message, author }
+  return git.commit(ret)
 }
 
-export async function commitSingleFileInRepository(
-  repo: Repository,
-  filepath: string,
-  content: string,
-  message: string = "Update"
-): Promise<string> {
-  await writeFileInRepository(repo, filepath, content)
-  await addFileInRepository(repo, filepath)
-  return await commitChangesInRepository(repo, message)
-}
+// export async function commitSingleFileInRepository(
+//   repo: Repository,
+//   filepath: string,
+//   content: string,
+//   message: string = "Update"
+// ): Promise<string> {
+//   await writeFileInRepository(repo, filepath, content)
+//   await addFileInRepository({}, filepath)
+//   return await commitChangesInRepository(repo, message)
+// }
 
 export async function unlink(aPath: string): Promise<void> {
   await pify(fs.unlink)(aPath)

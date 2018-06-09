@@ -4,6 +4,7 @@ import { FileInfo, readFileStats } from "../../../lib/repository"
 import { RootState } from "../../../reducers"
 
 type OwnProps = {
+  root: string
   aPath: string
   children: any
 }
@@ -44,7 +45,7 @@ export const FileListLoader = connect(
 
     async componentDidMount() {
       try {
-        const fileList = await readFileStats(this.props.aPath)
+        const fileList = await readFileStats(this.props.root, this.props.aPath)
         this.setState({ data: { fileList }, loaded: true, loading: false })
       } catch (error) {
         this.setState({ loaded: true, loading: false, error })
@@ -52,7 +53,7 @@ export const FileListLoader = connect(
     }
 
     async componentDidUpdate(prevProps: Props) {
-      const { aPath, lastChangedPath, touchCounter } = this.props
+      const { aPath, lastChangedPath, touchCounter, root } = this.props
       if (
         prevProps.touchCounter !== touchCounter &&
         lastChangedPath === aPath
@@ -61,7 +62,7 @@ export const FileListLoader = connect(
           this.setState({ loaded: false, loading: true }, resolve)
         })
         try {
-          const fileList = await readFileStats(aPath)
+          const fileList = await readFileStats(root, aPath)
           this.setState({ data: { fileList }, loaded: true, loading: false })
         } catch (error) {
           this.setState({ loaded: true, loading: false, error, data: null })

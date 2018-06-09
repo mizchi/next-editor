@@ -57,6 +57,7 @@ export const AddFile = (connect as any)(
               const fpath = path.join(parentDir, filename)
               console.log("create dir", fpath)
               await this.props.createDirectory(fpath)
+              this.setState({ value: "" })
             }}
           >
             +d

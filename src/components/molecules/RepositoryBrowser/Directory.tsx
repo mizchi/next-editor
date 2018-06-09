@@ -12,6 +12,7 @@ type Props = {
   dPath: string
   depth: number
   open?: boolean
+  ignoreGit?: boolean
 }
 
 export class Directory extends React.Component<Props, { opened: boolean }> {
@@ -20,7 +21,7 @@ export class Directory extends React.Component<Props, { opened: boolean }> {
     this.state = { opened: this.props.open || false }
   }
   render() {
-    const { dPath, depth, root } = this.props
+    const { dPath, depth, root, ignoreGit = false } = this.props
     const { opened } = this.state
 
     const relPath = path.relative(root, dPath)
@@ -48,11 +49,13 @@ export class Directory extends React.Component<Props, { opened: boolean }> {
         </div>
         {opened && (
           <>
-            <div>
-              {prefixPlusOne}
-              <AddFile parentDir={dPath} />
-            </div>
-            <FileListLoader aPath={path.join(root, relPath)}>
+            {!ignoreGit && (
+              <div>
+                {prefixPlusOne}
+                <AddFile parentDir={dPath} />
+              </div>
+            )}
+            <FileListLoader root={root} aPath={path.join(root, relPath)}>
               {({
                 data,
                 loading
@@ -69,6 +72,7 @@ export class Directory extends React.Component<Props, { opened: boolean }> {
                       depth={depth}
                       dPath={dPath}
                       root={root}
+                      ignoreGit={ignoreGit}
                     />
                   )
                 }
@@ -85,12 +89,14 @@ function DirectoryFileList({
   root,
   fileList,
   depth,
-  dPath
+  dPath,
+  ignoreGit = false
 }: {
   root: string
   fileList: FileInfo[]
   dPath: string
   depth: number
+  ignoreGit?: boolean
 }) {
   return (
     <>
@@ -99,13 +105,19 @@ function DirectoryFileList({
         return (
           <div key={f.name}>
             {f.type === "file" && (
-              <File depth={depth + 1} filepath={filepath} />
+              <File
+                depth={depth + 1}
+                filepath={filepath}
+                gitStatus={f.gitStatus}
+                ignoreGit={ignoreGit}
+              />
             )}
             {f.type === "dir" && (
               <Directory
                 root={root}
                 dPath={path.join(dPath, f.name)}
                 depth={depth + 1}
+                ignoreGit={f.name === ".git"} // TODO: See .gitignore
               />
             )}
           </div>

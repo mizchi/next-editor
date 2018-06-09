@@ -1,5 +1,11 @@
 import path from "path"
-import { mkdir, unlink, writeFile } from "../lib/repository"
+import {
+  addFileInRepository,
+  commitChangesInRepository,
+  mkdir,
+  unlink,
+  writeFile
+} from "../lib/repository"
 
 const j = path.join
 
@@ -79,4 +85,19 @@ export async function deleteFile(aPath: string) {
   const dirname = path.dirname(aPath)
   console.log("deleted")
   return pathChanged(dirname)
+}
+
+export async function addToStage(projectRoot: string, relpath: string) {
+  await addFileInRepository(projectRoot, relpath)
+  const dirname = path.dirname(j(projectRoot, relpath))
+  return pathChanged(dirname)
+}
+
+export async function commitChanges(
+  projectRoot: string,
+  message: string = "update"
+) {
+  const author = {}
+  const hash = await commitChangesInRepository(projectRoot, message)
+  return pathChanged(projectRoot)
 }

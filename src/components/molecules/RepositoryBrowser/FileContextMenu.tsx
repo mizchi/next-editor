@@ -1,24 +1,47 @@
+import path from "path"
 import React from "react"
-import { ContextMenu, Item } from "react-contexify"
+import { ContextMenu, Item, Separator } from "react-contexify"
 import { connect } from "react-redux"
+import { RootState } from "../../../reducers"
 import * as RepositoryActions from "../../../reducers/repository"
 
-type Props = (typeof RepositoryActions) & {
-  filepath: string
+type OwnProps = {
+  root: string
+}
+
+type Props = OwnProps & {
+  addToStage: typeof RepositoryActions.addToStage
+  deleteFile: typeof RepositoryActions.deleteFile
 }
 
 const onClick: any = ({ event, ref, data, dataFromProvider }: any) =>
   console.log("Hello", ref, data, dataFromProvider)
 
-export const FileContextMenu = connect(
-  (_: any, ownProps: any) => ownProps,
-  RepositoryActions
+const actions = {
+  addToStage: RepositoryActions.addToStage,
+  deleteFile: RepositoryActions.deleteFile
+}
+
+export const FileContextMenu: any = connect(
+  (_state: RootState, ownProps: OwnProps) => {
+    return ownProps
+  },
+  actions
 )((props: Props) => {
   return (
     <ContextMenu id="menu_id">
       <Item
         onClick={({ dataFromProvider }: any) => {
-          console.log("delete", dataFromProvider.filepath)
+          const rel = path.relative(props.root, dataFromProvider.filepath)
+          console.log("add to stage", props.root, rel)
+          props.addToStage(props.root, rel)
+        }}
+      >
+        Add to stage
+      </Item>
+      <Separator />
+      <Item
+        onClick={({ dataFromProvider }: any) => {
           props.deleteFile(dataFromProvider.filepath)
         }}
       >
