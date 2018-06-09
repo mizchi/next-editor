@@ -14,27 +14,37 @@ export type FileInfo = {
   type: "file" | "dir"
 }
 
-const sampleJs = `import React from 'react'
-export default () => <h1>Hello, JS</h1>
-`
+const j = path.join
 
-export async function initGitProject(repo: Repository) {
-  try {
-    await pify(fs.mkdir)(repo.dir)
-    console.log("Git: create")
-    await pify(fs.writeFile)(repo.dir + "/README.md", "# Hello!")
-    await pify(fs.writeFile)(repo.dir + "/index.js", sampleJs)
-  } catch (e) {
-    console.log("Git: already exists")
-  }
-
-  const existed = await pify(fs.exists)(path.join(repo.dir, ".git"))
-  if (!existed) {
-    await git.init(repo)
+export async function ensureProjectRepository(repo: Repository) {
+  // ensure directory
+  if (await existsPath(repo.dir)) {
+    console.log("Project: already exists")
   } else {
-    console.log("Git: already exists")
+    console.log("Project: creating...")
+    await mkdirInRepository(repo, "")
+    await mkdirInRepository(repo, "src")
+    await writeFileInRepository(repo, "README.md", "# Hello!")
+    await writeFileInRepository(repo, "src/index.js", "export default {}")
+    console.log("Project: creating done")
   }
-  return
+
+  // ensure git
+  if (await existsPath(j(repo.dir, ".git"))) {
+    console.log(".git: already exists")
+  } else {
+    await git.init(repo)
+  }
+}
+
+export async function existsPath(aPath: string): Promise<boolean> {
+  try {
+    // NOTE: fs.access is not supported
+    await pify(fs.stat)(aPath)
+    return true
+  } catch (e) {
+    return false
+  }
 }
 
 export async function writeFile(aPath: string, content: string): Promise<void> {
@@ -46,7 +56,21 @@ export async function writeFileInRepository(
   filepath: string,
   content: string
 ): Promise<void> {
-  return await pify(fs.writeFile)(path.join(repo.dir, filepath), content)
+  return await pify(fs.writeFile)(j(repo.dir, filepath), content)
+}
+
+export async function mkdirInRepository(
+  repo: Repository,
+  filepath: string
+): Promise<void> {
+  const aPath = j(repo.dir, filepath)
+  if (await existsPath(aPath)) {
+    // Do nothing
+    console.info("mkdir: exists", aPath)
+  } else {
+    await pify(fs.mkdir)(aPath)
+    console.info("mkdir: done", aPath)
+  }
 }
 
 export async function readFileStats(dPath: string): Promise<FileInfo[]> {
@@ -54,7 +78,7 @@ export async function readFileStats(dPath: string): Promise<FileInfo[]> {
 
   const ret: any = await Promise.all(
     filenames.map(async name => {
-      const childPath = path.join(dPath, name)
+      const childPath = j(dPath, name)
       const stat = await pify(fs.stat)(childPath)
       return {
         name,
@@ -69,7 +93,7 @@ export async function readFilesInRepository(
   repo: Repository,
   relPath: string
 ): Promise<FileInfo[]> {
-  const aPath = path.join(repo.dir, relPath)
+  const aPath = j(repo.dir, relPath)
   return readFileStats(aPath)
 }
 

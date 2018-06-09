@@ -5,8 +5,8 @@ import { lifecycle } from "recompose"
 import { EditorConsumer } from "../../contexts/EditorContext"
 import { ProjectConsumer } from "../../contexts/ProjectContext"
 import {
+  ensureProjectRepository,
   FileInfo,
-  initGitProject,
   readFileStats,
   Repository
 } from "../../lib/gitActions"
@@ -152,9 +152,9 @@ function FileListLoader(props: { aPath: string; children: any }) {
 
 export const RootDirectoryNode: React.ComponentType<Props> = lifecycle({
   async componentDidMount() {
-    const { repo } = this.props as any
-    await initGitProject(repo)
-    console.log("git init")
-    console.log("started!4")
+    // const { repo } = this.props as any
+    // await ensureProjectRepository(repo)
+    // console.log("git init")
+    // console.log("started!4")
   }
 })(DirectoryNode)

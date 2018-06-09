@@ -1,8 +1,10 @@
 /// <reference> ./declarations.d.ts
+import fs from "fs"
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { injectGlobal } from "styled-components"
 import { App } from "./components/App"
+import { ensureProjectRepository } from "./lib/gitActions"
 
 // tslint:disable-next-line:no-unused-expression
 injectGlobal`
@@ -13,5 +15,12 @@ injectGlobal`
     margin: 0;
   }
 `
-
-ReactDOM.render(<App />, document.querySelector(".root"))
+;(async () => {
+  try {
+    await ensureProjectRepository({ dir: "/playground", fs })
+  } catch (e) {
+    console.log("error")
+  }
+  console.log("start app")
+  ReactDOM.render(<App />, document.querySelector(".root"))
+})()

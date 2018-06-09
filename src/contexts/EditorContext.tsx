@@ -59,7 +59,7 @@ export class EditorProvider extends React.Component<OuterProps, State> {
   }
 
   componentDidMount() {
-    this.load("/playground/README.md")
+    // this.load("/playground/README.md")
   }
 
   render() {
