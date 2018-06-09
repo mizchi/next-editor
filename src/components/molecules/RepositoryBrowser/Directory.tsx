@@ -1,35 +1,14 @@
 import range from "lodash/range"
 import path from "path"
 import React from "react"
-import { lifecycle } from "recompose"
-import { EditorConsumer } from "../../contexts/EditorContext"
-import { ProjectConsumer } from "../../contexts/ProjectContext"
+import lifecycle from "recompose/lifecycle"
 import {
-  ensureProjectRepository,
   FileInfo,
   readFileStats,
   Repository
-} from "../../lib/gitActions"
-import { DataLoader } from "../atoms/DataLoader"
-
-export function FileBrowser() {
-  return (
-    <ProjectConsumer>
-      {(context: any) => {
-        return (
-          <div>
-            <RootDirectoryNode
-              repo={context.repo}
-              dPath={context.repo.dir}
-              depth={0}
-              open
-            />
-          </div>
-        )
-      }}
-    </ProjectConsumer>
-  )
-}
+} from "../../../lib/repositoryActions"
+import { DataLoader } from "../../atoms/DataLoader"
+import { File } from "./File"
 
 type Props = {
   dPath: string
@@ -38,35 +17,7 @@ type Props = {
   open?: boolean
 }
 
-export class FileNode extends React.Component<{
-  depth: number
-  fPath: string
-}> {
-  render() {
-    const { depth, fPath } = this.props
-    const basename = path.basename(fPath)
-    const prefix = range(depth)
-      .map(_ => "◽")
-      .join("")
-    // return <div>{`${prefix}  - ${basename}`}</div>
-    return (
-      <EditorConsumer>
-        {(context: any) => {
-          return (
-            <div
-              onClick={() => {
-                console.log("load start2", fPath)
-                context.load(fPath)
-              }}
-            >{`${prefix}  - ${basename}`}</div>
-          )
-        }}
-      </EditorConsumer>
-    )
-  }
-}
-
-export class DirectoryNode extends React.Component<Props, { opened: boolean }> {
+export class Directory extends React.Component<Props, { opened: boolean }> {
   constructor(props: Props) {
     super(props)
     this.state = { opened: this.props.open || false }
@@ -106,10 +57,10 @@ export class DirectoryNode extends React.Component<Props, { opened: boolean }> {
                     return (
                       <div key={f.name}>
                         {f.type === "file" && (
-                          <FileNode depth={depth + 1} fPath={name} />
+                          <File depth={depth + 1} fPath={name} />
                         )}
                         {f.type === "dir" && (
-                          <DirectoryNode
+                          <Directory
                             dPath={path.join(dPath, f.name)}
                             depth={depth + 1}
                             repo={repo}
@@ -150,11 +101,11 @@ function FileListLoader(props: { aPath: string; children: any }) {
   )
 }
 
-export const RootDirectoryNode: React.ComponentType<Props> = lifecycle({
+export const RootDirectory: React.ComponentType<Props> = lifecycle({
   async componentDidMount() {
     // const { repo } = this.props as any
     // await ensureProjectRepository(repo)
     // console.log("git init")
     // console.log("started!4")
   }
-})(DirectoryNode)
+})(Directory)

@@ -4,7 +4,7 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { injectGlobal } from "styled-components"
 import { App } from "./components/App"
-import { ensureProjectRepository } from "./lib/gitActions"
+import { ensureProjectRepository } from "./lib/repositoryActions"
 
 // tslint:disable-next-line:no-unused-expression
 injectGlobal`

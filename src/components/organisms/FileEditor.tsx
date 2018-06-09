@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { EditorConsumer, EditorContext } from "../../contexts/EditorContext"
-import { writeFile } from "../../lib/gitActions"
+import { writeFile } from "../../lib/repositoryActions"
 import { JavaScriptEditor } from "../atoms/JavaScriptEditor"
 import { MarkdownEditor } from "../atoms/MarkdownEditor"
 import { EditorContent } from "../molecules/EditorContent"
