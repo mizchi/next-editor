@@ -6,7 +6,9 @@ import * as ReactDOM from "react-dom"
 import { injectGlobal } from "styled-components"
 import { App } from "./components/App"
 import { setupInitialRepository } from "./lib/setupInitialRepository"
+import "./setupFontAwesome"
 
+// export to globals for debug
 const g: any = global
 g.__git = git
 g.__fs = fs

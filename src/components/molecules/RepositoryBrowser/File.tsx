@@ -1,3 +1,5 @@
+import faFile from "@fortawesome/fontawesome-free-solid/faFile"
+import FontAwesomeIcon from "@fortawesome/react-fontawesome"
 import range from "lodash/range"
 import path from "path"
 import React from "react"
@@ -34,16 +36,20 @@ export const File = connect(
       const { depth, filepath, gitStatus } = this.props
       const basename = path.basename(filepath)
       const prefix = range(depth)
-        .map((_: any) => "◽")
+        .map((_: any, i: number) => "◽")
         .join("")
 
       const suffix = this.props.ignoreGit ? "" : ` [${gitStatus}]`
       return (
         <div>
-          <ContextMenuProvider id="menu_id" data={{ filepath }}>
-            <div
-              onClick={() => this.props.loadFile(filepath)}
-            >{`${prefix} ${basename}${suffix}`}</div>
+          <ContextMenuProvider id="file" data={{ filepath }}>
+            <div onClick={() => this.props.loadFile(filepath)}>
+              <span>{prefix}</span>
+              <FontAwesomeIcon icon={faFile} />
+              &nbsp;
+              <span>{basename}</span>
+              <span>{suffix}</span>
+            </div>
           </ContextMenuProvider>
         </div>
       )

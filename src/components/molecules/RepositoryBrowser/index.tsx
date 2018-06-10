@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import { RootState } from "../../../reducers"
 import { commitChanges, RepositoryState } from "../../../reducers/repository"
 import { RootDirectory } from "./Directory"
+import { DirectoryContextMenu } from "./DirectoryContextMenu"
 import { FileContextMenu } from "./FileContextMenu"
 
 const selector = (state: RootState) => {
@@ -37,6 +38,7 @@ export const RepositoryBrowser = connect(
         open
       />
       <FileContextMenu root={props.currentProjectRoot} />
+      <DirectoryContextMenu root={props.currentProjectRoot} />
     </div>
   )
 })

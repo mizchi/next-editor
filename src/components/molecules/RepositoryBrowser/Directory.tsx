@@ -1,8 +1,12 @@
+import faFolder from "@fortawesome/fontawesome-free-solid/faFolder"
+import faFolderOpen from "@fortawesome/fontawesome-free-solid/faFolderOpen"
+import FontAwesomeIcon from "@fortawesome/react-fontawesome"
 import range from "lodash/range"
 import path from "path"
 import React from "react"
+import { ContextMenuProvider } from "react-contexify"
 import lifecycle from "recompose/lifecycle"
-import { FileInfo, Repository } from "../../../lib/repository"
+import { FileInfo } from "../../../lib/repository"
 import { AddFile } from "./AddFile"
 import { File } from "./File"
 import { FileListLoader } from "./FileListLoader"
@@ -33,6 +37,8 @@ export class Directory extends React.Component<Props, { opened: boolean }> {
       .map(_ => "◽")
       .join("")
 
+    // Just casting
+    const MyContextMenuProvider: any = ContextMenuProvider
     return (
       <div>
         <div>
@@ -42,10 +48,20 @@ export class Directory extends React.Component<Props, { opened: boolean }> {
               this.setState({ opened: !this.state.opened })
             }}
           >
-            {opened ? "-" : "+"}
+            {opened ? (
+              <FontAwesomeIcon icon={faFolderOpen} />
+            ) : (
+              <FontAwesomeIcon icon={faFolder} />
+            )}
           </button>
           &nbsp;
-          {basename || `${dPath}`}
+          <MyContextMenuProvider
+            id="directory"
+            data={{ dirpath: dPath }}
+            component="span"
+          >
+            {basename || `${dPath}`}
+          </MyContextMenuProvider>
         </div>
         {opened && (
           <>

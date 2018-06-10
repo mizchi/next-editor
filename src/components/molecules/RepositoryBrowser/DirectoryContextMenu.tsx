@@ -1,4 +1,3 @@
-import path from "path"
 import React from "react"
 import { ContextMenu, Item, Separator } from "react-contexify"
 import { connect } from "react-redux"
@@ -22,27 +21,32 @@ const actions = {
   deleteFile: RepositoryActions.deleteFile
 }
 
-export const FileContextMenu: any = connect(
+export const DirectoryContextMenu: any = connect(
   (_state: RootState, ownProps: OwnProps) => {
     return ownProps
   },
   actions
 )((props: Props) => {
   return (
-    <ContextMenu id="file">
+    <ContextMenu id="directory">
       <Item
         onClick={({ dataFromProvider }: any) => {
-          const rel = path.relative(props.root, dataFromProvider.filepath)
-          console.log("add to stage", props.root, rel)
-          props.addToStage(props.root, rel)
+          // props.deleteFile(dataFromProvider.filepath)
         }}
       >
-        Add to stage
+        Create File[WIP]
+      </Item>
+      <Item
+        onClick={({ dataFromProvider }: any) => {
+          // props.deleteFile(dataFromProvider.filepath)
+        }}
+      >
+        Create Directory[WIP]
       </Item>
       <Separator />
       <Item
         onClick={({ dataFromProvider }: any) => {
-          props.deleteFile(dataFromProvider.filepath)
+          // props.deleteFile(dataFromProvider.filepath)
         }}
       >
         Delete
