@@ -15,10 +15,21 @@ g.__fs = fs
 injectGlobal`
 html, body {
   overflow: hidden;
-  width: 100vx;
+  width: 100vw;
   height: 100vh;
   margin: 0;
 }
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 50, .5);
+  border-radius: 0px;
+  box-shadow:0 0 0 1px rgba(255, 255, 255, .3);
+}
+
 `
 ;(async () => {
   try {

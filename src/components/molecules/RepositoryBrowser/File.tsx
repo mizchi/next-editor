@@ -43,7 +43,7 @@ export const File = connect(
           <ContextMenuProvider id="menu_id" data={{ filepath }}>
             <div
               onClick={() => this.props.loadFile(filepath)}
-            >{`${prefix} - ${basename}${suffix}`}</div>
+            >{`${prefix} ${basename}${suffix}`}</div>
           </ContextMenuProvider>
         </div>
       )

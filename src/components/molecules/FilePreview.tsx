@@ -1,13 +1,15 @@
 import React from "react"
-import { BabelCodePreview } from "../atoms/BabelCodePreview"
-import { MarkdownPreview } from "../atoms/MarkdownPreview"
 import { connect } from "react-redux"
 import { RootState } from "../../reducers"
 import { EditorState } from "../../reducers/editor"
+import { BabelCodePreview } from "../atoms/BabelCodePreview"
+import { MarkdownPreview } from "../atoms/MarkdownPreview"
+import { GitStatusViewer } from "../atoms/GitStatusViewer"
 
 const selector = (state: RootState) => state.editor
 
 export const FilePreview = connect(selector)((props: EditorState) => {
+  return <GitStatusViewer />
   switch (props.fileType) {
     case "javascript": {
       return <BabelCodePreview source={props.value || ""} />

@@ -10,11 +10,19 @@ import {
 const j = path.join
 
 const PATH_CHANGED = "repository:path-changed"
+const GIT_CHANGED = "repository:git-changed"
 
 type PathChanged = {
   type: typeof PATH_CHANGED
   payload: {
     pathname: string
+  }
+}
+
+type GitChanged = {
+  type: typeof GIT_CHANGED
+  payload: {
+    gitRelativePath: string
   }
 }
 
@@ -27,21 +35,29 @@ function pathChanged(pathname: string): PathChanged {
   }
 }
 
-type Action = {
-  type: typeof PATH_CHANGED
-  payload: {
-    pathname: string
+function gitChanged(gitRelativePath: string): GitChanged {
+  return {
+    payload: {
+      gitRelativePath
+    },
+    type: GIT_CHANGED
   }
 }
+
+type Action = PathChanged | GitChanged
 
 export type RepositoryState = {
   currentProjectRoot: string
   lastChangedPath: string
+  lastChangedGithPath: string
   touchCounter: number
+  gitTouchCounter: number
 }
 
-const initialState = {
+const initialState: RepositoryState = {
   currentProjectRoot: "/playground",
+  gitTouchCounter: 0,
+  lastChangedGithPath: "",
   lastChangedPath: "/playground",
   touchCounter: 0
 }
@@ -53,6 +69,13 @@ export function reducer(state: RepositoryState = initialState, action: Action) {
         ...state,
         lastChangedPath: action.payload.pathname,
         touchCounter: state.touchCounter + 1
+      }
+    }
+    case GIT_CHANGED: {
+      return {
+        ...state,
+        gitTouchCounter: state.gitTouchCounter + 1,
+        lastChangedGitPath: action.payload.gitRelativePath
       }
     }
     default: {

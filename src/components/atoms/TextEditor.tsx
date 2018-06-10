@@ -11,7 +11,7 @@ type State = {
   value: string
 }
 
-export class MarkdownEditor extends React.Component<Props, State> {
+export class TextEditor extends React.Component<Props, State> {
   constructor(props: any) {
     super(props)
     this.state = {
@@ -23,7 +23,6 @@ export class MarkdownEditor extends React.Component<Props, State> {
     const { value } = this.state
     return (
       <Textarea
-        spellCheck={false}
         value={value}
         onChange={(e: any) => {
           this.setState({ value: e.target.value }, () => {
@@ -43,11 +42,4 @@ export class MarkdownEditor extends React.Component<Props, State> {
 const Textarea = styled.textarea`
   width: 100%;
   height: 100%;
-  border: none;
-  overflow: auto;
-  outline: none;
-  box-shadow: none;
-  padding: 5px;
-  font-size: 1em;
-  background-color: #eee;
 `

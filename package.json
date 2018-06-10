@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "watch": "run-p watch:web",
-    "watch:web": "webpack-serve --config serve.config.js",
+    "watch:web": "webpack-serve --config serve.config.js --no-reload",
     "watch:functions": "netlify-lambda serve src/functions",
     "build:dev": "NODE_ENV=development webpack",
     "build:prod": "rimraf public && NODE_ENV=production webpack",
@@ -103,6 +103,7 @@
     "remark-parse": "^5.0.0",
     "remark-react": "^4.0.3",
     "remark-rehype": "^3.0.0",
+    "stackedit-js": "^1.0.5",
     "styled-components": "^3.2.6",
     "unified": "^7.0.0",
     "zen-observable": "^0.8.8"

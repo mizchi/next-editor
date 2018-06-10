@@ -45,14 +45,14 @@ export class FileEditor extends React.Component<Props, State> {
 const EditorFileTitle = connect((state: RootState) => {
   return { filePath: state.editor.filePath }
 })(({ filePath }: any) => {
-  return <span>{filePath || "Not Selected"}</span>
+  return <span>{filePath || "<not-selected>"}</span>
 })
 
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: 95%;
 `
 
 const Filename = styled.div`

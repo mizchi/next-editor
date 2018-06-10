@@ -50,10 +50,15 @@ async function setupServiceWorker() {
   const reg = await navigator.serviceWorker.register('/sw.js');
   await navigator.serviceWorker.ready
   installed = true
-
-  setInterval(() => {
-    reg.update();
-  }, 60 * 1000);
+  if (location.href.indexOf('localhost') > -1 ) {
+    setInterval(() => {
+      reg.update();
+    }, 3 * 1000);
+  } else {
+    setInterval(() => {
+      reg.update();
+    }, 60 * 1000);
+  }
 }
 
 ;(async () => {

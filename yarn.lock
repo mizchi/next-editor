@@ -10059,6 +10059,10 @@ stack-utils@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/stack-utils/-/stack-utils-1.0.1.tgz#d4f33ab54e8e38778b0ca5cfd3b3afb12db68620"
 
+stackedit-js@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/stackedit-js/-/stackedit-js-1.0.5.tgz#76806826ba27f00fe354c6dafe16631d583763c4"
+
 state-toggle@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/state-toggle/-/state-toggle-1.0.1.tgz#c3cb0974f40a6a0f8e905b96789eb41afa1cde3a"
