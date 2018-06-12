@@ -1,11 +1,12 @@
 import path from "path"
-import {
-  addFileInRepository,
-  commitChangesInRepository,
-  mkdir,
-  unlink,
-  writeFile
-} from "../lib/repository"
+// import {
+//   addFileInRepository,
+//   commitChangesInRepository,
+//   mkdir,
+//   unlink,
+//   writeFile
+// } from "../lib/repository"
+import * as repo from "../lib/repository"
 
 const j = path.join
 
@@ -26,7 +27,7 @@ type GitChanged = {
   }
 }
 
-function pathChanged(pathname: string): PathChanged {
+export function pathChanged(pathname: string): PathChanged {
   return {
     payload: {
       pathname
@@ -35,7 +36,7 @@ function pathChanged(pathname: string): PathChanged {
   }
 }
 
-function gitChanged(gitRelativePath: string): GitChanged {
+export function gitChanged(gitRelativePath: string): GitChanged {
   return {
     payload: {
       gitRelativePath
@@ -85,33 +86,54 @@ export function reducer(state: RepositoryState = initialState, action: Action) {
 }
 
 export async function createFile(aPath: string, content: string = "") {
-  await writeFile(aPath, content)
+  await repo.writeFile(aPath, content)
   const dirname = path.dirname(aPath)
   return pathChanged(dirname)
 }
 
+export async function createBranch(projectRoot: string, newBranchName: string) {
+  const branches = await repo.listBranches(projectRoot)
+  if (!branches.includes(newBranchName)) {
+    await repo.createBranch(projectRoot, newBranchName)
+    console.log("create branch", newBranchName)
+    return gitChanged(".")
+  } else {
+    console.error(`Git: Creating branch existed: ${newBranchName}`)
+  }
+}
+
+export async function checkoutBranch(projectRoot: string, branchName: string) {
+  const branches = await repo.listBranches(projectRoot)
+  if (branches.includes(branchName)) {
+    await repo.checkoutBranch(projectRoot, branchName)
+    return gitChanged(".")
+  } else {
+    console.error(`Git: Unknown branch: ${branchName}`)
+  }
+}
+
 export async function updateFile(aPath: string, content: string) {
-  await writeFile(aPath, content)
+  await repo.writeFile(aPath, content)
   const dirname = path.dirname(aPath)
   return pathChanged(dirname)
 }
 
 export async function createDirectory(aPath: string) {
-  await mkdir(aPath)
+  await repo.mkdir(aPath)
   const dirname = path.dirname(aPath)
   return pathChanged(dirname)
 }
 
 export async function deleteFile(aPath: string) {
   console.log("deleting...")
-  await unlink(aPath)
+  await repo.unlink(aPath)
   const dirname = path.dirname(aPath)
   console.log("deleted")
   return pathChanged(dirname)
 }
 
 export async function addToStage(projectRoot: string, relpath: string) {
-  await addFileInRepository(projectRoot, relpath)
+  await repo.addFileInRepository(projectRoot, relpath)
   const dirname = path.dirname(j(projectRoot, relpath))
   return pathChanged(dirname)
 }
@@ -121,6 +143,6 @@ export async function commitChanges(
   message: string = "update"
 ) {
   const author = {}
-  const hash = await commitChangesInRepository(projectRoot, message)
+  const hash = await repo.commitChangesInRepository(projectRoot, message)
   return pathChanged(projectRoot)
 }

@@ -1,7 +1,9 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
+import flatten from "lodash/flatten"
 import orderBy from "lodash/orderBy"
 import zipWith from "lodash/zipWith"
+
 import path from "path"
 import pify from "pify"
 
@@ -17,6 +19,17 @@ export type FileInfo = {
   gitStatus: string
   type: "file" | "dir"
 }
+
+export type FileNode =
+  | {
+      type: "dir"
+      pathname: string
+      children: FileNode[]
+    }
+  | {
+      type: "file"
+      pathname: string
+    }
 
 // https://isomorphic-git.github.io/docs/log.html
 export type CommitDescription = {
@@ -51,15 +64,174 @@ export async function readFileStats(
       const childPath = j(dirpath, name)
       const stat = await pify(fs.stat)(childPath)
       const relpath = path.relative(projectRoot, childPath)
-      const gitStatus = await getFileStatusInRepository(projectRoot, relpath)
+      // const gitStatus = await getGitStatusInRepository(projectRoot, relpath)
       return {
-        gitStatus,
+        gitStatus: "nop",
         name,
         type: stat.isDirectory() ? "dir" : "file"
       }
     })
   )
   return orderBy(ret, [(s: FileInfo) => s.type + "" + s.name])
+}
+
+export type GitRepositoryStatus = {
+  currentBranch: string
+  branches: string[]
+  stagingStatus: GitStagingStatus
+  trackingStatus: GitTrackingStatus
+}
+
+export type GitStagingStatus = {
+  added: string[]
+  staged: string[]
+  modified: string[]
+  unmodified: string[]
+}
+
+export type GitTrackingStatus = { tracked: string[]; untracked: string[] }
+
+export async function getProjectGitStatus(
+  projectRoot: string
+): Promise<GitRepositoryStatus> {
+  const trackingStatus = await getGitTrackingStatus(projectRoot)
+  const { tracked } = trackingStatus
+
+  const fileStatusList: Array<{
+    relpath: string
+    status: string
+  }> = await Promise.all(
+    tracked.map(async relpath => {
+      // const relpath = path.relative(projectRoot, filepath)
+      const status = await getGitStatusInRepository(projectRoot, relpath)
+      return { relpath, status }
+    })
+  )
+
+  const stagingStatus: GitStagingStatus = fileStatusList.reduce(
+    (acc: GitStagingStatus, fileStatus) => {
+      console.log("status:", fileStatus.relpath, fileStatus.status)
+      switch (fileStatus.status) {
+        case "*modified": {
+          return { ...acc, modified: [...acc.modified, fileStatus.relpath] }
+        }
+        case "added": {
+          return { ...acc, added: [...acc.added, fileStatus.relpath] }
+        }
+        // added and modified
+        case "*added": {
+          return {
+            ...acc,
+            added: [...acc.added, fileStatus.relpath],
+            modified: [...acc.modified, fileStatus.relpath]
+          }
+        }
+        case "modified": {
+          return { ...acc, staged: [...acc.staged, fileStatus.relpath] }
+        }
+        case "unmodified": {
+          return { ...acc, unmodified: [...acc.unmodified, fileStatus.relpath] }
+        }
+        default: {
+          return acc
+        }
+      }
+    },
+    {
+      added: [],
+      modified: [],
+      staged: [],
+      unmodified: []
+    }
+  )
+
+  const currentBranch = await git.currentBranch({ fs, dir: projectRoot })
+  const branches = await git.listBranches({ fs, dir: projectRoot })
+  return {
+    branches,
+    currentBranch,
+    stagingStatus,
+    trackingStatus
+  }
+}
+
+export async function getGitTrackingStatus(
+  projectRoot: string
+): Promise<GitTrackingStatus> {
+  // buffer
+  const untracked = []
+  const tracked = []
+
+  const gitFiles: string[] = await git.listFiles({ fs, dir: projectRoot })
+  const gitFilepathIndexed: { [s: string]: boolean } = gitFiles.reduce(
+    (acc: { [s: string]: boolean }, pathname: string) => {
+      const relpath = pathname.replace(projectRoot, "")
+      return { ...acc, [relpath]: true }
+    },
+    {}
+  )
+
+  const allFiles = await getFilesRecursively(projectRoot)
+  const relativeFilepaths = allFiles.map(pathname =>
+    pathname.replace(projectRoot + "/", "")
+  )
+
+  for (const relpath of relativeFilepaths) {
+    if (gitFilepathIndexed[relpath]) {
+      tracked.push(relpath)
+    } else {
+      untracked.push(relpath)
+    }
+  }
+  return {
+    tracked,
+    untracked
+  }
+}
+
+export async function getFilesRecursively(rootPath: string): Promise<string[]> {
+  const node = await readRecursiveFileNode(rootPath)
+  return nodeToFileList(node)
+}
+
+function nodeToFileList(node: FileNode): string[] {
+  if (node.type === "file") {
+    return [node.pathname]
+  } else if (node.type === "dir") {
+    const ret = node.children.map(childNode => {
+      return nodeToFileList(childNode)
+    })
+    return flatten(ret)
+  } else {
+    return []
+  }
+}
+
+const IGNORE_PATTERNS = [".git"]
+
+export async function readRecursiveFileNode(
+  pathname: string
+): Promise<FileNode> {
+  // console.log("current node", pathname)
+  const stat = await pify(fs.stat)(pathname)
+  if (stat.isDirectory()) {
+    const pathList: string[] = await pify(fs.readdir)(pathname)
+    const children = await Promise.all(
+      pathList
+        .filter(childPath => !IGNORE_PATTERNS.includes(childPath))
+        .map(childPath => readRecursiveFileNode(path.join(pathname, childPath)))
+    )
+    return {
+      children,
+      pathname,
+      type: "dir"
+    }
+  } else {
+    return {
+      pathname,
+      type: "file"
+    }
+  }
 }
 
 export async function getLogInRepository(
@@ -72,6 +244,10 @@ export async function getLogInRepository(
 export async function readFile(filepath: string): Promise<string> {
   const file = await pify(fs.readFile)(filepath)
   return file.toString()
+}
+
+export function listBranches(projectRoot: string): Promise<string[]> {
+  return git.listBranches({ fs, dir: projectRoot })
 }
 
 export async function existsPath(aPath: string): Promise<boolean> {
@@ -106,7 +282,7 @@ export async function ensureProjectRepository(repo: Repository) {
   }
 }
 
-export async function getFileStatusInRepository(
+export async function getGitStatusInRepository(
   projectRoot: string,
   relpath: string
 ): Promise<string> {
@@ -127,7 +303,7 @@ export async function listGitFilesInRepository(
 > {
   const files: string[] = await git.listFiles({ fs, dir: projectRoot })
   const statusList = await Promise.all(
-    files.map(f => getFileStatusInRepository(projectRoot, f))
+    files.map(f => getGitStatusInRepository(projectRoot, f))
   )
   return zipWith(files, statusList, (filepath, gitStatus) => ({
     filepath,
@@ -147,6 +323,20 @@ export async function writeFileInRepository(
 ): Promise<void> {
   const aPath = j(repo.dir, filepath)
   await pify(fs.writeFile)(aPath, content)
+}
+
+export async function createBranch(
+  projectRoot: string,
+  newBranchName: string
+): Promise<void> {
+  return git.branch({ fs, dir: projectRoot, ref: newBranchName })
+}
+
+export async function checkoutBranch(
+  projectRoot: string,
+  branchName: string
+): Promise<void> {
+  return git.checkout({ fs, dir: projectRoot, ref: branchName })
 }
 
 export async function mkdir(dirpath: string): Promise<void> {
