@@ -193,7 +193,9 @@ export const GitStatusViewer: any = connect(
     private async _updateStatus() {
       const { projectRoot } = this.props
       const repositoryStatus = await getProjectGitStatus(projectRoot)
-      const history = await getLogInRepository(projectRoot, {})
+      const history = await getLogInRepository(projectRoot, {
+        ref: repositoryStatus.currentBranch
+      })
       this.setState({ repositoryStatus, history })
     }
   }
