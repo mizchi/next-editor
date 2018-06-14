@@ -124,7 +124,6 @@ function DirectoryFileList({
               <File
                 depth={depth + 1}
                 filepath={filepath}
-                gitStatus={f.gitStatus}
                 ignoreGit={ignoreGit}
               />
             )}

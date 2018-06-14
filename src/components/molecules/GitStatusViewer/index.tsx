@@ -8,13 +8,20 @@ import {
   GitRepositoryStatus
 } from "../../../lib/repository"
 import { RootState } from "../../../reducers"
-import { checkoutBranch, createBranch } from "../../../reducers/repository"
+import {
+  addToStage,
+  checkoutBranch,
+  commitChanges,
+  createBranch
+} from "../../../reducers/repository"
 
 type Props = {
   projectRoot: string
   touchCounter: number
+  addToStage: typeof addToStage
   createBranch: typeof createBranch
   checkoutBranch: typeof checkoutBranch
+  commitChanges: typeof commitChanges
 }
 
 type State = {
@@ -30,14 +37,15 @@ const selector = (state: RootState) => {
   }
 }
 
-const actions = { createBranch, checkoutBranch }
+const actions = { addToStage, createBranch, checkoutBranch, commitChanges }
 
-export const GitStatusViewer = connect(
+export const GitStatusViewer: any = connect(
   selector,
   actions
 )(
   class extends React.Component<Props, State> {
     private newBranchInputRef: any = React.createRef()
+    private commitMassageInputRef: any = React.createRef()
     constructor(props: Props) {
       super(props)
       this.state = {
@@ -66,8 +74,12 @@ export const GitStatusViewer = connect(
         return (
           <Container>
             <h2>Git Status</h2>
-            <p>ProjectRoot: {projectRoot}</p>
-            <p>current branch: {currentBranch}</p>
+            <div>
+              {projectRoot} [{currentBranch}]
+              <button onClick={() => this._updateStatus()}>
+                Reload status
+              </button>
+            </div>
             <div>
               Switch branch:
               <select
@@ -102,8 +114,19 @@ export const GitStatusViewer = connect(
             <hr />
             <h3>staging</h3>
             <div>
-              <button>Commit</button>
-              <input placeholder="Commit massage here ..." />
+              <button
+                onClick={() => {
+                  const value = this.commitMassageInputRef.current.value
+                  this.props.commitChanges(projectRoot, value || "Update")
+                  this.commitMassageInputRef.current.value = ""
+                }}
+              >
+                Commit
+              </button>
+              <input
+                ref={this.commitMassageInputRef}
+                placeholder="Commit massage here ..."
+              />
             </div>
             {added.map(filepath => {
               return <div key={filepath}>Added: {filepath}</div>
@@ -118,7 +141,13 @@ export const GitStatusViewer = connect(
                 <div key={filepath}>
                   {filepath}
                   &nbsp;
-                  <button>add to stage</button>
+                  <button
+                    onClick={() => {
+                      this.props.addToStage(projectRoot, filepath)
+                    }}
+                  >
+                    add to stage
+                  </button>
                 </div>
               )
             })}
@@ -131,7 +160,13 @@ export const GitStatusViewer = connect(
                     <div key={filepath}>
                       {filepath}
                       &nbsp;
-                      <button>add to stage </button>
+                      <button
+                        onClick={() => {
+                          this.props.addToStage(projectRoot, filepath)
+                        }}
+                      >
+                        add to stage{" "}
+                      </button>
                     </div>
                   )
                 })}
@@ -157,7 +192,6 @@ export const GitStatusViewer = connect(
 
     private async _updateStatus() {
       const { projectRoot } = this.props
-      // const gitFiles = await listGitFilesInRepository(projectRoot)
       const repositoryStatus = await getProjectGitStatus(projectRoot)
       const history = await getLogInRepository(projectRoot, {})
       this.setState({ repositoryStatus, history })

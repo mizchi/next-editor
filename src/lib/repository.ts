@@ -102,7 +102,6 @@ export async function getProjectGitStatus(
     status: string
   }> = await Promise.all(
     tracked.map(async relpath => {
-      // const relpath = path.relative(projectRoot, filepath)
       const status = await getGitStatusInRepository(projectRoot, relpath)
       return { relpath, status }
     })
@@ -236,7 +235,7 @@ export async function readRecursiveFileNode(
 
 export async function getLogInRepository(
   projectRoot: string,
-  { depth = 5, ref = "master" }: { depth?: number; ref?: string }
+  { depth, ref = "master" }: { depth?: number; ref?: string }
 ): Promise<CommitDescription[]> {
   return git.log({ fs, dir: projectRoot, depth, ref })
 }
@@ -287,7 +286,8 @@ export async function getGitStatusInRepository(
   relpath: string
 ): Promise<string> {
   try {
-    return await git.status({ fs, dir: projectRoot, filepath: relpath })
+    const status = await git.status({ fs, dir: projectRoot, filepath: relpath })
+    return status
   } catch (e) {
     return "untracked"
   }
@@ -348,6 +348,7 @@ export async function mkdir(dirpath: string): Promise<void> {
     console.info("mkdir: done", dirpath)
   }
 }
+
 export async function mkdirInRepository(
   repo: Repository,
   dirpath: string
@@ -363,26 +364,21 @@ export function addFileInRepository(
   return git.add({ fs, dir: projectRoot, filepath: relpath })
 }
 
-export function commitChangesInRepository(
+export function commitChanges(
   projectRoot: string,
   message: string = "Update",
-  _author?: { name: string; email: string }
+  author?: { name: string; email: string }
 ): Promise<string> {
-  const author = _author || { name: "anonymous", email: "dummy" }
-  const ret = { fs, dir: projectRoot, message, author }
-  return git.commit(ret)
+  return git.commit({
+    author: author || {
+      email: "dummy",
+      name: "anonymous"
+    },
+    dir: projectRoot,
+    fs,
+    message
+  })
 }
-
-// export async function commitSingleFileInRepository(
-//   repo: Repository,
-//   filepath: string,
-//   content: string,
-//   message: string = "Update"
-// ): Promise<string> {
-//   await writeFileInRepository(repo, filepath, content)
-//   await addFileInRepository({}, filepath)
-//   return await commitChangesInRepository(repo, message)
-// }
 
 export async function unlink(aPath: string): Promise<void> {
   await pify(fs.unlink)(aPath)

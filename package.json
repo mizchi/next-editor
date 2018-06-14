@@ -87,7 +87,7 @@
     "@fortawesome/react-fontawesome": "^0.0.20",
     "browserfs": "^1.4.3",
     "globby": "^8.0.1",
-    "isomorphic-git": "^0.17.1",
+    "isomorphic-git": "^0.19.0",
     "lodash": "^4.17.10",
     "monaco-editor": "^0.13.1",
     "pify": "^3.0.0",

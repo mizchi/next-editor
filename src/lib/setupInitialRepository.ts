@@ -1,3 +1,4 @@
+import fs from "fs"
 import * as git from "isomorphic-git"
 import path from "path"
 import {
@@ -39,9 +40,9 @@ I do *NOT* think this can replace vscode and atom. Only for specific usecase(mar
 - [x] Git add / commit
 - [x] Preview markdown
 - [x] Preview Babel
-- [ ] Git: status Preview
+- [x] Git: status Preview
 - [ ] Toggle preview layout 2 <-> 3 panes
-- [ ] Switch branch
+- [x] Switch branch
 - [ ] Remove directory by right click menu
 - [ ] Remove deleted files on git
 - [ ] Handle .gitignore
@@ -51,7 +52,7 @@ I do *NOT* think this can replace vscode and atom. Only for specific usecase(mar
 - [ ] Git: push from github
 - [ ] Git: fetch from github
 - [ ] Git: clone from github
-- [ ] Config - commit author, GitHub Access Token, .git/config
+- [ ] Config - commit author, GitHub Access Token via .git/config
 - [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
 `
 
@@ -63,9 +64,8 @@ export async function setupInitialRepository(repo: Repository) {
   } else {
     console.log("Project: creating...")
     await mkdirInRepository(repo, "")
-    await mkdirInRepository(repo, "src")
     await writeFileInRepository(repo, "README.md", Introduction)
-    await writeFileInRepository(repo, "src/index.js", "export default {}")
+    // await writeFileInRepository(repo, "src/index.js", "export default {}")
     console.log("Project: creating done")
   }
 
@@ -74,5 +74,20 @@ export async function setupInitialRepository(repo: Repository) {
     console.log(".git: already exists")
   } else {
     await git.init(repo)
+    await git.add({
+      dir: "/playground",
+      filepath: "README.md",
+      fs
+    })
+    await git.commit({
+      author: {
+        email: "dummy",
+        name: "system"
+      },
+      dir: "/playground",
+      fs,
+      message: "Init"
+    })
+    console.log("Ensure initial commit")
   }
 }

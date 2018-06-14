@@ -1,11 +1,4 @@
 import path from "path"
-// import {
-//   addFileInRepository,
-//   commitChangesInRepository,
-//   mkdir,
-//   unlink,
-//   writeFile
-// } from "../lib/repository"
 import * as repo from "../lib/repository"
 
 const j = path.join
@@ -140,9 +133,9 @@ export async function addToStage(projectRoot: string, relpath: string) {
 
 export async function commitChanges(
   projectRoot: string,
-  message: string = "update"
+  message: string = "Update"
 ) {
   const author = {}
-  const hash = await repo.commitChangesInRepository(projectRoot, message)
+  const hash = await repo.commitChanges(projectRoot, message)
   return pathChanged(projectRoot)
 }

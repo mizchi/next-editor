@@ -10,7 +10,6 @@ import { loadFile } from "../../../reducers/editor"
 
 type OwnProps = {
   depth: number
-  gitStatus: string
   filepath: string
   ignoreGit?: boolean
 }
@@ -33,13 +32,13 @@ export const File = connect(
 )(
   class extends React.Component<Props> {
     render() {
-      const { depth, filepath, gitStatus } = this.props
+      const { depth, filepath } = this.props
       const basename = path.basename(filepath)
       const prefix = range(depth)
         .map((_: any, i: number) => "◽")
         .join("")
 
-      const suffix = this.props.ignoreGit ? "" : ` [${gitStatus}]`
+      const suffix = ""
       return (
         <div>
           <ContextMenuProvider id="file" data={{ filepath }}>

@@ -1,7 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import { RootState } from "../../../reducers"
-import { commitChanges, RepositoryState } from "../../../reducers/repository"
+import { RepositoryState } from "../../../reducers/repository"
 import { RootDirectory } from "./Directory"
 import { DirectoryContextMenu } from "./DirectoryContextMenu"
 import { FileContextMenu } from "./FileContextMenu"
@@ -10,13 +10,9 @@ const selector = (state: RootState) => {
   return state.repository
 }
 
-const actions = {
-  commitChanges
-}
+const actions = {}
 
-type Props = RepositoryState & {
-  commitChanges: typeof commitChanges
-}
+type Props = RepositoryState & {}
 
 export const RepositoryBrowser = connect(
   selector,
@@ -24,13 +20,6 @@ export const RepositoryBrowser = connect(
 )((props: Props) => {
   return (
     <div>
-      <button
-        onClick={() => {
-          props.commitChanges(props.currentProjectRoot, "Update")
-        }}
-      >
-        Commit
-      </button>
       <RootDirectory
         root={props.currentProjectRoot}
         dPath={props.currentProjectRoot}
