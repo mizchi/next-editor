@@ -1,8 +1,6 @@
 {
   "defaultSeverity": "error",
-  "extends": [
-    "tslint:recommended", "tslint-config-prettier"
-  ],
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
   "jsRules": {},
   "rules": {
     "interface-name": false,
@@ -16,7 +14,8 @@
       "check-format",
       "allow-pascal-case",
       "allow-leading-underscore"
-    ]
+    ],
+    "object-literal-sort-keys": false
   },
   "rulesDirectory": []
 }
