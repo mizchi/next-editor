@@ -1,6 +1,14 @@
 import path from "path"
-import * as repo from "../lib/repository"
-import { GitRepositoryStatus } from "./../lib/repository"
+import { mkdir } from "../domain/filesystem/commands/mkdir"
+import { unlink } from "../domain/filesystem/commands/unlink"
+import { writeFile } from "../domain/filesystem/commands/writeFile"
+import { addFileInRepository } from "../domain/git/commands/addFileInRepository"
+import { checkoutBranch } from "../domain/git/commands/checkoutBranch"
+import { commitChanges } from "../domain/git/commands/commitChanges"
+import { removeFromGit } from "../domain/git/commands/removeFromGit"
+import { getProjectGitStatus } from "../domain/git/queries/getProjectGitStatus"
+import { listBranches } from "../domain/git/queries/listBranches"
+import { GitRepositoryStatus } from "../domain/types"
 import { RepositoryState } from "./repository"
 
 type ThunkAction<A> = (
@@ -50,7 +58,7 @@ export async function updateGitStatus(
 ): Promise<GitStatusUpdated> {
   return {
     type: GIT_STATUS_UPDATED,
-    payload: await repo.getProjectGitStatus(projectRoot)
+    payload: await getProjectGitStatus(projectRoot)
   }
 }
 
@@ -58,15 +66,15 @@ export async function createFile(
   aPath: string,
   content: string = ""
 ): Promise<Changed> {
-  await repo.writeFile(aPath, content)
+  await writeFile(aPath, content)
   const dirname = path.dirname(aPath)
   return changed({ changedPath: dirname })
 }
 
 export async function createBranch(projectRoot: string, newBranchName: string) {
-  const branches = await repo.listBranches(projectRoot)
+  const branches = await listBranches(projectRoot)
   if (!branches.includes(newBranchName)) {
-    await repo.createBranch(projectRoot, newBranchName)
+    await createBranch(projectRoot, newBranchName)
     console.log("create branch", newBranchName)
     return changed()
   } else {
@@ -74,14 +82,14 @@ export async function createBranch(projectRoot: string, newBranchName: string) {
   }
 }
 
-export function checkoutBranch(
+export function checkoutToOtherBranch(
   projectRoot: string,
   branchName: string
 ): ThunkAction<Changed> {
   return async dispatch => {
-    const branches = await repo.listBranches(projectRoot)
+    const branches = await listBranches(projectRoot)
     if (branches.includes(branchName)) {
-      await repo.checkoutBranch(projectRoot, branchName)
+      await checkoutBranch(projectRoot, branchName)
       dispatch(changed())
     } else {
       console.error(`Git: Unknown branch: ${branchName}`)
@@ -93,19 +101,19 @@ export async function updateFile(
   aPath: string,
   content: string
 ): Promise<Changed> {
-  await repo.writeFile(aPath, content)
+  await writeFile(aPath, content)
   const dirname = path.dirname(aPath)
   return changed({ changedPath: dirname })
 }
 
 export async function createDirectory(aPath: string) {
-  await repo.mkdir(aPath)
+  await mkdir(aPath)
   const dirname = path.dirname(aPath)
   return changed({ changedPath: dirname })
 }
 
 export async function deleteFile(aPath: string) {
-  await repo.unlink(aPath)
+  await unlink(aPath)
   const dirname = path.dirname(aPath)
   return changed({ changedPath: dirname })
 }
@@ -114,26 +122,26 @@ export async function addToStage(
   projectRoot: string,
   relpath: string
 ): Promise<Changed> {
-  await repo.addFileInRepository(projectRoot, relpath)
+  await addFileInRepository(projectRoot, relpath)
   const dirname = path.dirname(j(projectRoot, relpath))
   return changed({ changedPath: dirname })
 }
 
-export async function removeFromGit(
+export async function removeFileFromGit(
   projectRoot: string,
   relpath: string
 ): Promise<Changed> {
-  await repo.removeFromGit(projectRoot, relpath)
+  await removeFromGit(projectRoot, relpath)
   const dirname = path.dirname(j(projectRoot, relpath))
   return changed({ changedPath: dirname })
 }
 
-export async function commitChanges(
+export async function commitStagedChanges(
   projectRoot: string,
   message: string = "Update"
 ): Promise<Changed> {
   const author = {}
-  const hash = await repo.commitChanges(projectRoot, message)
+  const hash = await commitChanges(projectRoot, message)
   return changed({ changedPath: projectRoot })
 }
 

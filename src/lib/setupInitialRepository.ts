@@ -1,12 +1,10 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
 import path from "path"
-import {
-  existsPath,
-  mkdirInRepository,
-  Repository,
-  writeFileInRepository
-} from "./repository"
+import { mkdir } from "../domain/filesystem/commands/mkdir"
+import { writeFile } from "../domain/filesystem/commands/writeFile"
+import { existsPath } from "../domain/filesystem/queries/existsPath"
+import { Repository } from "../domain/types"
 
 const j = path.join
 
@@ -63,8 +61,8 @@ export async function setupInitialRepository(repo: Repository) {
     console.log("Project: already exists")
   } else {
     console.log("Project: creating...")
-    await mkdirInRepository(repo, "")
-    await writeFileInRepository(repo, "README.md", Introduction)
+    await mkdir(repo.dir)
+    await writeFile(path.join(repo.dir, "README.md"), Introduction)
     // await writeFileInRepository(repo, "src/index.js", "export default {}")
     console.log("Project: creating done")
   }

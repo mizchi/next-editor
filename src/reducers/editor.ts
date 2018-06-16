@@ -1,5 +1,5 @@
+import { readFile } from "../domain/filesystem/queries/readFile"
 import { extToFileType } from "../lib/extToFileType"
-import { readFile } from "../lib/repository"
 const CHANGE_VALUE = "editor/change-value"
 const LOAD_FILE = "editor/load-file"
 

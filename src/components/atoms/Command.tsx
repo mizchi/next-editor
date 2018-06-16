@@ -1,10 +1,10 @@
+import faTerminal from "@fortawesome/fontawesome-free-solid/faTerminal"
+import FontAwesomeIcon from "@fortawesome/react-fontawesome"
 import { DefaultButton } from "office-ui-fabric-react/lib/components/Button"
 import React from "react"
 import styled from "styled-components"
 import { Input } from "./Input"
-import { InlineText, Text } from "./Text"
-import faTerminal from "@fortawesome/fontawesome-free-solid/faTerminal"
-import FontAwesomeIcon from "@fortawesome/react-fontawesome"
+import { InlineText } from "./Text"
 
 type Props = {
   command: string

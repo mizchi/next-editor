@@ -1,6 +1,6 @@
 import React from "react"
 import { connect } from "react-redux"
-import { writeFile } from "../../lib/repository"
+import { writeFile } from "../../domain/filesystem/commands/writeFile"
 import { RootState } from "../../reducers"
 import * as EditorActions from "../../reducers/editor"
 import { EditorState } from "../../reducers/editor"
