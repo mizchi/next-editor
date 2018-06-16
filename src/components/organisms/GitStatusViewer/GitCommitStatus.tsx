@@ -1,4 +1,23 @@
 import React from "react"
+import styled from "styled-components"
+import { Command } from "../../atoms/Command"
+
+type Props = { initialOpen: boolean; children: any }
+type State = {
+  opened: boolean
+}
+
+class Foldable extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props)
+    this.state = {
+      opened: props.initialOpen
+    }
+  }
+  render() {
+    return <div />
+  }
+}
 
 export class GitCommitStatus extends React.PureComponent<{
   added: string[]
@@ -8,7 +27,6 @@ export class GitCommitStatus extends React.PureComponent<{
   onClickGitAdd: (filepath: string) => void
   onClickGitCommit: (message: string) => void
 }> {
-  private commitMassageInputRef: any = React.createRef()
   render() {
     const {
       added,
@@ -18,54 +36,58 @@ export class GitCommitStatus extends React.PureComponent<{
       onClickGitAdd,
       onClickGitCommit
     } = this.props
+    const hasStagedChanges = added.length > 0 || staged.length > 0
+    const hasChanges =
+      added.length > 0 ||
+      staged.length > 0 ||
+      modified.length > 0 ||
+      untracked.length > 0
     return (
       <div>
-        <h3>staging</h3>
-        <div>
-          git commit -m &nbsp;
-          <input
-            ref={this.commitMassageInputRef}
-            placeholder="Commit massage here ..."
-          />
-          &nbsp;
-          <button
-            onClick={() => {
-              const value = this.commitMassageInputRef.current.value
-              this.commitMassageInputRef.current.value = ""
-
-              onClickGitCommit(value)
-            }}
-          >
-            Commit
-          </button>
-        </div>
-        {added.map(filepath => {
-          return <div key={filepath}>Added: {filepath}</div>
-        })}
-        {staged.map(filepath => {
-          return <div key={filepath}>Changed: {filepath}</div>
-        })}
-        <hr />
-        <h3>modified</h3>
-        {modified.map(filepath => {
-          return (
-            <div key={filepath}>
-              {filepath}
-              &nbsp;
-              <button
-                onClick={() => {
-                  onClickGitAdd(filepath)
+        <h2>Staging & Commit</h2>
+        {!hasChanges && <>No changes in repository</>}
+        {hasStagedChanges && (
+          <>
+            <div>
+              <Command
+                description="Commit staged changes"
+                command="git commit -m $$"
+                onExec={value => {
+                  onClickGitCommit(value)
                 }}
-              >
-                git add {filepath}
-              </button>
+              />
             </div>
-          )
-        })}
-        <hr />
+            <StatusText>[staged]</StatusText>
+            {added.map(filepath => {
+              return <div key={filepath}>{filepath} (Added)</div>
+            })}
+            {staged.map(filepath => {
+              return <div key={filepath}>{filepath} (Changed)</div>
+            })}
+            {modified.length > 0 &&
+              modified.map(filepath => {
+                return (
+                  <>
+                    <StatusText>[modified]</StatusText>
+                    <div key={filepath}>
+                      {filepath}
+                      &nbsp;
+                      <button
+                        onClick={() => {
+                          onClickGitAdd(filepath)
+                        }}
+                      >
+                        add to stage
+                      </button>
+                    </div>
+                  </>
+                )
+              })}
+          </>
+        )}
         {untracked.length > 0 && (
           <>
-            <h3>untracked</h3>
+            <StatusText>[untracked]</StatusText>
             {untracked.map(filepath => {
               return (
                 <div key={filepath}>
@@ -76,15 +98,16 @@ export class GitCommitStatus extends React.PureComponent<{
                       onClickGitAdd(filepath)
                     }}
                   >
-                    git add {filepath}
+                    add to stage
                   </button>
                 </div>
               )
             })}
-            <hr />
           </>
         )}
       </div>
     )
   }
 }
+
+const StatusText = styled.div``

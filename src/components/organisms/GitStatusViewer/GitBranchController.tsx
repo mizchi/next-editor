@@ -1,4 +1,5 @@
 import React from "react"
+import { Command } from "../../atoms/Command"
 
 export class GitBranchController extends React.PureComponent<{
   projectRoot: string
@@ -33,17 +34,14 @@ export class GitBranchController extends React.PureComponent<{
           </select>
         </div>
         <div>
-          git branch <input ref={this.newBranchInputRef} />
-          &nbsp;
-          <button
-            onClick={async () => {
-              const newBranchName = this.newBranchInputRef.current.value
-              this.newBranchInputRef.current.value = ""
-              onClickCreateBranch(newBranchName)
+          <Command
+            command="git branch $$"
+            description="Create new branch"
+            validate={value => value.length > 0}
+            onExec={value => {
+              onClickCreateBranch(value)
             }}
-          >
-            create
-          </button>
+          />
         </div>
       </>
     )

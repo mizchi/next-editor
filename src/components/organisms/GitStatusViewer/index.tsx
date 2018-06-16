@@ -88,7 +88,6 @@ export const GitStatusViewer = connect(
                 this.props.updateGitStatus(this.props.projectRoot)
               }}
             />
-            <hr />
             <GitCommitStatus
               added={added}
               staged={staged}
