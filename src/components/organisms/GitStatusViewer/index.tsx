@@ -8,7 +8,8 @@ import {
   checkoutBranch,
   commitChanges,
   createBranch,
-  updateGitStatus
+  updateGitStatus,
+  removeFromGit
 } from "../../../reducers/repository"
 import { GitBranchController } from "./GitBranchController"
 import { GitCommitHistory } from "./GitCommitHistory"
@@ -19,17 +20,14 @@ const actions = {
   createBranch,
   checkoutBranch,
   commitChanges,
-  updateGitStatus
+  updateGitStatus,
+  removeFromGit
 }
 
 type Props = (typeof actions) & {
   gitRepositoryStatus: GitRepositoryStatus
   projectRoot: string
   touchCounter: number
-  addToStage: typeof addToStage
-  createBranch: typeof createBranch
-  checkoutBranch: typeof checkoutBranch
-  commitChanges: typeof commitChanges
 }
 
 const selector = (state: RootState) => {
@@ -37,7 +35,7 @@ const selector = (state: RootState) => {
     gitRepositoryStatus: state.repository.gitRepositoryStatus,
     gitTouchCounter: state.repository.gitTouchCounter,
     projectRoot: state.repository.currentProjectRoot,
-    touchCounter: state.repository.touchCounter
+    touchCounter: state.repository.fsTouchCounter
   }
 }
 
@@ -61,7 +59,13 @@ export const GitStatusViewer = connect(
       if (gitRepositoryStatus) {
         const { currentBranch, branches, history } = gitRepositoryStatus
         const { untracked } = gitRepositoryStatus.trackingStatus
-        const { modified, added, staged } = gitRepositoryStatus.stagingStatus
+        const {
+          modified,
+          added,
+          staged,
+          removed,
+          removedInFS
+        } = gitRepositoryStatus.stagingStatus
         return (
           <Container>
             <h2>Git Status</h2>
@@ -90,11 +94,16 @@ export const GitStatusViewer = connect(
             />
             <GitCommitStatus
               added={added}
+              removed={removed}
+              removedInFS={removedInFS}
               staged={staged}
               modified={modified}
               untracked={untracked}
               onClickGitAdd={(filepath: string) => {
                 this.props.addToStage(projectRoot, filepath)
+              }}
+              onClickGitRemove={(filepath: string) => {
+                this.props.removeFromGit(projectRoot, filepath)
               }}
               onClickGitCommit={(message: string) => {
                 this.props.commitChanges(projectRoot, message || "Update")

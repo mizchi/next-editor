@@ -3,11 +3,16 @@ import React from "react"
 import styled from "styled-components"
 import { Input } from "./Input"
 import { InlineText, Text } from "./Text"
+import faTerminal from "@fortawesome/fontawesome-free-solid/faTerminal"
+import FontAwesomeIcon from "@fortawesome/react-fontawesome"
 
 type Props = {
   command: string
   description: string
   placeholder?: string
+  type?: "input" | "select"
+  options?: string[]
+  initialValue?: string
   validate?: (value: string) => boolean
   onExec: (value: string, command: string) => void
 }
@@ -17,19 +22,30 @@ type State = {
 }
 
 export class Command extends React.Component<Props, State> {
-  state = {
-    value: ""
+  constructor(props: Props) {
+    super(props)
+    this.state = {
+      value: props.initialValue || ""
+    }
   }
   render() {
-    const { command, description, onExec, placeholder, validate } = this.props
-    let pre
-    let post
+    const {
+      command,
+      description,
+      onExec,
+      placeholder,
+      validate,
+      type = "input",
+      options = []
+    } = this.props
+    let preText
+    let postText
     let hasInput
     if (command.indexOf("$$") > -1) {
-      ;[pre, post] = command.split("$$")
+      ;[preText, postText] = command.split("$$")
       hasInput = true
     } else {
-      pre = command
+      preText = command
       hasInput = false
     }
 
@@ -40,21 +56,45 @@ export class Command extends React.Component<Props, State> {
         <Description>{description}</Description>
         <CommandBox>
           <CommandBoxInputContainer>
-            <CommandBoxText>{pre}</CommandBoxText>
-            {hasInput && (
+            <FontAwesomeIcon icon={faTerminal} />
+            &nbsp;
+            <CommandBoxText>{preText}</CommandBoxText>
+            {hasInput &&
+              type === "input" && (
+                <>
+                  &nbsp;<CommandBoxInput
+                    value={this.state.value}
+                    placeholder={placeholder}
+                    onChange={event => {
+                      const value = event.target.value
+                      console.log("onchange input", value)
+                      this.setState({ value })
+                    }}
+                  />
+                </>
+              )}
+            {hasInput &&
+              type === "select" && (
+                <>
+                  &nbsp;<CommandBoxSelect
+                    value={this.state.value}
+                    placeholder={placeholder}
+                    onChange={event => {
+                      const value = event.target.value
+                      this.setState({ value })
+                    }}
+                  >
+                    {options.map(optionText => (
+                      <CommandBoxOption value={optionText} key={optionText}>
+                        {optionText}
+                      </CommandBoxOption>
+                    ))}
+                  </CommandBoxSelect>
+                </>
+              )}
+            {postText && (
               <>
-                &nbsp;<CommandBoxInput
-                  placeholder={placeholder}
-                  onChange={event => {
-                    const v = event.target.value
-                    this.setState({ value: v })
-                  }}
-                />
-              </>
-            )}
-            {post && (
-              <>
-                &nbsp;<CommandBoxText>{post}</CommandBoxText>
+                &nbsp;<CommandBoxText>{postText}</CommandBoxText>
               </>
             )}
           </CommandBoxInputContainer>
@@ -77,14 +117,15 @@ export class Command extends React.Component<Props, State> {
 const Container = styled.div`
   display: inline-block;
   height: 64px;
+  width: 100%;
   /* padding: 3px; */
   outline: 1px solid black;
 `
 
-const Description = styled(Text)`
-  width: 100%;
-  background: #333;
-  color: #faa;
+const Description = styled.div`
+  padding-left: 3px;
+  background: #555;
+  color: #ddd;
 `
 
 const CommandBox = styled.div`
@@ -95,10 +136,21 @@ const CommandBoxText = styled(InlineText)`
   height: 100%;
   font-family: monospace;
 `
+
 const CommandBoxInput = styled(Input)`
   height: 100%;
   font-family: monospace;
 `
+
+const CommandBoxSelect = styled.select`
+  height: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+`
+
+const CommandBoxOption = styled.option``
 
 const CommandBoxInputContainer = styled.div`
   display: inline-block;

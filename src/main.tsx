@@ -10,8 +10,15 @@ import "./setupFontAwesome"
 
 // export to globals for debug
 const g: any = global
-g.__git = git
-g.__fs = fs
+g.git = git
+g.fs = fs
+g.commitNow = () =>
+  git.commit({
+    fs,
+    dir: "/playground",
+    author: { name: "dummy", email: "dummy" },
+    message: "Debug commit"
+  })
 
 // tslint:disable-next-line:no-unused-expression
 injectGlobal`

@@ -1,5 +1,6 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
+import difference from "lodash/difference"
 import flatten from "lodash/flatten"
 import orderBy from "lodash/orderBy"
 import zipWith from "lodash/zipWith"
@@ -63,10 +64,16 @@ export type GitStagingStatus = {
   added: string[]
   staged: string[]
   modified: string[]
+  removed: string[]
+  removedInFS: string[]
   unmodified: string[]
 }
 
-export type GitTrackingStatus = { tracked: string[]; untracked: string[] }
+export type GitTrackingStatus = {
+  tracked: string[]
+  untracked: string[]
+  removedInTrack: string[]
+}
 
 /* READ */
 export async function readFileStats(
@@ -95,22 +102,33 @@ export async function getProjectGitStatus(
   projectRoot: string
 ): Promise<GitRepositoryStatus> {
   const trackingStatus = await getGitTrackingStatus(projectRoot)
-  const { tracked } = trackingStatus
+  const { tracked, removedInTrack } = trackingStatus
 
   const fileStatusList: Array<{
     relpath: string
     status: string
   }> = await Promise.all(
-    tracked.map(async relpath => {
+    [...tracked, ...removedInTrack].map(async relpath => {
       const status = await getGitStatusInRepository(projectRoot, relpath)
       return { relpath, status }
     })
   )
-
   const stagingStatus: GitStagingStatus = fileStatusList.reduce(
     (acc: GitStagingStatus, fileStatus) => {
       console.log("status:", fileStatus.relpath, fileStatus.status)
       switch (fileStatus.status) {
+        case "*deleted": {
+          return {
+            ...acc,
+            removedInFS: [...acc.removedInFS, fileStatus.relpath]
+          }
+        }
+        case "deleted": {
+          return {
+            ...acc,
+            removed: [...acc.removed, fileStatus.relpath]
+          }
+        }
         case "*modified": {
           return { ...acc, modified: [...acc.modified, fileStatus.relpath] }
         }
@@ -132,11 +150,14 @@ export async function getProjectGitStatus(
           return { ...acc, unmodified: [...acc.unmodified, fileStatus.relpath] }
         }
         default: {
+          console.log("other")
           return acc
         }
       }
     },
     {
+      removed: [],
+      removedInFS: [],
       added: [],
       modified: [],
       staged: [],
@@ -184,9 +205,13 @@ export async function getGitTrackingStatus(
       untracked.push(relpath)
     }
   }
+
+  const removedInTrack = difference(gitFiles, relativeFilepaths)
+  console.log("removedInTrack", removedInTrack)
   return {
     tracked,
-    untracked
+    untracked,
+    removedInTrack
   }
 }
 
@@ -384,4 +409,11 @@ export function commitChanges(
 
 export async function unlink(aPath: string): Promise<void> {
   await pify(fs.unlink)(aPath)
+}
+
+export async function removeFromGit(
+  projectRoot: string,
+  filepath: string
+): Promise<void> {
+  await git.remove({ fs, dir: projectRoot, filepath })
 }

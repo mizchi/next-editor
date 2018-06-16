@@ -38,7 +38,7 @@ export const Directory: React.ComponentType<OwnProps> = connect(
     return {
       ...ownProps,
       lastChangedPath: state.repository.lastChangedPath,
-      touchCounter: state.repository.touchCounter
+      touchCounter: state.repository.fsTouchCounter
     }
   }
 )(

@@ -18,25 +18,23 @@ export class GitBranchController extends React.PureComponent<{
     } = this.props
     return (
       <>
+        <h2>Branch</h2>
         <div>
-          git checkout
-          <select
-            value={currentBranch}
-            onChange={ev => {
-              onChangeBranch(ev.target.value)
+          <Command
+            type="select"
+            options={branches}
+            initialValue={currentBranch}
+            command="git checkout $$"
+            description="Git Operation: switch to other branch"
+            onExec={value => {
+              onChangeBranch(value)
             }}
-          >
-            {branches.map(branchName => (
-              <option value={branchName} key={branchName}>
-                {branchName}
-              </option>
-            ))}
-          </select>
+          />
         </div>
         <div>
           <Command
             command="git branch $$"
-            description="Create new branch"
+            description="Git Operation: create new branch"
             validate={value => value.length > 0}
             onExec={value => {
               onClickCreateBranch(value)

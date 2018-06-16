@@ -3,23 +3,21 @@ import * as repo from "../lib/repository"
 import { GitRepositoryStatus } from "./../lib/repository"
 import { RepositoryState } from "./repository"
 
+type ThunkAction<A> = (
+  dispatch: (a: A) => void | Promise<void>
+) => void | Promise<void>
+
 const j = path.join
 
-const PATH_CHANGED = "repository:path-changed"
-const GIT_CHANGED = "repository:git-changed"
+const CHANGED = "repository:changed"
 const GIT_STATUS_UPDATED = "repository:git-status-updated"
 
-type PathChanged = {
-  type: typeof PATH_CHANGED
+type Changed = {
+  type: typeof CHANGED
   payload: {
-    pathname: string
-  }
-}
-
-type GitChanged = {
-  type: typeof GIT_CHANGED
-  payload: {
-    gitRelativePath: string
+    git?: boolean
+    file?: boolean
+    changedPath?: string
   }
 }
 
@@ -28,20 +26,21 @@ type GitStatusUpdated = {
   payload: GitRepositoryStatus
 }
 
-export function pathChanged(pathname: string): PathChanged {
+export function changed({
+  git = true,
+  file = true,
+  changedPath = "/"
+}: {
+  git?: boolean
+  file?: boolean
+  changedPath?: string
+} = {}): Changed {
   return {
-    type: PATH_CHANGED,
+    type: CHANGED,
     payload: {
-      pathname
-    }
-  }
-}
-
-export function gitChanged(gitRelativePath: string): GitChanged {
-  return {
-    type: GIT_CHANGED,
-    payload: {
-      gitRelativePath
+      git,
+      file,
+      changedPath
     }
   }
 }
@@ -58,10 +57,10 @@ export async function updateGitStatus(
 export async function createFile(
   aPath: string,
   content: string = ""
-): Promise<PathChanged> {
+): Promise<Changed> {
   await repo.writeFile(aPath, content)
   const dirname = path.dirname(aPath)
-  return pathChanged(dirname)
+  return changed({ changedPath: dirname })
 }
 
 export async function createBranch(projectRoot: string, newBranchName: string) {
@@ -69,63 +68,83 @@ export async function createBranch(projectRoot: string, newBranchName: string) {
   if (!branches.includes(newBranchName)) {
     await repo.createBranch(projectRoot, newBranchName)
     console.log("create branch", newBranchName)
-    return gitChanged(".")
+    return changed()
   } else {
     console.error(`Git: Creating branch existed: ${newBranchName}`)
   }
 }
 
-export async function checkoutBranch(projectRoot: string, branchName: string) {
-  const branches = await repo.listBranches(projectRoot)
-  if (branches.includes(branchName)) {
-    await repo.checkoutBranch(projectRoot, branchName)
-    return gitChanged(".")
-  } else {
-    console.error(`Git: Unknown branch: ${branchName}`)
+export function checkoutBranch(
+  projectRoot: string,
+  branchName: string
+): ThunkAction<Changed> {
+  return async dispatch => {
+    const branches = await repo.listBranches(projectRoot)
+    if (branches.includes(branchName)) {
+      await repo.checkoutBranch(projectRoot, branchName)
+      dispatch(changed())
+    } else {
+      console.error(`Git: Unknown branch: ${branchName}`)
+    }
   }
 }
 
-export async function updateFile(aPath: string, content: string) {
+export async function updateFile(
+  aPath: string,
+  content: string
+): Promise<Changed> {
   await repo.writeFile(aPath, content)
   const dirname = path.dirname(aPath)
-  return pathChanged(dirname)
+  return changed({ changedPath: dirname })
 }
 
 export async function createDirectory(aPath: string) {
   await repo.mkdir(aPath)
   const dirname = path.dirname(aPath)
-  return pathChanged(dirname)
+  return changed({ changedPath: dirname })
 }
 
 export async function deleteFile(aPath: string) {
   await repo.unlink(aPath)
   const dirname = path.dirname(aPath)
-  return pathChanged(dirname)
+  return changed({ changedPath: dirname })
 }
 
-export async function addToStage(projectRoot: string, relpath: string) {
+export async function addToStage(
+  projectRoot: string,
+  relpath: string
+): Promise<Changed> {
   await repo.addFileInRepository(projectRoot, relpath)
   const dirname = path.dirname(j(projectRoot, relpath))
-  return pathChanged(dirname)
+  return changed({ changedPath: dirname })
+}
+
+export async function removeFromGit(
+  projectRoot: string,
+  relpath: string
+): Promise<Changed> {
+  await repo.removeFromGit(projectRoot, relpath)
+  const dirname = path.dirname(j(projectRoot, relpath))
+  return changed({ changedPath: dirname })
 }
 
 export async function commitChanges(
   projectRoot: string,
   message: string = "Update"
-) {
+): Promise<Changed> {
   const author = {}
   const hash = await repo.commitChanges(projectRoot, message)
-  return pathChanged(projectRoot)
+  return changed({ changedPath: projectRoot })
 }
 
-type Action = PathChanged | GitChanged | GitStatusUpdated
+type Action = GitStatusUpdated | Changed
 
 export type RepositoryState = {
   gitRepositoryStatus: GitRepositoryStatus | null
   currentProjectRoot: string
   lastChangedPath: string
   lastChangedGithPath: string
-  touchCounter: number
+  fsTouchCounter: number
   gitTouchCounter: number
 }
 
@@ -135,23 +154,21 @@ const initialState: RepositoryState = {
   gitTouchCounter: 0,
   lastChangedGithPath: "",
   lastChangedPath: "/playground",
-  touchCounter: 0
+  fsTouchCounter: 0
 }
 
 export function reducer(state: RepositoryState = initialState, action: Action) {
   switch (action.type) {
-    case PATH_CHANGED: {
+    case CHANGED: {
       return {
         ...state,
-        lastChangedPath: action.payload.pathname,
-        touchCounter: state.touchCounter + 1
-      }
-    }
-    case GIT_CHANGED: {
-      return {
-        ...state,
-        gitTouchCounter: state.gitTouchCounter + 1,
-        lastChangedGitPath: action.payload.gitRelativePath
+        fsTouchCounter: action.payload.file
+          ? state.fsTouchCounter + 1
+          : state.fsTouchCounter,
+        gitTouchCounter: action.payload.git
+          ? state.gitTouchCounter + 1
+          : state.gitTouchCounter,
+        lastChangedPath: action.payload.changedPath
       }
     }
     case GIT_STATUS_UPDATED: {
