@@ -91,6 +91,7 @@
     "isomorphic-git": "^0.19.0",
     "lodash": "^4.17.10",
     "monaco-editor": "^0.13.1",
+    "office-ui-fabric-react": "^6.13.2",
     "pify": "^3.0.0",
     "react": "^16.3.2",
     "react-contexify": "^3.0.1",

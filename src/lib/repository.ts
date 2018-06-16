@@ -3,7 +3,6 @@ import * as git from "isomorphic-git"
 import flatten from "lodash/flatten"
 import orderBy from "lodash/orderBy"
 import zipWith from "lodash/zipWith"
-
 import path from "path"
 import pify from "pify"
 
@@ -52,6 +51,23 @@ export type CommitDescription = {
   gpgsig?: string // PGP signature (if present)
 }
 
+export type GitRepositoryStatus = {
+  currentBranch: string
+  branches: string[]
+  stagingStatus: GitStagingStatus
+  trackingStatus: GitTrackingStatus
+  history: CommitDescription[]
+}
+
+export type GitStagingStatus = {
+  added: string[]
+  staged: string[]
+  modified: string[]
+  unmodified: string[]
+}
+
+export type GitTrackingStatus = { tracked: string[]; untracked: string[] }
+
 /* READ */
 export async function readFileStats(
   projectRoot: string,
@@ -74,22 +90,6 @@ export async function readFileStats(
   )
   return orderBy(ret, [(s: FileInfo) => s.type + "" + s.name])
 }
-
-export type GitRepositoryStatus = {
-  currentBranch: string
-  branches: string[]
-  stagingStatus: GitStagingStatus
-  trackingStatus: GitTrackingStatus
-}
-
-export type GitStagingStatus = {
-  added: string[]
-  staged: string[]
-  modified: string[]
-  unmodified: string[]
-}
-
-export type GitTrackingStatus = { tracked: string[]; untracked: string[] }
 
 export async function getProjectGitStatus(
   projectRoot: string
@@ -146,11 +146,13 @@ export async function getProjectGitStatus(
 
   const currentBranch = await git.currentBranch({ fs, dir: projectRoot })
   const branches = await git.listBranches({ fs, dir: projectRoot })
+  const history = await getLogInRepository(projectRoot, { ref: currentBranch })
   return {
     branches,
     currentBranch,
     stagingStatus,
-    trackingStatus
+    trackingStatus,
+    history
   }
 }
 
