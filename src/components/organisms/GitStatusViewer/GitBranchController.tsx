@@ -11,7 +11,6 @@ export class GitBranchController extends React.PureComponent<{
   render() {
     const {
       currentBranch,
-      projectRoot,
       branches,
       onChangeBranch,
       onClickCreateBranch
@@ -19,7 +18,7 @@ export class GitBranchController extends React.PureComponent<{
     return (
       <>
         <div>
-          Switch branch:
+          git checkout
           <select
             value={currentBranch}
             onChange={ev => {

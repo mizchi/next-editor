@@ -1,22 +1,29 @@
 import React from "react"
 import { connect } from "react-redux"
 import styled from "styled-components"
-import {
-  getProjectGitStatus,
-  GitRepositoryStatus
-} from "../../../lib/repository"
+import { GitRepositoryStatus } from "../../../lib/repository"
 import { RootState } from "../../../reducers"
 import {
   addToStage,
   checkoutBranch,
   commitChanges,
-  createBranch
+  createBranch,
+  updateGitStatus
 } from "../../../reducers/repository"
 import { GitBranchController } from "./GitBranchController"
 import { GitCommitHistory } from "./GitCommitHistory"
 import { GitCommitStatus } from "./GitCommitStatus"
 
-type Props = {
+const actions = {
+  addToStage,
+  createBranch,
+  checkoutBranch,
+  commitChanges,
+  updateGitStatus
+}
+
+type Props = (typeof actions) & {
+  gitRepositoryStatus: GitRepositoryStatus
   projectRoot: string
   touchCounter: number
   addToStage: typeof addToStage
@@ -25,57 +32,46 @@ type Props = {
   commitChanges: typeof commitChanges
 }
 
-type State = {
-  repositoryStatus: GitRepositoryStatus | null
-}
-
 const selector = (state: RootState) => {
   return {
+    gitRepositoryStatus: state.repository.gitRepositoryStatus,
     gitTouchCounter: state.repository.gitTouchCounter,
     projectRoot: state.repository.currentProjectRoot,
     touchCounter: state.repository.touchCounter
   }
 }
 
-const actions = { addToStage, createBranch, checkoutBranch, commitChanges }
-
-export const GitStatusViewer: any = connect(
+export const GitStatusViewer = connect(
   selector,
   actions
 )(
-  class extends React.Component<Props, State> {
-    private newBranchInputRef: any = React.createRef()
-    private commitMassageInputRef: any = React.createRef()
-    constructor(props: Props) {
-      super(props)
-      this.state = {
-        repositoryStatus: null
-      }
-    }
-
+  class extends React.PureComponent<Props> {
     async componentDidMount() {
-      this._updateStatus()
+      this.props.updateGitStatus(this.props.projectRoot)
     }
 
     async componentDidUpdate(prevProps: Props) {
       if (prevProps.touchCounter !== this.props.touchCounter) {
-        this._updateStatus()
+        this.props.updateGitStatus(this.props.projectRoot)
       }
     }
 
     render() {
-      const { projectRoot } = this.props
-      const { repositoryStatus } = this.state
-      if (repositoryStatus) {
-        const { currentBranch, branches, history } = repositoryStatus
-        const { untracked } = repositoryStatus.trackingStatus
-        const { modified, added, staged } = repositoryStatus.stagingStatus
+      const { projectRoot, gitRepositoryStatus } = this.props
+      if (gitRepositoryStatus) {
+        const { currentBranch, branches, history } = gitRepositoryStatus
+        const { untracked } = gitRepositoryStatus.trackingStatus
+        const { modified, added, staged } = gitRepositoryStatus.stagingStatus
         return (
           <Container>
             <h2>Git Status</h2>
             <div>
               {projectRoot} [{currentBranch}]
-              <button onClick={() => this._updateStatus()}>
+              <button
+                onClick={() =>
+                  this.props.updateGitStatus(this.props.projectRoot)
+                }
+              >
                 Reload status
               </button>
             </div>
@@ -85,11 +81,11 @@ export const GitStatusViewer: any = connect(
               branches={branches}
               onChangeBranch={async (branchName: string) => {
                 await this.props.checkoutBranch(projectRoot, branchName)
-                this._updateStatus()
+                this.props.updateGitStatus(this.props.projectRoot)
               }}
               onClickCreateBranch={async (newBranchName: string) => {
                 await this.props.createBranch(projectRoot, newBranchName)
-                this._updateStatus()
+                this.props.updateGitStatus(this.props.projectRoot)
               }}
             />
             <hr />
@@ -111,12 +107,6 @@ export const GitStatusViewer: any = connect(
       } else {
         return <span>Loading</span>
       }
-    }
-
-    private async _updateStatus() {
-      const { projectRoot } = this.props
-      const repositoryStatus = await getProjectGitStatus(projectRoot)
-      this.setState({ repositoryStatus })
     }
   }
 )

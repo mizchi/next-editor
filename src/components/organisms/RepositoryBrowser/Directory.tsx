@@ -14,7 +14,7 @@ import { File } from "./File"
 
 type OwnProps = {
   root: string
-  dPath: string
+  dirpath: string
   depth: number
   open?: boolean
   ignoreGit?: boolean
@@ -69,10 +69,10 @@ export const Directory: React.ComponentType<OwnProps> = connect(
     }
 
     render() {
-      const { dPath, depth, root, ignoreGit = false } = this.props
+      const { dirpath, depth, root, ignoreGit = false } = this.props
       const { opened, fileList, loading, loaded } = this.state
 
-      const relPath = path.relative(root, dPath)
+      const relPath = path.relative(root, dirpath)
       const basename = path.basename(relPath)
       const prefix = range(depth)
         .map(_ => "◽")
@@ -101,10 +101,10 @@ export const Directory: React.ComponentType<OwnProps> = connect(
             &nbsp;
             <MyContextMenuProvider
               id="directory"
-              data={{ dirpath: dPath }}
+              data={{ dirpath }}
               component="span"
             >
-              {basename || `${dPath}`}
+              {basename || `${dirpath}`}
             </MyContextMenuProvider>
           </div>
           {opened && (
@@ -112,12 +112,12 @@ export const Directory: React.ComponentType<OwnProps> = connect(
               {!ignoreGit && (
                 <div>
                   {prefixPlusOne}
-                  <AddFile parentDir={dPath} />
+                  <AddFile parentDir={dirpath} />
                 </div>
               )}
               {fileList != null &&
                 fileList.map((f: FileInfo) => {
-                  const filepath = path.join(dPath, f.name)
+                  const filepath = path.join(dirpath, f.name)
                   return (
                     <div key={f.name}>
                       {f.type === "file" && (
@@ -130,7 +130,7 @@ export const Directory: React.ComponentType<OwnProps> = connect(
                       {f.type === "dir" && (
                         <Directory
                           root={root}
-                          dPath={path.join(dPath, f.name)}
+                          dirpath={path.join(dirpath, f.name)}
                           depth={depth + 1}
                           ignoreGit={f.name === ".git"} // TODO: See .gitignore
                         />
@@ -146,7 +146,10 @@ export const Directory: React.ComponentType<OwnProps> = connect(
 
     private async _updateChildren() {
       try {
-        const fileList = await readFileStats(this.props.root, this.props.dPath)
+        const fileList = await readFileStats(
+          this.props.root,
+          this.props.dirpath
+        )
         this.setState({ fileList, loaded: true, loading: false })
       } catch (error) {
         this.setState({ loaded: true, loading: false, error })
