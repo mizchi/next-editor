@@ -42,7 +42,7 @@ html, body {
 `
 ;(async () => {
   try {
-    await setupInitialRepository({ dir: "/playground", fs })
+    await setupInitialRepository("/playground")
   } catch (e) {
     console.log("error")
   }

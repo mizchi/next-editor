@@ -1,9 +1,9 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
-import { getGitStatusInRepository } from "./getGitStatusInRepository"
 import { GitRepositoryStatus, GitStagingStatus } from "./../../types"
+import { getGitHistory } from "./getGitHistory"
+import { getGitStatus } from "./getGitStatus"
 import { getGitTrackingStatus } from "./getGitTrackingStatus"
-import { getLogInRepository } from "./getLogInRepository"
 
 export async function getProjectGitStatus(
   projectRoot: string
@@ -16,7 +16,7 @@ export async function getProjectGitStatus(
     status: string
   }> = await Promise.all(
     [...tracked, ...removedInTrack].map(async relpath => {
-      const status = await getGitStatusInRepository(projectRoot, relpath)
+      const status = await getGitStatus(projectRoot, relpath)
       return { relpath, status }
     })
   )
@@ -74,7 +74,7 @@ export async function getProjectGitStatus(
 
   const currentBranch = await git.currentBranch({ fs, dir: projectRoot })
   const branches = await git.listBranches({ fs, dir: projectRoot })
-  const history = await getLogInRepository(projectRoot, { ref: currentBranch })
+  const history = await getGitHistory(projectRoot, { ref: currentBranch })
   return {
     branches,
     currentBranch,

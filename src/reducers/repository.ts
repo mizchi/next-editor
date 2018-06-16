@@ -2,7 +2,7 @@ import path from "path"
 import { mkdir } from "../domain/filesystem/commands/mkdir"
 import { unlink } from "../domain/filesystem/commands/unlink"
 import { writeFile } from "../domain/filesystem/commands/writeFile"
-import { addFileInRepository } from "../domain/git/commands/addFileInRepository"
+import { addFile } from "../domain/git/commands/addFile"
 import { checkoutBranch } from "../domain/git/commands/checkoutBranch"
 import { commitChanges } from "../domain/git/commands/commitChanges"
 import { removeFromGit } from "../domain/git/commands/removeFromGit"
@@ -122,7 +122,7 @@ export async function addToStage(
   projectRoot: string,
   relpath: string
 ): Promise<Changed> {
-  await addFileInRepository(projectRoot, relpath)
+  await addFile(projectRoot, relpath)
   const dirname = path.dirname(j(projectRoot, relpath))
   return changed({ changedPath: dirname })
 }

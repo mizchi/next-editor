@@ -1,7 +1,7 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
 
-export async function getGitStatusInRepository(
+export async function getGitStatus(
   projectRoot: string,
   relpath: string
 ): Promise<string> {

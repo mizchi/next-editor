@@ -55,23 +55,23 @@ I do *NOT* think this can replace vscode and atom. Only for specific usecase(mar
 `
 
 /* WRITE */
-export async function setupInitialRepository(repo: Repository) {
+export async function setupInitialRepository(projectRoot: string) {
   // ensure directory
-  if (await existsPath(repo.dir)) {
+  if (await existsPath(projectRoot)) {
     console.log("Project: already exists")
   } else {
     console.log("Project: creating...")
-    await mkdir(repo.dir)
-    await writeFile(path.join(repo.dir, "README.md"), Introduction)
+    await mkdir(projectRoot)
+    await writeFile(path.join(projectRoot, "README.md"), Introduction)
     // await writeFileInRepository(repo, "src/index.js", "export default {}")
     console.log("Project: creating done")
   }
 
   // ensure git
-  if (await existsPath(j(repo.dir, ".git"))) {
+  if (await existsPath(j(projectRoot, ".git"))) {
     console.log(".git: already exists")
   } else {
-    await git.init(repo)
+    await git.init({ fs, dir: projectRoot })
     await git.add({
       dir: "/playground",
       filepath: "README.md",
