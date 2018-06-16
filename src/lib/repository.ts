@@ -86,10 +86,7 @@ export async function readFileStats(
     filenames.map(async name => {
       const childPath = j(dirpath, name)
       const stat = await pify(fs.stat)(childPath)
-      const relpath = path.relative(projectRoot, childPath)
-      // const gitStatus = await getGitStatusInRepository(projectRoot, relpath)
       return {
-        gitStatus: "nop",
         name,
         type: stat.isDirectory() ? "dir" : "file"
       }
