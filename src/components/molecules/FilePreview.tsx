@@ -4,7 +4,7 @@ import { RootState } from "../../reducers"
 import { EditorState } from "../../reducers/editor"
 import { BabelCodePreview } from "../atoms/BabelCodePreview"
 import { MarkdownPreview } from "../atoms/MarkdownPreview"
-import { GitStatusViewer } from "../molecules/GitStatusViewer/index"
+import { GitStatusViewer } from "../organisms/GitStatusViewer/index"
 
 const selector = (state: RootState) => state.editor
 

@@ -1,10 +1,10 @@
 import React from "react"
 import { Provider } from "react-redux"
 import { configureStore } from "../store/configureStore"
-import { RepositoryEdit } from "./organisms/RepositoryEdit"
+import { Editor } from "./pages/Editor"
 
 export const App = () => (
   <Provider store={configureStore()}>
-    <RepositoryEdit />
+    <Editor />
   </Provider>
 )

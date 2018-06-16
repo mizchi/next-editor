@@ -2,10 +2,10 @@ import * as React from "react"
 import styled from "styled-components"
 import { FilePreview } from "../molecules/FilePreview"
 import { GlobalHeader } from "../molecules/GlobalHeader"
-import { RepositoryBrowser } from "../molecules/RepositoryBrowser"
-import { FileEditor } from "./FileEditor"
+import { FileEditor } from "../organisms/FileEditor"
+import { RepositoryBrowser } from "../organisms/RepositoryBrowser"
 
-export function RepositoryEdit() {
+export function Editor() {
   return (
     <Layout>
       <Header>
@@ -14,9 +14,9 @@ export function RepositoryEdit() {
       <Menu>
         <RepositoryBrowser />
       </Menu>
-      <Editor>
+      <_Editor>
         <FileEditor />
-      </Editor>
+      </_Editor>
       <Preview>
         <FilePreview />
       </Preview>
@@ -46,7 +46,7 @@ export const Menu = styled.div`
   grid-area: menu;
 `
 
-export const Editor = styled.div`
+export const _Editor = styled.div`
   width: 100%;
   height: 100%;
   grid-area: editor;

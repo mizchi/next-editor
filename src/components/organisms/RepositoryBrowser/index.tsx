@@ -22,7 +22,7 @@ export const RepositoryBrowser = connect(
     <div>
       <RootDirectory
         root={props.currentProjectRoot}
-        dPath={props.currentProjectRoot}
+        dirpath={props.currentProjectRoot}
         depth={0}
         open
       />
