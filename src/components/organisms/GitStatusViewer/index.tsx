@@ -15,6 +15,7 @@ import {
 import { GitBranchController } from "./GitBranchController"
 import { GitCommitHistory } from "./GitCommitHistory"
 import { GitCommitStatus } from "./GitCommitStatus"
+import { GitPushManager } from "./GitPushManager"
 
 const actions = {
   addToStage,
@@ -64,7 +65,7 @@ export const GitStatusViewer = connect(
         const { stagedChanges, unstagedChanges } = gitRepositoryStatus
         return (
           <Container key={projectRoot}>
-            <h2>Git Status</h2>
+            <h2>Git Browser</h2>
             <div>
               {projectRoot} [{currentBranch}]
               <button
@@ -75,6 +76,7 @@ export const GitStatusViewer = connect(
                 Reload status
               </button>
             </div>
+            <GitPushManager projectRoot={projectRoot} />
             <GitBranchController
               projectRoot={projectRoot}
               currentBranch={currentBranch}

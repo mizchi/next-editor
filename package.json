@@ -1,6 +1,6 @@
 {
-  "name": "tsproj-20180511",
-  "version": "0.0.1",
+  "name": "pwa-editor",
+  "version": "0.0.0-alpha.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {

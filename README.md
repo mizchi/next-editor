@@ -8,7 +8,7 @@ Work in progress.
 
 ## My Goal
 
-I want to move all my frontend works on chromebook. React, Storybook, Jest, Markdown and so on. I am going to implement visualize tools on this.
+I want to move all my frontend works on chromebook. React, Storybook, Jest, Markdown and so on. I am going to implement react visualize tools on this.
 
 And I aim for non-programmer's git introduction.
 
@@ -22,6 +22,8 @@ And I aim for non-programmer's git introduction.
 In development, you need to wait local service-worker upgrading.
 
 ## TODO: Goal to alpha version
+
+Concept implementation
 
 - [x] Create directory
 - [x] Create file
@@ -37,11 +39,12 @@ In development, you need to wait local service-worker upgrading.
 - [x] Multi project switcher
 - [x] Git: clone from github
 - [x] Remove project
+- [x] Git: push from github
+- [ ] Project Config: github token
 - [ ] Show async loader on git action
-- [ ] Inline File Creator
-- [ ] Preview Tab Switcher
+- [ ] FileBrowser: Inline File Creator / Renamer
+- [ ] Preview Tab Switcher / GitManager - MarkdownPreview
 - [ ] Toggle preview layout 2 <-> 3 panes
-- [ ] Git: push from github
 - [ ] Markup: total design
 
 ### TODO: Git and filesystem
@@ -49,6 +52,7 @@ In development, you need to wait local service-worker upgrading.
 - [ ] Support `.gitignore`
 - [ ] Git: fetch from github
 - [ ] Git: Config
+- [ ] Git: Merge
 - [ ] Git: Rebase
 - [ ] Git: Rebase with conflict manager
 
