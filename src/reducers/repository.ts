@@ -165,7 +165,7 @@ export async function commitUnstagedChanges(
   return changed({ changedPath: projectRoot })
 }
 
-type Action = GitStatusUpdated | Changed
+export type Action = GitStatusUpdated | Changed
 
 export type RepositoryState = {
   gitRepositoryStatus: GitRepositoryStatus | null

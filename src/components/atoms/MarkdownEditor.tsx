@@ -41,6 +41,7 @@ export class MarkdownEditor extends React.Component<Props, State> {
 }
 
 const Textarea = styled.textarea`
+  line-height: 1.5em;
   width: 100%;
   height: 100%;
   border: none;
