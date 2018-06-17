@@ -9,6 +9,7 @@ import { removeFromGit } from "../domain/git/commands/removeFromGit"
 import { getProjectGitStatus } from "../domain/git/queries/getProjectGitStatus"
 import { listBranches } from "../domain/git/queries/listBranches"
 import { GitRepositoryStatus } from "../domain/types"
+import { GitFileStatus } from "./../domain/types"
 import { RepositoryState } from "./repository"
 
 type ThunkAction<A> = (
@@ -140,6 +141,25 @@ export async function commitStagedChanges(
   projectRoot: string,
   message: string = "Update"
 ): Promise<Changed> {
+  const author = {}
+  const hash = await commitChanges(projectRoot, message)
+  return changed({ changedPath: projectRoot })
+}
+
+export async function commitUnstagedChanges(
+  projectRoot: string,
+  unstagedFiles: GitFileStatus[],
+  message: string = "Update"
+): Promise<Changed> {
+  await Promise.all(
+    unstagedFiles.map(async file => {
+      if (file.status === "*deleted") {
+        await removeFromGit(projectRoot, file.relpath)
+      } else {
+        await addFile(projectRoot, file.relpath)
+      }
+    })
+  )
   const author = {}
   const hash = await commitChanges(projectRoot, message)
   return changed({ changedPath: projectRoot })

@@ -4,14 +4,19 @@ import { zipWith } from "lodash"
 import { getGitStatus } from "./getGitStatus"
 
 export async function listGitFiles(
-  projectRoot: string
+  projectRoot: string,
+  ref: string = "HEAD"
 ): Promise<
   Array<{
     filepath: string
     gitStatus: string
   }>
 > {
-  const files: string[] = await git.listFiles({ fs, dir: projectRoot })
+  const files: string[] = await git.listFiles({
+    fs,
+    dir: projectRoot,
+    ref
+  })
   const statusList = await Promise.all(
     files.map(f => getGitStatus(projectRoot, f))
   )

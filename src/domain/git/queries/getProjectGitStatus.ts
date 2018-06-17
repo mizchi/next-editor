@@ -1,6 +1,6 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
-import { GitRepositoryStatus, GitStagingStatus } from "./../../types"
+import { GitFileStatus, GitRepositoryStatus } from "./../../types"
 import { getGitHistory } from "./getGitHistory"
 import { getGitStatus } from "./getGitStatus"
 import { getGitTrackingStatus } from "./getGitTrackingStatus"
@@ -9,77 +9,31 @@ export async function getProjectGitStatus(
   projectRoot: string
 ): Promise<GitRepositoryStatus> {
   const trackingStatus = await getGitTrackingStatus(projectRoot)
-  const { tracked, removedInTrack } = trackingStatus
+  const { tracked, untracked } = trackingStatus
 
-  const fileStatusList: Array<{
-    relpath: string
-    status: string
-  }> = await Promise.all(
-    [...tracked, ...removedInTrack].map(async relpath => {
+  const statusList: GitFileStatus[] = await Promise.all(
+    tracked.map(async relpath => {
       const status = await getGitStatus(projectRoot, relpath)
-      return { relpath, status }
+      return { relpath, status, staged: status[0] !== "*" }
     })
   )
-  const stagingStatus: GitStagingStatus = fileStatusList.reduce(
-    (acc: GitStagingStatus, fileStatus) => {
-      console.log("status:", fileStatus.relpath, fileStatus.status)
-      switch (fileStatus.status) {
-        case "*deleted": {
-          return {
-            ...acc,
-            removedInFS: [...acc.removedInFS, fileStatus.relpath]
-          }
-        }
-        case "deleted": {
-          return {
-            ...acc,
-            removed: [...acc.removed, fileStatus.relpath]
-          }
-        }
-        case "*modified": {
-          return { ...acc, modified: [...acc.modified, fileStatus.relpath] }
-        }
-        case "added": {
-          return { ...acc, added: [...acc.added, fileStatus.relpath] }
-        }
-        // added and modified
-        case "*added": {
-          return {
-            ...acc,
-            added: [...acc.added, fileStatus.relpath],
-            modified: [...acc.modified, fileStatus.relpath]
-          }
-        }
-        case "modified": {
-          return { ...acc, staged: [...acc.staged, fileStatus.relpath] }
-        }
-        case "unmodified": {
-          return { ...acc, unmodified: [...acc.unmodified, fileStatus.relpath] }
-        }
-        default: {
-          console.log("other")
-          return acc
-        }
-      }
-    },
-    {
-      removed: [],
-      removedInFS: [],
-      added: [],
-      modified: [],
-      staged: [],
-      unmodified: []
-    }
+
+  // gather staged changes
+  const stagedChanges = statusList.filter(
+    a => a.staged && a.status !== "unmodified"
   )
+  const unstagedChanges = statusList.filter(a => !a.staged)
 
   const currentBranch = await git.currentBranch({ fs, dir: projectRoot })
   const branches = await git.listBranches({ fs, dir: projectRoot })
   const history = await getGitHistory(projectRoot, { ref: currentBranch })
   return {
-    branches,
     currentBranch,
-    stagingStatus,
-    trackingStatus,
+    branches,
+    stagedChanges,
+    unstagedChanges,
+    tracked,
+    untracked,
     history
   }
 }

@@ -1,14 +1,14 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
+import { GitStatusString } from "./../../types"
 
 export async function getGitStatus(
   projectRoot: string,
   relpath: string
-): Promise<string> {
+): Promise<GitStatusString | "error"> {
   try {
-    const status = await git.status({ fs, dir: projectRoot, filepath: relpath })
-    return status
+    return await git.status({ fs, dir: projectRoot, filepath: relpath })
   } catch (e) {
-    return "untracked"
+    return "error"
   }
 }

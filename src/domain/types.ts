@@ -40,25 +40,37 @@ export type CommitDescription = {
   gpgsig?: string // PGP signature (if present)
 }
 
+export type GitFileStatus = {
+  relpath: string
+  status: GitStatusString | "error"
+  staged: boolean
+}
+
 export type GitRepositoryStatus = {
   currentBranch: string
   branches: string[]
-  stagingStatus: GitStagingStatus
-  trackingStatus: GitTrackingStatus
+  tracked: string[]
+  untracked: string[]
+  stagedChanges: GitFileStatus[]
+  unstagedChanges: GitFileStatus[]
   history: CommitDescription[]
 }
 
-export type GitStagingStatus = {
-  added: string[]
-  staged: string[]
-  modified: string[]
-  removed: string[]
-  removedInFS: string[]
-  unmodified: string[]
-}
+// https://isomorphic-git.github.io/docs/status.html
+export type GitStatusString =
+  | "ignored"
+  | "unmodified"
+  | "absent"
+  | "modified"
+  | "deleted"
+  | "added"
+  | "*modified"
+  | "*deleted"
+  | "*added"
+  | "*unmodified"
+  | "*absent"
 
 export type GitTrackingStatus = {
   tracked: string[]
   untracked: string[]
-  removedInTrack: string[]
 }

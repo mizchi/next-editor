@@ -11,7 +11,9 @@
     "build:prod": "rimraf public && NODE_ENV=production webpack",
     "deploy": "NODE_ENV=production yarn build:prod && netlify deploy -p public",
     "lint": "tslint src/**.ts src/**.tsx",
-    "test": "jest",
+    "test": "run-s test:*",
+    "test:jest": "jest",
+    "test:typescript": "tsc -p . --noEmit",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -26,6 +28,7 @@
     "@types/node": "^10.0.6",
     "@types/pify": "^3.0.2",
     "@types/power-assert": "^1.5.0",
+    "@types/prop-types": "^15.5.3",
     "@types/react": "^16.3.16",
     "@types/react-dom": "^16.0.5",
     "@types/react-redux": "^6.0.2",

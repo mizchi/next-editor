@@ -7,6 +7,7 @@ import {
   addToStage,
   checkoutToOtherBranch,
   commitStagedChanges,
+  commitUnstagedChanges,
   createBranch,
   removeFileFromGit,
   updateGitStatus
@@ -20,6 +21,7 @@ const actions = {
   createBranch,
   checkoutToOtherBranch,
   commitStagedChanges,
+  commitUnstagedChanges,
   updateGitStatus,
   removeFileFromGit
 }
@@ -58,14 +60,8 @@ export const GitStatusViewer = connect(
       const { projectRoot, gitRepositoryStatus } = this.props
       if (gitRepositoryStatus) {
         const { currentBranch, branches, history } = gitRepositoryStatus
-        const { untracked } = gitRepositoryStatus.trackingStatus
-        const {
-          modified,
-          added,
-          staged,
-          removed,
-          removedInFS
-        } = gitRepositoryStatus.stagingStatus
+        const { untracked } = gitRepositoryStatus
+        const { stagedChanges, unstagedChanges } = gitRepositoryStatus
         return (
           <Container>
             <h2>Git Status</h2>
@@ -93,11 +89,8 @@ export const GitStatusViewer = connect(
               }}
             />
             <GitCommitStatus
-              added={added}
-              removed={removed}
-              removedInFS={removedInFS}
-              staged={staged}
-              modified={modified}
+              stagedChanges={stagedChanges}
+              unstagedChanges={unstagedChanges}
               untracked={untracked}
               onClickGitAdd={(filepath: string) => {
                 this.props.addToStage(projectRoot, filepath)
@@ -107,6 +100,13 @@ export const GitStatusViewer = connect(
               }}
               onClickGitCommit={(message: string) => {
                 this.props.commitStagedChanges(projectRoot, message || "Update")
+              }}
+              onClickGitCommitUnstaged={(message: string) => {
+                this.props.commitUnstagedChanges(
+                  projectRoot,
+                  unstagedChanges,
+                  message || "Update"
+                )
               }}
             />
             <GitCommitHistory history={history} />

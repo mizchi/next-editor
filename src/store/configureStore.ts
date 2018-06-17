@@ -5,5 +5,8 @@ import thunk from "redux-thunk"
 import { rootReducer } from "./../reducers/index"
 
 export function configureStore() {
-  return createStore(rootReducer, applyMiddleware(thunk, promise, logger))
+  return createStore(
+    rootReducer as any,
+    applyMiddleware(thunk, promise, logger)
+  )
 }

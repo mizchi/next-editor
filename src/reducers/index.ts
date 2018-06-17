@@ -7,7 +7,10 @@ export type RootState = {
   editor: EditorState
 }
 
-export const rootReducer = combineReducers({
+export const rootReducer: (
+  state: RootState,
+  action: any
+) => RootState = combineReducers({
   editor,
   repository
-})
+} as any)

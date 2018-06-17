@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { GitFileStatus } from "../../../domain/types"
 import { Command } from "../../atoms/Command"
 
 type Props = { initialOpen: boolean; children: any }
@@ -8,41 +9,46 @@ type State = {
 }
 
 export class GitCommitStatus extends React.PureComponent<{
-  added: string[]
-  staged: string[]
-  modified: string[]
+  stagedChanges: GitFileStatus[]
+  unstagedChanges: GitFileStatus[]
   untracked: string[]
-  removed: string[]
-  removedInFS: string[]
   onClickGitAdd: (filepath: string) => void
   onClickGitRemove: (filepath: string) => void
   onClickGitCommit: (message: string) => void
+  onClickGitCommitUnstaged: (message: string) => void
 }> {
   render() {
     const {
-      added,
-      staged,
-      modified,
+      stagedChanges,
+      unstagedChanges,
       untracked,
-      removed,
-      removedInFS,
       onClickGitAdd,
       onClickGitCommit,
+      onClickGitCommitUnstaged,
       onClickGitRemove
     } = this.props
-    const hasStagedChanges =
-      added.length > 0 || staged.length > 0 || removed.length > 0
-    const hasChanges =
-      added.length > 0 ||
-      staged.length > 0 ||
-      modified.length > 0 ||
-      removedInFS.length > 0 ||
-      removed.length > 0 ||
-      untracked.length > 0
+    const hasStagedChanges = stagedChanges.length > 0
+    const hasUnstagedChanges = unstagedChanges.length > 0
+    const hasChanges = hasStagedChanges || hasUnstagedChanges
     return (
       <div>
         <h2>Staging & Commit</h2>
         {!hasChanges && <>No changes</>}
+
+        {!hasStagedChanges &&
+          hasUnstagedChanges && (
+            <>
+              <div>
+                <Command
+                  description="Commit all unstaged changes"
+                  command="git commit -am $$"
+                  onExec={value => {
+                    onClickGitCommitUnstaged(value)
+                  }}
+                />
+              </div>
+            </>
+          )}
         {hasStagedChanges && (
           <>
             <div>
@@ -54,16 +60,52 @@ export class GitCommitStatus extends React.PureComponent<{
                 }}
               />
             </div>
+          </>
+        )}
+        {hasStagedChanges && (
+          <>
             <StatusText>[staged]</StatusText>
-            {added.map(filepath => {
-              return <div key={filepath}>{filepath} (Added)</div>
-            })}
-            {staged.map(filepath => {
-              return <div key={filepath}>{filepath} (Changed)</div>
+            {stagedChanges.map(change => {
+              return (
+                <div key={change.relpath}>
+                  {change.relpath} ({change.status})
+                </div>
+              )
             })}
           </>
         )}
-        {modified.length > 0 && (
+        {hasUnstagedChanges && (
+          <>
+            <StatusText>[unstaged]</StatusText>
+            {unstagedChanges.map(change => {
+              return (
+                <div key={change.relpath}>
+                  {change.relpath}
+                  &nbsp; ({change.status}) &nbsp;
+                  {change.status === "*deleted" && (
+                    <button
+                      onClick={() => {
+                        onClickGitRemove(change.relpath)
+                      }}
+                    >
+                      remove from git
+                    </button>
+                  )}
+                  {change.status !== "*deleted" && (
+                    <button
+                      onClick={() => {
+                        onClickGitAdd(change.relpath)
+                      }}
+                    >
+                      add to stage
+                    </button>
+                  )}
+                </div>
+              )
+            })}
+          </>
+        )}
+        {/* {modified.length > 0 && (
           <>
             <StatusText>[modified]</StatusText>
             {modified.map(filepath => {
@@ -103,6 +145,7 @@ export class GitCommitStatus extends React.PureComponent<{
             })}
           </>
         )}
+        */}
 
         {untracked.length > 0 && (
           <>
