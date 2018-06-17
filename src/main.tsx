@@ -7,6 +7,7 @@ import { injectGlobal } from "styled-components"
 import { App } from "./components/App"
 import "./lib/setupFontAwesome"
 import { setupInitialRepository } from "./lib/setupInitialRepository"
+import Modal from "react-modal"
 
 // export to globals for debug
 const g: any = global
@@ -33,6 +34,13 @@ html, body {
 }
 
 `
+if (typeof window === "object") {
+  const modal = document.createElement("div")
+  modal.setAttribute("id", "react-modal")
+  document.body.appendChild(modal)
+  Modal.setAppElement("#react-modal")
+}
+
 ;(async () => {
   try {
     await setupInitialRepository("/playground")

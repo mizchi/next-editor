@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { FilePreview } from "../molecules/FilePreview"
 import { GlobalHeader } from "../molecules/GlobalHeader"
 import { FileEditor } from "../organisms/FileEditor"
+import { ProjectManager } from "../organisms/ProjectManager"
 import { RepositoryBrowser } from "../organisms/RepositoryBrowser"
 
 export function Editor() {
@@ -12,6 +13,7 @@ export function Editor() {
         <GlobalHeader />
       </Header>
       <Menu>
+        <ProjectManager />
         <RepositoryBrowser />
       </Menu>
       <_Editor>

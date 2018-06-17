@@ -25,22 +25,6 @@ export const RepositoryBrowser = connect(
 )((props: Props) => {
   return (
     <div>
-      <div>
-        <button
-          onClick={() => {
-            props.projectRootChanged("/playground")
-          }}
-        >
-          /playground
-        </button>
-        <button
-          onClick={() => {
-            props.projectRootChanged("/xxx")
-          }}
-        >
-          /xxx
-        </button>
-      </div>
       <RootDirectory
         key={props.currentProjectRoot}
         root={props.currentProjectRoot}
