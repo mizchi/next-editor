@@ -11,6 +11,7 @@ import { getProjectGitStatus } from "../domain/git/queries/getProjectGitStatus"
 import { listBranches } from "../domain/git/queries/listBranches"
 import { GitRepositoryStatus } from "../domain/types"
 import { GitFileStatus } from "./../domain/types"
+import { loadProjectList } from "./project"
 import { RepositoryState } from "./repository"
 
 type ThunkAction<A> = (
@@ -145,6 +146,13 @@ export async function deleteFile(aPath: string) {
 export async function deleteDirectory(dirpath: string) {
   await removeDirectory(dirpath)
   return changed({ changedPath: dirpath })
+}
+
+export async function deleteProject(dirpath: string) {
+  return async (dispatch: any) => {
+    await removeDirectory(dirpath)
+    dispatch(await loadProjectList())
+  }
 }
 
 export async function addToStage(

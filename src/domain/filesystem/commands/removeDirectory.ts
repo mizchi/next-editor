@@ -1,11 +1,37 @@
+import fs from "fs"
+import path from "path"
+import pify from "pify"
 import { FileNode } from "../../types"
-import { readRecursiveFileNode } from "../queries/getFileRecursively"
 import { rmdir } from "./rmdir"
 import { unlink } from "./unlink"
 
 export async function removeDirectory(dirpath: string) {
-  const node = await readRecursiveFileNode(dirpath)
+  const node = await readRecursiveFileNodeWithGit(dirpath)
   return removeDirectoryRecursively(node)
+}
+
+async function readRecursiveFileNodeWithGit(
+  pathname: string
+): Promise<FileNode> {
+  const stat = await pify(fs.stat)(pathname)
+  if (stat.isDirectory()) {
+    const pathList: string[] = await pify(fs.readdir)(pathname)
+    const children = await Promise.all(
+      pathList.map(childPath =>
+        readRecursiveFileNodeWithGit(path.join(pathname, childPath))
+      )
+    )
+    return {
+      children,
+      pathname,
+      type: "dir"
+    }
+  } else {
+    return {
+      pathname,
+      type: "file"
+    }
+  }
 }
 
 async function removeDirectoryRecursively(node: FileNode) {

@@ -35,8 +35,9 @@ In development, you need to wait local service-worker upgrading.
 - [x] Remove deleted files on git
 - [x] Create new project
 - [x] Multi project switcher
-- [ ] Git: clone from github
-- [ ] Remove project
+- [x] Git: clone from github
+- [x] Remove project
+- [ ] Show async loader on git action
 - [ ] Inline File Creator
 - [ ] Preview Tab Switcher
 - [ ] Toggle preview layout 2 <-> 3 panes

@@ -4,12 +4,17 @@ import { connect } from "react-redux"
 import { RootState } from "../../../reducers"
 import * as ProjectActions from "../../../reducers/project"
 import { ProjectState } from "../../../reducers/project"
-import { projectRootChanged } from "../../../reducers/repository"
+import {
+  deleteDirectory,
+  deleteProject,
+  projectRootChanged
+} from "../../../reducers/repository"
 import { CloneProjectButton } from "./CloneProjectButton"
 import { CreateNewProjectButton } from "./CreateNewProjectButton"
 
 type Props = (typeof ProjectActions) & {
   projectRootChanged: typeof projectRootChanged
+  deleteProject: typeof deleteProject
 } & {
   project: ProjectState
 }
@@ -20,7 +25,7 @@ const selector = (state: RootState) => {
   }
 }
 
-const actions = { ...ProjectActions, projectRootChanged }
+const actions = { ...ProjectActions, projectRootChanged, deleteProject }
 
 export const ProjectManager = connect(
   selector,
@@ -45,6 +50,14 @@ export const ProjectManager = connect(
                   }}
                 >
                   {p.projectRoot}
+                </button>
+                -
+                <button
+                  onClick={() => {
+                    this.props.deleteProject(p.projectRoot)
+                  }}
+                >
+                  delete
                 </button>
               </div>
             )
