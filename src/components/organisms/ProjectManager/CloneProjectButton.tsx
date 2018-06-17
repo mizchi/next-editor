@@ -5,12 +5,14 @@ export class CloneProjectButton extends React.Component<
   {
     onClickClone: (dirname: string) => void
   },
-  { opened: boolean }
+  { opened: boolean; value: string }
 > {
   state = {
-    opened: false
+    opened: false,
+    value: ""
   }
   render() {
+    const { onClickClone } = this.props
     return (
       <>
         <button
@@ -24,14 +26,19 @@ export class CloneProjectButton extends React.Component<
           isOpen={this.state.opened}
           onRequestClose={() => this.setState({ opened: false })}
           style={customStyles}
-          contentLabel="Example Modal"
+          contentLabel="Clone project"
         >
           <div>Clone project</div>
-          <input />
+          <input
+            placeholder="username/repo in github"
+            value={this.state.value}
+            onChange={event => this.setState({ value: event.target.value })}
+          />
           &nbsp;
           <button
             onClick={() => {
               this.setState({ opened: false })
+              onClickClone(this.state.value)
             }}
           >
             clone

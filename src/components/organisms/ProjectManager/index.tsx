@@ -32,7 +32,7 @@ export const ProjectManager = connect(
     }
     render() {
       const { projects } = this.props.project
-      const { createNewProject } = this.props
+      const { createNewProject, cloneFromGitHub } = this.props
       return (
         <>
           <div>Projects</div>
@@ -63,7 +63,15 @@ export const ProjectManager = connect(
             <div>
               <CloneProjectButton
                 onClickClone={dirname => {
-                  console.log(dirname)
+                  const clonePath =
+                    "https://" +
+                    path.join(
+                      "cors-buster-tbgktfqyku.now.sh/github.com",
+                      dirname
+                    )
+                  const [, repoName] = dirname.split("/")
+                  const projectRoot = path.join("/", repoName)
+                  cloneFromGitHub(projectRoot, clonePath)
                 }}
               />
             </div>

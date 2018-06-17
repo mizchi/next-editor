@@ -1,4 +1,5 @@
 import { readDirectories } from "../domain/filesystem/queries/readDirectories"
+import { cloneRepository } from "../domain/git/commands/cloneRepository"
 import { createProject } from "../domain/git/commands/createProject"
 
 type Project = {
@@ -32,6 +33,14 @@ export async function createNewProject(
   newProjectRoot: string
 ): Promise<LoadProjectList> {
   await createProject(newProjectRoot)
+  return loadProjectList()
+}
+
+export async function cloneFromGitHub(
+  projectRoot: string,
+  clonePath: string
+): Promise<LoadProjectList> {
+  await cloneRepository(projectRoot, clonePath)
   return loadProjectList()
 }
 

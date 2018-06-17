@@ -33,13 +33,15 @@ In development, you need to wait local service-worker upgrading.
 - [x] Switch branch
 - [x] Remove directory by right click menu
 - [x] Remove deleted files on git
+- [x] Create new project
+- [x] Multi project switcher
+- [ ] Git: clone from github
+- [ ] Remove project
 - [ ] Inline File Creator
-- [ ] Multi project switcher
 - [ ] Preview Tab Switcher
 - [ ] Toggle preview layout 2 <-> 3 panes
 - [ ] Git: push from github
-- [ ] Git: clone from github
-- [ ] Markup: File Browser
+- [ ] Markup: total design
 
 ### TODO: Git and filesystem
 
