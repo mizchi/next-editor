@@ -1,8 +1,6 @@
-// const HtmlPlugin = require("html-webpack-plugin")
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 const mode = process.env.NODE_ENV || "development"
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin")
 const WorkboxPlugin = require("workbox-webpack-plugin")
 
 module.exports = {
@@ -33,16 +31,6 @@ module.exports = {
           loader: "babel-loader"
         }
       },
-      // {
-      //   test: /\.tsx?$/,
-      //   use: {
-      //     loader: "awesome-typescript-loader",
-      //     options: {
-      //       useBabel: true,
-      //       babelCore: "babel-core"
-      //     }
-      //   }
-      // },
       {
         test: /\.tsx?$/,
         use: [
@@ -61,9 +49,6 @@ module.exports = {
     ]
   },
   plugins: [
-    // new HtmlPlugin({
-    //   template: "src/index.html"
-    // }),
     new CopyPlugin([
       {
         from: __dirname + "/src/index.html",

@@ -17,15 +17,16 @@
 - [ ] Preview Tab Switcher
 - [ ] Toggle preview layout 2 <-> 3 panes
 - [ ] Git: push from github
-- [ ] Git: fetch from github
 - [ ] Git: clone from github
 - [ ] Markup: File Browser
 
 ### TODO: Git and filesystem
 
 - [ ] Support `.gitignore`
+- [ ] Git: fetch from github
 - [ ] Git: Config
 - [ ] Git: Rebase
+- [ ] Git: Rebase with conflict manager
 
 ### TODO: React Enhancement
 
