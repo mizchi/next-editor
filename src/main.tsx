@@ -5,20 +5,13 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { injectGlobal } from "styled-components"
 import { App } from "./components/App"
+import "./lib/setupFontAwesome"
 import { setupInitialRepository } from "./lib/setupInitialRepository"
-import "./setupFontAwesome"
 
 // export to globals for debug
 const g: any = global
 g.git = git
 g.fs = fs
-g.commitNow = () =>
-  git.commit({
-    fs,
-    dir: "/playground",
-    author: { name: "dummy", email: "dummy" },
-    message: "Debug commit"
-  })
 
 // tslint:disable-next-line:no-unused-expression
 injectGlobal`
