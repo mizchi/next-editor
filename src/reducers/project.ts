@@ -1,4 +1,5 @@
 import { readDirectories } from "../domain/filesystem/queries/readDirectories"
+import { createProject } from "../domain/git/commands/createProject"
 
 type Project = {
   projectRoot: string
@@ -13,7 +14,7 @@ type LoadProjectList = {
   }
 }
 
-export async function loadProjectList() {
+export async function loadProjectList(): Promise<LoadProjectList> {
   const projectNames = await readDirectories("/")
   return {
     type: LOAD_PROJECT_LIST,
@@ -25,6 +26,13 @@ export async function loadProjectList() {
       })
     }
   }
+}
+
+export async function createNewProject(
+  newProjectRoot: string
+): Promise<LoadProjectList> {
+  await createProject(newProjectRoot)
+  return loadProjectList()
 }
 
 export type ProjectState = {

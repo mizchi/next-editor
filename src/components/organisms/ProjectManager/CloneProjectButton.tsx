@@ -2,7 +2,9 @@ import React from "react"
 import Modal from "react-modal"
 
 export class CloneProjectButton extends React.Component<
-  {},
+  {
+    onClickClone: (dirname: string) => void
+  },
   { opened: boolean }
 > {
   state = {

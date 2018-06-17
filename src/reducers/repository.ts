@@ -36,6 +36,7 @@ type ProjectRootChanged = {
   type: typeof PROJECT_ROOT_CHANGED
   payload: {
     projectRoot: string
+    gitStatus: GitRepositoryStatus
   }
 }
 
@@ -62,11 +63,16 @@ export function changed({
     }
   }
 }
-export function projectRootChanged(projectRoot: string): ProjectRootChanged {
+
+export async function projectRootChanged(
+  projectRoot: string
+): Promise<ProjectRootChanged> {
+  const gitStatus = await getProjectGitStatus(projectRoot)
   return {
     type: PROJECT_ROOT_CHANGED,
     payload: {
-      projectRoot
+      projectRoot,
+      gitStatus
     }
   }
 }
@@ -212,7 +218,10 @@ export function reducer(state: RepositoryState = initialState, action: Action) {
     case PROJECT_ROOT_CHANGED: {
       return {
         ...state,
-        currentProjectRoot: action.payload.projectRoot
+        currentProjectRoot: action.payload.projectRoot,
+        gitRepositoryStatus: action.payload.gitStatus,
+        fsTouchCounter: 0,
+        gitTouchCounter: 0
       }
     }
     case CHANGED: {

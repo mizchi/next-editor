@@ -2,13 +2,17 @@ import React from "react"
 import Modal from "react-modal"
 
 export class CreateNewProjectButton extends React.Component<
-  {},
-  { opened: boolean }
+  {
+    onClickCreate: (dirname: string) => void
+  },
+  { opened: boolean; newProjectPath: string }
 > {
   state = {
-    opened: false
+    opened: false,
+    newProjectPath: ""
   }
   render() {
+    const { onClickCreate } = this.props
     return (
       <>
         <button
@@ -25,18 +29,29 @@ export class CreateNewProjectButton extends React.Component<
           contentLabel="Example Modal"
         >
           <div>Create Project</div>
-          <input />
+          <input
+            value={this.state.newProjectPath}
+            onChange={event => {
+              const value = event.target.value
+              this.setState({ newProjectPath: value })
+            }}
+          />
           &nbsp;
           <button
             onClick={() => {
               this.setState({ opened: false })
+              onClickCreate(this.state.newProjectPath)
             }}
           >
             create
           </button>
           <br />
           <div>
-            <button onClick={() => this.setState({ opened: false })}>
+            <button
+              onClick={() =>
+                this.setState({ opened: false, newProjectPath: "" })
+              }
+            >
               close
             </button>
           </div>
