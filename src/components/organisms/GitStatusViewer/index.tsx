@@ -63,7 +63,7 @@ export const GitStatusViewer = connect(
         const { untracked } = gitRepositoryStatus
         const { stagedChanges, unstagedChanges } = gitRepositoryStatus
         return (
-          <Container>
+          <Container key={projectRoot}>
             <h2>Git Status</h2>
             <div>
               {projectRoot} [{currentBranch}]

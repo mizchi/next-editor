@@ -20,6 +20,7 @@ type ThunkAction<A> = (
 const j = path.join
 
 const CHANGED = "repository:changed"
+const PROJECT_ROOT_CHANGED = "repository:project-root-changed"
 const GIT_STATUS_UPDATED = "repository:git-status-updated"
 
 type Changed = {
@@ -28,6 +29,13 @@ type Changed = {
     git?: boolean
     file?: boolean
     changedPath?: string
+  }
+}
+
+type ProjectRootChanged = {
+  type: typeof PROJECT_ROOT_CHANGED
+  payload: {
+    projectRoot: string
   }
 }
 
@@ -51,6 +59,14 @@ export function changed({
       git,
       file,
       changedPath
+    }
+  }
+}
+export function projectRootChanged(projectRoot: string): ProjectRootChanged {
+  return {
+    type: PROJECT_ROOT_CHANGED,
+    payload: {
+      projectRoot
     }
   }
 }
@@ -171,7 +187,7 @@ export async function commitUnstagedChanges(
   return changed({ changedPath: projectRoot })
 }
 
-export type Action = GitStatusUpdated | Changed
+export type Action = GitStatusUpdated | Changed | ProjectRootChanged
 
 export type RepositoryState = {
   gitRepositoryStatus: GitRepositoryStatus | null
@@ -193,6 +209,12 @@ const initialState: RepositoryState = {
 
 export function reducer(state: RepositoryState = initialState, action: Action) {
   switch (action.type) {
+    case PROJECT_ROOT_CHANGED: {
+      return {
+        ...state,
+        currentProjectRoot: action.payload.projectRoot
+      }
+    }
     case CHANGED: {
       return {
         ...state,
