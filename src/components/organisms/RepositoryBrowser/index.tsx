@@ -1,7 +1,10 @@
 import React from "react"
 import { connect } from "react-redux"
 import { RootState } from "../../../reducers"
-import { RepositoryState } from "../../../reducers/repository"
+import {
+  projectRootChanged,
+  RepositoryState
+} from "../../../reducers/repository"
 import { RootDirectory } from "./Directory"
 import { DirectoryContextMenu } from "./DirectoryContextMenu"
 import { FileContextMenu } from "./FileContextMenu"
@@ -10,9 +13,11 @@ const selector = (state: RootState) => {
   return state.repository
 }
 
-const actions = {}
+const actions = {
+  projectRootChanged
+}
 
-type Props = RepositoryState & {}
+type Props = (typeof actions) & RepositoryState
 
 export const RepositoryBrowser = connect(
   selector,
@@ -20,7 +25,24 @@ export const RepositoryBrowser = connect(
 )((props: Props) => {
   return (
     <div>
+      <div>
+        <button
+          onClick={() => {
+            props.projectRootChanged("/playground")
+          }}
+        >
+          /playground
+        </button>
+        <button
+          onClick={() => {
+            props.projectRootChanged("/xxx")
+          }}
+        >
+          /xxx
+        </button>
+      </div>
       <RootDirectory
+        key={props.currentProjectRoot}
         root={props.currentProjectRoot}
         dirpath={props.currentProjectRoot}
         depth={0}
