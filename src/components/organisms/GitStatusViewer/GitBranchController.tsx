@@ -8,7 +8,6 @@ export class GitBranchController extends React.PureComponent<{
   onChangeBranch: (branchName: string) => void
   onClickCreateBranch: (branchName: string) => void
 }> {
-  private newBranchInputRef: any = React.createRef()
   render() {
     const {
       currentBranch,

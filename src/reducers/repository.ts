@@ -1,5 +1,6 @@
 import path from "path"
 import { mkdir } from "../domain/filesystem/commands/mkdir"
+import { removeDirectory } from "../domain/filesystem/commands/removeDirectory"
 import { unlink } from "../domain/filesystem/commands/unlink"
 import { writeFile } from "../domain/filesystem/commands/writeFile"
 import { addFile } from "../domain/git/commands/addFile"
@@ -117,6 +118,11 @@ export async function deleteFile(aPath: string) {
   await unlink(aPath)
   const dirname = path.dirname(aPath)
   return changed({ changedPath: dirname })
+}
+
+export async function deleteDirectory(dirpath: string) {
+  await removeDirectory(dirpath)
+  return changed({ changedPath: dirpath })
 }
 
 export async function addToStage(

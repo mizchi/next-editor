@@ -39,17 +39,20 @@ I do *NOT* think this can replace vscode and atom. Only for specific usecase(mar
 - [x] Preview markdown
 - [x] Preview Babel
 - [x] Git: status Preview
-- [ ] Toggle preview layout 2 <-> 3 panes
 - [x] Switch branch
-- [ ] Remove directory by right click menu
-- [ ] Remove deleted files on git
+- [x] Remove directory by right click menu
+- [x] Remove deleted files on git
+- [ ] Toggle preview layout 2 <-> 3 panes
 - [ ] Handle .gitignore
 - [ ] Multi project switcher
-- [ ] Bundle javasciprt in browser or use jspm.io
-- [ ] React Component Preview
 - [ ] Git: push from github
 - [ ] Git: fetch from github
 - [ ] Git: clone from github
+
+### TODO: Preview
+
+- [ ] Bundle javasciprt in browser or use jspm.io
+- [ ] React Component Preview
 - [ ] Config - commit author, GitHub Access Token via .git/config
 - [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
 `

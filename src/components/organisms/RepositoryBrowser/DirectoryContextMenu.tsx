@@ -11,6 +11,7 @@ type OwnProps = {
 type Props = OwnProps & {
   addToStage: typeof RepositoryActions.addToStage
   deleteFile: typeof RepositoryActions.deleteFile
+  deleteDirectory: typeof RepositoryActions.deleteDirectory
 }
 
 const onClick: any = ({ event, ref, data, dataFromProvider }: any) =>
@@ -18,7 +19,8 @@ const onClick: any = ({ event, ref, data, dataFromProvider }: any) =>
 
 const actions = {
   addToStage: RepositoryActions.addToStage,
-  deleteFile: RepositoryActions.deleteFile
+  deleteFile: RepositoryActions.deleteFile,
+  deleteDirectory: RepositoryActions.deleteDirectory
 }
 
 export const DirectoryContextMenu: any = connect(
@@ -47,6 +49,7 @@ export const DirectoryContextMenu: any = connect(
       <Item
         onClick={({ dataFromProvider }: any) => {
           // props.deleteFile(dataFromProvider.filepath)
+          props.deleteDirectory(dataFromProvider.dirpath)
         }}
       >
         Delete
