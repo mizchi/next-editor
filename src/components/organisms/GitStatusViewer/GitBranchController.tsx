@@ -17,7 +17,7 @@ export class GitBranchController extends React.PureComponent<{
     } = this.props
     return (
       <>
-        <h2>Branch</h2>
+        <h3>Branch</h3>
         <div>
           <Command
             type="select"

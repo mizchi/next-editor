@@ -7,6 +7,7 @@ import React from "react"
 import { ContextMenuProvider } from "react-contexify"
 import { connect } from "react-redux"
 import lifecycle from "recompose/lifecycle"
+import styled from "styled-components"
 import { readFileStats } from "../../../domain/filesystem/queries/readFileStats"
 import { FileInfo } from "../../../domain/types"
 import { RootState } from "../../../reducers"
@@ -88,7 +89,7 @@ export const Directory: React.ComponentType<OwnProps> = connect(
         <div>
           <div>
             {prefix}
-            <button
+            <DirectoryButton
               onClick={() => {
                 this.setState({ opened: !this.state.opened })
               }}
@@ -98,7 +99,7 @@ export const Directory: React.ComponentType<OwnProps> = connect(
               ) : (
                 <FontAwesomeIcon icon={faFolder} />
               )}
-            </button>
+            </DirectoryButton>
             &nbsp;
             <MyContextMenuProvider
               id="directory"
@@ -162,3 +163,10 @@ export const Directory: React.ComponentType<OwnProps> = connect(
 export const RootDirectory: React.ComponentType<OwnProps> = lifecycle({
   // async componentDidMount() {}
 })(Directory)
+
+const DirectoryButton = styled.button`
+  color: white;
+  background: black;
+  border: none;
+  outline: none;
+`

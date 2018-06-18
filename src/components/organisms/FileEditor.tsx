@@ -4,14 +4,6 @@ import styled from "styled-components"
 import { RootState } from "../../reducers"
 import { EditorContent } from "../molecules/EditorContent"
 
-const initialCode = `// code
-import React from 'https://dev.jspm.io/react';
-import ReactDOM from 'https://dev.jspm.io/react-dom';
-
-const el = document.querySelector('#app-root')
-ReactDOM.render(<h1>Hello</h1>, el)
-`
-
 type Props = {
   // fPath: string
 }
@@ -20,15 +12,7 @@ type State = {
 }
 
 export class FileEditor extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      editorValue: initialCode
-    }
-  }
-
   render() {
-    const { editorValue } = this.state
     return (
       <Layout>
         <Filename>

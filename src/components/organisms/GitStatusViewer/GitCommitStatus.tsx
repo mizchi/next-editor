@@ -32,7 +32,7 @@ export class GitCommitStatus extends React.PureComponent<{
     const hasChanges = hasStagedChanges || hasUnstagedChanges
     return (
       <div>
-        <h2>Staging & Commit</h2>
+        <h3>Staging</h3>
         {!hasChanges && <>No changes</>}
 
         {!hasStagedChanges &&
