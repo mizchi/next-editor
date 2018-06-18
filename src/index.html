@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <title>Git</title>
+  <title>PWA Editor</title>
   <meta charset="utf8">
 </head>
 
@@ -26,6 +26,26 @@ function setupBrowserFS() {
       resolve()
     })
   })
+}
+
+let upgradeCount = 0
+let modal = null
+function showUpgradeModal() {
+  if (modal == null) {
+    modal = document.createElement('div')
+    document.body.appendChild(modal)
+  }
+
+  upgradeCount += 1
+
+  if (installed) {
+    modal.innerHTML = `
+      <div style='position: absolute; outline: 1px solid black; right: 10px; bottom: 10px; width: 350px; height: 50px; background: white; padding: 10px;'>
+        <div>New version available! ${upgradeCount}</div>
+        <span>It will be applied from the next</span> - <button onclick="location.reload()">Reload</button>
+      </div>
+    `
+  }
 }
 
 async function setupServiceWorker() {

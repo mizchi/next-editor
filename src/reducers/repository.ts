@@ -65,16 +65,15 @@ export function changed({
   }
 }
 
-export async function projectRootChanged(
-  projectRoot: string
-): Promise<ProjectRootChanged> {
-  const gitStatus = await getProjectGitStatus(projectRoot)
-  return {
-    type: PROJECT_ROOT_CHANGED,
-    payload: {
-      projectRoot,
-      gitStatus
-    }
+export async function projectRootChanged(projectRoot: string) {
+  return async (dispatch: any) => {
+    dispatch({
+      type: PROJECT_ROOT_CHANGED,
+      payload: {
+        projectRoot
+      }
+    })
+    dispatch(await updateGitStatus(projectRoot))
   }
 }
 
@@ -227,7 +226,6 @@ export function reducer(state: RepositoryState = initialState, action: Action) {
       return {
         ...state,
         currentProjectRoot: action.payload.projectRoot,
-        gitRepositoryStatus: action.payload.gitStatus,
         fsTouchCounter: 0,
         gitTouchCounter: 0
       }

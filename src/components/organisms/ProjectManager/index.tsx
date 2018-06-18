@@ -1,16 +1,17 @@
+import faBox from "@fortawesome/fontawesome-free-solid/faBox"
+import Icon from "@fortawesome/react-fontawesome"
 import path from "path"
 import React from "react"
+import { ContextMenuProvider } from "react-contexify"
 import { connect } from "react-redux"
+import styled from "styled-components"
 import { RootState } from "../../../reducers"
 import * as ProjectActions from "../../../reducers/project"
 import { ProjectState } from "../../../reducers/project"
-import {
-  deleteDirectory,
-  deleteProject,
-  projectRootChanged
-} from "../../../reducers/repository"
+import { deleteProject, projectRootChanged } from "../../../reducers/repository"
 import { CloneProjectButton } from "./CloneProjectButton"
 import { CreateNewProjectButton } from "./CreateNewProjectButton"
+import { ProjectContextMenu } from "./ProjectContextMenu"
 
 type Props = (typeof ProjectActions) & {
   projectRootChanged: typeof projectRootChanged
@@ -24,6 +25,15 @@ const selector = (state: RootState) => {
     project: state.project
   }
 }
+
+const ProjectLineContainer = styled.div`
+  padding: 3px;
+`
+
+const ProjectLineContent = styled.div`
+  outline: 1px solid black;
+  padding: 2px;
+`
 
 const actions = { ...ProjectActions, projectRootChanged, deleteProject }
 
@@ -41,56 +51,64 @@ export const ProjectManager = connect(
       return (
         <>
           <div>Projects</div>
+          <div>
+            <CreateNewProjectButton
+              onClickCreate={dirname => {
+                const newProjectRoot = path.join("/", dirname)
+                createNewProject(newProjectRoot)
+              }}
+            />
+            &nbsp;
+            <CloneProjectButton
+              onClickClone={dirname => {
+                const clonePath =
+                  "https://" +
+                  path.join("cors-buster-tbgktfqyku.now.sh/github.com", dirname)
+                const [, repoName] = dirname.split("/")
+                const projectRoot = path.join("/", repoName)
+                cloneFromGitHub(projectRoot, clonePath)
+              }}
+            />
+          </div>
+          <ProjectContextMenu />
           {projects.map(p => {
             return (
-              <div key={p.projectRoot}>
-                <button
+              <ContextMenuProvider
+                key={p.projectRoot}
+                id="project"
+                data={{ dirpath: p.projectRoot }}
+              >
+                <ProjectLineContainer
                   onClick={() => {
                     this.props.projectRootChanged(p.projectRoot)
                   }}
                 >
-                  {p.projectRoot}
-                </button>
-                -
-                <button
-                  onClick={() => {
-                    this.props.deleteProject(p.projectRoot)
-                  }}
-                >
-                  delete
-                </button>
-              </div>
+                  <ProjectLineContent>
+                    <Icon icon={faBox} />
+                    {p.projectRoot}
+                  </ProjectLineContent>
+                </ProjectLineContainer>
+              </ContextMenuProvider>
             )
           })}
-          <div>
-            <div>Add new project</div>
-            <div>
-              <CreateNewProjectButton
-                onClickCreate={dirname => {
-                  const newProjectRoot = path.join("/", dirname)
-                  createNewProject(newProjectRoot)
-                }}
-              />
-            </div>
-
-            <div>
-              <CloneProjectButton
-                onClickClone={dirname => {
-                  const clonePath =
-                    "https://" +
-                    path.join(
-                      "cors-buster-tbgktfqyku.now.sh/github.com",
-                      dirname
-                    )
-                  const [, repoName] = dirname.split("/")
-                  const projectRoot = path.join("/", repoName)
-                  cloneFromGitHub(projectRoot, clonePath)
-                }}
-              />
-            </div>
-          </div>
         </>
       )
     }
   }
 )
+
+const Button = styled.a`
+  display: inline-block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  background: #668ad8;
+  color: #fff;
+  border-bottom: solid 4px #627295;
+  border-radius: 3px;
+  &:active {
+    -ms-transform: translateY(4px);
+    -webkit-transform: translateY(4px);
+    transform: translateY(4px);
+    border-bottom: none;
+  }
+`

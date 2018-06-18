@@ -1,5 +1,9 @@
+import faClone from "@fortawesome/fontawesome-free-solid/faClone"
+import Icon from "@fortawesome/react-fontawesome"
 import React from "react"
 import Modal from "react-modal"
+import ReactTooltip from "react-tooltip"
+import styled from "styled-components"
 
 export class CloneProjectButton extends React.Component<
   {
@@ -15,26 +19,34 @@ export class CloneProjectButton extends React.Component<
     const { onClickClone } = this.props
     return (
       <>
-        <button
+        <ReactTooltip place="top" type="dark" effect="solid" id="clone-project">
+          Clone project from GitHub
+        </ReactTooltip>
+        <Button
           onClick={() => {
             this.setState({ opened: true })
           }}
+          data-tip="React-tooltip"
+          data-for="clone-project"
         >
-          Clone project from github
-        </button>
+          <Icon icon={faClone} />
+        </Button>
         <Modal
           isOpen={this.state.opened}
           onRequestClose={() => this.setState({ opened: false })}
           style={customStyles}
           contentLabel="Clone project"
         >
-          <div>Clone project</div>
-          <input
-            placeholder="username/repo in github"
-            value={this.state.value}
-            onChange={event => this.setState({ value: event.target.value })}
-          />
-          &nbsp;
+          <h2>Clone project</h2>
+          <p>Clone project from GitHub.</p>
+          <div>
+            <input
+              style={{ width: "100%" }}
+              placeholder="username/repo"
+              value={this.state.value}
+              onChange={event => this.setState({ value: event.target.value })}
+            />
+          </div>
           <button
             onClick={() => {
               this.setState({ opened: false })
@@ -61,7 +73,17 @@ const customStyles = {
     left: "50%",
     right: "auto",
     bottom: "auto",
+    width: 600,
+    height: 400,
     marginRight: "-50%",
     transform: "translate(-50%, -50%)"
   }
 }
+
+const Button = styled.a`
+  display: inline-block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  background: #668ad8;
+  color: #fff;
+`
