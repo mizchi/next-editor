@@ -6,7 +6,7 @@ export function GlobalHeader() {
   return (
     <StyledHeader>
       <Title>
-        <Pane>PWA Editor</Pane>
+        <Pane>Next Editor</Pane>
       </Title>
       <TitleMenus />
     </StyledHeader>

@@ -8,7 +8,7 @@ import { Repository } from "../domain/types"
 
 const j = path.join
 
-const Introduction = `# PWA Editor
+const Introduction = `# Next Editor
 
 Standalone Git Editor by isomophic-git
 

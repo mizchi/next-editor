@@ -90,13 +90,13 @@ export const EditorContent = connect(
 // TODO: Move
 const HelpContent = () => (
   <div style={{ padding: "5px" }}>
-    <h1>PWA Editor</h1>
+    <h1>Next Editor</h1>
     <p>
       Developped by <a href="https://twitter.com/mizchi">@mizchi</a>.
     </p>
     <p>
       GitHub: &nbsp;
-      <a href="https://github.com/mizchi/pwa-editor">mizchi/pwa-editor</a>
+      <a href="https://github.com/mizchi/next-editor">mizchi/next-editor</a>
     </p>
 
     <h2>Status</h2>

@@ -1,4 +1,4 @@
-# PWA Editor
+# Next Editor
 
 Standalone Git Editor on Browser
 
@@ -51,7 +51,7 @@ Concept implementation
 - [ ] FileBrowser: Inline File Creator / Renamer
 - [ ] Editor: Update git status of editing file only
 - [ ] Markup: total design
-- [ ] PWA manifest.json for chrome playstore / Windows store
+- [ ] PWA's manifest.json for chrome playstore / Windows store
 - [ ] Define app name
 - [ ] Purchase domain(.app?)
 
