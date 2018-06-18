@@ -54,7 +54,6 @@ export class CreateNewProjectButton extends React.Component<
               }}
             />
           </div>
-          &nbsp;
           <button
             onClick={() => {
               this.setState({ opened: false })
@@ -63,14 +62,14 @@ export class CreateNewProjectButton extends React.Component<
           >
             create
           </button>
-          <br />
+          <hr />
           <div>
             <button
               onClick={() =>
                 this.setState({ opened: false, newProjectPath: "" })
               }
             >
-              close
+              cancel
             </button>
           </div>
         </Modal>

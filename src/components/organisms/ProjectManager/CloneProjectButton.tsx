@@ -55,10 +55,10 @@ export class CloneProjectButton extends React.Component<
           >
             clone
           </button>
-          <br />
+          <hr />
           <div>
             <button onClick={() => this.setState({ opened: false })}>
-              close
+              cancel
             </button>
           </div>
         </Modal>
