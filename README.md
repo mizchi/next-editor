@@ -4,7 +4,7 @@ Standalone Git Editor on Browser
 
 Work in progress.
 
-[Demo](http://nervous-kilby-73c9b0.netlify.com)
+[Demo](https://nervous-kilby-73c9b0.netlify.com)
 
 ## My Goal
 
