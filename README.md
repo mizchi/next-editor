@@ -40,9 +40,10 @@ Concept implementation
 - [x] Git: clone from github
 - [x] Remove project
 - [x] Git: push from github
-- [ ] Project Config: github token
+- [ ] Project Config: url, github token
 - [ ] Show async loader on git action
 - [ ] FileBrowser: Inline File Creator / Renamer
+- [ ] Editor: Update git status of editing file only
 - [ ] Preview Tab Switcher / GitManager - MarkdownPreview
 - [ ] Toggle preview layout 2 <-> 3 panes
 - [ ] Markup: total design

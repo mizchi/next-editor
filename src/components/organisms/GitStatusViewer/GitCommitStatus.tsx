@@ -3,11 +3,6 @@ import styled from "styled-components"
 import { GitFileStatus } from "../../../domain/types"
 import { Command } from "../../atoms/Command"
 
-type Props = { initialOpen: boolean; children: any }
-type State = {
-  opened: boolean
-}
-
 export class GitCommitStatus extends React.PureComponent<{
   stagedChanges: GitFileStatus[]
   unstagedChanges: GitFileStatus[]
