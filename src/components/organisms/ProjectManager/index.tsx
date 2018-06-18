@@ -1,4 +1,5 @@
 import faBox from "@fortawesome/fontawesome-free-solid/faBox"
+import faCog from "@fortawesome/fontawesome-free-solid/faCog"
 import Icon from "@fortawesome/react-fontawesome"
 import path from "path"
 import React from "react"
@@ -6,6 +7,7 @@ import { ContextMenuProvider } from "react-contexify"
 import { connect } from "react-redux"
 import styled from "styled-components"
 import { RootState } from "../../../reducers"
+import { pushScene } from "../../../reducers/app"
 import * as ProjectActions from "../../../reducers/project"
 import { ProjectState } from "../../../reducers/project"
 import { deleteProject, projectRootChanged } from "../../../reducers/repository"
@@ -16,6 +18,7 @@ import { ProjectContextMenu } from "./ProjectContextMenu"
 type Props = (typeof ProjectActions) & {
   projectRootChanged: typeof projectRootChanged
   deleteProject: typeof deleteProject
+  pushScene: typeof pushScene
 } & {
   project: ProjectState
 }
@@ -35,7 +38,12 @@ const ProjectLineContent = styled.div`
   padding: 2px;
 `
 
-const actions = { ...ProjectActions, projectRootChanged, deleteProject }
+const actions = {
+  ...ProjectActions,
+  projectRootChanged,
+  deleteProject,
+  pushScene
+}
 
 export const ProjectManager = connect(
   selector,
@@ -51,6 +59,16 @@ export const ProjectManager = connect(
       return (
         <>
           <div>Projects</div>
+          <div>
+            <div
+              onClick={() => {
+                this.props.pushScene("config")
+              }}
+            >
+              <Icon icon={faCog} />
+              &nbsp; Config
+            </div>
+          </div>
           <div>
             <CreateNewProjectButton
               onClickCreate={dirname => {

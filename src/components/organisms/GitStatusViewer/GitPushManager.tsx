@@ -10,7 +10,6 @@ export class GitPushManager extends React.Component<
   { projectRoot: string },
   {
     endpoint: string
-    githubToken: string
     result: string | null
     opened: boolean
   }
@@ -19,7 +18,6 @@ export class GitPushManager extends React.Component<
     opened: false,
     endpoint:
       "https://cors-buster-tbgktfqyku.now.sh/github.com/<username>/<repo>",
-    githubToken: "",
     result: null
   }
   render() {
@@ -41,16 +39,6 @@ export class GitPushManager extends React.Component<
                 }
               />
             </div>
-            <div>
-              github token:
-              <input
-                style={{ width: "100%" }}
-                value={this.state.githubToken}
-                onChange={event =>
-                  this.setState({ githubToken: event.target.value })
-                }
-              />
-            </div>
             <button
               onClick={async () => {
                 await writeFile(
@@ -59,13 +47,17 @@ export class GitPushManager extends React.Component<
   url = ${this.state.endpoint}
   fetch = +refs/heads/*:refs/remotes/origin/*`
                 )
+                const githubToken = window.localStorage.getItem("github-token")
+                if (!githubToken) {
+                  throw new Error("github token does not set")
+                }
                 const ret = await git.push({
                   fs,
                   dir: this.props.projectRoot,
                   remote: "origin",
                   ref: "master",
-                  authUsername: this.state.githubToken,
-                  authPassword: this.state.githubToken
+                  authUsername: githubToken,
+                  authPassword: githubToken
                 })
                 this.setState({ result: ret.ok && "ok" })
               }}

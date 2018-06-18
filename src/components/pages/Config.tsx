@@ -1,20 +1,30 @@
 import * as React from "react"
+import { connect } from "react-redux"
 import styled from "styled-components"
+import { popScene } from "../../reducers/app"
 import { GlobalHeader } from "../molecules/GlobalHeader"
 import { Config as ConfigContent } from "../organisms/Config"
 
-export function Config() {
+const selector = () => ({})
+const actions = {
+  popScene
+}
+
+export const Config = connect(
+  selector,
+  actions
+)((props: any) => {
   return (
     <Layout>
       <Header>
         <GlobalHeader />
       </Header>
       <Content>
-        <ConfigContent />
+        <ConfigContent onClickBack={() => props.popScene()} />
       </Content>
     </Layout>
   )
-}
+})
 
 export const Layout = styled.div`
   width: 100vx;
