@@ -39,30 +39,45 @@ Concept implementation
 - [x] Multi project switcher
 - [x] Git: clone from github
 - [x] Remove project
-- [x] Git: push from github
-- [ ] Project Config: url, github token
+- [x] Git: push to github
+- [x] Project Config: github token
+- [ ] Commit with config name/email
+- [ ] Git: push to github better UI
+- [ ] Git: merge fast forward only
+- [ ] Git: fetch
+- [ ] Preview Tab Switcher / GitManager - MarkdownPreview
 - [ ] Show async loader on git action
+- [ ] Toggle preview layout 2 <-> 3 panes
 - [ ] FileBrowser: Inline File Creator / Renamer
 - [ ] Editor: Update git status of editing file only
-- [ ] Preview Tab Switcher / GitManager - MarkdownPreview
-- [ ] Toggle preview layout 2 <-> 3 panes
 - [ ] Markup: total design
+- [ ] PWA manifest.json for chrome playstore / Windows store
+- [ ] Define app name
+- [ ] Purchase domain(.app?)
 
 ### TODO: Git and filesystem
 
-- [ ] Support `.gitignore`
-- [ ] Git: fetch from github
-- [ ] Git: Config
-- [ ] Git: Merge
+- [ ] Support `.gitignore` for UI
+- [ ] Git: Stash
 - [ ] Git: Rebase
 - [ ] Git: Rebase with conflict manager
 
+Some features depend on isomorphic-git.
+
 ### TODO: React Enhancement
 
-- [ ] Bundle javasciprt in browser or use jspm.io
+- [ ] Bundle javasciprt in browser or import from jspm.io
 - [ ] React Component Preview
-- [ ] Config - commit author, GitHub Access Token via .git/config
 - [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
+
+### TODO: Just Idea
+
+- Simple Terminal by xterm.js / browserfs / busybox?
+- P2P Realtime editing
+- P2P Sync to other local git
+- WebTorrent integration
+- Dropbox backend via browserfs
+- Check CI Progress from Editor
 
 ## LICENSE
 
