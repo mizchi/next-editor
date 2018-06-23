@@ -51,8 +51,10 @@ export type GitRepositoryStatus = {
   branches: string[]
   tracked: string[]
   untracked: string[]
-  stagedChanges: GitFileStatus[]
-  unstagedChanges: GitFileStatus[]
+  unmodified: string[]
+  staged: string[]
+  unstaged: string[]
+  rawStatusList: GitFileStatus[]
   history: CommitDescription[]
 }
 

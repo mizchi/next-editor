@@ -29,6 +29,8 @@ const actions = {
 
 type Props = (typeof actions) & {
   gitRepositoryStatus: GitRepositoryStatus
+  gitStatusLoading: boolean
+  gitTouchCounter: number
   projectRoot: string
   touchCounter: number
 }
@@ -36,6 +38,7 @@ type Props = (typeof actions) & {
 const selector = (state: RootState) => {
   return {
     gitRepositoryStatus: state.repository.gitRepositoryStatus,
+    gitStatusLoading: state.repository.gitStatusLoading,
     gitTouchCounter: state.repository.gitTouchCounter,
     projectRoot: state.repository.currentProjectRoot,
     touchCounter: state.repository.fsTouchCounter
@@ -58,11 +61,17 @@ export const GitStatusViewer = connect(
     }
 
     render() {
-      const { projectRoot, gitRepositoryStatus } = this.props
+      const { projectRoot, gitRepositoryStatus, gitStatusLoading } = this.props
       if (gitRepositoryStatus) {
         const { currentBranch, branches, history } = gitRepositoryStatus
         const { untracked } = gitRepositoryStatus
-        const { stagedChanges, unstagedChanges } = gitRepositoryStatus
+        const { staged, unstaged, rawStatusList } = gitRepositoryStatus
+        const stagedChanges: any = staged.map(s => {
+          return rawStatusList.find(change => change.relpath === s)
+        })
+        const unstagedChanges: any = unstaged.map(u => {
+          return rawStatusList.find(change => change.relpath === u)
+        })
         return (
           <Container key={projectRoot}>
             <h2>Git Browser</h2>
@@ -91,6 +100,7 @@ export const GitStatusViewer = connect(
               }}
             />
             <GitCommitStatus
+              loading={gitStatusLoading}
               stagedChanges={stagedChanges}
               unstagedChanges={unstagedChanges}
               untracked={untracked}

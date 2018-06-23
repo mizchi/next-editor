@@ -1,4 +1,5 @@
 import path from "path"
+import { RootState } from "."
 import { mkdir } from "../domain/filesystem/commands/mkdir"
 import { removeDirectory } from "../domain/filesystem/commands/removeDirectory"
 import { unlink } from "../domain/filesystem/commands/unlink"
@@ -7,7 +8,10 @@ import { addFile } from "../domain/git/commands/addFile"
 import { checkoutBranch } from "../domain/git/commands/checkoutBranch"
 import { commitChanges } from "../domain/git/commands/commitChanges"
 import { removeFromGit } from "../domain/git/commands/removeFromGit"
-import { getProjectGitStatus } from "../domain/git/queries/getProjectGitStatus"
+import {
+  getProjectGitStatus,
+  updateFileStatusInProject
+} from "../domain/git/queries/getProjectGitStatus"
 import { listBranches } from "../domain/git/queries/listBranches"
 import { GitRepositoryStatus } from "../domain/types"
 import { GitFileStatus } from "./../domain/types"
@@ -20,9 +24,13 @@ type ThunkAction<A> = (
 
 const j = path.join
 
+// Action
+
 const CHANGED = "repository:changed"
+const FILE_CHANGED = "repository:file-changed"
 const PROJECT_ROOT_CHANGED = "repository:project-root-changed"
 const GIT_STATUS_UPDATED = "repository:git-status-updated"
+const GIT_STATUS_UPDATED_START = "repository:git-status-updated-start"
 
 type Changed = {
   type: typeof CHANGED
@@ -30,6 +38,14 @@ type Changed = {
     git?: boolean
     file?: boolean
     changedPath?: string
+  }
+}
+
+type FileChanged = {
+  type: typeof FILE_CHANGED
+  payload: {
+    projectRoot: string
+    relpath: string
   }
 }
 
@@ -41,9 +57,46 @@ type ProjectRootChanged = {
   }
 }
 
+type GitStatusUpdatedStart = {
+  type: typeof GIT_STATUS_UPDATED_START
+}
+
 type GitStatusUpdated = {
   type: typeof GIT_STATUS_UPDATED
   payload: GitRepositoryStatus
+}
+
+export type Action =
+  | GitStatusUpdated
+  | Changed
+  | FileChanged
+  | ProjectRootChanged
+  | GitStatusUpdatedStart
+
+// ActionCreator
+
+export async function fileChanged({
+  relpath,
+  projectRoot
+}: {
+  relpath: string
+  projectRoot: string
+}) {
+  return async (dispatch: any, getState: () => RootState) => {
+    const {
+      repository: { gitRepositoryStatus }
+    } = getState()
+    if (gitRepositoryStatus) {
+      dispatch({
+        type: GIT_STATUS_UPDATED,
+        payload: await updateFileStatusInProject(
+          projectRoot,
+          gitRepositoryStatus,
+          relpath
+        )
+      })
+    }
+  }
 }
 
 export function changed({
@@ -79,10 +132,13 @@ export async function projectRootChanged(projectRoot: string) {
 
 export async function updateGitStatus(
   projectRoot: string
-): Promise<GitStatusUpdated> {
-  return {
-    type: GIT_STATUS_UPDATED,
-    payload: await getProjectGitStatus(projectRoot)
+): Promise<ThunkAction<GitStatusUpdated | GitStatusUpdatedStart>> {
+  return async (dispatch: any) => {
+    dispatch({ type: GIT_STATUS_UPDATED_START })
+    dispatch({
+      type: GIT_STATUS_UPDATED,
+      payload: await getProjectGitStatus(projectRoot)
+    })
   }
 }
 
@@ -154,22 +210,14 @@ export async function deleteProject(dirpath: string) {
   }
 }
 
-export async function addToStage(
-  projectRoot: string,
-  relpath: string
-): Promise<Changed> {
+export async function addToStage(projectRoot: string, relpath: string) {
   await addFile(projectRoot, relpath)
-  const dirname = path.dirname(j(projectRoot, relpath))
-  return changed({ changedPath: dirname })
+  return fileChanged({ projectRoot, relpath })
 }
 
-export async function removeFileFromGit(
-  projectRoot: string,
-  relpath: string
-): Promise<Changed> {
+export async function removeFileFromGit(projectRoot: string, relpath: string) {
   await removeFromGit(projectRoot, relpath)
-  const dirname = path.dirname(j(projectRoot, relpath))
-  return changed({ changedPath: dirname })
+  return fileChanged({ projectRoot, relpath })
 }
 
 export async function commitStagedChanges(
@@ -200,10 +248,9 @@ export async function commitUnstagedChanges(
   return changed({ changedPath: projectRoot })
 }
 
-export type Action = GitStatusUpdated | Changed | ProjectRootChanged
-
 export type RepositoryState = {
   gitRepositoryStatus: GitRepositoryStatus | null
+  gitStatusLoading: boolean
   currentProjectRoot: string
   lastChangedPath: string
   lastChangedGithPath: string
@@ -213,6 +260,7 @@ export type RepositoryState = {
 
 const initialState: RepositoryState = {
   gitRepositoryStatus: null,
+  gitStatusLoading: false,
   currentProjectRoot: "/playground",
   gitTouchCounter: 0,
   lastChangedGithPath: "",
@@ -227,7 +275,23 @@ export function reducer(state: RepositoryState = initialState, action: Action) {
         ...state,
         currentProjectRoot: action.payload.projectRoot,
         fsTouchCounter: 0,
+        gitRepositoryStatus: null,
         gitTouchCounter: 0
+      }
+    }
+    case FILE_CHANGED: {
+      const { projectRoot, relpath } = action.payload
+      if (state.gitRepositoryStatus != null) {
+        return {
+          ...state,
+          gitRepositoryStatus: updateFileStatusInProject(
+            projectRoot,
+            state.gitRepositoryStatus,
+            relpath
+          )
+        }
+      } else {
+        return state
       }
     }
     case CHANGED: {
@@ -242,10 +306,17 @@ export function reducer(state: RepositoryState = initialState, action: Action) {
         lastChangedPath: action.payload.changedPath
       }
     }
+    case GIT_STATUS_UPDATED_START: {
+      return {
+        ...state,
+        gitStatusLoading: true
+      }
+    }
     case GIT_STATUS_UPDATED: {
       return {
         ...state,
-        gitRepositoryStatus: action.payload
+        gitRepositoryStatus: action.payload,
+        gitStatusLoading: false
       }
     }
     default: {

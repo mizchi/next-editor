@@ -57,18 +57,12 @@ export async function updateValue(filepath: string, value: string) {
       }
     })
     await writeFile(filepath, value)
-    // detect untracking changed
+
+    // update git status
     const state = getState()
-    if (state.repository.gitRepositoryStatus) {
-      const root = state.repository.currentProjectRoot
-      const relpath = path.relative(root, filepath)
-      const { tracked, unstagedChanges } = state.repository.gitRepositoryStatus
-      const alreadyChanged =
-        unstagedChanges.findIndex(change => change.relpath === relpath) > -1
-      if (!alreadyChanged && tracked.includes(relpath)) {
-        dispatch(RepositoryActions.changed())
-      }
-    }
+    const projectRoot = state.repository.currentProjectRoot
+    const relpath = path.relative(projectRoot, filepath)
+    dispatch(RepositoryActions.fileChanged({ projectRoot, relpath }) as any)
   }
 }
 

@@ -10,7 +10,11 @@ import { RootState } from "../../../reducers"
 import { pushScene } from "../../../reducers/app"
 import * as ProjectActions from "../../../reducers/project"
 import { ProjectState } from "../../../reducers/project"
-import { deleteProject, projectRootChanged } from "../../../reducers/repository"
+import {
+  deleteProject,
+  projectRootChanged,
+  RepositoryState
+} from "../../../reducers/repository"
 import { CloneProjectButton } from "./CloneProjectButton"
 import { CreateNewProjectButton } from "./CreateNewProjectButton"
 import { ProjectContextMenu } from "./ProjectContextMenu"
@@ -21,11 +25,13 @@ type Props = (typeof ProjectActions) & {
   pushScene: typeof pushScene
 } & {
   project: ProjectState
+  repository: RepositoryState
 }
 
 const selector = (state: RootState) => {
   return {
-    project: state.project
+    project: state.project,
+    repository: state.repository
   }
 }
 
@@ -90,6 +96,8 @@ export const ProjectManager = connect(
           </div>
           <ProjectContextMenu />
           {projects.map(p => {
+            const isActive =
+              p.projectRoot === this.props.repository.currentProjectRoot
             return (
               <ContextMenuProvider
                 key={p.projectRoot}
@@ -103,7 +111,13 @@ export const ProjectManager = connect(
                 >
                   <ProjectLineContent>
                     <Icon icon={faBox} />
-                    {p.projectRoot}
+                    <span
+                      style={{
+                        color: isActive ? "#4a4" : "black"
+                      }}
+                    >
+                      {p.projectRoot}
+                    </span>
                   </ProjectLineContent>
                 </ProjectLineContainer>
               </ContextMenuProvider>

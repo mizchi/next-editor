@@ -6,6 +6,7 @@ import { Command } from "../../atoms/Command"
 export class GitCommitStatus extends React.PureComponent<{
   stagedChanges: GitFileStatus[]
   unstagedChanges: GitFileStatus[]
+  loading: boolean
   untracked: string[]
   onClickGitAdd: (filepath: string) => void
   onClickGitRemove: (filepath: string) => void
@@ -17,11 +18,17 @@ export class GitCommitStatus extends React.PureComponent<{
       stagedChanges,
       unstagedChanges,
       untracked,
+      loading,
       onClickGitAdd,
       onClickGitCommit,
       onClickGitCommitUnstaged,
       onClickGitRemove
     } = this.props
+
+    if (loading) {
+      return "Git Status Loading..."
+    }
+
     const hasStagedChanges = stagedChanges.length > 0
     const hasUnstagedChanges = unstagedChanges.length > 0
     const hasChanges = hasStagedChanges || hasUnstagedChanges
@@ -100,48 +107,6 @@ export class GitCommitStatus extends React.PureComponent<{
             })}
           </>
         )}
-        {/* {modified.length > 0 && (
-          <>
-            <StatusText>[modified]</StatusText>
-            {modified.map(filepath => {
-              return (
-                <div key={filepath}>
-                  {filepath}
-                  &nbsp;
-                  <button
-                    onClick={() => {
-                      onClickGitAdd(filepath)
-                    }}
-                  >
-                    add to stage
-                  </button>
-                </div>
-              )
-            })}
-          </>
-        )}
-        {removedInFS.length > 0 && (
-          <>
-            <StatusText>[removed]</StatusText>
-            {removedInFS.map(filepath => {
-              return (
-                <div key={filepath}>
-                  {filepath}
-                  &nbsp;
-                  <button
-                    onClick={() => {
-                      onClickGitRemove(filepath)
-                    }}
-                  >
-                    remove from git
-                  </button>
-                </div>
-              )
-            })}
-          </>
-        )}
-        */}
-
         {untracked.length > 0 && (
           <>
             <StatusText>[untracked]</StatusText>
