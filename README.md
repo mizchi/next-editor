@@ -41,18 +41,20 @@ Concept implementation
 - [x] Remove project
 - [x] Git: push to github
 - [x] Project Config: github token
+- [x] Show async loading on git action
+- [x] FileBrowser: Inline File / Dir Creator
+- [x] Editor: Update git status of editing file only
+- [x] Define app name
 - [ ] Commit with config name/email
 - [ ] Git: push to github better UI
-- [ ] Git: merge fast forward only
+- [ ] Git: merge / fast forward only
 - [ ] Git: fetch
 - [ ] Preview Tab Switcher / GitManager - MarkdownPreview
-- [ ] Show async loader on git action
 - [ ] Toggle preview layout 2 <-> 3 panes
-- [ ] FileBrowser: Inline File Creator / Renamer
-- [ ] Editor: Update git status of editing file only
+- [ ] FileBrowser: Inline Renamer
+- [ ] Editor: Update git status on git add
 - [ ] Markup: total design
 - [ ] PWA's manifest.json for chrome playstore / Windows store
-- [ ] Define app name
 - [ ] Purchase domain(.app?)
 
 ### TODO: Git and filesystem
