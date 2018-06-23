@@ -3,16 +3,25 @@ import React from "react"
 import { connect } from "react-redux"
 import styled from "styled-components"
 import { RootState } from "../../../reducers"
-import { createDirectory, createFile } from "../../../reducers/repository"
+import {
+  cancelFileCreating,
+  createDirectory,
+  createFile,
+  endFileCreating
+} from "../../../reducers/repository"
+
+const actions = {
+  createFile,
+  createDirectory,
+  endFileCreating,
+  cancelFileCreating
+}
 
 type OwnProps = {
   parentDir: string
 }
 
-type Props = OwnProps & {
-  createDirectory: typeof createDirectory
-  createFile: typeof createFile
-}
+type Props = OwnProps & typeof actions
 
 type State = {
   value: string
@@ -20,14 +29,19 @@ type State = {
 
 export const AddFile = (connect as any)(
   (_state: RootState, ownProps: OwnProps) => ownProps,
-  { createFile, createDirectory }
+  actions
 )(
   class extends React.Component<Props, State> {
+    inputRef: any = React.createRef()
     constructor(props: Props) {
       super(props)
       this.state = {
         value: ""
       }
+    }
+
+    componentDidMount() {
+      this.inputRef.current.focus()
     }
 
     render() {
@@ -36,9 +50,23 @@ export const AddFile = (connect as any)(
       return (
         <Container>
           <input
+            ref={this.inputRef}
             value={value}
             onChange={event => {
               this.setState({ value: event.target.value })
+            }}
+            onBlur={() => {
+              this.props.cancelFileCreating()
+            }}
+            onKeyDown={ev => {
+              // TODO: Esc
+              if (ev.keyCode === 27) {
+                this.props.cancelFileCreating()
+              }
+              // TODO: Enter
+              if (ev.keyCode === 13) {
+                this.props.endFileCreating(path.join(parentDir, value))
+              }
             }}
           />
           <button

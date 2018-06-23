@@ -1,6 +1,7 @@
+import faFile from "@fortawesome/fontawesome-free-solid/faFile"
 import faFolder from "@fortawesome/fontawesome-free-solid/faFolder"
 import faFolderOpen from "@fortawesome/fontawesome-free-solid/faFolderOpen"
-import FontAwesomeIcon from "@fortawesome/react-fontawesome"
+import Icon from "@fortawesome/react-fontawesome"
 import range from "lodash/range"
 import path from "path"
 import React from "react"
@@ -25,6 +26,7 @@ type OwnProps = {
 type Props = OwnProps & {
   lastChangedPath: string
   touchCounter: number
+  isFileCreating: boolean
 }
 
 type State = {
@@ -40,7 +42,8 @@ export const Directory: React.ComponentType<OwnProps> = connect(
     return {
       ...ownProps,
       lastChangedPath: state.repository.lastChangedPath,
-      touchCounter: state.repository.fsTouchCounter
+      touchCounter: state.repository.fsTouchCounter,
+      isFileCreating: ownProps.dirpath === state.repository.fileCreatingDir
     }
   }
 )(
@@ -94,11 +97,7 @@ export const Directory: React.ComponentType<OwnProps> = connect(
                 this.setState({ opened: !this.state.opened })
               }}
             >
-              {opened ? (
-                <FontAwesomeIcon icon={faFolderOpen} />
-              ) : (
-                <FontAwesomeIcon icon={faFolder} />
-              )}
+              {opened ? <Icon icon={faFolderOpen} /> : <Icon icon={faFolder} />}
             </DirectoryButton>
             &nbsp;
             <MyContextMenuProvider
@@ -108,10 +107,12 @@ export const Directory: React.ComponentType<OwnProps> = connect(
             >
               {basename || `${dirpath}`}
             </MyContextMenuProvider>
+            {/* <Icon icon={faFile} />
+            <Icon icon={faFolder} /> */}
           </div>
           {opened && (
             <>
-              {!ignoreGit && (
+              {this.props.isFileCreating && (
                 <div>
                   {prefixPlusOne}
                   <AddFile parentDir={dirpath} />

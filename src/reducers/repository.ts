@@ -29,8 +29,29 @@ const j = path.join
 const CHANGED = "repository:changed"
 const FILE_CHANGED = "repository:file-changed"
 const PROJECT_ROOT_CHANGED = "repository:project-root-changed"
-const GIT_STATUS_UPDATED = "repository:git-status-updated"
 const GIT_STATUS_UPDATED_START = "repository:git-status-updated-start"
+const GIT_STATUS_UPDATED_END = "repository:git-status-updated-end"
+const FILE_CREATING_IN_DIR_START = "repository:file-creating-in-dir-start"
+const FILE_CREATING_IN_DIR_CANCEL = "repository:file-creating-in-dir-cancel"
+const FILE_CREATING_IN_DIR_END = "repository:file-creating-in-dir-end"
+
+type FileCreatingInDirStart = {
+  type: typeof FILE_CREATING_IN_DIR_START
+  payload: {
+    fileCreatingDir: string
+  }
+}
+
+type FileCreatingInDirCancel = {
+  type: typeof FILE_CREATING_IN_DIR_CANCEL
+}
+
+type FileCreatingInDirEnd = {
+  type: typeof FILE_CREATING_IN_DIR_END
+  payload: {
+    filepath: string
+  }
+}
 
 type Changed = {
   type: typeof CHANGED
@@ -62,7 +83,7 @@ type GitStatusUpdatedStart = {
 }
 
 type GitStatusUpdated = {
-  type: typeof GIT_STATUS_UPDATED
+  type: typeof GIT_STATUS_UPDATED_END
   payload: GitRepositoryStatus
 }
 
@@ -72,8 +93,42 @@ export type Action =
   | FileChanged
   | ProjectRootChanged
   | GitStatusUpdatedStart
+  | FileCreatingInDirStart
+  | FileCreatingInDirCancel
+  | FileCreatingInDirEnd
 
 // ActionCreator
+
+export function startFileCreating(dirpath: string): FileCreatingInDirStart {
+  return {
+    type: FILE_CREATING_IN_DIR_START,
+    payload: {
+      fileCreatingDir: dirpath
+    }
+  }
+}
+
+export function cancelFileCreating(): FileCreatingInDirCancel {
+  return {
+    type: FILE_CREATING_IN_DIR_CANCEL
+  }
+}
+
+export function endFileCreating(filepath: string) {
+  return async (dispatch: any, getState: () => RootState) => {
+    dispatch({
+      type: FILE_CREATING_IN_DIR_END,
+      payload: {
+        filepath
+      }
+    })
+    // TODO: Create file
+    const state = getState()
+    const projectRoot = state.repository.currentProjectRoot
+    const relpath = path.resolve(projectRoot, filepath)
+    dispatch(fileChanged({ projectRoot, relpath }))
+  }
+}
 
 export async function fileChanged({
   relpath,
@@ -88,7 +143,7 @@ export async function fileChanged({
     } = getState()
     if (gitRepositoryStatus) {
       dispatch({
-        type: GIT_STATUS_UPDATED,
+        type: GIT_STATUS_UPDATED_END,
         payload: await updateFileStatusInProject(
           projectRoot,
           gitRepositoryStatus,
@@ -136,7 +191,7 @@ export async function updateGitStatus(
   return async (dispatch: any) => {
     dispatch({ type: GIT_STATUS_UPDATED_START })
     dispatch({
-      type: GIT_STATUS_UPDATED,
+      type: GIT_STATUS_UPDATED_END,
       payload: await getProjectGitStatus(projectRoot)
     })
   }
@@ -249,6 +304,8 @@ export async function commitUnstagedChanges(
 }
 
 export type RepositoryState = {
+  fileCreatingDir: string | null
+  renamingFilepath: string | null
   gitRepositoryStatus: GitRepositoryStatus | null
   gitStatusLoading: boolean
   currentProjectRoot: string
@@ -259,6 +316,8 @@ export type RepositoryState = {
 }
 
 const initialState: RepositoryState = {
+  fileCreatingDir: null,
+  renamingFilepath: null,
   gitRepositoryStatus: null,
   gitStatusLoading: false,
   currentProjectRoot: "/playground",
@@ -312,11 +371,29 @@ export function reducer(state: RepositoryState = initialState, action: Action) {
         gitStatusLoading: true
       }
     }
-    case GIT_STATUS_UPDATED: {
+    case GIT_STATUS_UPDATED_END: {
       return {
         ...state,
         gitRepositoryStatus: action.payload,
         gitStatusLoading: false
+      }
+    }
+    case FILE_CREATING_IN_DIR_START: {
+      return {
+        ...state,
+        fileCreatingDir: action.payload.fileCreatingDir
+      }
+    }
+    case FILE_CREATING_IN_DIR_CANCEL: {
+      return {
+        ...state,
+        fileCreatingDir: null
+      }
+    }
+    case FILE_CREATING_IN_DIR_END: {
+      return {
+        ...state,
+        fileCreatingDir: null
       }
     }
     default: {
