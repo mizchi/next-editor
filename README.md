@@ -45,7 +45,7 @@ Concept implementation
 - [x] FileBrowser: Inline File / Dir Creator
 - [x] Editor: Update git status of editing file only
 - [x] Define app name
-- [ ] Commit with config name/email
+- [x] Commit with config name/email
 - [ ] Git: push to github better UI
 - [ ] Git: merge / fast forward only
 - [ ] Git: fetch

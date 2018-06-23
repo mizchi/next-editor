@@ -335,8 +335,11 @@ export async function commitStagedChanges(
   projectRoot: string,
   message: string = "Update"
 ): Promise<Changed> {
-  const author = {}
-  const hash = await commitChanges(projectRoot, message)
+  const author = {
+    email: localStorage.getItem("committer-email") || "dummy",
+    name: localStorage.getItem("committer-name") || "dummy"
+  }
+  const hash = await commitChanges(projectRoot, message, author)
   return changed({ changedPath: projectRoot })
 }
 
@@ -354,8 +357,11 @@ export async function commitUnstagedChanges(
       }
     })
   )
-  const author = {}
-  const hash = await commitChanges(projectRoot, message)
+  const author = {
+    email: localStorage.getItem("committer-email") || "dummy",
+    name: localStorage.getItem("committer-name") || "dummy"
+  }
+  const hash = await commitChanges(projectRoot, message, author)
   return changed({ changedPath: projectRoot })
 }
 
