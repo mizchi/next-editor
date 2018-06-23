@@ -196,13 +196,14 @@ export async function fileChanged({
       repository: { gitRepositoryStatus }
     } = getState()
     if (gitRepositoryStatus) {
+      const gitStatus = await updateFileStatusInProject(
+        projectRoot,
+        gitRepositoryStatus,
+        relpath
+      )
       dispatch({
         type: GIT_STATUS_UPDATED_END,
-        payload: await updateFileStatusInProject(
-          projectRoot,
-          gitRepositoryStatus,
-          relpath
-        )
+        payload: gitStatus
       })
     }
   }
@@ -321,7 +322,8 @@ export async function deleteProject(dirpath: string) {
 
 export async function addToStage(projectRoot: string, relpath: string) {
   await addFile(projectRoot, relpath)
-  return fileChanged({ projectRoot, relpath })
+  // return fileChanged({ projectRoot, relpath })
+  return changed()
 }
 
 export async function removeFileFromGit(projectRoot: string, relpath: string) {
@@ -431,6 +433,7 @@ export function reducer(state: RepositoryState = initialState, action: Action) {
       return {
         ...state,
         gitRepositoryStatus: action.payload,
+        gitTouchCounter: state.gitTouchCounter + 1,
         gitStatusLoading: false
       }
     }
