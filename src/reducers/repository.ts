@@ -34,6 +34,9 @@ const GIT_STATUS_UPDATED_END = "repository:git-status-updated-end"
 const FILE_CREATING_IN_DIR_START = "repository:file-creating-in-dir-start"
 const FILE_CREATING_IN_DIR_CANCEL = "repository:file-creating-in-dir-cancel"
 const FILE_CREATING_IN_DIR_END = "repository:file-creating-in-dir-end"
+const DIR_CREATING_IN_DIR_START = "repository:dir-creating-in-dir-start"
+const DIR_CREATING_IN_DIR_CANCEL = "repository:dir-creating-in-dir-cancel"
+const DIR_CREATING_IN_DIR_END = "repository:dir-creating-in-dir-end"
 
 type FileCreatingInDirStart = {
   type: typeof FILE_CREATING_IN_DIR_START
@@ -50,6 +53,24 @@ type FileCreatingInDirEnd = {
   type: typeof FILE_CREATING_IN_DIR_END
   payload: {
     filepath: string
+  }
+}
+
+type DirCreatingInDirStart = {
+  type: typeof DIR_CREATING_IN_DIR_START
+  payload: {
+    dirCreatingDir: string
+  }
+}
+
+type DirCreatingInDirCancel = {
+  type: typeof DIR_CREATING_IN_DIR_CANCEL
+}
+
+type DirCreatingInDirEnd = {
+  type: typeof DIR_CREATING_IN_DIR_END
+  payload: {
+    dirpath: string
   }
 }
 
@@ -96,6 +117,9 @@ export type Action =
   | FileCreatingInDirStart
   | FileCreatingInDirCancel
   | FileCreatingInDirEnd
+  | DirCreatingInDirStart
+  | DirCreatingInDirCancel
+  | DirCreatingInDirEnd
 
 // ActionCreator
 
@@ -116,6 +140,7 @@ export function cancelFileCreating(): FileCreatingInDirCancel {
 
 export function endFileCreating(filepath: string) {
   return async (dispatch: any, getState: () => RootState) => {
+    await writeFile(filepath, "")
     dispatch({
       type: FILE_CREATING_IN_DIR_END,
       payload: {
@@ -126,7 +151,36 @@ export function endFileCreating(filepath: string) {
     const state = getState()
     const projectRoot = state.repository.currentProjectRoot
     const relpath = path.resolve(projectRoot, filepath)
-    dispatch(fileChanged({ projectRoot, relpath }))
+    // dispatch(fileChanged({ projectRoot, relpath }))
+    dispatch(changed())
+  }
+}
+
+export function startDirCreating(dirpath: string): DirCreatingInDirStart {
+  return {
+    type: DIR_CREATING_IN_DIR_START,
+    payload: {
+      dirCreatingDir: dirpath
+    }
+  }
+}
+
+export function cancelDirCreating(): DirCreatingInDirCancel {
+  return {
+    type: DIR_CREATING_IN_DIR_CANCEL
+  }
+}
+
+export function endDirCreating(dirpath: string) {
+  return async (dispatch: any, getState: () => RootState) => {
+    await mkdir(dirpath)
+    dispatch({
+      type: DIR_CREATING_IN_DIR_END,
+      payload: {
+        dirpath
+      }
+    })
+    dispatch(changed())
   }
 }
 
@@ -305,6 +359,7 @@ export async function commitUnstagedChanges(
 
 export type RepositoryState = {
   fileCreatingDir: string | null
+  dirCreatingDir: string | null
   renamingFilepath: string | null
   gitRepositoryStatus: GitRepositoryStatus | null
   gitStatusLoading: boolean
@@ -317,6 +372,7 @@ export type RepositoryState = {
 
 const initialState: RepositoryState = {
   fileCreatingDir: null,
+  dirCreatingDir: null,
   renamingFilepath: null,
   gitRepositoryStatus: null,
   gitStatusLoading: false,
@@ -394,6 +450,24 @@ export function reducer(state: RepositoryState = initialState, action: Action) {
       return {
         ...state,
         fileCreatingDir: null
+      }
+    }
+    case DIR_CREATING_IN_DIR_START: {
+      return {
+        ...state,
+        dirCreatingDir: action.payload.dirCreatingDir
+      }
+    }
+    case DIR_CREATING_IN_DIR_CANCEL: {
+      return {
+        ...state,
+        dirCreatingDir: null
+      }
+    }
+    case DIR_CREATING_IN_DIR_END: {
+      return {
+        ...state,
+        dirCreatingDir: null
       }
     }
     default: {

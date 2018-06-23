@@ -15,6 +15,7 @@ const onClick: any = ({ event, ref, data, dataFromProvider }: any) =>
 
 const actions = {
   startFileCreating: RepositoryActions.startFileCreating,
+  startDirCreating: RepositoryActions.startDirCreating,
   addToStage: RepositoryActions.addToStage,
   deleteFile: RepositoryActions.deleteFile,
   deleteDirectory: RepositoryActions.deleteDirectory
@@ -34,14 +35,15 @@ export const DirectoryContextMenu: any = connect(
           props.startFileCreating(dirpath)
         }}
       >
-        Create File[WIP]
+        Create File
       </Item>
       <Item
         onClick={({ dataFromProvider }: any) => {
-          // props.deleteFile(dataFromProvider.filepath)
+          const { dirpath } = dataFromProvider
+          props.startDirCreating(dirpath)
         }}
       >
-        Create Directory[WIP]
+        Create Directory
       </Item>
       <Separator />
       <Item

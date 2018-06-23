@@ -1,4 +1,3 @@
-import faFile from "@fortawesome/fontawesome-free-solid/faFile"
 import faFolder from "@fortawesome/fontawesome-free-solid/faFolder"
 import faFolderOpen from "@fortawesome/fontawesome-free-solid/faFolderOpen"
 import Icon from "@fortawesome/react-fontawesome"
@@ -12,6 +11,7 @@ import styled from "styled-components"
 import { readFileStats } from "../../../domain/filesystem/queries/readFileStats"
 import { FileInfo } from "../../../domain/types"
 import { RootState } from "../../../reducers"
+import { AddDir } from "./AddDir"
 import { AddFile } from "./AddFile"
 import { File } from "./File"
 
@@ -27,6 +27,7 @@ type Props = OwnProps & {
   lastChangedPath: string
   touchCounter: number
   isFileCreating: boolean
+  isDirCreating: boolean
 }
 
 type State = {
@@ -43,7 +44,8 @@ export const Directory: React.ComponentType<OwnProps> = connect(
       ...ownProps,
       lastChangedPath: state.repository.lastChangedPath,
       touchCounter: state.repository.fsTouchCounter,
-      isFileCreating: ownProps.dirpath === state.repository.fileCreatingDir
+      isFileCreating: ownProps.dirpath === state.repository.fileCreatingDir,
+      isDirCreating: ownProps.dirpath === state.repository.dirCreatingDir
     }
   }
 )(
@@ -116,6 +118,12 @@ export const Directory: React.ComponentType<OwnProps> = connect(
                 <div>
                   {prefixPlusOne}
                   <AddFile parentDir={dirpath} />
+                </div>
+              )}
+              {this.props.isDirCreating && (
+                <div>
+                  {prefixPlusOne}
+                  <AddDir parentDir={dirpath} />
                 </div>
               )}
               {fileList != null &&
