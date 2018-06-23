@@ -29,8 +29,50 @@ const j = path.join
 const CHANGED = "repository:changed"
 const FILE_CHANGED = "repository:file-changed"
 const PROJECT_ROOT_CHANGED = "repository:project-root-changed"
-const GIT_STATUS_UPDATED = "repository:git-status-updated"
 const GIT_STATUS_UPDATED_START = "repository:git-status-updated-start"
+const GIT_STATUS_UPDATED_END = "repository:git-status-updated-end"
+const FILE_CREATING_IN_DIR_START = "repository:file-creating-in-dir-start"
+const FILE_CREATING_IN_DIR_CANCEL = "repository:file-creating-in-dir-cancel"
+const FILE_CREATING_IN_DIR_END = "repository:file-creating-in-dir-end"
+const DIR_CREATING_IN_DIR_START = "repository:dir-creating-in-dir-start"
+const DIR_CREATING_IN_DIR_CANCEL = "repository:dir-creating-in-dir-cancel"
+const DIR_CREATING_IN_DIR_END = "repository:dir-creating-in-dir-end"
+
+type FileCreatingInDirStart = {
+  type: typeof FILE_CREATING_IN_DIR_START
+  payload: {
+    fileCreatingDir: string
+  }
+}
+
+type FileCreatingInDirCancel = {
+  type: typeof FILE_CREATING_IN_DIR_CANCEL
+}
+
+type FileCreatingInDirEnd = {
+  type: typeof FILE_CREATING_IN_DIR_END
+  payload: {
+    filepath: string
+  }
+}
+
+type DirCreatingInDirStart = {
+  type: typeof DIR_CREATING_IN_DIR_START
+  payload: {
+    dirCreatingDir: string
+  }
+}
+
+type DirCreatingInDirCancel = {
+  type: typeof DIR_CREATING_IN_DIR_CANCEL
+}
+
+type DirCreatingInDirEnd = {
+  type: typeof DIR_CREATING_IN_DIR_END
+  payload: {
+    dirpath: string
+  }
+}
 
 type Changed = {
   type: typeof CHANGED
@@ -62,7 +104,7 @@ type GitStatusUpdatedStart = {
 }
 
 type GitStatusUpdated = {
-  type: typeof GIT_STATUS_UPDATED
+  type: typeof GIT_STATUS_UPDATED_END
   payload: GitRepositoryStatus
 }
 
@@ -72,8 +114,75 @@ export type Action =
   | FileChanged
   | ProjectRootChanged
   | GitStatusUpdatedStart
+  | FileCreatingInDirStart
+  | FileCreatingInDirCancel
+  | FileCreatingInDirEnd
+  | DirCreatingInDirStart
+  | DirCreatingInDirCancel
+  | DirCreatingInDirEnd
 
 // ActionCreator
+
+export function startFileCreating(dirpath: string): FileCreatingInDirStart {
+  return {
+    type: FILE_CREATING_IN_DIR_START,
+    payload: {
+      fileCreatingDir: dirpath
+    }
+  }
+}
+
+export function cancelFileCreating(): FileCreatingInDirCancel {
+  return {
+    type: FILE_CREATING_IN_DIR_CANCEL
+  }
+}
+
+export function endFileCreating(filepath: string) {
+  return async (dispatch: any, getState: () => RootState) => {
+    await writeFile(filepath, "")
+    dispatch({
+      type: FILE_CREATING_IN_DIR_END,
+      payload: {
+        filepath
+      }
+    })
+    // TODO: Create file
+    const state = getState()
+    const projectRoot = state.repository.currentProjectRoot
+    const relpath = path.resolve(projectRoot, filepath)
+    // dispatch(fileChanged({ projectRoot, relpath }))
+    dispatch(changed())
+  }
+}
+
+export function startDirCreating(dirpath: string): DirCreatingInDirStart {
+  return {
+    type: DIR_CREATING_IN_DIR_START,
+    payload: {
+      dirCreatingDir: dirpath
+    }
+  }
+}
+
+export function cancelDirCreating(): DirCreatingInDirCancel {
+  return {
+    type: DIR_CREATING_IN_DIR_CANCEL
+  }
+}
+
+export function endDirCreating(dirpath: string) {
+  return async (dispatch: any, getState: () => RootState) => {
+    await mkdir(dirpath)
+    dispatch({
+      type: DIR_CREATING_IN_DIR_END,
+      payload: {
+        dirpath
+      }
+    })
+    dispatch(changed())
+  }
+}
 
 export async function fileChanged({
   relpath,
@@ -87,13 +196,14 @@ export async function fileChanged({
       repository: { gitRepositoryStatus }
     } = getState()
     if (gitRepositoryStatus) {
+      const gitStatus = await updateFileStatusInProject(
+        projectRoot,
+        gitRepositoryStatus,
+        relpath
+      )
       dispatch({
-        type: GIT_STATUS_UPDATED,
-        payload: await updateFileStatusInProject(
-          projectRoot,
-          gitRepositoryStatus,
-          relpath
-        )
+        type: GIT_STATUS_UPDATED_END,
+        payload: gitStatus
       })
     }
   }
@@ -136,7 +246,7 @@ export async function updateGitStatus(
   return async (dispatch: any) => {
     dispatch({ type: GIT_STATUS_UPDATED_START })
     dispatch({
-      type: GIT_STATUS_UPDATED,
+      type: GIT_STATUS_UPDATED_END,
       payload: await getProjectGitStatus(projectRoot)
     })
   }
@@ -212,7 +322,8 @@ export async function deleteProject(dirpath: string) {
 
 export async function addToStage(projectRoot: string, relpath: string) {
   await addFile(projectRoot, relpath)
-  return fileChanged({ projectRoot, relpath })
+  // return fileChanged({ projectRoot, relpath })
+  return changed()
 }
 
 export async function removeFileFromGit(projectRoot: string, relpath: string) {
@@ -249,6 +360,9 @@ export async function commitUnstagedChanges(
 }
 
 export type RepositoryState = {
+  fileCreatingDir: string | null
+  dirCreatingDir: string | null
+  renamingFilepath: string | null
   gitRepositoryStatus: GitRepositoryStatus | null
   gitStatusLoading: boolean
   currentProjectRoot: string
@@ -259,6 +373,9 @@ export type RepositoryState = {
 }
 
 const initialState: RepositoryState = {
+  fileCreatingDir: null,
+  dirCreatingDir: null,
+  renamingFilepath: null,
   gitRepositoryStatus: null,
   gitStatusLoading: false,
   currentProjectRoot: "/playground",
@@ -312,11 +429,48 @@ export function reducer(state: RepositoryState = initialState, action: Action) {
         gitStatusLoading: true
       }
     }
-    case GIT_STATUS_UPDATED: {
+    case GIT_STATUS_UPDATED_END: {
       return {
         ...state,
         gitRepositoryStatus: action.payload,
+        gitTouchCounter: state.gitTouchCounter + 1,
         gitStatusLoading: false
+      }
+    }
+    case FILE_CREATING_IN_DIR_START: {
+      return {
+        ...state,
+        fileCreatingDir: action.payload.fileCreatingDir
+      }
+    }
+    case FILE_CREATING_IN_DIR_CANCEL: {
+      return {
+        ...state,
+        fileCreatingDir: null
+      }
+    }
+    case FILE_CREATING_IN_DIR_END: {
+      return {
+        ...state,
+        fileCreatingDir: null
+      }
+    }
+    case DIR_CREATING_IN_DIR_START: {
+      return {
+        ...state,
+        dirCreatingDir: action.payload.dirCreatingDir
+      }
+    }
+    case DIR_CREATING_IN_DIR_CANCEL: {
+      return {
+        ...state,
+        dirCreatingDir: null
+      }
+    }
+    case DIR_CREATING_IN_DIR_END: {
+      return {
+        ...state,
+        dirCreatingDir: null
       }
     }
     default: {

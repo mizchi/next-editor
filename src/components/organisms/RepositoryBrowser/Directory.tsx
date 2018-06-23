@@ -1,6 +1,6 @@
 import faFolder from "@fortawesome/fontawesome-free-solid/faFolder"
 import faFolderOpen from "@fortawesome/fontawesome-free-solid/faFolderOpen"
-import FontAwesomeIcon from "@fortawesome/react-fontawesome"
+import Icon from "@fortawesome/react-fontawesome"
 import range from "lodash/range"
 import path from "path"
 import React from "react"
@@ -11,6 +11,7 @@ import styled from "styled-components"
 import { readFileStats } from "../../../domain/filesystem/queries/readFileStats"
 import { FileInfo } from "../../../domain/types"
 import { RootState } from "../../../reducers"
+import { AddDir } from "./AddDir"
 import { AddFile } from "./AddFile"
 import { File } from "./File"
 
@@ -25,6 +26,8 @@ type OwnProps = {
 type Props = OwnProps & {
   lastChangedPath: string
   touchCounter: number
+  isFileCreating: boolean
+  isDirCreating: boolean
 }
 
 type State = {
@@ -40,7 +43,9 @@ export const Directory: React.ComponentType<OwnProps> = connect(
     return {
       ...ownProps,
       lastChangedPath: state.repository.lastChangedPath,
-      touchCounter: state.repository.fsTouchCounter
+      touchCounter: state.repository.fsTouchCounter,
+      isFileCreating: ownProps.dirpath === state.repository.fileCreatingDir,
+      isDirCreating: ownProps.dirpath === state.repository.dirCreatingDir
     }
   }
 )(
@@ -94,11 +99,7 @@ export const Directory: React.ComponentType<OwnProps> = connect(
                 this.setState({ opened: !this.state.opened })
               }}
             >
-              {opened ? (
-                <FontAwesomeIcon icon={faFolderOpen} />
-              ) : (
-                <FontAwesomeIcon icon={faFolder} />
-              )}
+              {opened ? <Icon icon={faFolderOpen} /> : <Icon icon={faFolder} />}
             </DirectoryButton>
             &nbsp;
             <MyContextMenuProvider
@@ -108,13 +109,21 @@ export const Directory: React.ComponentType<OwnProps> = connect(
             >
               {basename || `${dirpath}`}
             </MyContextMenuProvider>
+            {/* <Icon icon={faFile} />
+            <Icon icon={faFolder} /> */}
           </div>
           {opened && (
             <>
-              {!ignoreGit && (
+              {this.props.isFileCreating && (
                 <div>
                   {prefixPlusOne}
                   <AddFile parentDir={dirpath} />
+                </div>
+              )}
+              {this.props.isDirCreating && (
+                <div>
+                  {prefixPlusOne}
+                  <AddDir parentDir={dirpath} />
                 </div>
               )}
               {fileList != null &&

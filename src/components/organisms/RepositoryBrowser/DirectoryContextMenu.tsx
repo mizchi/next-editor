@@ -8,16 +8,14 @@ type OwnProps = {
   root: string
 }
 
-type Props = OwnProps & {
-  addToStage: typeof RepositoryActions.addToStage
-  deleteFile: typeof RepositoryActions.deleteFile
-  deleteDirectory: typeof RepositoryActions.deleteDirectory
-}
+type Props = OwnProps & (typeof actions)
 
 const onClick: any = ({ event, ref, data, dataFromProvider }: any) =>
   console.log("Hello", ref, data, dataFromProvider)
 
 const actions = {
+  startFileCreating: RepositoryActions.startFileCreating,
+  startDirCreating: RepositoryActions.startDirCreating,
   addToStage: RepositoryActions.addToStage,
   deleteFile: RepositoryActions.deleteFile,
   deleteDirectory: RepositoryActions.deleteDirectory
@@ -33,17 +31,19 @@ export const DirectoryContextMenu: any = connect(
     <ContextMenu id="directory">
       <Item
         onClick={({ dataFromProvider }: any) => {
-          // props.deleteFile(dataFromProvider.filepath)
+          const { dirpath } = dataFromProvider
+          props.startFileCreating(dirpath)
         }}
       >
-        Create File[WIP]
+        Create File
       </Item>
       <Item
         onClick={({ dataFromProvider }: any) => {
-          // props.deleteFile(dataFromProvider.filepath)
+          const { dirpath } = dataFromProvider
+          props.startDirCreating(dirpath)
         }}
       >
-        Create Directory[WIP]
+        Create Directory
       </Item>
       <Separator />
       <Item

@@ -80,11 +80,14 @@ export class GitCommitStatus extends React.PureComponent<{
           <>
             <StatusText>[unstaged]</StatusText>
             {unstagedChanges.map(change => {
+              const needRemoveAction = ["*deleted", "*absent"].includes(
+                change.status
+              )
               return (
                 <div key={change.relpath}>
                   {change.relpath}
                   &nbsp; ({change.status}) &nbsp;
-                  {change.status === "*deleted" && (
+                  {needRemoveAction && (
                     <button
                       onClick={() => {
                         onClickGitRemove(change.relpath)
@@ -93,7 +96,7 @@ export class GitCommitStatus extends React.PureComponent<{
                       remove from git
                     </button>
                   )}
-                  {change.status !== "*deleted" && (
+                  {!needRemoveAction && (
                     <button
                       onClick={() => {
                         onClickGitAdd(change.relpath)

@@ -14,9 +14,6 @@ type Props = OwnProps & {
   deleteFile: typeof RepositoryActions.deleteFile
 }
 
-const onClick: any = ({ event, ref, data, dataFromProvider }: any) =>
-  console.log("Hello", ref, data, dataFromProvider)
-
 const actions = {
   addToStage: RepositoryActions.addToStage,
   deleteFile: RepositoryActions.deleteFile
