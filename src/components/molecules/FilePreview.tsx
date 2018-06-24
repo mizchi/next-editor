@@ -26,19 +26,28 @@ class PreviewSwitcher extends React.Component<Props, State> {
     return (
       <div>
         <div>
-          <button onClick={() => this.setState({ mode: "git-browser" })}>
-            Git
-          </button>
-          <button
-            onClick={() => this.setState({ mode: "preview-by-filetype" })}
-          >
-            Preview
-          </button>
+          {this.state.mode === "git-browser" ? (
+            "Git"
+          ) : (
+            <button onClick={() => this.setState({ mode: "git-browser" })}>
+              Git
+            </button>
+          )}
+          {this.state.mode === "preview-by-filetype" ? (
+            "Preview"
+          ) : (
+            <button
+              onClick={() => this.setState({ mode: "preview-by-filetype" })}
+            >
+              Preview
+            </button>
+          )}
         </div>
         <div>{this.state.mode === "git-browser" && <GitStatusViewer />}</div>
         <div>
           {this.state.mode === "preview-by-filetype" && (
             <>
+              filetype: <span>{fileType}</span>
               {(() => {
                 switch (fileType) {
                   case "javascript": {
@@ -49,6 +58,9 @@ class PreviewSwitcher extends React.Component<Props, State> {
                   }
                   case "text": {
                     return <pre>{value || ""}</pre>
+                  }
+                  default: {
+                    return ""
                   }
                 }
               })()}

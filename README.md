@@ -46,10 +46,10 @@ Concept implementation
 - [x] Editor: Update git status of editing file only
 - [x] Define app name
 - [x] Commit with config name/email
+- [x] Preview Tab Switcher / GitManager - MarkdownPreview
 - [ ] Git: push to github better UI
 - [ ] Git: merge / fast forward only
 - [ ] Git: fetch
-- [ ] Preview Tab Switcher / GitManager - MarkdownPreview
 - [ ] Toggle preview layout 2 <-> 3 panes
 - [ ] FileBrowser: Inline Renamer
 - [ ] Editor: Update git status on git add
