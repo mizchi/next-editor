@@ -70,13 +70,13 @@ export const GitStatusViewer = connect(
           return rawStatusList.find(change => change.relpath === s)
         })
         const unstagedChanges: any = unstaged.map(u => {
-          // return rawStatusList.find(change => change.relpath === u)
           const x = rawStatusList.find(change => change.relpath === u)
+          console.log(x)
           if (x) {
             return x
           } else {
             // TODO: Git add come here in case of untrack => add
-            console.error("error here by untrack")
+            console.error("error here by untrack", u)
           }
         })
         return (

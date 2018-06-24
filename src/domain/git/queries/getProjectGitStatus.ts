@@ -48,7 +48,10 @@ export async function updateFileStatusInProject(
   repositoryStatus: GitRepositoryStatus,
   relpath: string
 ): Promise<GitRepositoryStatus> {
+  // debugger
   const { tracked, rawStatusList } = repositoryStatus
+
+  const changeList = [...rawStatusList]
 
   // detect new untracked file
   // unstaged absent => unstaged *add
@@ -58,19 +61,16 @@ export async function updateFileStatusInProject(
       staged: false,
       status: await getGitStatus(projectRoot, relpath)
     }
-    return {
-      ...repositoryStatus,
-      rawStatusList: [...rawStatusList, newChange],
-      unstaged: [...repositoryStatus.unstaged, ""]
-    }
+    changeList.push(newChange)
   }
 
   const statusList = await Promise.all(
-    rawStatusList.map(async change => {
+    changeList.map(async change => {
       if (change.relpath === relpath) {
         const status = await getGitStatus(projectRoot, relpath)
+        console.log("update status single", relpath, status)
         return {
-          ...change,
+          relpath,
           staged: isStaged(status),
           status
         }

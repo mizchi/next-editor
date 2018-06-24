@@ -8,17 +8,58 @@ import { GitStatusViewer } from "../organisms/GitStatusViewer/index"
 
 const selector = (state: RootState) => state.editor
 
-export const FilePreview = connect(selector)((props: EditorState) => {
-  return <GitStatusViewer />
-  switch (props.fileType) {
-    case "javascript": {
-      return <BabelCodePreview source={props.value || ""} />
-    }
-    case "markdown": {
-      return <MarkdownPreview source={props.value || ""} />
-    }
-    case "text": {
-      return <pre>{props.value || ""}</pre>
-    }
+type Props = {
+  fileType: string
+  value: string
+}
+type State = {
+  mode: "git-browser" | "preview-by-filetype"
+}
+
+class PreviewSwitcher extends React.Component<Props, State> {
+  state: State = {
+    mode: "git-browser"
   }
+
+  render() {
+    const { fileType, value } = this.props
+    return (
+      <div>
+        <div>
+          <button onClick={() => this.setState({ mode: "git-browser" })}>
+            Git
+          </button>
+          <button
+            onClick={() => this.setState({ mode: "preview-by-filetype" })}
+          >
+            Preview
+          </button>
+        </div>
+        <div>{this.state.mode === "git-browser" && <GitStatusViewer />}</div>
+        <div>
+          {this.state.mode === "git-browser" && (
+            <>
+              {(() => {
+                switch (fileType) {
+                  case "javascript": {
+                    return <BabelCodePreview source={value || ""} />
+                  }
+                  case "markdown": {
+                    return <MarkdownPreview source={value || ""} />
+                  }
+                  case "text": {
+                    return <pre>{value || ""}</pre>
+                  }
+                }
+              })()}
+            </>
+          )}
+        </div>
+      </div>
+    )
+  }
+}
+
+export const FilePreview = connect(selector)((props: EditorState) => {
+  return <PreviewSwitcher fileType={props.fileType} value={props.value || ""} />
 })
