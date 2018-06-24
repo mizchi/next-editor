@@ -37,7 +37,7 @@ class PreviewSwitcher extends React.Component<Props, State> {
         </div>
         <div>{this.state.mode === "git-browser" && <GitStatusViewer />}</div>
         <div>
-          {this.state.mode === "git-browser" && (
+          {this.state.mode === "preview-by-filetype" && (
             <>
               {(() => {
                 switch (fileType) {
