@@ -1,8 +1,8 @@
 import faTerminal from "@fortawesome/fontawesome-free-solid/faTerminal"
 import FontAwesomeIcon from "@fortawesome/react-fontawesome"
-import { DefaultButton } from "office-ui-fabric-react/lib/components/Button"
 import React from "react"
 import styled from "styled-components"
+import { Button } from "../utils/LayoutUtils"
 import { Input } from "./Input"
 import { InlineText } from "./Text"
 
@@ -98,16 +98,19 @@ export class Command extends React.Component<Props, State> {
               </>
             )}
           </CommandBoxInputContainer>
-          <DefaultButton
-            disabled={!valid}
-            onClick={() => {
-              const { value } = this.state
-              const built = command.replace("$$", value)
-              onExec(value, built)
-            }}
+          <Button
+            onClick={
+              valid
+                ? () => {
+                    const { value } = this.state
+                    const built = command.replace("$$", value)
+                    onExec(value, built)
+                  }
+                : undefined
+            }
           >
             Exec
-          </DefaultButton>
+          </Button>
         </CommandBox>
       </Container>
     )

@@ -3,7 +3,7 @@ import Icon from "@fortawesome/react-fontawesome"
 import React from "react"
 import Modal from "react-modal"
 import ReactTooltip from "react-tooltip"
-import styled from "styled-components"
+import { Button } from "../../utils/LayoutUtils"
 
 export class CloneProjectButton extends React.Component<
   {
@@ -79,11 +79,3 @@ const customStyles = {
     transform: "translate(-50%, -50%)"
   }
 }
-
-const Button = styled.a`
-  display: inline-block;
-  padding: 0.5em 1em;
-  text-decoration: none;
-  background: #668ad8;
-  color: #fff;
-`

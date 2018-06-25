@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import { RootState } from "../../../reducers"
 import { EditorState } from "../../../reducers/editor"
-import { BabelCodePreview } from "../../atoms/BabelCodePreview"
+// import { BabelCodePreview } from "../../atoms/BabelCodePreview"
 import { MarkdownPreview } from "../../atoms/MarkdownPreview"
 import { GitStatusViewer } from "../GitStatusViewer"
 
@@ -50,9 +50,9 @@ class PreviewSwitcher extends React.Component<Props, State> {
               filetype: <span>{fileType}</span>
               {(() => {
                 switch (fileType) {
-                  case "javascript": {
-                    return <BabelCodePreview source={value || ""} />
-                  }
+                  // case "javascript": {
+                  //   return <BabelCodePreview source={value || ""} />
+                  // }
                   case "markdown": {
                     return <MarkdownPreview source={value || ""} />
                   }

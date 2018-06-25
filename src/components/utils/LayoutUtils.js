@@ -155,17 +155,17 @@ export const Text: React.ComponentType<{
   )
 }
 
-export const Button: React.ComponentType<{
-  children: React.ReactNode | string,
-  icon?: any,
-  onPress: (e: Event) => void
-}> = ({ children, color, fontFamily }) => {
-  return (
-    <Flex onClick={onPress}>
-      <Center>{children}</Center>
-    </Flex>
-  )
-}
+export const Button = styled.a`
+  display: inline-block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  background: #668ad8;
+  color: #fff;
+
+  &:hover {
+    background: #4488a5;
+  }
+`
 
 const Pane: React.ComponentType<{
   children: React.ReactNode,
