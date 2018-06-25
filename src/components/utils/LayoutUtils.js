@@ -47,35 +47,41 @@ export const Boader: React.ComponentType<{
 `
 
 export const Fixed: React.ComponentType<{
-  width: number,
-  height: number,
+  width?: number | string,
+  height?: number | string,
   overflow?: string
 }> = styled.div`
-  width: ${({ width }) => width}px;
-  height: ${({ height }) => height}px;
+  width: ${({ width }) =>
+    typeof width === "number" ? `${width}px` : width || "100%"};
+  height: ${({ height }) =>
+    typeof height === "number" ? `${height}px` : height || "100%"};
   overflow: ${({ overflow }) => overflow || "auto"};
 `
 
 export const Grid: React.ComponentType<{
   columns: string[],
   areas: string[][],
-  rows: string[]
+  rows: string[],
+  width?: string,
+  height?: string
 }> = styled.div`
   display: grid;
   grid-template-columns: ${({ columns }) => columns.join(" ")};
   grid-template-rows: ${({ rows }) => rows.join(" ")};
   grid-template-areas: ${({ areas }) =>
     areas.map(r => `'${r.join(" ")}'`).join(" ")};
-  width: 100%;
-  height: 100%;
+  width: ${p => p.width || "100%"};
+  height: ${p => p.height || "100%"};
 `
 
 export const GridArea: React.ComponentType<{
-  name: string
+  name: string,
+  width?: string,
+  height?: string
 }> = styled.div`
   grid-area: ${p => p.name};
-  width: 100%;
-  height: 100%;
+  width: ${p => p.width || "100%"};
+  height: ${p => p.height || "100%"};
 `
 
 type FlexProps = {

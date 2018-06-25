@@ -1,6 +1,14 @@
 const PUSH_SCENE = "app/push-scene"
 const POP_SCENE = "app/pop-scene"
 const REPLACE_SCENE = "app/replace-scene"
+const SET_LAYOUT_MODE = "app/set-layout-mode"
+
+type LayoutMode = "editor" | "preview"
+
+type SetLayoutMode = {
+  type: typeof SET_LAYOUT_MODE
+  payload: LayoutMode[]
+}
 
 type PushScene = {
   type: typeof PUSH_SCENE
@@ -16,7 +24,14 @@ type ReplaceScene = {
   payload: string
 }
 
-type Action = PushScene | PopScene | ReplaceScene
+type Action = PushScene | PopScene | ReplaceScene | SetLayoutMode
+
+export function setLayoutMode(layouts: LayoutMode[]): SetLayoutMode {
+  return {
+    type: SET_LAYOUT_MODE,
+    payload: layouts
+  }
+}
 
 export function pushScene(nextScene: string): PushScene {
   return {
@@ -38,19 +53,24 @@ export function popScene(nextScene: string): PopScene {
   }
 }
 
-type LayoutMode = "editor" | "preview"
 export type AppState = {
   sceneStack: string[]
-  layoutMode: LayoutMode[]
+  layouts: LayoutMode[]
 }
 
 const initialState: AppState = {
   sceneStack: ["editor"],
-  layoutMode: ["editor", "preview"]
+  layouts: ["editor", "preview"]
 }
 
 export function reducer(state: AppState = initialState, action: Action) {
   switch (action.type) {
+    case SET_LAYOUT_MODE: {
+      return {
+        ...state,
+        layouts: action.payload
+      }
+    }
     case PUSH_SCENE: {
       return { ...state, sceneStack: state.sceneStack.concat([action.payload]) }
     }

@@ -19,14 +19,25 @@ export function Editor() {
           ["header", "header"],
           ["menu",   "content"],
         ]}
+        width="100vw"
+        height="100vh"
       >
-        <GridArea name="header">
+        <GridArea
+          name="header"
+          height="40px"
+        >
           <GlobalHeader />
         </GridArea>
-        <GridArea name="menu">
+        <GridArea
+          name="menu"
+          height="calc(100vh - 40px)"
+        >
           <Menu/>
         </GridArea>
-        <GridArea name="content">
+        <GridArea
+          name="content"
+          height="calc(100vh - 40px)"
+        >
           <EditorContent/>
         </GridArea>
       </Grid>

@@ -4,17 +4,19 @@ import { Pane } from "../atoms/Pane"
 
 export function GlobalHeader() {
   return (
-    <StyledHeader>
+    <Header>
       <Title>
         <Pane>Next Editor</Pane>
       </Title>
       <TitleMenus />
-    </StyledHeader>
+    </Header>
   )
 }
 
-const StyledHeader = styled.header`
+const Header = styled.header`
   display: flex;
+  margin: 0;
+  padding: 0;
   width: 100%;
   height: 100%;
   background-color: #222;
@@ -22,8 +24,7 @@ const StyledHeader = styled.header`
 
 const Title = styled.div`
   display: inline-block;
-  width: 300px;
-  background-color: #222;
+  width: 120px;
   color: #ddd;
 `
 

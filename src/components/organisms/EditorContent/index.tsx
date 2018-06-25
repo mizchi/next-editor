@@ -1,33 +1,31 @@
 import React from "react"
-import { AllAction, connector, RootState } from "../../../reducers"
-import { FlexItem, Padding, Row } from "../../utils/LayoutUtils"
+import { connector } from "../../../reducers"
+import { FlexItem, Row } from "../../utils/LayoutUtils"
 import { FileEditor } from "./FileEditor"
 import { FilePreview } from "./FilePreview"
 
-const stateSelector = (state: RootState) => {
-  return {
-    layoutMode: state.app.layoutMode
+export const EditorContent = connector(
+  state => {
+    return {
+      filepath: state.editor.filePath,
+      layouts: state.app.layouts
+    }
+  },
+  actions => {
+    return {
+      setLayoutMode: actions.app.setLayoutMode
+    }
   }
-}
-
-const actionSelector = (actions: AllAction) => {
-  return {
-    // app: actions.app
-  }
-}
-
-export const EditorContent = connector(stateSelector, actionSelector)(props => {
+)(props => {
+  const { filepath, layouts } = props
+  const paneWidthPercent = Math.floor(100 / layouts.length)
   return (
     <Row>
-      <FlexItem width={"50%"}>
-        <Padding value={10}>
-          <FileEditor />
-        </Padding>
+      <FlexItem width={paneWidthPercent + "%"} height="100%">
+        <FileEditor filepath={filepath || ""} />
       </FlexItem>
-      <FlexItem width={"50%"}>
-        <Padding value={10}>
-          <FilePreview />
-        </Padding>
+      <FlexItem width={paneWidthPercent + "%"} height="100%">
+        <FilePreview />
       </FlexItem>
     </Row>
   )
