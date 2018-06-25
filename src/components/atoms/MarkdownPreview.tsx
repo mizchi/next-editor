@@ -12,7 +12,6 @@ export class MarkdownPreview extends React.Component<Props, {}> {
     const { source } = this.props
     const contents = processor.processSync(source).contents
     try {
-      console.log("render", source, contents)
       return <Container>{contents}</Container>
     } catch (e) {
       return e.massage || "syntax error"
@@ -21,5 +20,7 @@ export class MarkdownPreview extends React.Component<Props, {}> {
 }
 
 const Container = styled.div`
+  overflow: auto;
+  height: 100%;
   padding: 10px;
 `

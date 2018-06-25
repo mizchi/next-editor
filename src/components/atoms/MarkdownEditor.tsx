@@ -50,5 +50,5 @@ const Textarea = styled.textarea`
   box-shadow: none;
   padding: 5px;
   font-size: 1em;
-  background-color: #eee;
+  background-color: #fff;
 `

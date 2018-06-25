@@ -41,7 +41,16 @@ const ProjectLineContainer = styled.div`
 
 const ProjectLineContent = styled.div`
   outline: 1px solid black;
+
   padding: 2px;
+
+  color: green;
+  background: #fff;
+
+  &:hover {
+    color: #fff;
+    background: #888;
+  }
 `
 
 const actions = {

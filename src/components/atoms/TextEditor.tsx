@@ -40,6 +40,7 @@ export class TextEditor extends React.Component<Props, State> {
 }
 
 const Textarea = styled.textarea`
+  background: #fff;
   line-height: 1.5em;
   width: 100%;
   height: 100%;

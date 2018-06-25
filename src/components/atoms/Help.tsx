@@ -11,6 +11,12 @@ export const Help = () => (
       <a href="https://github.com/mizchi/next-editor">mizchi/next-editor</a>
     </p>
 
+    <h2>Keybind</h2>
+    <ul>
+      <li>Ctrl-1: Editor</li>
+      <li>Ctrl-2: Editor-Preview</li>
+    </ul>
+
     <h2>Status</h2>
     <p>Pre alpha version. Many features may not work correctly.</p>
     <p>
