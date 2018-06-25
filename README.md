@@ -47,15 +47,14 @@ Concept implementation
 - [x] Define app name
 - [x] Commit with config name/email
 - [x] Preview Tab Switcher / GitManager - MarkdownPreview
+- [x] Toggle preview layout 1 <-> 2 panes
+- [x] Editor: Update git status on git add
 - [ ] Git: push to github better UI
 - [ ] Git: merge / fast forward only
 - [ ] Git: fetch
-- [ ] Toggle preview layout 2 <-> 3 panes
 - [ ] FileBrowser: Inline Renamer
-- [ ] Editor: Update git status on git add
 - [ ] Markup: total design
 - [ ] PWA's manifest.json for chrome playstore / Windows store
-- [ ] Purchase domain(.app?)
 
 ### TODO: Git and filesystem
 
