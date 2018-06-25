@@ -4,7 +4,7 @@ import {
   GitFileStatus,
   GitRepositoryStatus,
   GitStatusString
-} from "./../../types"
+} from "../../types"
 import { getGitHistory } from "./getGitHistory"
 import { getGitStatus } from "./getGitStatus"
 import { getGitTrackingStatus } from "./getGitTrackingStatus"

@@ -14,7 +14,7 @@ import {
 } from "../domain/git/queries/getProjectGitStatus"
 import { listBranches } from "../domain/git/queries/listBranches"
 import { GitRepositoryStatus } from "../domain/types"
-import { GitFileStatus } from "./../domain/types"
+import { GitFileStatus } from "../domain/types"
 import { loadProjectList } from "./project"
 import { RepositoryState } from "./repository"
 

@@ -1,6 +1,6 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
-import { GitStatusString } from "./../../types"
+import { GitStatusString } from "../../types"
 
 export async function getGitStatus(
   projectRoot: string,
