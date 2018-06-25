@@ -1,12 +1,10 @@
 import React from "react"
 import { connect } from "react-redux"
 import styled from "styled-components"
-import { RootState } from "../../reducers"
-import { EditorContent } from "../molecules/EditorContent"
+import { RootState } from "../../../reducers"
+import { EditorContent } from "../../molecules/EditorContent"
 
-type Props = {
-  // fPath: string
-}
+type Props = {}
 type State = {
   editorValue: string
 }

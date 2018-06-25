@@ -38,12 +38,15 @@ export function popScene(nextScene: string): PopScene {
   }
 }
 
+type LayoutMode = "editor" | "preview"
 export type AppState = {
   sceneStack: string[]
+  layoutMode: LayoutMode[]
 }
 
 const initialState: AppState = {
-  sceneStack: ["editor"]
+  sceneStack: ["editor"],
+  layoutMode: ["editor", "preview"]
 }
 
 export function reducer(state: AppState = initialState, action: Action) {

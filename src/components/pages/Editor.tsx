@@ -1,61 +1,44 @@
 import * as React from "react"
-import styled from "styled-components"
-import { FilePreview } from "../molecules/FilePreview"
 import { GlobalHeader } from "../molecules/GlobalHeader"
-import { FileEditor } from "../organisms/FileEditor"
+import { EditorContent } from "../organisms/EditorContent"
 import { ProjectManager } from "../organisms/ProjectManager"
 import { RepositoryBrowser } from "../organisms/RepositoryBrowser"
+import { Grid, GridArea, Root } from "../utils/LayoutUtils"
 
 export function Editor() {
   return (
-    <Layout>
-      <Header>
-        <GlobalHeader />
-      </Header>
-      <Menu>
-        <ProjectManager />
-        <RepositoryBrowser />
-      </Menu>
-      <_Editor>
-        <FileEditor />
-      </_Editor>
-      <Preview>
-        <FilePreview />
-      </Preview>
-    </Layout>
+    <Root>
+      {/* prettier-ignore */}
+      <Grid
+        columns={["250px", "1fr"]}
+        rows={[
+          "40px",
+          "1fr"
+        ]}
+        areas={[
+          ["header", "header"],
+          ["menu",   "content"],
+        ]}
+      >
+        <GridArea name="header">
+          <GlobalHeader />
+        </GridArea>
+        <GridArea name="menu">
+          <Menu/>
+        </GridArea>
+        <GridArea name="content">
+          <EditorContent/>
+        </GridArea>
+      </Grid>
+    </Root>
   )
 }
 
-export const Layout = styled.div`
-  width: 100vx;
-  height: 100vh;
-  display: grid;
-  grid-template-columns: 250px 1fr 1fr;
-  grid-template-rows: 40px 1fr 1fr;
-  grid-template-areas: "header header header" "menu editor preview" "menu editor preview";
-`
-
-export const Header = styled.div`
-  width: 100%;
-  height: 100%;
-  grid-area: header;
-`
-
-export const Menu = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 4px;
-  grid-area: menu;
-`
-
-export const _Editor = styled.div`
-  width: 100%;
-  height: 100%;
-  grid-area: editor;
-`
-
-export const Preview = styled.div`
-  width: 100%;
-  height: 100%;
-  grid-area: preview;
-`
+function Menu() {
+  return (
+    <>
+      <ProjectManager />
+      <RepositoryBrowser />
+    </>
+  )
+}

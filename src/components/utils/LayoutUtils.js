@@ -70,6 +70,14 @@ export const Grid: React.ComponentType<{
   height: 100%;
 `
 
+export const GridArea: React.ComponentType<{
+  name: string
+}> = styled.div`
+  grid-area: ${p => p.name};
+  width: 100%;
+  height: 100%;
+`
+
 type FlexProps = {
   wrap?: boolean,
   inline?: boolean,
@@ -122,18 +130,12 @@ export const FlexItem: React.ComponentType<{
   height: ${p => p.height || "auto"};
 `
 
-const Pane: React.ComponentType<{
-  children: React.ReactNode,
-  padding?: number
-}> = ({ children, padding = 0 }) => {
-  return (
-    <Flex justifyContent="center" alignItems="center">
-      <Padding value={padding}>
-        <Center>{children}</Center>
-      </Padding>
-    </Flex>
-  )
-}
+export const Root = styled.div`
+  width: 100vw;
+  height: 100vw;
+  padding: 0;
+  margin: 0;
+`
 
 export const Text: React.ComponentType<{
   children: string,
@@ -155,6 +157,20 @@ export const Button: React.ComponentType<{
   return (
     <Flex onClick={onPress}>
       <Center>{children}</Center>
+    </Flex>
+  )
+}
+
+const Pane: React.ComponentType<{
+  children: React.ReactNode,
+  padding?: number,
+  withBoarder?: boolean
+}> = ({ children, padding = 0 }) => {
+  return (
+    <Flex justifyContent="center" alignItems="center">
+      <Padding value={padding}>
+        <Center>{children}</Center>
+      </Padding>
     </Flex>
   )
 }
