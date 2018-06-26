@@ -7,14 +7,15 @@ import { writeFile } from "../domain/filesystem/commands/writeFile"
 import { addFile } from "../domain/git/commands/addFile"
 import { checkoutBranch } from "../domain/git/commands/checkoutBranch"
 import { commitChanges } from "../domain/git/commands/commitChanges"
+import { createBranch as createGitBranch } from "../domain/git/commands/createBranch"
+import { pushBranch } from "../domain/git/commands/pushBranch"
 import { removeFromGit } from "../domain/git/commands/removeFromGit"
 import {
   getProjectGitStatus,
   updateFileStatusInProject
 } from "../domain/git/queries/getProjectGitStatus"
 import { listBranches } from "../domain/git/queries/listBranches"
-import { GitRepositoryStatus } from "../domain/types"
-import { GitFileStatus } from "../domain/types"
+import { GitFileStatus, GitRepositoryStatus } from "../domain/types"
 import { loadProjectList } from "./project"
 import { RepositoryState } from "./repository"
 
@@ -261,15 +262,25 @@ export async function createFile(
   return changed({ changedPath: dirname })
 }
 
-export async function createBranch(projectRoot: string, newBranchName: string) {
-  const branches = await listBranches(projectRoot)
-  if (!branches.includes(newBranchName)) {
-    await createBranch(projectRoot, newBranchName)
-    console.log("create branch", newBranchName)
+export async function pushCurrentBranchToOrigin(
+  projectRoot: string,
+  branch: string
+): Promise<Changed | void> {
+  const githubToken = window.localStorage.getItem("github-token")
+  if (githubToken != null) {
+    await pushBranch(projectRoot, "origin", branch, githubToken)
+    console.log("push succeeded")
     return changed()
   } else {
-    console.error(`Git: Creating branch existed: ${newBranchName}`)
+    console.error("push failed")
   }
+}
+
+export async function createBranch(projectRoot: string, newBranchName: string) {
+  await createGitBranch(projectRoot, newBranchName)
+
+  console.log("create branch", newBranchName)
+  return changed()
 }
 
 export function checkoutToOtherBranch(

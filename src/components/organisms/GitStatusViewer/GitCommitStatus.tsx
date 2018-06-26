@@ -51,6 +51,7 @@ export function GitCommitStatus(props: Props) {
             <>
               <div>
                 <CommandWithInput
+                  validate={value => value.length > 0}
                   description="Commit all unstaged changes"
                   onExec={value => {
                     onClickGitCommitUnstaged(value)
@@ -64,6 +65,8 @@ export function GitCommitStatus(props: Props) {
             <div>
               <CommandWithInput
                 description="Commit staged changes"
+                tooltip={value => `git commit -m '${value}'`}
+                validate={value => value.length > 0}
                 onExec={value => {
                   onClickGitCommit(value)
                 }}
@@ -76,6 +79,7 @@ export function GitCommitStatus(props: Props) {
             <legend>staged</legend>
             <CommandWithInput
               description="Commit"
+              validate={value => value.length > 0}
               onExec={value => {
                 onClickGitCommit(value)
               }}

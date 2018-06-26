@@ -1,8 +1,11 @@
 import React from "react"
+import ReactTooltip from "react-tooltip"
+
 type Props = {
   description: string
-  tooltip?: string
+  tooltip?: (s: string) => string
   placeholder?: string
+  validate?: (value: string) => boolean
   initialValue?: string
   completions?: string[]
   onExec: (value: string) => void
@@ -19,7 +22,9 @@ export class CommandWithInput extends React.Component<Props, State> {
     }
   }
   render() {
-    const { description, placeholder, onExec } = this.props
+    const { description, placeholder, onExec, validate, tooltip } = this.props
+    const { value } = this.state
+    const tooltipText = tooltip && tooltip(value)
     return (
       <div>
         <span>{description}</span>
@@ -28,9 +33,25 @@ export class CommandWithInput extends React.Component<Props, State> {
           value={this.state.value}
           onChange={e => this.setState({ value: e.target.value })}
           placeholder={placeholder}
+          spellCheck={false}
         />
         &nbsp;
-        <button onClick={() => onExec(this.state.value)}>exec</button>
+        {tooltipText && (
+          <ReactTooltip place="top" type="dark" effect="solid" id={tooltipText}>
+            {tooltipText}
+          </ReactTooltip>
+        )}
+        <button
+          data-tip
+          data-for={tooltipText || undefined}
+          disabled={validate && !validate(this.state.value)}
+          onClick={() => {
+            onExec(this.state.value)
+            this.setState({ value: "" })
+          }}
+        >
+          exec
+        </button>
       </div>
     )
   }

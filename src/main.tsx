@@ -1,13 +1,14 @@
 /// <reference> ./declarations.d.ts
-import fs from "fs"
-import * as git from "isomorphic-git"
-import * as React from "react"
-import * as ReactDOM from "react-dom"
-import Modal from "react-modal"
-import { injectGlobal } from "styled-components"
-import { App } from "./components/App"
-import "./lib/setupFontAwesome"
-import { setupInitialRepository } from "./lib/setupInitialRepository"
+import fs from "fs";
+import * as git from "isomorphic-git";
+import "normalize.css/normalize.css";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import Modal from "react-modal";
+import { injectGlobal } from "styled-components";
+import { App } from "./components/App";
+import "./lib/setupFontAwesome";
+import { setupInitialRepository } from "./lib/setupInitialRepository";
 
 // export to globals for debug
 const g: any = global

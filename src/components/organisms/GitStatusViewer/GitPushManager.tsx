@@ -55,11 +55,11 @@ export class GitPushManager extends React.Component<
                   fs,
                   dir: this.props.projectRoot,
                   remote: "origin",
-                  ref: "master",
-                  authUsername: githubToken,
-                  authPassword: githubToken
+                  ref: "master"
+                  // authUsername: githubToken,
+                  // authPassword: githubToken
                 })
-                this.setState({ result: ret.ok && "ok" })
+                // this.setState({ result: ret.ok && "ok" })
               }}
             >
               git push origin master

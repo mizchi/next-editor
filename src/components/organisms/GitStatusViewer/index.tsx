@@ -19,6 +19,7 @@ export const GitStatusViewer = connector(
   actions => {
     return {
       addToStage: actions.repository.addToStage,
+      pushCurrentBranchToOrigin: actions.repository.pushCurrentBranchToOrigin,
       createBranch: actions.repository.createBranch,
       checkoutToOtherBranch: actions.repository.checkoutToOtherBranch,
       commitStagedChanges: actions.repository.commitStagedChanges,
@@ -70,13 +71,15 @@ export const GitStatusViewer = connector(
             projectRoot={projectRoot}
             currentBranch={currentBranch}
             branches={branches}
+            onClickGitPush={branchName => {
+              props.pushCurrentBranchToOrigin(projectRoot, branchName)
+            }}
             onChangeBranch={async (branchName: string) => {
               await props.checkoutToOtherBranch(projectRoot, branchName)
               props.updateGitStatus(props.projectRoot)
             }}
             onClickCreateBranch={async (newBranchName: string) => {
               await props.createBranch(projectRoot, newBranchName)
-              props.updateGitStatus(props.projectRoot)
             }}
           />
           <GitCommitStatus

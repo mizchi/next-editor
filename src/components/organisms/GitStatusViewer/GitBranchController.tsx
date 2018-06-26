@@ -1,7 +1,7 @@
 import React from "react"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
 import { CommandWithSelect } from "../../atoms/CommandWithSelect"
-import { GitPushManager } from "./GitPushManager"
+import { GitMergeManager } from "./GitMergeManager"
 
 export class GitBranchController extends React.PureComponent<{
   projectRoot: string
@@ -9,6 +9,7 @@ export class GitBranchController extends React.PureComponent<{
   branches: string[]
   onChangeBranch: (branchName: string) => void
   onClickCreateBranch: (branchName: string) => void
+  onClickGitPush: (branchName: string) => void
 }> {
   render() {
     const {
@@ -16,6 +17,7 @@ export class GitBranchController extends React.PureComponent<{
       branches,
       onChangeBranch,
       onClickCreateBranch,
+      onClickGitPush,
       projectRoot
     } = this.props
     return (
@@ -24,6 +26,8 @@ export class GitBranchController extends React.PureComponent<{
         <div>
           <CommandWithSelect
             description="Checkout"
+            tooltip={value => `> git checkout ${value}`}
+            validate={value => value !== currentBranch}
             initialValue={currentBranch}
             options={branches}
             onExec={value => {
@@ -34,12 +38,29 @@ export class GitBranchController extends React.PureComponent<{
         <div>
           <CommandWithInput
             description="Create new branch"
+            tooltip={value => `> git branch ${value}`}
+            validate={value => value.length > 0 && !branches.includes(value)}
             onExec={value => {
               onClickCreateBranch(value)
             }}
           />
         </div>
-        <GitPushManager projectRoot={projectRoot} />
+        <div>
+          <CommandWithSelect
+            key={currentBranch}
+            description="Push branch to origin"
+            options={branches}
+            initialValue={currentBranch}
+            tooltip={value => `> git push origin ${value}`}
+            // validate={value => value.length > 0 && !branches.includes(value)}
+            onExec={value => {
+              onClickGitPush(value)
+            }}
+          />
+        </div>
+        <div>
+          <GitMergeManager projectRoot={projectRoot} />
+        </div>
       </fieldset>
     )
   }
