@@ -16,6 +16,17 @@ type State = {
   mode: "git-browser" | "preview-by-filetype"
 }
 
+class Tab extends React.Component<{ tabs: string[] }> {
+  render() {
+    return (
+      <div>
+        <div>Tabs</div>
+        <div>Contents</div>
+      </div>
+    )
+  }
+}
+
 class PreviewSwitcher extends React.Component<Props, State> {
   state: State = {
     mode: "git-browser"

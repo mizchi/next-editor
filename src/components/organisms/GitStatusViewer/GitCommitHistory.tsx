@@ -8,16 +8,19 @@ export function GitCommitHistory({
 }) {
   return (
     <>
-      <h3>Log</h3>
-      <div style={{ fontFamily: "monospace" }}>
-        {history.map((descrption, idx) => {
-          return (
-            <div key={descrption.oid}>
-              {descrption.oid.slice(0, 7)} - {descrption.message}
-            </div>
-          )
-        })}
-      </div>
+      <fieldset style={{ height: "100%" }}>
+        <legend>Log</legend>
+        <div style={{ fontFamily: '"Courier New", Consolas, monospace' }}>
+          {history.map((descrption, idx) => {
+            return (
+              <div key={descrption.oid}>
+                {descrption.oid.slice(0, 7)} | {descrption.committer.name} |{" "}
+                {descrption.message}
+              </div>
+            )
+          })}
+        </div>
+      </fieldset>
     </>
   )
 }

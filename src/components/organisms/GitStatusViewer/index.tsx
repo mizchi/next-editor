@@ -5,7 +5,6 @@ import { Padding } from "../../utils/LayoutUtils"
 import { GitBranchController } from "./GitBranchController"
 import { GitCommitHistory } from "./GitCommitHistory"
 import { GitCommitStatus } from "./GitCommitStatus"
-import { GitPushManager } from "./GitPushManager"
 
 export const GitStatusViewer = connector(
   state => {
@@ -63,50 +62,52 @@ export const GitStatusViewer = connector(
     })
     return (
       <Padding value={10} key={projectRoot}>
-        <h2>Git Browser</h2>
-        <div>
-          {projectRoot} [{currentBranch}]
-          <button onClick={() => props.updateGitStatus(props.projectRoot)}>
-            Reload status
-          </button>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div>
+            {projectRoot} [{currentBranch}]
+          </div>
+          <GitBranchController
+            projectRoot={projectRoot}
+            currentBranch={currentBranch}
+            branches={branches}
+            onChangeBranch={async (branchName: string) => {
+              await props.checkoutToOtherBranch(projectRoot, branchName)
+              props.updateGitStatus(props.projectRoot)
+            }}
+            onClickCreateBranch={async (newBranchName: string) => {
+              await props.createBranch(projectRoot, newBranchName)
+              props.updateGitStatus(props.projectRoot)
+            }}
+          />
+          <GitCommitStatus
+            loading={gitStatusLoading}
+            stagedChanges={stagedChanges}
+            unstagedChanges={unstagedChanges}
+            untracked={untracked}
+            onClickReload={() => {
+              props.updateGitStatus(props.projectRoot)
+            }}
+            onClickGitAdd={(filepath: string) => {
+              props.addToStage(projectRoot, filepath)
+            }}
+            onClickGitRemove={(filepath: string) => {
+              props.removeFileFromGit(projectRoot, filepath)
+            }}
+            onClickGitCommit={(message: string) => {
+              props.commitStagedChanges(projectRoot, message || "Update")
+            }}
+            onClickGitCommitUnstaged={(message: string) => {
+              props.commitUnstagedChanges(
+                projectRoot,
+                unstagedChanges,
+                message || "Update"
+              )
+            }}
+          />
+          <div style={{ flex: 1 }}>
+            <GitCommitHistory history={history} />
+          </div>
         </div>
-        <GitPushManager projectRoot={projectRoot} />
-        <GitBranchController
-          projectRoot={projectRoot}
-          currentBranch={currentBranch}
-          branches={branches}
-          onChangeBranch={async (branchName: string) => {
-            await props.checkoutToOtherBranch(projectRoot, branchName)
-            props.updateGitStatus(props.projectRoot)
-          }}
-          onClickCreateBranch={async (newBranchName: string) => {
-            await props.createBranch(projectRoot, newBranchName)
-            props.updateGitStatus(props.projectRoot)
-          }}
-        />
-        <GitCommitStatus
-          loading={gitStatusLoading}
-          stagedChanges={stagedChanges}
-          unstagedChanges={unstagedChanges}
-          untracked={untracked}
-          onClickGitAdd={(filepath: string) => {
-            props.addToStage(projectRoot, filepath)
-          }}
-          onClickGitRemove={(filepath: string) => {
-            props.removeFileFromGit(projectRoot, filepath)
-          }}
-          onClickGitCommit={(message: string) => {
-            props.commitStagedChanges(projectRoot, message || "Update")
-          }}
-          onClickGitCommitUnstaged={(message: string) => {
-            props.commitUnstagedChanges(
-              projectRoot,
-              unstagedChanges,
-              message || "Update"
-            )
-          }}
-        />
-        <GitCommitHistory history={history} />
       </Padding>
     )
   }

@@ -1,13 +1,10 @@
 import React from "react"
 import styled from "styled-components"
-import { Pane } from "../atoms/Pane"
 
 export function GlobalHeader() {
   return (
     <Header>
-      <Title>
-        <Pane>Next Editor</Pane>
-      </Title>
+      <Title>Next Editor</Title>
       <TitleMenus />
     </Header>
   )

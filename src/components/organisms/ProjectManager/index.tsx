@@ -41,64 +41,70 @@ export const ProjectManager = connector(
   } = props
   return (
     <>
-      <div>Projects</div>
-      <div>
-        <div
-          onClick={() => {
-            props.pushScene("config")
-          }}
-        >
-          <Icon icon={faCog} />
-          &nbsp; Config
-        </div>
-      </div>
-      <div>
-        <CreateNewProjectButton
-          onClickCreate={dirname => {
-            const newProjectRoot = path.join("/", dirname)
-            createNewProject(newProjectRoot)
-          }}
-        />
-        &nbsp;
-        <CloneProjectButton
-          onClickClone={dirname => {
-            const clonePath =
-              "https://" +
-              path.join("cors-buster-tbgktfqyku.now.sh/github.com", dirname)
-            const [, repoName] = dirname.split("/")
-            const projectRoot = path.join("/", repoName)
-            cloneFromGitHub(projectRoot, clonePath)
-          }}
-        />
-      </div>
-      <ProjectContextMenu />
-      {projects.map(p => {
-        const isActive = p.projectRoot === props.repository.currentProjectRoot
-        return (
-          <ContextMenuProvider
-            key={p.projectRoot}
-            id="project"
-            data={{ dirpath: p.projectRoot }}
+      <fieldset>
+        <legend>Projects</legend>
+        <div>
+          <div
+            onClick={() => {
+              props.pushScene("config")
+            }}
           >
-            <ProjectLineContainer
-              onClick={() => {
-                props.projectRootChanged(p.projectRoot)
-              }}
-            >
-              <ProjectLineContent>
-                <Icon icon={faBox} />
-                <span
-                  style={{
-                    color: isActive ? "#4a4" : "black"
+            <Icon icon={faCog} />
+            &nbsp; Config
+          </div>
+        </div>
+        <div>
+          <CreateNewProjectButton
+            onClickCreate={dirname => {
+              const newProjectRoot = path.join("/", dirname)
+              createNewProject(newProjectRoot)
+            }}
+          />
+          &nbsp;
+          <CloneProjectButton
+            onClickClone={dirname => {
+              const clonePath =
+                "https://" +
+                path.join("cors-buster-tbgktfqyku.now.sh/github.com", dirname)
+              const [, repoName] = dirname.split("/")
+              const projectRoot = path.join("/", repoName)
+              cloneFromGitHub(projectRoot, clonePath)
+            }}
+          />
+        </div>
+        <ProjectContextMenu />
+        <fieldset>
+          <legend>repository</legend>
+          {projects.map(p => {
+            const isActive =
+              p.projectRoot === props.repository.currentProjectRoot
+            return (
+              <ContextMenuProvider
+                key={p.projectRoot}
+                id="project"
+                data={{ dirpath: p.projectRoot }}
+              >
+                <ProjectLineContainer
+                  onClick={() => {
+                    props.projectRootChanged(p.projectRoot)
                   }}
                 >
-                  {p.projectRoot}
-                </span>
-              </ProjectLineContent>
-            </ProjectLineContainer>
-          </ContextMenuProvider>
-        )
-      })}
+                  <ProjectLineContent>
+                    <Icon icon={faBox} />
+                    <span
+                      style={{
+                        color: isActive ? "#4a4" : "black"
+                      }}
+                    >
+                      {p.projectRoot}
+                    </span>
+                  </ProjectLineContent>
+                </ProjectLineContainer>
+              </ContextMenuProvider>
+            )
+          })}
+        </fieldset>
+      </fieldset>
     </>
   )
 })
@@ -111,9 +117,9 @@ const ProjectLineContent = styled.div`
   outline: 1px solid black;
   padding: 2px;
   color: green;
-  background: #fff;
+  /* background: #fff; */
   &:hover {
     color: #fff;
-    background: #888;
+    /* background: #888; */
   }
 `

@@ -1,12 +1,13 @@
 import React from "react"
 import { GitFileStatus } from "../../../domain/types"
-import { Command } from "../../atoms/Command"
+import { CommandWithInput } from "../../atoms/CommandWithInput"
 
 type Props = {
   stagedChanges: GitFileStatus[]
   unstagedChanges: GitFileStatus[]
   loading: boolean
   untracked: string[]
+  onClickReload: () => void
   onClickGitAdd: (filepath: string) => void
   onClickGitRemove: (filepath: string) => void
   onClickGitCommit: (message: string) => void
@@ -26,7 +27,14 @@ export function GitCommitStatus(props: Props) {
   } = props
 
   if (loading) {
-    return <span>Git Status Loading...</span>
+    return (
+      <div>
+        <fieldset>
+          <legend> Staging </legend>
+          Git Status Loading...
+        </fieldset>
+      </div>
+    )
   }
 
   const hasStagedChanges = stagedChanges.length > 0
@@ -35,16 +43,15 @@ export function GitCommitStatus(props: Props) {
   return (
     <div>
       <fieldset>
-        <legend> Staging </legend>
+        <legend>Staging</legend>
         {!hasChanges && <>No changes</>}
 
         {!hasStagedChanges &&
           hasUnstagedChanges && (
             <>
               <div>
-                <Command
+                <CommandWithInput
                   description="Commit all unstaged changes"
-                  command="git commit -am $$"
                   onExec={value => {
                     onClickGitCommitUnstaged(value)
                   }}
@@ -55,9 +62,8 @@ export function GitCommitStatus(props: Props) {
         {hasStagedChanges && (
           <>
             <div>
-              <Command
+              <CommandWithInput
                 description="Commit staged changes"
-                command="git commit -m $$"
                 onExec={value => {
                   onClickGitCommit(value)
                 }}
@@ -68,6 +74,13 @@ export function GitCommitStatus(props: Props) {
         {hasStagedChanges && (
           <fieldset>
             <legend>staged</legend>
+            <CommandWithInput
+              description="Commit"
+              onExec={value => {
+                onClickGitCommit(value)
+              }}
+            />
+
             {stagedChanges.map(change => {
               return (
                 <div key={change.relpath}>

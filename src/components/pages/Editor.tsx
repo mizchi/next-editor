@@ -1,8 +1,7 @@
 import * as React from "react"
 import { GlobalHeader } from "../molecules/GlobalHeader"
 import { EditorContent } from "../organisms/EditorContent"
-import { ProjectManager } from "../organisms/ProjectManager"
-import { RepositoryBrowser } from "../organisms/RepositoryBrowser"
+import { Menu } from "../organisms/Menu"
 import { Grid, GridArea, Root } from "../utils/LayoutUtils"
 
 export function Editor() {
@@ -42,14 +41,5 @@ export function Editor() {
         </GridArea>
       </Grid>
     </Root>
-  )
-}
-
-function Menu() {
-  return (
-    <>
-      <ProjectManager />
-      <RepositoryBrowser />
-    </>
   )
 }

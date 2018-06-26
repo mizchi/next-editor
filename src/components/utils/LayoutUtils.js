@@ -144,17 +144,18 @@ export const Root = styled.div`
   margin: 0;
 `
 
-export const Text: React.ComponentType<{
-  children: string,
-  color?: string,
-  fontFamily?: string
-}> = ({ children, color, fontFamily }) => {
-  return (
-    <Center>
-      <span style={{ color, fontFamily }}>{children}</span>
-    </Center>
-  )
-}
+export const Text = ({ children }) => <Center>{children}</Center>
+// export const Text: React.ComponentType<{
+//   children: string,
+//   color?: string,
+//   fontFamily?: string
+// }> = ({ children, color, fontFamily }) => {
+//   return (
+//     <Center>
+//       <span style={{ color, fontFamily }}>{children}</span>
+//     </Center>
+//   )
+// }
 
 export const Button = styled.a`
   display: inline-block;

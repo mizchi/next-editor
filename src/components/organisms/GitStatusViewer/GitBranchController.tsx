@@ -1,5 +1,7 @@
 import React from "react"
-import { Command } from "../../atoms/Command"
+import { CommandWithInput } from "../../atoms/CommandWithInput"
+import { CommandWithSelect } from "../../atoms/CommandWithSelect"
+import { GitPushManager } from "./GitPushManager"
 
 export class GitBranchController extends React.PureComponent<{
   projectRoot: string
@@ -13,34 +15,32 @@ export class GitBranchController extends React.PureComponent<{
       currentBranch,
       branches,
       onChangeBranch,
-      onClickCreateBranch
+      onClickCreateBranch,
+      projectRoot
     } = this.props
     return (
-      <>
-        <h3>Branch</h3>
+      <fieldset>
+        <legend>Branch</legend>
         <div>
-          <Command
-            type="select"
-            options={branches}
+          <CommandWithSelect
+            description="Checkout"
             initialValue={currentBranch}
-            command="git checkout $$"
-            description="Git Operation: switch to other branch"
+            options={branches}
             onExec={value => {
               onChangeBranch(value)
             }}
           />
         </div>
         <div>
-          <Command
-            command="git branch $$"
-            description="Git Operation: create new branch"
-            validate={value => value.length > 0}
+          <CommandWithInput
+            description="Create new branch"
             onExec={value => {
               onClickCreateBranch(value)
             }}
           />
         </div>
-      </>
+        <GitPushManager projectRoot={projectRoot} />
+      </fieldset>
     )
   }
 }

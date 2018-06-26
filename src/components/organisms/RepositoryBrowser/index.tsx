@@ -24,7 +24,8 @@ export const RepositoryBrowser = connect(
   actions
 )((props: Props) => {
   return (
-    <div>
+    <fieldset style={{ height: "100%" }}>
+      <legend>Files</legend>
       <RootDirectory
         key={props.currentProjectRoot}
         root={props.currentProjectRoot}
@@ -34,6 +35,6 @@ export const RepositoryBrowser = connect(
       />
       <FileContextMenu root={props.currentProjectRoot} />
       <DirectoryContextMenu root={props.currentProjectRoot} />
-    </div>
+    </fieldset>
   )
 })
