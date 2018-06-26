@@ -51,6 +51,7 @@ export class GitMergeManager extends React.Component<{ projectRoot: string }> {
               </option>
             ))}
           </select>
+          &nbsp;
           <button
             onClick={async () => {
               await git.merge({
@@ -63,7 +64,7 @@ export class GitMergeManager extends React.Component<{ projectRoot: string }> {
               console.log("merge seccess")
             }}
           >
-            Exec
+            exec
           </button>
         </div>
       </div>

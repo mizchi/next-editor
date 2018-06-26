@@ -1,6 +1,7 @@
 import React from "react"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
 import { CommandWithSelect } from "../../atoms/CommandWithSelect"
+import { GitFetchManager } from "./GitFetchManager"
 import { GitMergeManager } from "./GitMergeManager"
 
 export class GitBranchController extends React.PureComponent<{
@@ -57,6 +58,9 @@ export class GitBranchController extends React.PureComponent<{
               onClickGitPush(value)
             }}
           />
+        </div>
+        <div>
+          <GitFetchManager projectRoot={projectRoot} />
         </div>
         <div>
           <GitMergeManager projectRoot={projectRoot} />
