@@ -90,6 +90,7 @@ async function setupServiceWorker() {
     // Run
     el.innerHTML = 'Loading...'
     await setupBrowserFS()
+    el.innerHTML = ''
     await import('/main.js')
   } catch (e) {
     el.innerHTML = 'Something wrong: ' + e.message
