@@ -80,7 +80,8 @@ export async function updateFileStatusInProject(
 }
 
 function isStaged(status: GitStatusString | "error"): boolean {
-  return status[0] !== "*"
+  const firstChar = status[0]
+  return firstChar !== "*"
 }
 
 function getStagingStatus(

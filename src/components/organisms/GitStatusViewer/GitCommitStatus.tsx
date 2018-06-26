@@ -1,9 +1,8 @@
 import React from "react"
-import styled from "styled-components"
 import { GitFileStatus } from "../../../domain/types"
 import { Command } from "../../atoms/Command"
 
-export class GitCommitStatus extends React.PureComponent<{
+type Props = {
   stagedChanges: GitFileStatus[]
   unstagedChanges: GitFileStatus[]
   loading: boolean
@@ -12,29 +11,31 @@ export class GitCommitStatus extends React.PureComponent<{
   onClickGitRemove: (filepath: string) => void
   onClickGitCommit: (message: string) => void
   onClickGitCommitUnstaged: (message: string) => void
-}> {
-  render() {
-    const {
-      stagedChanges,
-      unstagedChanges,
-      untracked,
-      loading,
-      onClickGitAdd,
-      onClickGitCommit,
-      onClickGitCommitUnstaged,
-      onClickGitRemove
-    } = this.props
+}
 
-    if (loading) {
-      return "Git Status Loading..."
-    }
+export function GitCommitStatus(props: Props) {
+  const {
+    stagedChanges,
+    unstagedChanges,
+    untracked,
+    loading,
+    onClickGitAdd,
+    onClickGitCommit,
+    onClickGitCommitUnstaged,
+    onClickGitRemove
+  } = props
 
-    const hasStagedChanges = stagedChanges.length > 0
-    const hasUnstagedChanges = unstagedChanges.length > 0
-    const hasChanges = hasStagedChanges || hasUnstagedChanges
-    return (
-      <div>
-        <h3>Staging</h3>
+  if (loading) {
+    return <span>Git Status Loading...</span>
+  }
+
+  const hasStagedChanges = stagedChanges.length > 0
+  const hasUnstagedChanges = unstagedChanges.length > 0
+  const hasChanges = hasStagedChanges || hasUnstagedChanges
+  return (
+    <div>
+      <fieldset>
+        <legend> Staging </legend>
         {!hasChanges && <>No changes</>}
 
         {!hasStagedChanges &&
@@ -65,8 +66,8 @@ export class GitCommitStatus extends React.PureComponent<{
           </>
         )}
         {hasStagedChanges && (
-          <>
-            <StatusText>[staged]</StatusText>
+          <fieldset>
+            <legend>staged</legend>
             {stagedChanges.map(change => {
               return (
                 <div key={change.relpath}>
@@ -74,11 +75,11 @@ export class GitCommitStatus extends React.PureComponent<{
                 </div>
               )
             })}
-          </>
+          </fieldset>
         )}
         {hasUnstagedChanges && (
-          <>
-            <StatusText>[unstaged]</StatusText>
+          <fieldset>
+            <legend>unstaged</legend>
             {unstagedChanges.map(change => {
               const needRemoveAction = ["*deleted", "*absent"].includes(
                 change.status
@@ -108,11 +109,11 @@ export class GitCommitStatus extends React.PureComponent<{
                 </div>
               )
             })}
-          </>
+          </fieldset>
         )}
         {untracked.length > 0 && (
-          <>
-            <StatusText>[untracked]</StatusText>
+          <fieldset>
+            <legend>untracked</legend>
             {untracked.map(filepath => {
               return (
                 <div key={filepath}>
@@ -128,11 +129,9 @@ export class GitCommitStatus extends React.PureComponent<{
                 </div>
               )
             })}
-          </>
+          </fieldset>
         )}
-      </div>
-    )
-  }
+      </fieldset>
+    </div>
+  )
 }
-
-const StatusText = styled.div``

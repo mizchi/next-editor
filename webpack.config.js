@@ -4,7 +4,7 @@ const mode = process.env.NODE_ENV || "development"
 const WorkboxPlugin = require("workbox-webpack-plugin")
 
 module.exports = {
-  mode,
+  mode: "development",
   entry: {
     // sw: ["babel-polyfill", __dirname + "/src/sw.js"],
     main: [__dirname + "/src/main.tsx"]

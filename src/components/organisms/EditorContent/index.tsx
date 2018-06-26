@@ -24,10 +24,11 @@ export const EditorContent = connector(
     <Row>
       <Keydown
         keydown={(e: KeyboardEvent) => {
-          console.log(e.keyCode)
+          // 1
           if (e.ctrlKey && e.keyCode === 49) {
             ;(props as any).setLayoutMode(["editor"])
           }
+          // 2
           if (e.ctrlKey && e.keyCode === 50) {
             ;(props as any).setLayoutMode(["editor", "preview"])
           }

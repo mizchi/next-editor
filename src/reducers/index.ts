@@ -1,5 +1,6 @@
 import { connect } from "react-redux"
-import { combineReducers } from "redux"
+import { InferableComponentEnhancerWithProps } from "recompose"
+import { combineReducers, compose } from "redux"
 import * as app from "./app"
 import * as editor from "./editor"
 import * as project from "./project"
@@ -32,10 +33,15 @@ export const connector = <
   OwnProps extends {} = {}
 >(
   stateSelector: (state: RootState, ownProps?: OwnProps) => Connected,
-  actionSelector?: (actions: AllAction) => BoundAction
-) => {
-  return connect(
-    stateSelector,
-    actionSelector ? actionSelector(allActions) : {}
+  actionSelector: (actions: AllAction) => BoundAction,
+  // ...hocs: Array<(props: Connected & BoundAction) => any>
+  ...hocs: any[]
+): InferableComponentEnhancerWithProps<Connected & BoundAction, OwnProps> => {
+  return compose(
+    connect(
+      stateSelector,
+      actionSelector(allActions)
+    ),
+    ...hocs
   )
 }

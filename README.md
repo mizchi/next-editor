@@ -49,9 +49,9 @@ Concept implementation
 - [x] Preview Tab Switcher / GitManager - MarkdownPreview
 - [x] Toggle preview layout 1 <-> 2 panes
 - [x] Editor: Update git status on git add
-- [ ] Git: push to github better UI
-- [ ] Git: merge / fast forward only
 - [ ] Git: fetch
+- [ ] Git: merge / fast forward only
+- [ ] Git: push to github better UI
 - [ ] FileBrowser: Inline Renamer
 - [ ] Markup: total design
 - [ ] PWA's manifest.json for chrome playstore / Windows store
