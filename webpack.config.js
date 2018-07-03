@@ -59,8 +59,12 @@ module.exports = {
         to: __dirname + "/public/index.html"
       },
       {
-        from: __dirname + "/src/index.html",
+        from: __dirname + "/src/manifest.json",
         to: __dirname + "/public/manifest.json"
+      },
+      {
+        from: __dirname + "/assets/favicon.ico",
+        to: __dirname + "/public/favicon.ico"
       },
       {
         from: __dirname + "/assets/*",

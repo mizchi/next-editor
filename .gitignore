@@ -51,4 +51,4 @@ jspm_packages
 public
 .netlify
 functions
-
+.DS_Store

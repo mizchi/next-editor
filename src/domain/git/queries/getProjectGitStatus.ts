@@ -21,17 +21,15 @@ export async function getProjectGitStatus(
   const trackingStatus = await getGitTrackingStatus(projectRoot)
   const { tracked, untracked } = trackingStatus
 
-  const statusList: GitFileStatus[] = await Promise.all(
-    tracked.map(async relpath => {
-      const status = await getGitStatus(projectRoot, relpath)
-      return { relpath, status, staged: isStaged(status) }
-    })
-  )
-
-  const { staged, unstaged, unmodified } = getStagingStatus(statusList)
+  const {
+    staged,
+    unstaged,
+    unmodified,
+    rawStatusList
+  } = await getFileStatusInProject(projectRoot, tracked)
 
   return {
-    rawStatusList: statusList,
+    rawStatusList,
     unstaged,
     staged,
     currentBranch,
@@ -43,11 +41,29 @@ export async function getProjectGitStatus(
   }
 }
 
+export async function getFileStatusInProject(
+  projectRoot: string,
+  tracked: string[]
+) {
+  const rawStatusList: GitFileStatus[] = await Promise.all(
+    tracked.map(async relpath => {
+      const status = await getGitStatus(projectRoot, relpath)
+      return { relpath, status, staged: isStaged(status) }
+    })
+  )
+  const { staged, unstaged, unmodified } = getStagingStatus(rawStatusList)
+  return {
+    rawStatusList,
+    staged,
+    unstaged,
+    unmodified
+  }
+}
+
 export async function updateFileStatusInProject(
   projectRoot: string,
   repositoryStatus: GitRepositoryStatus,
-  relpath: string,
-  action: "added" | "changed" = "changed"
+  relpath: string
 ): Promise<GitRepositoryStatus> {
   const newChange = {
     relpath,
@@ -56,17 +72,11 @@ export async function updateFileStatusInProject(
   }
 
   const rawStatusList = [...repositoryStatus.rawStatusList]
-  // let untracked = [...repositoryStatus.untracked]
   const changedIndex = rawStatusList.findIndex(c => c.relpath === relpath)
   if (changedIndex > -1) {
     // update status
     rawStatusList[changedIndex] = newChange
   }
-  // else {
-  //   unstaged absent => unstaged *add
-  //   rawStatusList.push(newChange)
-  //   untracked = untracked.filter(u => u !== relpath)
-  // }
 
   const { staged, unstaged, unmodified } = getStagingStatus(rawStatusList)
   return {

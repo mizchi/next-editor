@@ -14,12 +14,12 @@ export const EditorContent = connector(
   },
   actions => {
     return {
-      setLaoutMode: actions.app.setLayoutMode,
+      setLayoutMode: actions.app.setLayoutMode,
       unloadFile: actions.editor.unloadFile
     }
   }
 )(props => {
-  const { filepath, layouts } = props
+  const { filepath, layouts, setLayoutMode, unloadFile } = props
   const paneWidthPercent = Math.floor(100 / layouts.length)
   return (
     <Row>
@@ -27,11 +27,11 @@ export const EditorContent = connector(
         keydown={(e: KeyboardEvent) => {
           // 1
           if (e.ctrlKey && e.keyCode === 49) {
-            ;(props as any).setLayoutMode(["editor"])
+            setLayoutMode(["editor"])
           }
           // 2
           if (e.ctrlKey && e.keyCode === 50) {
-            ;(props as any).setLayoutMode(["editor", "preview"])
+            setLayoutMode(["editor", "preview"])
           }
         }}
       />
@@ -39,7 +39,7 @@ export const EditorContent = connector(
         <FileEditor
           filepath={filepath || ""}
           onClickClose={() => {
-            props.unloadFile()
+            unloadFile()
           }}
         />
       </FlexItem>

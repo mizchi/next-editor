@@ -1,34 +1,32 @@
 import React from "react"
+import FaClone from "react-icons/fa/clone"
+import FaPlus from "react-icons/fa/plus"
 
 export const Help = () => (
-  <div style={{ padding: "5px" }}>
-    <h1>Next Editor</h1>
+  <div style={{ padding: "10px" }}>
+    <h1>
+      Next Editor by <a href="https://twitter.com/mizchi">@mizchi</a>
+    </h1>
+    <h2>What's this?</h2>
+    <ul>
+      <li>PWA: offline ready editor</li>
+      <li>Git on browser</li>
+      <li>You can push to GitHub</li>
+    </ul>
+    <h2>How to use</h2>
+    <ul>
+      <li>
+        Create project by <FaPlus />
+      </li>
+      <li>
+        Clone project from GitHub by <FaClone />
+      </li>
+      <li>Press Ctrl-1: Editor mode</li>
+      <li>Press Ctrl-2: Editor-Preview mode</li>
+    </ul>
     <p>
-      Developped by <a href="https://twitter.com/mizchi">@mizchi</a>.
-    </p>
-    <p>
-      GitHub: &nbsp;
+      GitHub:&nbsp;
       <a href="https://github.com/mizchi/next-editor">mizchi/next-editor</a>
     </p>
-
-    <h2>Keybind</h2>
-    <ul>
-      <li>Ctrl-1: Editor</li>
-      <li>Ctrl-2: Editor-Preview</li>
-    </ul>
-
-    <h2>Status</h2>
-    <p>Pre alpha version. Many features may not work correctly.</p>
-    <p>
-      My first goal is conceptual implementation. Markup will be postponed after
-      that.
-    </p>
-
-    <h2>Features</h2>
-    <ul>
-      <li>Standalone. It works completely offline with service-worker.</li>
-      <li>Git integration.</li>
-      <li>It can push to GitHub and clone from GitHub. (UI is WIP)</li>
-    </ul>
   </div>
 )

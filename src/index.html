@@ -106,7 +106,7 @@ async function setupFonts() {
     await setupFonts()
 
     el.innerHTML = ''
-    await import('/main.js')
+    await import('./main.js')
   } catch (e) {
     el.innerHTML = 'Something wrong: ' + e.message
   }
