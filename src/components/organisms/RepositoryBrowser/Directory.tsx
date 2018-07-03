@@ -1,12 +1,11 @@
-import faFolder from "@fortawesome/fontawesome-free-solid/faFolder"
-import faFolderOpen from "@fortawesome/fontawesome-free-solid/faFolderOpen"
-import Icon from "@fortawesome/react-fontawesome"
 import range from "lodash/range"
 import path from "path"
 import React from "react"
 import { ContextMenuProvider } from "react-contexify"
+import FaFolder from "react-icons/fa/folder"
+import FaFolderOpen from "react-icons/fa/folder-o"
 import { connect } from "react-redux"
-import lifecycle from "recompose/lifecycle"
+import { lifecycle } from "recompose"
 import styled from "styled-components"
 import { readFileStats } from "../../../domain/filesystem/queries/readFileStats"
 import { FileInfo } from "../../../domain/types"
@@ -99,7 +98,7 @@ export const Directory: React.ComponentType<OwnProps> = connect(
                 this.setState({ opened: !this.state.opened })
               }}
             >
-              {opened ? <Icon icon={faFolderOpen} /> : <Icon icon={faFolder} />}
+              {opened ? <FaFolderOpen /> : <FaFolder />}
             </DirectoryButton>
             &nbsp;
             <MyContextMenuProvider
@@ -109,8 +108,6 @@ export const Directory: React.ComponentType<OwnProps> = connect(
             >
               {basename || `${dirpath}`}
             </MyContextMenuProvider>
-            {/* <Icon icon={faFile} />
-            <Icon icon={faFolder} /> */}
           </div>
           {opened && (
             <>
