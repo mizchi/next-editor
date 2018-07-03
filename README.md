@@ -51,11 +51,11 @@ Concept implementation
 - [x] Editor: Update git status on git add
 - [x] Git: merge / fast forward only
 - [x] Git: push to github better UI
-- [ ] Git: fetch
+- [x] Git: fetch
+- [x] PWA's manifest.json for chrome playstore / Windows store
 - [ ] FileBrowser: Inline Renamer
-- [ ] Show push / fetch /merge result with modal
+- [ ] Show push / fetch / merge result with modal
 - [ ] Markup: total design
-- [ ] PWA's manifest.json for chrome playstore / Windows store
 
 ### TODO: Git and filesystem
 
@@ -75,7 +75,7 @@ Some features depend on isomorphic-git.
 ### TODO: Just Idea
 
 - Simple Terminal by xterm.js / browserfs / busybox?
-- P2P Realtime editing
+- P2P Realtime editing by y.js
 - P2P Sync to other local git
 - WebTorrent integration
 - Dropbox backend via browserfs

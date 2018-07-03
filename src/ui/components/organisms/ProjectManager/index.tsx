@@ -1,9 +1,10 @@
-import faBox from "@fortawesome/fontawesome-free-solid/faBox"
-import faCog from "@fortawesome/fontawesome-free-solid/faCog"
-import Icon from "@fortawesome/react-fontawesome"
+// import faBox from "@fortawesome/fontawesome-free-solid/faBox"
+// import faCog from "@fortawesome/fontawesome-free-solid/faCog"
+// import Icon from "@fortawesome/react-fontawesome"
 import path from "path"
 import React from "react"
 import { ContextMenuProvider } from "react-contexify"
+import FaBox from "react-icons/io/ios-box"
 import { lifecycle } from "recompose"
 import styled from "styled-components"
 import { connector } from "../../../reducers"
@@ -41,69 +42,53 @@ export const ProjectManager = connector(
   } = props
   return (
     <>
+      <ProjectContextMenu />
       <fieldset>
-        <legend>Projects</legend>
-        <div>
-          <div
-            onClick={() => {
-              props.pushScene("config")
-            }}
-          >
-            <Icon icon={faCog} />
-            &nbsp; Config
-          </div>
-        </div>
-        <div>
-          <CreateNewProjectButton
-            onClickCreate={dirname => {
-              const newProjectRoot = path.join("/", dirname)
-              createNewProject(newProjectRoot)
-            }}
-          />
-          &nbsp;
-          <CloneProjectButton
-            onClickClone={dirname => {
-              const clonePath =
-                "https://" +
-                path.join("cors-buster-tbgktfqyku.now.sh/github.com", dirname)
-              const [, repoName] = dirname.split("/")
-              const projectRoot = path.join("/", repoName)
-              cloneFromGitHub(projectRoot, clonePath)
-            }}
-          />
-        </div>
-        <ProjectContextMenu />
-        <fieldset>
-          <legend>repository</legend>
-          {projects.map(p => {
-            const isActive =
-              p.projectRoot === props.repository.currentProjectRoot
-            return (
-              <ContextMenuProvider
-                key={p.projectRoot}
-                id="project"
-                data={{ dirpath: p.projectRoot }}
+        <legend>repository</legend>
+        <CreateNewProjectButton
+          onClickCreate={dirname => {
+            const newProjectRoot = path.join("/", dirname)
+            createNewProject(newProjectRoot)
+          }}
+        />
+        &nbsp;
+        <CloneProjectButton
+          onClickClone={dirname => {
+            const clonePath =
+              "https://" +
+              path.join("cors-buster-tbgktfqyku.now.sh/github.com", dirname)
+            const [, repoName] = dirname.split("/")
+            const projectRoot = path.join("/", repoName)
+            cloneFromGitHub(projectRoot, clonePath)
+          }}
+        />
+        {projects.map(p => {
+          const isActive = p.projectRoot === props.repository.currentProjectRoot
+          return (
+            <ContextMenuProvider
+              key={p.projectRoot}
+              id="project"
+              data={{ dirpath: p.projectRoot }}
+            >
+              <ProjectLineContainer
+                onClick={() => {
+                  props.projectRootChanged(p.projectRoot)
+                }}
               >
-                <ProjectLineContainer
-                  onClick={() => {
-                    props.projectRootChanged(p.projectRoot)
-                  }}
-                >
-                  <ProjectLineContent>
-                    <Icon icon={faBox} />
-                    <span
-                      style={{
-                        color: isActive ? "#4a4" : "black"
-                      }}
-                    >
-                      {p.projectRoot}
-                    </span>
-                  </ProjectLineContent>
-                </ProjectLineContainer>
-              </ContextMenuProvider>
-            )
-          })}
-        </fieldset>
+                <ProjectLineContent>
+                  <FaBox />
+                  <span
+                    style={{
+                      color: isActive ? "#4a4" : "black"
+                    }}
+                  >
+                    {p.projectRoot}
+                  </span>
+                </ProjectLineContent>
+              </ProjectLineContainer>
+            </ContextMenuProvider>
+          )
+        })}
       </fieldset>
     </>
   )

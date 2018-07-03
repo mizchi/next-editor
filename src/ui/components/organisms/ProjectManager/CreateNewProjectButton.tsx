@@ -1,9 +1,7 @@
-import faPlus from "@fortawesome/fontawesome-free-solid/faPlus"
-import Icon from "@fortawesome/react-fontawesome"
 import React from "react"
+import FaPlus from "react-icons/fa/plus"
 import Modal from "react-modal"
 import ReactTooltip from "react-tooltip"
-import { Button } from "../../utils/LayoutUtils"
 
 export class CreateNewProjectButton extends React.Component<
   {
@@ -27,15 +25,15 @@ export class CreateNewProjectButton extends React.Component<
         >
           Create new project
         </ReactTooltip>
-        <Button
+        <button
           onClick={() => {
             this.setState({ opened: true })
           }}
           data-tip="React-tooltip"
           data-for="create-project"
         >
-          <Icon icon={faPlus} />
-        </Button>
+          <FaPlus />
+        </button>
         <Modal
           isOpen={this.state.opened}
           onRequestClose={() => this.setState({ opened: false })}

@@ -1,6 +1,7 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
 import React from "react"
+import { toast, ToastContainer } from "react-toastify"
 import {
   listBranches,
   listOriginBranches
@@ -28,6 +29,18 @@ export class GitMergeManager extends React.Component<{ projectRoot: string }> {
     )
     return (
       <div>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          draggablePercent={60}
+          closeOnClick
+          rtl={false}
+          pauseOnVisibilityChange
+          draggable
+          pauseOnHover
+        />
         <div>
           Merge -&nbsp; ours:
           <select
@@ -54,14 +67,30 @@ export class GitMergeManager extends React.Component<{ projectRoot: string }> {
           &nbsp;
           <button
             onClick={async () => {
-              await git.merge({
-                fs,
-                dir: this.props.projectRoot,
-                ours: this.state.ours,
-                theirs: this.state.theirs
-              })
-
-              console.log("merge seccess")
+              try {
+                await git.merge({
+                  fs,
+                  dir: this.props.projectRoot,
+                  ours: this.state.ours,
+                  theirs: this.state.theirs
+                })
+                toast(`Merge success`, {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: true,
+                  pauseOnHover: true,
+                  draggable: false
+                })
+              } catch (e) {
+                toast(`Merge failed`, {
+                  type: "error",
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: true,
+                  pauseOnHover: true,
+                  draggable: false
+                })
+              }
             }}
           >
             exec

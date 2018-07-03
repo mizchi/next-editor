@@ -1,6 +1,6 @@
 import * as React from "react"
-import { GlobalHeader } from "../molecules/GlobalHeader"
 import { EditorContent } from "../organisms/EditorContent"
+import { GlobalHeader } from "../organisms/GlobalHeader"
 import { Menu } from "../organisms/Menu"
 import { Grid, GridArea, Root } from "../utils/LayoutUtils"
 

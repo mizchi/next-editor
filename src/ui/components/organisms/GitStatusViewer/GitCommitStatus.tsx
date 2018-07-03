@@ -1,5 +1,5 @@
 import React from "react"
-import { GitFileStatus } from "../../../domain/types"
+import { GitFileStatus } from "../../../../domain/types"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
 
 type Props = {

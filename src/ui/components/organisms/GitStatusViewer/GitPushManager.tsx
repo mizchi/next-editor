@@ -4,7 +4,7 @@ import fs from "fs"
 import * as git from "isomorphic-git"
 import path from "path"
 import React from "react"
-import { writeFile } from "../../../domain/filesystem/commands/writeFile"
+import { writeFile } from "../../../../domain/filesystem/commands/writeFile"
 
 export class GitPushManager extends React.Component<
   { projectRoot: string },
@@ -56,10 +56,7 @@ export class GitPushManager extends React.Component<
                   dir: this.props.projectRoot,
                   remote: "origin",
                   ref: "master"
-                  // authUsername: githubToken,
-                  // authPassword: githubToken
                 })
-                // this.setState({ result: ret.ok && "ok" })
               }}
             >
               git push origin master

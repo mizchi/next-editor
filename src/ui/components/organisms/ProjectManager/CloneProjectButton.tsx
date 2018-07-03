@@ -1,9 +1,7 @@
-import faClone from "@fortawesome/fontawesome-free-solid/faClone"
-import Icon from "@fortawesome/react-fontawesome"
 import React from "react"
+import FaClone from "react-icons/fa/clone"
 import Modal from "react-modal"
 import ReactTooltip from "react-tooltip"
-import { Button } from "../../utils/LayoutUtils"
 
 export class CloneProjectButton extends React.Component<
   {
@@ -22,15 +20,15 @@ export class CloneProjectButton extends React.Component<
         <ReactTooltip place="top" type="dark" effect="solid" id="clone-project">
           Clone project from GitHub
         </ReactTooltip>
-        <Button
+        <button
           onClick={() => {
             this.setState({ opened: true })
           }}
           data-tip="React-tooltip"
           data-for="clone-project"
         >
-          <Icon icon={faClone} />
-        </Button>
+          <FaClone />
+        </button>
         <Modal
           isOpen={this.state.opened}
           onRequestClose={() => this.setState({ opened: false })}

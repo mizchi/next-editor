@@ -1,5 +1,5 @@
 import React from "react"
-import { CommitDescription } from "../../../domain/types"
+import { CommitDescription } from "../../../../domain/types"
 
 export function GitCommitHistory({
   history
