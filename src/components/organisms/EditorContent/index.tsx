@@ -14,7 +14,8 @@ export const EditorContent = connector(
   },
   actions => {
     return {
-      setLayoutMode: actions.app.setLayoutMode
+      setLaoutMode: actions.app.setLayoutMode,
+      unloadFile: actions.editor.unloadFile
     }
   }
 )(props => {
@@ -35,7 +36,12 @@ export const EditorContent = connector(
         }}
       />
       <FlexItem width={paneWidthPercent + "%"} height="100%">
-        <FileEditor filepath={filepath || ""} />
+        <FileEditor
+          filepath={filepath || ""}
+          onClickClose={() => {
+            props.unloadFile()
+          }}
+        />
       </FlexItem>
       <FlexItem width={paneWidthPercent + "%"} height="100%">
         <FilePreview />

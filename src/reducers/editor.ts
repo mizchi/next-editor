@@ -6,6 +6,7 @@ import { extToFileType } from "../lib/extToFileType"
 import * as RepositoryActions from "./repository"
 const CHANGE_VALUE = "editor/change-value"
 const LOAD_FILE = "editor/load-file"
+const UNLOAD_FILE = "editor/unload-file"
 
 type ChangeValue = {
   type: typeof CHANGE_VALUE
@@ -25,6 +26,10 @@ type LoadFile = {
   }
 }
 
+type UnloadFile = {
+  type: typeof UNLOAD_FILE
+}
+
 export type EditorState = {
   filePath: string | null
   fileType: FILE_TYPES
@@ -42,6 +47,12 @@ export async function loadFile(filePath: string) {
       fileType: extToFileType(filePath),
       value: fileContent.toString()
     }
+  }
+}
+
+export async function unloadFile() {
+  return {
+    type: UNLOAD_FILE
   }
 }
 
@@ -73,10 +84,19 @@ const initialState: EditorState = {
   value: null
 }
 
-export type Action = ChangeValue | LoadFile
+export type Action = ChangeValue | LoadFile | UnloadFile
 
 export function reducer(state: EditorState = initialState, action: Action) {
   switch (action.type) {
+    case UNLOAD_FILE: {
+      return {
+        ...state,
+        filePath: null,
+        fileType: null,
+        loading: false,
+        value: null
+      }
+    }
     case LOAD_FILE: {
       return { ...state, ...action.payload, loading: false }
     }
