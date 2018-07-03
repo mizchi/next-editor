@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "watch": "webpack-serve --config serve.config.js --no-reload",
+    "watch": "webpack-serve --no-reload --mode development",
     "build:dev": "NODE_ENV=development webpack",
     "build:prod": "rimraf public && NODE_ENV=production webpack",
     "deploy": "NODE_ENV=production yarn build:prod && netlify deploy -p public",
