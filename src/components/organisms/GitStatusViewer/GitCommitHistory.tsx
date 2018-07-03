@@ -7,20 +7,25 @@ export function GitCommitHistory({
   history: CommitDescription[]
 }) {
   return (
-    <>
+    <div>
       <fieldset style={{ height: "100%" }}>
         <legend>Log</legend>
         <div style={{ fontFamily: '"Courier New", Consolas, monospace' }}>
           {history.map((descrption, idx) => {
+            const name =
+              (descrption.committer && descrption.committer.name) ||
+              "<anonymous>"
+            const message =
+              (descrption.error && `(${descrption.error.message})`) ||
+              descrption.message
             return (
               <div key={descrption.oid}>
-                {descrption.oid.slice(0, 7)} | {descrption.committer.name} |{" "}
-                {descrption.message}
+                {descrption.oid.slice(0, 7)} | {name} | {message}
               </div>
             )
           })}
         </div>
       </fieldset>
-    </>
+    </div>
   )
 }

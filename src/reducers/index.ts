@@ -37,7 +37,7 @@ export const connector = <
   // ...hocs: Array<(props: Connected & BoundAction) => any>
   ...hocs: any[]
 ): InferableComponentEnhancerWithProps<Connected & BoundAction, OwnProps> => {
-  return compose(
+  return (compose as any)(
     connect(
       stateSelector,
       actionSelector(allActions)

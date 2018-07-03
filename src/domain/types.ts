@@ -38,6 +38,12 @@ export type CommitDescription = {
     timezoneOffset: number // Timezone difference from UTC in minutes
   }
   gpgsig?: string // PGP signature (if present)
+  error?: {
+    code: string
+    data: any
+    message: string
+    name: string
+  }
 }
 
 export type GitFileStatus = {

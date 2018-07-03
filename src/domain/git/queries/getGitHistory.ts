@@ -6,5 +6,6 @@ export async function getGitHistory(
   projectRoot: string,
   { depth, ref = "master" }: { depth?: number; ref?: string }
 ): Promise<CommitDescription[]> {
+  // return []
   return git.log({ fs, dir: projectRoot, depth, ref })
 }
