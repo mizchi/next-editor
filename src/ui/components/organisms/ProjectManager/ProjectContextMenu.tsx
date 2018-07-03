@@ -1,7 +1,6 @@
-import faTrash from "@fortawesome/fontawesome-free-solid/faTrash"
-import Icon from "@fortawesome/react-fontawesome"
 import React from "react"
 import { ContextMenu, Item } from "react-contexify"
+import FaTrash from "react-icons/fa/trash"
 import { connect } from "react-redux"
 import * as RepositoryActions from "../../../reducers/repository"
 
@@ -27,7 +26,7 @@ export const ProjectContextMenu: any = connect(
           props.deleteProject(dataFromProvider.dirpath)
         }}
       >
-        <Icon icon={faTrash} />
+        <FaTrash />
         Delete project
       </Item>
     </ContextMenu>

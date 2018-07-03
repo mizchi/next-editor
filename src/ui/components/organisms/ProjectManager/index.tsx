@@ -1,6 +1,3 @@
-// import faBox from "@fortawesome/fontawesome-free-solid/faBox"
-// import faCog from "@fortawesome/fontawesome-free-solid/faCog"
-// import Icon from "@fortawesome/react-fontawesome"
 import path from "path"
 import React from "react"
 import { ContextMenuProvider } from "react-contexify"

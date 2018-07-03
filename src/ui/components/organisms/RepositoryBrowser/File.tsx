@@ -1,10 +1,9 @@
-import faFile from "@fortawesome/fontawesome-free-solid/faFile"
-import FontAwesomeIcon from "@fortawesome/react-fontawesome"
 import range from "lodash/range"
 import path from "path"
 import React from "react"
 import { ContextMenuProvider } from "react-contexify"
 import "react-contexify/dist/ReactContexify.min.css"
+import FaFile from "react-icons/fa/file"
 import { connect } from "react-redux"
 import { loadFile } from "../../../reducers/editor"
 
@@ -44,7 +43,7 @@ export const File = connect(
           <ContextMenuProvider id="file" data={{ filepath }}>
             <div onClick={() => this.props.loadFile(filepath)}>
               <span>{prefix}</span>
-              <FontAwesomeIcon icon={faFile} />
+              <FaFile />
               &nbsp;
               <span>{basename}</span>
               <span>{suffix}</span>
