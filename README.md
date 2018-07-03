@@ -2,9 +2,7 @@
 
 Standalone Git Editor on Browser
 
-Work in progress.
-
-[Demo](https://nervous-kilby-73c9b0.netlify.com)
+See working demo [next-editor.app](next-editor.app)
 
 ## My Goal
 
@@ -20,6 +18,44 @@ And I aim for non-programmer's git introduction.
 - `yarn deploy`: deploy to netlify
 
 In development, you need to wait local service-worker upgrading.
+
+## TODO: Current
+
+- [ ] FileBrowser: Inline Renamer
+- [ ] Restore last commited state
+- [ ] Alert dangerous operation
+- [ ] Pluggable Editor
+- [ ] Jest integration
+- [ ] TypeScript
+- [ ] Research isomorphic-git
+- [ ] Support `.gitignore` for UI
+- [ ] Lazy git status loading
+
+### TODO: Git and filesystem
+
+- [ ] Git: Stash
+- [ ] Git: Rebase
+- [ ] Git: Rebase with conflict manager
+
+Some features depend on isomorphic-git.
+
+### TODO: React Enhancement
+
+- [ ] React Component Preview
+- [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
+
+### TODO: Just Idea
+
+- Simple Terminal by xterm.js / browserfs / busybox?
+- P2P Realtime editing by y.js
+- P2P Sync to other local git
+- WebTorrent integration
+- Dropbox backend via browserfs
+- Check CI Progress from Editor
+
+---
+
+# DONE
 
 ## TODO: Goal to alpha version
 
@@ -53,33 +89,8 @@ Concept implementation
 - [x] Git: push to github better UI
 - [x] Git: fetch
 - [x] PWA's manifest.json for chrome playstore / Windows store
-- [ ] FileBrowser: Inline Renamer
-- [ ] Show push / fetch / merge result with modal
-- [ ] Markup: total design
-
-### TODO: Git and filesystem
-
-- [ ] Support `.gitignore` for UI
-- [ ] Git: Stash
-- [ ] Git: Rebase
-- [ ] Git: Rebase with conflict manager
-
-Some features depend on isomorphic-git.
-
-### TODO: React Enhancement
-
-- [ ] Bundle javasciprt in browser or import from jspm.io
-- [ ] React Component Preview
-- [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
-
-### TODO: Just Idea
-
-- Simple Terminal by xterm.js / browserfs / busybox?
-- P2P Realtime editing by y.js
-- P2P Sync to other local git
-- WebTorrent integration
-- Dropbox backend via browserfs
-- Check CI Progress from Editor
+- [x] Show push / fetch / merge result with modal
+- [x] Markup: first design
 
 ## LICENSE
 
