@@ -87,6 +87,12 @@ async function setupServiceWorker() {
     }, 60 * 1000);
   }
 }
+async function setupFonts() {
+  const font = new FontFace('Inconsolata', 'url(/assets/Inconsolata.otf)');
+  const loadedFace = await font.load()
+  document.fonts.add(loadedFace);
+  document.body.style.fontFamily = 'Inconsolata'
+}
 
 ;(async () => {
   try {
@@ -97,6 +103,8 @@ async function setupServiceWorker() {
     // Run
     el.innerHTML = 'Loading...'
     await setupBrowserFS()
+    await setupFonts()
+
     el.innerHTML = ''
     await import('/main.js')
   } catch (e) {

@@ -66,6 +66,8 @@ export class GitMergeManager extends React.Component<{ projectRoot: string }> {
           </select>
           &nbsp;
           <button
+            // TODO: check mergeable
+            disabled={this.state.theirs === this.state.ours}
             onClick={async () => {
               try {
                 await git.merge({

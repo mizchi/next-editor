@@ -10,7 +10,7 @@ export function GitCommitHistory({
     <div>
       <fieldset style={{ height: "100%" }}>
         <legend>Log</legend>
-        <div style={{ fontFamily: '"Courier New", Consolas, monospace' }}>
+        <div style={{ fontFamily: "Inconsolata, monospace" }}>
           {history.map((descrption, idx) => {
             const name =
               (descrption.committer && descrption.committer.name) ||

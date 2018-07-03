@@ -60,29 +60,22 @@ export const ProjectManager = connector(
           }}
         />
         {projects.map(p => {
-          const isActive = p.projectRoot === props.repository.currentProjectRoot
+          const selected = p.projectRoot === props.repository.currentProjectRoot
           return (
             <ContextMenuProvider
               key={p.projectRoot}
               id="project"
               data={{ dirpath: p.projectRoot }}
             >
-              <ProjectLineContainer
+              <Container
+                selected={selected}
                 onClick={() => {
                   props.projectRootChanged(p.projectRoot)
                 }}
               >
-                <ProjectLineContent>
-                  <FaBox />
-                  <span
-                    style={{
-                      color: isActive ? "#4a4" : "black"
-                    }}
-                  >
-                    {p.projectRoot}
-                  </span>
-                </ProjectLineContent>
-              </ProjectLineContainer>
+                <FaBox />
+                {p.projectRoot}
+              </Container>
             </ContextMenuProvider>
           )
         })}
@@ -91,17 +84,17 @@ export const ProjectManager = connector(
   )
 })
 
-const ProjectLineContainer = styled.div`
-  padding: 3px;
-`
-
-const ProjectLineContent = styled.div`
-  outline: 1px solid black;
-  padding: 2px;
-  color: green;
-  /* background: #fff; */
+const Container: React.ComponentType<{
+  selected: boolean
+  onClick: any
+}> = styled.div`
+  cursor: pointer;
+  user-select: none;
+  padding-left: 2px;
+  color: ${p => (p.selected ? "rgb(255, 128, 128)" : "black")};
   &:hover {
-    color: #fff;
-    /* background: #888; */
+    background: black;
+    color: white;
+    color: ${p => (p.selected ? "rgb(200, 64, 64)" : "white")};
   }
 `

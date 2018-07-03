@@ -1,5 +1,6 @@
 import path from "path"
 import React from "react"
+import FaFolder from "react-icons/fa/folder"
 import { connect } from "react-redux"
 import styled from "styled-components"
 import { RootState } from "../../../reducers"
@@ -49,6 +50,7 @@ export const AddDir = (connect as any)(
       const { value } = this.state
       return (
         <Container>
+          <FaFolder />
           <input
             ref={this.inputRef}
             value={value}

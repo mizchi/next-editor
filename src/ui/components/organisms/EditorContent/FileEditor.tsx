@@ -15,7 +15,7 @@ export function FileEditor(props: Props) {
       <Fixed height={"30px"}>
         <Row>
           <FlexItem width="calc(100% - 30px)" height="100%">
-            {filepath}{" "}
+            {filepath}
           </FlexItem>
           <FlexItem>
             <button

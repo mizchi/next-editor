@@ -1,8 +1,8 @@
 import React from "react"
-import { connect } from "react-redux"
-import { RootState } from "../../../reducers"
+import FaEye from "react-icons/fa/eye"
+import FaGit from "react-icons/fa/git"
+import { connector, RootState } from "../../../reducers"
 import { EditorState } from "../../../reducers/editor"
-// import { BabelCodePreview } from "../../atoms/BabelCodePreview"
 import { MarkdownPreview } from "../../atoms/MarkdownPreview"
 import { GitStatusViewer } from "../GitStatusViewer"
 
@@ -16,17 +16,6 @@ type State = {
   mode: "git-browser" | "preview-by-filetype"
 }
 
-class Tab extends React.Component<{ tabs: string[] }> {
-  render() {
-    return (
-      <div>
-        <div>Tabs</div>
-        <div>Contents</div>
-      </div>
-    )
-  }
-}
-
 class PreviewSwitcher extends React.Component<Props, State> {
   state: State = {
     mode: "git-browser"
@@ -35,25 +24,33 @@ class PreviewSwitcher extends React.Component<Props, State> {
   render() {
     const { fileType, value } = this.props
     return (
-      <div>
+      <div style={{ background: "#eee", width: "100%" }}>
         <div>
-          {this.state.mode === "git-browser" ? (
-            "Git"
-          ) : (
-            <button onClick={() => this.setState({ mode: "git-browser" })}>
-              Git
-            </button>
-          )}
-          {this.state.mode === "preview-by-filetype" ? (
-            "Preview"
-          ) : (
+          <button
+            style={{
+              background: this.state.mode === "git-browser" ? "#eee" : "#fff",
+              outline: "none"
+            }}
+            disabled={this.state.mode === "git-browser"}
+            onClick={() => this.setState({ mode: "git-browser" })}
+          >
+            <FaGit />
+          </button>
+          {fileType === "markdown" && (
             <button
+              style={{
+                background:
+                  this.state.mode === "preview-by-filetype" ? "#eee" : "#fff",
+                outline: "none"
+              }}
+              disabled={this.state.mode === "preview-by-filetype"}
               onClick={() => this.setState({ mode: "preview-by-filetype" })}
             >
-              Preview
+              <FaEye />
             </button>
           )}
         </div>
+        {/* Content */}
         <div>{this.state.mode === "git-browser" && <GitStatusViewer />}</div>
         <div>
           {this.state.mode === "preview-by-filetype" && (
@@ -83,6 +80,10 @@ class PreviewSwitcher extends React.Component<Props, State> {
   }
 }
 
-export const FilePreview = connect(selector)((props: EditorState) => {
-  return <PreviewSwitcher fileType={props.fileType} value={props.value || ""} />
-})
+export const FilePreview = connector(selector, actions => ({}))(
+  (props: EditorState) => {
+    return (
+      <PreviewSwitcher fileType={props.fileType} value={props.value || ""} />
+    )
+  }
+)

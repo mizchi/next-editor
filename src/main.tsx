@@ -3,10 +3,10 @@ import fs from "fs"
 import * as git from "isomorphic-git"
 import "normalize.css/normalize.css"
 import * as React from "react"
+import "react-contexify/dist/ReactContexify.min.css"
 import * as ReactDOM from "react-dom"
 import Modal from "react-modal"
 import { injectGlobal } from "styled-components"
-import "./lib/setupFontAwesome"
 import { setupInitialRepository } from "./lib/setupInitialRepository"
 import { App } from "./ui/components/App"
 
@@ -22,6 +22,10 @@ html, body {
   width: 100vw;
   height: 100vh;
   margin: 0;
+}
+
+textarea:focus, input:focus select:focus {
+  outline: none;
 }
 
 select {

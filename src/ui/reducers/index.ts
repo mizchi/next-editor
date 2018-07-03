@@ -28,11 +28,11 @@ export const rootReducer: (
 } as any)
 
 export const connector = <
+  OwnProps extends {} = {},
   Connected extends {} = {},
-  BoundAction extends {} = {},
-  OwnProps extends {} = {}
+  BoundAction extends {} = {}
 >(
-  stateSelector: (state: RootState, ownProps?: OwnProps) => Connected,
+  stateSelector: (state: RootState, ownProps: OwnProps) => Connected,
   actionSelector: (actions: AllAction) => BoundAction,
   // ...hocs: Array<(props: Connected & BoundAction) => any>
   ...hocs: any[]

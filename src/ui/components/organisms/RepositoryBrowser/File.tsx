@@ -2,10 +2,9 @@ import range from "lodash/range"
 import path from "path"
 import React from "react"
 import { ContextMenuProvider } from "react-contexify"
-import "react-contexify/dist/ReactContexify.min.css"
 import FaFile from "react-icons/fa/file"
-import { connect } from "react-redux"
-import { loadFile } from "../../../reducers/editor"
+import styled from "styled-components"
+import { connector } from "../../../reducers"
 
 type OwnProps = {
   depth: number
@@ -14,43 +13,49 @@ type OwnProps = {
 }
 
 type Props = OwnProps & {
-  loadFile: typeof loadFile
+  loadFile: any
+  editingFilepath: string
 }
 
-const selector = (_state: any, ownProps: OwnProps) => {
-  return ownProps
-}
-
-const actions = {
-  loadFile
-}
-
-export const File = connect(
-  selector,
-  actions
-)(
-  class extends React.Component<Props> {
-    render() {
-      const { depth, filepath } = this.props
-      const basename = path.basename(filepath)
-      const prefix = range(depth)
-        .map((_: any, i: number) => "◽")
-        .join("")
-
-      const suffix = ""
-      return (
-        <div>
-          <ContextMenuProvider id="file" data={{ filepath }}>
-            <div onClick={() => this.props.loadFile(filepath)}>
-              <span>{prefix}</span>
-              <FaFile />
-              &nbsp;
-              <span>{basename}</span>
-              <span>{suffix}</span>
-            </div>
-          </ContextMenuProvider>
-        </div>
-      )
+export const File: React.ComponentType<OwnProps> = connector<OwnProps>(
+  (state, ownProps) => {
+    return {
+      ...ownProps,
+      editingFilepath: state.editor.filePath
+    }
+  },
+  actions => {
+    return {
+      loadFile: actions.editor.loadFile
     }
   }
-)
+)((props: Props) => {
+  const { depth, filepath, editingFilepath } = props
+  const basename = path.basename(filepath)
+  const suffix = ""
+  return (
+    <Container selected={editingFilepath === filepath}>
+      <ContextMenuProvider id="file" data={{ filepath }}>
+        <div onClick={() => props.loadFile(filepath)}>
+          {range(depth).map((_, k) => <span key={k}>&nbsp;&nbsp;</span>)}
+          <FaFile />
+          &nbsp;
+          <span>{basename}</span>
+          <span>{suffix}</span>
+        </div>
+      </ContextMenuProvider>
+    </Container>
+  )
+}) as any
+
+const Container: React.ComponentType<{ selected: boolean }> = styled.div`
+  cursor: pointer;
+  user-select: none;
+  padding-left: 2px;
+  color: ${p => (p.selected ? "rgb(255, 128, 128)" : "black")};
+  &:hover {
+    background: black;
+    color: white;
+    color: ${p => (p.selected ? "rgb(200, 64, 64)" : "white")};
+  }
+`

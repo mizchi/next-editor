@@ -10,9 +10,6 @@ type OwnProps = {
 
 type Props = OwnProps & (typeof actions)
 
-const onClick: any = ({ event, ref, data, dataFromProvider }: any) =>
-  console.log("Hello", ref, data, dataFromProvider)
-
 const actions = {
   startFileCreating: RepositoryActions.startFileCreating,
   startDirCreating: RepositoryActions.startDirCreating,

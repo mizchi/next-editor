@@ -1,5 +1,6 @@
 import path from "path"
 import React from "react"
+import FaFile from "react-icons/fa/file"
 import { connect } from "react-redux"
 import styled from "styled-components"
 import { RootState } from "../../../reducers"
@@ -49,6 +50,7 @@ export const AddFile = (connect as any)(
       const { value } = this.state
       return (
         <Container>
+          <FaFile />
           <input
             ref={this.inputRef}
             value={value}
