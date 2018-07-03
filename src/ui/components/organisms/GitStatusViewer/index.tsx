@@ -1,4 +1,5 @@
 import React from "react"
+import { toast, ToastContainer } from "react-toastify"
 import { lifecycle } from "recompose"
 import { connector } from "../../../reducers"
 import { Padding } from "../../utils/LayoutUtils"
@@ -67,12 +68,42 @@ export const GitStatusViewer = connector(
           <div>
             {projectRoot} [{currentBranch}]
           </div>
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            draggablePercent={60}
+            closeOnClick
+            rtl={false}
+            pauseOnVisibilityChange
+            draggable
+            pauseOnHover
+          />
           <GitBranchController
             projectRoot={projectRoot}
             currentBranch={currentBranch}
             branches={branches}
-            onClickGitPush={branchName => {
-              props.pushCurrentBranchToOrigin(projectRoot, branchName)
+            onClickGitPush={async branchName => {
+              try {
+                await props.pushCurrentBranchToOrigin(projectRoot, branchName)
+                toast(`Push success`, {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: true,
+                  pauseOnHover: true,
+                  draggable: false
+                })
+              } catch (e) {
+                toast(`Merge success`, {
+                  type: "error",
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: true,
+                  pauseOnHover: true,
+                  draggable: false
+                })
+              }
             }}
             onChangeBranch={async (branchName: string) => {
               await props.checkoutToOtherBranch(projectRoot, branchName)

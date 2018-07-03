@@ -10,7 +10,7 @@ import {
 export class GitMergeManager extends React.Component<{ projectRoot: string }> {
   state = {
     ours: "master",
-    theirs: "remotes/origin/master",
+    theirs: "master",
     branches: [],
     originBranches: []
   }

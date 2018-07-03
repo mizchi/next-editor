@@ -3,23 +3,22 @@ import * as git from "isomorphic-git"
 import React from "react"
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import { getRemotes } from "../../../../domain/git/queries/getRemotes"
+
+type Props = { projectRoot: string; remotes: string[] }
 
 export class GitFetchManager extends React.Component<
-  { projectRoot: string },
-  { remotes: string[]; selectedRemote: any }
+  Props,
+  { selectedRemote: string }
 > {
-  state = {
-    remotes: [],
-    selectedRemote: null
-  }
-  async componentDidMount() {
-    const remotes = await getRemotes(this.props.projectRoot)
-    this.setState({ remotes, selectedRemote: remotes[0] })
+  constructor(props: Props) {
+    super(props)
+    this.state = {
+      selectedRemote: props.remotes[0]
+    }
   }
   render() {
-    const { projectRoot } = this.props
-    const { selectedRemote, remotes } = this.state
+    const { projectRoot, remotes } = this.props
+    const { selectedRemote } = this.state
 
     return (
       <div>
@@ -35,54 +34,53 @@ export class GitFetchManager extends React.Component<
           draggable
           pauseOnHover
         />
-        {remotes.length > 0 &&
-          typeof selectedRemote === "string" && (
-            <>
-              Fetch from&nbsp;
-              <select
-                value={selectedRemote}
-                onChange={ev =>
-                  this.setState({ selectedRemote: ev.target.value })
+        {remotes.length > 0 && (
+          <>
+            Fetch from&nbsp;
+            <select
+              value={selectedRemote}
+              onChange={ev =>
+                this.setState({ selectedRemote: ev.target.value })
+              }
+            >
+              {remotes.map(remote => (
+                <option key={remote} value={remote}>
+                  {remote}
+                </option>
+              ))}
+            </select>
+            <button
+              onClick={async () => {
+                try {
+                  ;(git.fetch as any)({
+                    fs,
+                    dir: projectRoot,
+                    remote: this.state.selectedRemote
+                  })
+                  // TODO: show updated branch
+                  toast(`Fetch done: ${this.state.selectedRemote}`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    pauseOnHover: true,
+                    draggable: false
+                  })
+                } catch (e) {
+                  toast(`Fetch failed: ${this.state.selectedRemote}`, {
+                    position: "top-right",
+                    type: "error",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    pauseOnHover: true,
+                    draggable: false
+                  })
                 }
-              >
-                {remotes.map(remote => (
-                  <option key={remote} value={remote}>
-                    {remote}
-                  </option>
-                ))}
-              </select>
-              <button
-                onClick={async () => {
-                  try {
-                    ;(git.fetch as any)({
-                      fs,
-                      dir: projectRoot,
-                      remote: this.state.selectedRemote
-                    })
-                    // TODO: show updated branch
-                    toast(`Fetch done: ${this.state.selectedRemote}`, {
-                      position: "top-right",
-                      autoClose: 3000,
-                      hideProgressBar: true,
-                      pauseOnHover: true,
-                      draggable: false
-                    })
-                  } catch (e) {
-                    toast(`Fetch failed: ${this.state.selectedRemote}`, {
-                      position: "top-right",
-                      type: "error",
-                      autoClose: 3000,
-                      hideProgressBar: true,
-                      pauseOnHover: true,
-                      draggable: false
-                    })
-                  }
-                }}
-              >
-                exec
-              </button>
-            </>
-          )}
+              }}
+            >
+              exec
+            </button>
+          </>
+        )}
       </div>
     )
   }
