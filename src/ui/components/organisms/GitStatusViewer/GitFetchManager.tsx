@@ -3,7 +3,7 @@ import * as git from "isomorphic-git"
 import React from "react"
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import { getRemotes } from "../../../domain/git/queries/getRemotes"
+import { getRemotes } from "../../../../domain/git/queries/getRemotes"
 
 export class GitFetchManager extends React.Component<
   { projectRoot: string },

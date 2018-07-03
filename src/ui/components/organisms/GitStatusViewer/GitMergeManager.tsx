@@ -4,7 +4,7 @@ import React from "react"
 import {
   listBranches,
   listOriginBranches
-} from "../../../domain/git/queries/listBranches"
+} from "../../../../domain/git/queries/listBranches"
 
 export class GitMergeManager extends React.Component<{ projectRoot: string }> {
   state = {

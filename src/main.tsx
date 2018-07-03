@@ -6,9 +6,9 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 import Modal from "react-modal"
 import { injectGlobal } from "styled-components"
-import { App } from "./components/App"
 import "./lib/setupFontAwesome"
 import { setupInitialRepository } from "./lib/setupInitialRepository"
+import { App } from "./ui/components/App"
 
 // export to globals for debug
 const g: any = global
@@ -37,8 +37,8 @@ select {
   border-radius: 0px;
   box-shadow:0 0 0 1px rgba(255, 255, 255, .3);
 }
-
 `
+
 if (typeof window === "object") {
   const modal = document.createElement("div")
   modal.setAttribute("id", "react-modal")

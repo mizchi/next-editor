@@ -1,6 +1,6 @@
-import { readDirectories } from "../domain/filesystem/queries/readDirectories"
-import { cloneRepository } from "../domain/git/commands/cloneRepository"
-import { createProject } from "../domain/git/commands/createProject"
+import { readDirectories } from "../../domain/filesystem/queries/readDirectories"
+import { cloneRepository } from "../../domain/git/commands/cloneRepository"
+import { createProject } from "../../domain/git/commands/createProject"
 
 type Project = {
   projectRoot: string

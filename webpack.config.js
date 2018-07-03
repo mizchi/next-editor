@@ -59,7 +59,14 @@ module.exports = {
         from: __dirname + "/src/index.html",
         to: __dirname + "/public/index.html"
       },
-      { from: __dirname + "/assets/*", to: __dirname + "/public" }
+      {
+        from: __dirname + "/src/index.html",
+        to: __dirname + "/public/manifest.json"
+      },
+      {
+        from: __dirname + "/assets/*",
+        to: __dirname + "/public"
+      }
     ]),
     new MonacoWebpackPlugin(),
     new WorkboxPlugin.GenerateSW({
