@@ -2,7 +2,7 @@
 
 Standalone Git Editor on Browser
 
-See working demo [next-editor.app](next-editor.app)
+See [next-editor.app](https://next-editor.app)
 
 ## My Goal
 
@@ -21,15 +21,21 @@ In development, you need to wait local service-worker upgrading.
 
 ## TODO: Current
 
-- [ ] FileBrowser: Inline Renamer
+Load to 0.1.0
+
+- [ ] Reload after clone
 - [ ] Restore last commited state
+- [ ] redux-persist
+- [ ] FileBrowser: Inline Renamer
 - [ ] Alert dangerous operation
-- [ ] Pluggable Editor
+- [ ] Pluggable Editor by webcomponents
 - [ ] Jest integration
-- [ ] TypeScript
+- [ ] TypeScript on monaco
 - [ ] Research isomorphic-git
 - [ ] Support `.gitignore` for UI
 - [ ] Lazy git status loading
+- [ ] CircleCI
+- [ ] Renovate
 
 ### TODO: Git and filesystem
 
@@ -52,6 +58,7 @@ Some features depend on isomorphic-git.
 - WebTorrent integration
 - Dropbox backend via browserfs
 - Check CI Progress from Editor
+- Firebase backend
 
 ---
 
