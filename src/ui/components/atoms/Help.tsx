@@ -9,7 +9,7 @@ export const Help = () => (
     </h1>
     <h2>What's this?</h2>
     <ul>
-      <li>PWA: offline ready editor</li>
+      <li>PWA: offline ready editor for Chromebook</li>
       <li>Git on browser</li>
       <li>You can push to GitHub</li>
     </ul>
