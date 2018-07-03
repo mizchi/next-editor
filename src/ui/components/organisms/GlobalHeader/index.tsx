@@ -16,7 +16,8 @@ export const GlobalHeader = connector(
   return (
     <Header>
       <Title>Next Editor</Title>
-      <TitleMenus>
+      <Menus />
+      <ConfigMenu>
         {props.currentScene !== "config" && (
           <>
             <button
@@ -28,15 +29,16 @@ export const GlobalHeader = connector(
             </button>
           </>
         )}
-      </TitleMenus>
+      </ConfigMenu>
     </Header>
   )
 })
 
 const Header = styled.header`
   display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0;
-  padding: 0;
   width: 100%;
   height: 100%;
   background-color: #222;
@@ -46,8 +48,13 @@ const Title = styled.div`
   display: inline-block;
   width: 120px;
   color: #ddd;
+  padding-left: 10px;
 `
 
-const TitleMenus = styled.div`
+const Menus = styled.div`
   flex: 1;
+`
+
+const ConfigMenu = styled.div`
+  width: 40px;
 `

@@ -1,5 +1,6 @@
 import React from "react"
 import FaClone from "react-icons/fa/clone"
+import FaCog from "react-icons/fa/cog"
 import FaPlus from "react-icons/fa/plus"
 
 export const Help = () => (
@@ -15,6 +16,9 @@ export const Help = () => (
     </ul>
     <h2>How to use</h2>
     <ul>
+      <li>
+        Set your commiter name by <FaCog />
+      </li>
       <li>
         Create project by <FaPlus />
       </li>
