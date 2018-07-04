@@ -12,7 +12,7 @@ And I aim for non-programmer's git introduction.
 
 ## How to develop
 
-- `yarn watch`: strat dev server(localhost:8080)
+- `yarn watch`: start dev server(localhost:8080)
 - `yarn storybook`: start storybook(localhost:6006)
 - `yarn test`: run jest and typescript checking
 - `yarn deploy`: deploy to netlify
