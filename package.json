@@ -1,5 +1,6 @@
 {
   "name": "@mizchi/next-editor",
+  "author": "mizchi",
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
@@ -46,6 +47,7 @@
     "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
+    "github-markdown-css": "^2.10.0",
     "jest": "^22.4.3",
     "monaco-editor-webpack-plugin": "^1.2.1",
     "netlify-cli": "^1.2.2",

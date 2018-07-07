@@ -113,33 +113,33 @@ export const GitStatusViewer = connector(
               await props.createBranch(projectRoot, newBranchName)
             }}
           />
-          <GitCommitStatus
-            loading={gitStatusLoading}
-            stagedChanges={stagedChanges}
-            unstagedChanges={unstagedChanges}
-            untracked={untracked}
-            onClickReload={() => {
-              props.updateGitStatus(props.projectRoot)
-            }}
-            onClickGitAdd={(filepath: string) => {
-              props.addToStage(projectRoot, filepath)
-            }}
-            onClickGitRemove={(filepath: string) => {
-              props.removeFileFromGit(projectRoot, filepath)
-            }}
-            onClickGitCommit={(message: string) => {
-              props.commitStagedChanges(projectRoot, message || "Update")
-            }}
-            onClickGitCommitUnstaged={(message: string) => {
-              props.commitUnstagedChanges(
-                projectRoot,
-                unstagedChanges,
-                message || "Update"
-              )
-            }}
-          />
+          <GitCommitHistory history={history} />
           <div style={{ flex: 1 }}>
-            <GitCommitHistory history={history} />
+            <GitCommitStatus
+              loading={gitStatusLoading}
+              stagedChanges={stagedChanges}
+              unstagedChanges={unstagedChanges}
+              untracked={untracked}
+              onClickReload={() => {
+                props.updateGitStatus(props.projectRoot)
+              }}
+              onClickGitAdd={(filepath: string) => {
+                props.addToStage(projectRoot, filepath)
+              }}
+              onClickGitRemove={(filepath: string) => {
+                props.removeFileFromGit(projectRoot, filepath)
+              }}
+              onClickGitCommit={(message: string) => {
+                props.commitStagedChanges(projectRoot, message || "Update")
+              }}
+              onClickGitCommitUnstaged={(message: string) => {
+                props.commitUnstagedChanges(
+                  projectRoot,
+                  unstagedChanges,
+                  message || "Update"
+                )
+              }}
+            />
           </div>
         </div>
       </Padding>

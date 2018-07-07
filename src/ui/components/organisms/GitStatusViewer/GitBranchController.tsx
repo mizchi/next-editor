@@ -1,4 +1,6 @@
 import React from "react"
+import FaMinusSquare from "react-icons/fa/minus-square-o"
+import FaPlusSquare from "react-icons/fa/plus-square-o"
 import { getRemotes } from "../../../../domain/git/queries/getRemotes"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
 import { CommandWithSelect } from "../../atoms/CommandWithSelect"
@@ -14,10 +16,11 @@ export class GitBranchController extends React.Component<
     onClickCreateBranch: (branchName: string) => void
     onClickGitPush: (branchName: string) => void
   },
-  { remotes: string[] }
+  { remotes: string[]; opened: boolean }
 > {
   state = {
-    remotes: []
+    remotes: [],
+    opened: true
   }
   async componentDidMount() {
     const remotes = await getRemotes(this.props.projectRoot)
@@ -34,54 +37,66 @@ export class GitBranchController extends React.Component<
     } = this.props
     return (
       <fieldset>
-        <legend>Branch</legend>
-        <div>
-          <CommandWithSelect
-            description="Checkout"
-            tooltip={value => `> git checkout ${value}`}
-            validate={value => value !== currentBranch}
-            initialValue={currentBranch}
-            options={branches}
-            onExec={value => {
-              onChangeBranch(value)
-            }}
-          />
-        </div>
-        <div>
-          <CommandWithInput
-            description="Create new branch"
-            tooltip={value => `> git branch ${value}`}
-            validate={value => value.length > 0 && !branches.includes(value)}
-            onExec={value => {
-              onClickCreateBranch(value)
-            }}
-          />
-        </div>
-        <div>
-          <GitMergeManager projectRoot={projectRoot} />
-        </div>
-        {this.state.remotes.length > 0 && (
+        <legend
+          style={{ userSelect: "none", cursor: "pointer" }}
+          onClick={() => this.setState({ opened: !this.state.opened })}
+        >
+          {this.state.opened ? <FaMinusSquare /> : <FaPlusSquare />}
+          Branch
+        </legend>
+        {this.state.opened && (
           <>
-            <hr />
-            <div>
-              <GitFetchManager
-                projectRoot={projectRoot}
-                remotes={this.state.remotes}
-              />
-            </div>
             <div>
               <CommandWithSelect
-                key={currentBranch}
-                description="Push to origin"
-                options={branches}
+                description="Checkout"
+                tooltip={value => `> git checkout ${value}`}
+                validate={value => value !== currentBranch}
                 initialValue={currentBranch}
-                tooltip={value => `git push origin ${value}`}
-                // validate={value => value.length > 0 && !branches.includes(value)}
+                options={branches}
                 onExec={value => {
-                  onClickGitPush(value)
+                  onChangeBranch(value)
                 }}
               />
             </div>
+            <div>
+              <CommandWithInput
+                description="Create new branch"
+                tooltip={value => `> git branch ${value}`}
+                validate={value =>
+                  value.length > 0 && !branches.includes(value)
+                }
+                onExec={value => {
+                  onClickCreateBranch(value)
+                }}
+              />
+            </div>
+            <div>
+              <GitMergeManager projectRoot={projectRoot} />
+            </div>
+            {this.state.remotes.length > 0 && (
+              <>
+                <hr />
+                <div>
+                  <GitFetchManager
+                    projectRoot={projectRoot}
+                    remotes={this.state.remotes}
+                  />
+                </div>
+                <div>
+                  <CommandWithSelect
+                    key={currentBranch}
+                    description="Push to origin"
+                    options={branches}
+                    initialValue={currentBranch}
+                    tooltip={value => `git push origin ${value}`}
+                    // validate={value => value.length > 0 && !branches.includes(value)}
+                    onExec={value => {
+                      onClickGitPush(value)
+                    }}
+                  />
+                </div>
+              </>
+            )}
           </>
         )}
       </fieldset>

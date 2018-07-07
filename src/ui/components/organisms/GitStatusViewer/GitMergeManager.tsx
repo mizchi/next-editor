@@ -42,7 +42,7 @@ export class GitMergeManager extends React.Component<{ projectRoot: string }> {
           pauseOnHover
         />
         <div>
-          Merge -&nbsp; ours:
+          Merge ours:
           <select
             value={this.state.ours}
             onChange={e => this.setState({ ours: e.target.value })}

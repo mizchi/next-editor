@@ -21,37 +21,41 @@ And I aim for non-programmer's git introduction.
 
 In development, you need to wait local service-worker upgrading.
 
-## TODO: Current
+## TODO: Current to 0.1.0
 
 Load to 0.1.0
 
-- [ ] Reload after clone
-- [ ] Restore last commited state
-- [ ] redux-persist
-- [ ] FileBrowser: Inline Renamer
 - [ ] Alert dangerous operation
-- [ ] Pluggable Editor by webcomponents
-- [ ] Jest integration
 - [ ] TypeScript on monaco
-- [ ] Support `.gitignore` for UI
-- [ ] Lazy git status loading
+- [ ] UI: Show commit date
+- [ ] UI: Inline Rename
+- [ ] UI: Reload after clone
+- [ ] UI: Lazy git status loading
+- [ ] UI: Drag and drop
+- [ ] UI: Folding github tools
+- [ ] UI: Toggle auto save
+- [ ] UI: Switch layout button
+- [x] redux-persist
+- [x] Restore last commited state
 - [x] CircleCI
 - [x] Renovate
+- [x] GitHub markdown css
 
-### TODO: Git and filesystem
+### Icebox
 
+- [ ] Pluggable Editor by webcomponents
+- [ ] Jest integration
+- [ ] Support `.gitignore` for UI
+- [ ] Easy Commit UI
 - [ ] Git: Stash
 - [ ] Git: Rebase
 - [ ] Git: Rebase with conflict manager
+- [ ] React: Component Preview
+- [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
 
 Some features depend on isomorphic-git.
 
-### TODO: React Enhancement
-
-- [ ] React Component Preview
-- [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
-
-### TODO: Just Idea
+### Just Idea
 
 - Simple Terminal by xterm.js / browserfs / busybox?
 - P2P Realtime editing by y.js
@@ -65,7 +69,7 @@ Some features depend on isomorphic-git.
 
 # DONE
 
-## TODO: Goal to alpha version
+## TODO: 0.0.1 - Goal to alpha version
 
 Concept implementation
 

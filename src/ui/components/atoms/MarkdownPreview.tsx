@@ -1,3 +1,4 @@
+import "github-markdown-css/github-markdown.css"
 import React from "react"
 import remark from "remark"
 import remarkReact from "remark-react"
@@ -12,7 +13,7 @@ export class MarkdownPreview extends React.Component<Props, {}> {
     const { source } = this.props
     const contents = processor.processSync(source).contents
     try {
-      return <Container>{contents}</Container>
+      return <Container className="markdown-body">{contents}</Container>
     } catch (e) {
       return e.massage || "syntax error"
     }

@@ -42,7 +42,7 @@ export function GitCommitStatus(props: Props) {
   const hasChanges = hasStagedChanges || hasUnstagedChanges
   return (
     <div>
-      <fieldset>
+      <fieldset style={{ height: "100%" }}>
         <legend>Staging</legend>
         {!hasChanges && <>No changes</>}
 
