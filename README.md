@@ -1,5 +1,7 @@
 # Next Editor
 
+[![CircleCI](https://circleci.com/gh/mizchi/next-editor.svg?style=svg)](https://circleci.com/gh/mizchi/next-editor)
+
 Standalone Git Editor on Browser
 
 See [next-editor.app](https://next-editor.app)
