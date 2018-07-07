@@ -1,3 +1,4 @@
+import React from "react"
 import styled, { css } from "styled-components"
 
 export const Center = styled.div`
@@ -8,14 +9,15 @@ export const Center = styled.div`
   height: 100%;
 `
 
-export const Padding: React.ComponentType<
+type PaddingProps =
   | { value: number }
-  | { left: number, top: number, right: number, bottom: number }
-> = styled.div`
+  | { left: number; top: number; right: number; bottom: number }
+
+export const Padding: React.ComponentType<PaddingProps> = styled.div`
   width: 100%;
   height: 100%;
 
-  ${({ value, left, top, right, bottom }) => {
+  ${({ value, left, top, right, bottom }: any) => {
     if (value) {
       return css`
         padding: ${value}px;
@@ -29,26 +31,27 @@ export const Padding: React.ComponentType<
       `
     }
   }};
-`
+` as any
 
-export const Boader: React.ComponentType<{
-  color?: string,
-  style?: number,
-  radius?: number,
+type BorderProps = {
+  color?: string
+  style?: number
+  radius?: number
   width?: number
-}> = styled.div`
+}
+export const Boader: React.ComponentType<BorderProps> = styled.div`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  border-width: ${({ width }) => width || 0}px;
-  border-radius: ${({ radius }) => radius || 0}px;
-  border-style: ${({ style }) => style === "solid"};
-  border-color: ${({ style }) => style === "black"};
-`
+  border-width: ${(p: BorderProps) => p.width || 0}px;
+  border-radius: ${(p: BorderProps) => p.radius || 0}px;
+  border-style: ${(p: BorderProps) => p.style || "solid"};
+  border-color: ${(p: BorderProps) => p.style || "black"};
+` as any
 
 export const Fixed: React.ComponentType<{
-  width?: number | string,
-  height?: number | string,
+  width?: number | string
+  height?: number | string
   overflow?: string
 }> = styled.div`
   width: ${({ width }) =>
@@ -59,10 +62,10 @@ export const Fixed: React.ComponentType<{
 `
 
 export const Grid: React.ComponentType<{
-  columns: string[],
-  areas: string[][],
-  rows: string[],
-  width?: string,
+  columns: string[]
+  areas: string[][]
+  rows: string[]
+  width?: string
   height?: string
 }> = styled.div`
   display: grid;
@@ -75,8 +78,8 @@ export const Grid: React.ComponentType<{
 `
 
 export const GridArea: React.ComponentType<{
-  name: string,
-  width?: string,
+  name: string
+  width?: string
   height?: string
 }> = styled.div`
   grid-area: ${p => p.name};
@@ -85,18 +88,18 @@ export const GridArea: React.ComponentType<{
 `
 
 type FlexProps = {
-  wrap?: boolean,
-  inline?: boolean,
-  direction?: "row" | "column",
+  wrap?: boolean
+  inline?: boolean
+  direction?: "row" | "column"
   justifyContent?:
     | "flex-start"
     | "flex-end"
     | "center"
     | "space-between"
-    | "space-arround",
-  alignItems?: "stretch" | "flex-start" | "flex-end" | "center" | "baseline",
-  width?: string,
-  hegiht?: string
+    | "space-arround"
+  alignItems?: "stretch" | "flex-start" | "flex-end" | "center" | "baseline"
+  width?: string
+  height?: string
 }
 
 export const Flex: React.ComponentType<FlexProps> = styled.div`
@@ -114,19 +117,19 @@ export const Flex: React.ComponentType<FlexProps> = styled.div`
 
 export const View = Flex
 
-export const Row: React.ComponentType<FlexProps> = Flex.extend`
+export const Row: React.ComponentType<FlexProps> = (Flex as any).extend`
   flex-direction: row;
 `
 
-export const Column: React.ComponentType<FlexProps> = Flex.extend`
+export const Column: React.ComponentType<FlexProps> = (Flex as any).extend`
   flex-direction: column;
 `
 
 export const FlexItem: React.ComponentType<{
-  grow?: number,
-  shrink?: number,
-  order?: number,
-  width?: string,
+  grow?: number
+  shrink?: number
+  order?: number
+  width?: string
   height?: string
 }> = styled.div`
   flex-grow: ${p => p.grow || 0};
@@ -144,18 +147,17 @@ export const Root = styled.div`
   margin: 0;
 `
 
-export const Text = ({ children }) => <Center>{children}</Center>
-// export const Text: React.ComponentType<{
-//   children: string,
-//   color?: string,
-//   fontFamily?: string
-// }> = ({ children, color, fontFamily }) => {
-//   return (
-//     <Center>
-//       <span style={{ color, fontFamily }}>{children}</span>
-//     </Center>
-//   )
-// }
+export const Text: React.ComponentType<{
+  children: string
+  color?: string
+  fontFamily?: string
+}> = ({ children, color, fontFamily }) => {
+  return (
+    <Center>
+      <span style={{ color, fontFamily }}>{children}</span>
+    </Center>
+  )
+}
 
 export const Button = styled.a`
   display: inline-block;
@@ -168,17 +170,3 @@ export const Button = styled.a`
     background: #4488a5;
   }
 `
-
-const Pane: React.ComponentType<{
-  children: React.ReactNode,
-  padding?: number,
-  withBoarder?: boolean
-}> = ({ children, padding = 0 }) => {
-  return (
-    <Flex justifyContent="center" alignItems="center">
-      <Padding value={padding}>
-        <Center>{children}</Center>
-      </Padding>
-    </Flex>
-  )
-}

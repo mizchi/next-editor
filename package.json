@@ -1,17 +1,15 @@
 {
   "name": "@mizchi/next-editor",
   "version": "0.0.1",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "watch": "webpack-serve --no-reload --mode development",
-    "build:dev": "NODE_ENV=development webpack",
-    "build:prod": "rimraf public && NODE_ENV=production webpack",
-    "deploy": "NODE_ENV=production yarn build:prod && netlify deploy -p public",
+    "build": "rimraf public && NODE_ENV=production webpack",
+    "deploy": "NODE_ENV=production yarn build && netlify deploy -p public",
     "lint": "tslint src/**.ts src/**.tsx",
     "test": "run-s test:*",
     "test:jest": "jest",
-    "test:typescript": "tsc -p . --noEmit",
+    "test:ts": "tsc -p . --noEmit",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

@@ -4,8 +4,11 @@ const CopyPlugin = require("copy-webpack-plugin")
 const mode = process.env.NODE_ENV || "development"
 const WorkboxPlugin = require("workbox-webpack-plugin")
 
+const MODE = process.env.NODE_ENV || "development"
+const DEV = MODE == "development"
+
 module.exports = {
-  mode: process.env.NODE_ENV || "development",
+  mode: MODE,
   entry: {
     main: [__dirname + "/src/main.tsx"]
   },
@@ -26,7 +29,6 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        // exclude: [/node_modules/],
         include: [
           path.join(__dirname, "src"),
           path.join(__dirname, "node_modules/react-icons")
@@ -75,7 +77,8 @@ module.exports = {
     new WorkboxPlugin.GenerateSW({
       swDest: "sw.js",
       clientsClaim: true,
-      skipWaiting: true
+      skipWaiting: true,
+      exclude: DEV ? [/index\.html/, /main\.js/] : []
     })
   ]
 }

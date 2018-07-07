@@ -1,47 +1,18 @@
-/// <reference> ./declarations.d.ts
-import fs from "fs"
-import * as git from "isomorphic-git"
-import "normalize.css/normalize.css"
-import * as React from "react"
-import "react-contexify/dist/ReactContexify.min.css"
-import * as ReactDOM from "react-dom"
-import Modal from "react-modal"
-import { injectGlobal } from "styled-components"
-import { setupInitialRepository } from "./lib/setupInitialRepository"
-import { App } from "./ui/components/App"
+/// <reference> ./decls.d.ts
+import fs from "fs";
+import * as git from "isomorphic-git";
+import "normalize.css/normalize.css";
+import * as React from "react";
+import "react-contexify/dist/ReactContexify.min.css";
+import * as ReactDOM from "react-dom";
+import Modal from "react-modal";
+import { setupInitialRepository } from "./lib/setupInitialRepository";
+import { App } from "./ui/components/App";
 
 // export to globals for debug
 const g: any = global
 g.git = git
 g.fs = fs
-
-// tslint:disable-next-line:no-unused-expression
-injectGlobal`
-html, body {
-  overflow: hidden;
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-}
-
-textarea:focus, input:focus select:focus {
-  outline: none;
-}
-
-select {
-  font-family: monospace;
-}
-
-::-webkit-scrollbar {
-    width: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 50, .5);
-  border-radius: 0px;
-  box-shadow:0 0 0 1px rgba(255, 255, 255, .3);
-}
-`
 
 if (typeof window === "object") {
   const modal = document.createElement("div")
