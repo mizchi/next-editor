@@ -10,12 +10,10 @@ import { commitChanges } from "../../domain/git/commands/commitChanges"
 import { createBranch as createGitBranch } from "../../domain/git/commands/createBranch"
 import { pushBranch } from "../../domain/git/commands/pushBranch"
 import { removeFromGit } from "../../domain/git/commands/removeFromGit"
-import {
-  getProjectGitStatus,
-  updateFileStatusInProject
-} from "../../domain/git/queries/getProjectGitStatus"
+import { getBranchStatus } from "../../domain/git/queries/getBranchStatus"
 import { listBranches } from "../../domain/git/queries/listBranches"
 import { GitFileStatus, GitRepositoryStatus } from "../../domain/types"
+import { GitStagingStatus } from "./../../domain/types"
 import { loadProjectList } from "./project"
 import { RepositoryState } from "./repository"
 
@@ -197,15 +195,15 @@ export async function fileChanged({
       repository: { gitRepositoryStatus }
     } = getState()
     if (gitRepositoryStatus) {
-      const gitStatus = await updateFileStatusInProject(
-        projectRoot,
-        gitRepositoryStatus,
-        relpath
-      )
-      dispatch({
-        type: GIT_STATUS_UPDATED_END,
-        payload: gitStatus
-      })
+      // const gitStatus = await updateFileStatusInProject(
+      //   projectRoot,
+      //   gitRepositoryStatus,
+      //   relpath
+      // )
+      // dispatch({
+      //   type: GIT_STATUS_UPDATED_END,
+      //   payload: gitStatus
+      // })
     }
   }
 }
@@ -248,7 +246,7 @@ export async function updateGitStatus(
     dispatch({ type: GIT_STATUS_UPDATED_START })
     dispatch({
       type: GIT_STATUS_UPDATED_END,
-      payload: await getProjectGitStatus(projectRoot)
+      payload: await getBranchStatus(projectRoot)
     })
   }
 }
@@ -381,6 +379,7 @@ export type RepositoryState = {
   dirCreatingDir: string | null
   renamingFilepath: string | null
   gitRepositoryStatus: GitRepositoryStatus | null
+  gitStagingStatus: GitStagingStatus | null
   gitStatusLoading: boolean
   currentProjectRoot: string
   lastChangedPath: string
@@ -394,6 +393,7 @@ const initialState: RepositoryState = {
   dirCreatingDir: null,
   renamingFilepath: null,
   gitRepositoryStatus: null,
+  gitStagingStatus: null,
   gitStatusLoading: false,
   currentProjectRoot: "/playground",
   gitTouchCounter: 0,
@@ -417,12 +417,12 @@ export function reducer(state: RepositoryState = initialState, action: Action) {
       const { projectRoot, relpath } = action.payload
       if (state.gitRepositoryStatus != null) {
         return {
-          ...state,
-          gitRepositoryStatus: updateFileStatusInProject(
-            projectRoot,
-            state.gitRepositoryStatus,
-            relpath
-          )
+          ...state
+          // gitRepositoryStatus: updateFileStatusInProject(
+          //   projectRoot,
+          //   state.gitRepositoryStatus,
+          //   relpath
+          // )
         }
       } else {
         return state

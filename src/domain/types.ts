@@ -55,13 +55,14 @@ export type GitFileStatus = {
 export type GitRepositoryStatus = {
   currentBranch: string
   branches: string[]
-  tracked: string[]
-  untracked: string[]
+  history: CommitDescription[]
+}
+
+export type GitStagingStatus = {
+  raw: GitFileStatus[]
   unmodified: string[]
   staged: string[]
   unstaged: string[]
-  rawStatusList: GitFileStatus[]
-  history: CommitDescription[]
 }
 
 // https://isomorphic-git.github.io/docs/status.html

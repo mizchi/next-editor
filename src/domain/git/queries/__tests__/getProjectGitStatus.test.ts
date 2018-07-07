@@ -1,18 +1,29 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
 import path from "path"
-import { createTempGitProject } from "../../__testHelpers__/helpers"
+import assert from "power-assert"
+import {
+  batchUpdateFiles,
+  createTempGitProject
+} from "../../__testHelpers__/helpers"
+import { getStagingStatus } from "../getRepositoryGitStatus"
 
-test("wip", async () => {
-  const projectRoot = await createTempGitProject()
-  await fs.promises.writeFile(path.join(projectRoot, "a.js"), "hhh")
-  await git.add({ fs, dir: projectRoot, filepath: "a.js" })
-  await git.commit({
-    fs,
-    dir: projectRoot,
-    message: "test",
-    author: { name: "xxx", email: "yyy" }
-  })
-  const log = await git.log({ fs, dir: projectRoot })
-  console.log(log)
+test("getStagingStatus", async () => {
+  const root = await createTempGitProject()
+  await batchUpdateFiles(root, [["a", "1"], ["b", "2"]])
+  const status0 = await getStagingStatus(root)
+  assert.deepEqual(status0.unmodified, ["a", "b"])
+
+  // Update a
+  await fs.promises.writeFile(path.join(root, "a"), "3")
+  await git.add({ fs, dir: root, filepath: "a" })
+  const status1 = await getStagingStatus(root)
+  assert.deepEqual(status1.unmodified, ["b"])
+  assert.deepEqual(status1.staged, ["a"])
+
+  // Back to unmodified
+  await fs.promises.writeFile(path.join(root, "a"), "1")
+  await git.add({ fs, dir: root, filepath: "a" })
+  const status2 = await getStagingStatus(root)
+  assert.deepEqual(status2.unmodified, ["a", "b"])
 })

@@ -1,5 +1,6 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
+import path from "path"
 import rimraf from "rimraf"
 import uuid from "uuid"
 
@@ -21,4 +22,21 @@ export async function createTempGitProject() {
   console.info("created", tempRoot)
 
   return tempRoot
+}
+
+export async function batchUpdateFiles(
+  projectRoot: string,
+  files: Array<[string, string]>,
+  message: string = "Update"
+) {
+  for (const [filename, content] of files) {
+    await fs.promises.writeFile(path.join(projectRoot, filename), content)
+    await git.add({ fs, dir: projectRoot, filepath: filename })
+  }
+  await git.commit({
+    fs,
+    dir: projectRoot,
+    message,
+    author: { name: "test", email: "test" }
+  })
 }

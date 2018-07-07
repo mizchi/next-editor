@@ -5,7 +5,7 @@ import uniq from "lodash/uniq"
 import { getFilesRecursively } from "../../filesystem/queries/getFileRecursively"
 import { GitTrackingStatus } from "../../types"
 
-export async function getGitTrackingStatus(
+export async function getTrackingStatus(
   projectRoot: string
 ): Promise<GitTrackingStatus> {
   const trackedByHead: string[] = await git.listFiles({

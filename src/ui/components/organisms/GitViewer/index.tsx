@@ -48,20 +48,18 @@ export const GitViewer = connector(
     return <span>Loading</span>
   } else {
     const { currentBranch, branches, history } = gitRepositoryStatus
-    const { untracked } = gitRepositoryStatus
-    const { staged, unstaged, rawStatusList } = gitRepositoryStatus
-    const stagedChanges: any = staged.map(s => {
-      return rawStatusList.find(change => change.relpath === s)
-    })
-    const unstagedChanges: any = unstaged.map(u => {
-      const x = rawStatusList.find(change => change.relpath === u)
-      if (x) {
-        return x
-      } else {
-        // TODO: Git add come here in case of untrack => add
-        console.error("error here by untrack", u)
-      }
-    })
+    // const { untracked } = gitRepositoryStatus
+    // const { staged, unstaged, rawStatusList } = gitRepositoryStatus
+    // const stagedChanges: any = staged.map(s => {
+    //   return rawStatusList.find(change => change.relpath === s)
+    // })
+    // const unstagedChanges: any = unstaged.map(u => {
+    //   const x = rawStatusList.find(change => change.relpath === u)
+    //   return x
+    // })
+    const stagedChanges: any = []
+    const unstagedChanges: any = []
+    const untracked: any = []
     return (
       <Padding value={10} key={projectRoot}>
         <div style={{ display: "flex", flexDirection: "column" }}>
