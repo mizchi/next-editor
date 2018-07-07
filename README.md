@@ -33,11 +33,10 @@ Load to 0.1.0
 - [ ] Pluggable Editor by webcomponents
 - [ ] Jest integration
 - [ ] TypeScript on monaco
-- [ ] Research isomorphic-git
 - [ ] Support `.gitignore` for UI
 - [ ] Lazy git status loading
-- [ ] CircleCI
-- [ ] Renovate
+- [x] CircleCI
+- [x] Renovate
 
 ### TODO: Git and filesystem
 
