@@ -4,7 +4,7 @@ module.exports = {
   },
   globals: {
     "ts-jest": {
-      useBabelrc: true
+      useBabelrc: false
     }
   },
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(js|tsx?)$",
