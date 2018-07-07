@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css"
 
 type Props = { projectRoot: string; remotes: string[] }
 
-export class GitFetchManager extends React.Component<
+export class FetchManager extends React.Component<
   Props,
   { selectedRemote: string }
 > {

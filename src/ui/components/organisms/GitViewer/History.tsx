@@ -3,7 +3,7 @@ import FaMinusSquare from "react-icons/fa/minus-square-o"
 import FaPlusSquare from "react-icons/fa/plus-square-o"
 import { CommitDescription } from "../../../../domain/types"
 
-export class GitCommitHistory extends React.Component<
+export class History extends React.Component<
   {
     history: CommitDescription[]
   },

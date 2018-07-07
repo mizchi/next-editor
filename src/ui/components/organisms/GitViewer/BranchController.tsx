@@ -4,10 +4,10 @@ import FaPlusSquare from "react-icons/fa/plus-square-o"
 import { getRemotes } from "../../../../domain/git/queries/getRemotes"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
 import { CommandWithSelect } from "../../atoms/CommandWithSelect"
-import { GitFetchManager } from "./GitFetchManager"
-import { GitMergeManager } from "./GitMergeManager"
+import { FetchManager } from "./FetchManager"
+import { MergeManager } from "./MergeManager"
 
-export class GitBranchController extends React.Component<
+export class BranchController extends React.Component<
   {
     projectRoot: string
     currentBranch: string
@@ -71,13 +71,13 @@ export class GitBranchController extends React.Component<
               />
             </div>
             <div>
-              <GitMergeManager projectRoot={projectRoot} />
+              <MergeManager projectRoot={projectRoot} />
             </div>
             {this.state.remotes.length > 0 && (
               <>
                 <hr />
                 <div>
-                  <GitFetchManager
+                  <FetchManager
                     projectRoot={projectRoot}
                     remotes={this.state.remotes}
                   />

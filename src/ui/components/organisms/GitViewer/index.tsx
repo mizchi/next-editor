@@ -3,11 +3,11 @@ import { toast, ToastContainer } from "react-toastify"
 import { lifecycle } from "recompose"
 import { connector } from "../../../reducers"
 import { Padding } from "../../utils/LayoutUtils"
-import { GitBranchController } from "./GitBranchController"
-import { GitCommitHistory } from "./GitCommitHistory"
-import { GitCommitStatus } from "./GitCommitStatus"
+import { BranchController } from "./BranchController"
+import { History } from "./History"
+import { GitCommitStatus } from "./Staging"
 
-export const GitStatusViewer = connector(
+export const GitViewer = connector(
   state => {
     return {
       gitRepositoryStatus: state.repository.gitRepositoryStatus,
@@ -80,7 +80,7 @@ export const GitStatusViewer = connector(
             draggable
             pauseOnHover
           />
-          <GitBranchController
+          <BranchController
             projectRoot={projectRoot}
             currentBranch={currentBranch}
             branches={branches}
@@ -113,7 +113,7 @@ export const GitStatusViewer = connector(
               await props.createBranch(projectRoot, newBranchName)
             }}
           />
-          <GitCommitHistory history={history} />
+          <History history={history} />
           <div style={{ flex: 1 }}>
             <GitCommitStatus
               loading={gitStatusLoading}

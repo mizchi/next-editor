@@ -7,7 +7,7 @@ import {
   listOriginBranches
 } from "../../../../domain/git/queries/listBranches"
 
-export class GitMergeManager extends React.Component<{ projectRoot: string }> {
+export class MergeManager extends React.Component<{ projectRoot: string }> {
   state = {
     ours: "master",
     theirs: "master",

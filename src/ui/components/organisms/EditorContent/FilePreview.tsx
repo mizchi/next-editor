@@ -4,7 +4,7 @@ import FaGit from "react-icons/fa/git"
 import { connector, RootState } from "../../../reducers"
 import { EditorState } from "../../../reducers/editor"
 import { MarkdownPreview } from "../../atoms/MarkdownPreview"
-import { GitStatusViewer } from "../GitStatusViewer"
+import { GitViewer } from "../GitViewer"
 
 const selector = (state: RootState) => state.editor
 
@@ -51,7 +51,7 @@ class PreviewSwitcher extends React.Component<Props, State> {
           )}
         </div>
         {/* Content */}
-        <div>{this.state.mode === "git-browser" && <GitStatusViewer />}</div>
+        <div>{this.state.mode === "git-browser" && <GitViewer />}</div>
         <div>
           {this.state.mode === "preview-by-filetype" && (
             <>
