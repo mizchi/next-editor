@@ -1,6 +1,6 @@
 import { GitFileStatus, GitStagingStatus, GitStatusString } from "../../types"
 import { arrangeRawStatus } from "./arrangeRawStatus"
-import { getGitStatus } from "./getGitStatus"
+import { getFileStatus } from "./getFileStatus"
 import { getTrackingStatus } from "./getTrackingStatus"
 
 export async function getStagingStatus(
@@ -10,7 +10,7 @@ export async function getStagingStatus(
   const { tracked } = await getTrackingStatus(projectRoot)
   const raw = await Promise.all(
     tracked.map(async relpath => {
-      const status = await getGitStatus(projectRoot, relpath)
+      const status = await getFileStatus(projectRoot, relpath)
       const ret = { relpath, status, staged: isStaged(status) }
       callback(ret)
       return ret

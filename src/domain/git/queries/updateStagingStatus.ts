@@ -1,6 +1,6 @@
 import { GitStagingStatus } from "../../types"
 import { arrangeRawStatus } from "./arrangeRawStatus"
-import { getGitStatus } from "./getGitStatus"
+import { getFileStatus } from "./getFileStatus"
 
 export async function updateStagingStatus(
   projectRoot: string,
@@ -12,7 +12,7 @@ export async function updateStagingStatus(
     const newStatus = {
       relpath,
       staged: false,
-      status: await getGitStatus(projectRoot, relpath)
+      status: await getFileStatus(projectRoot, relpath)
     }
     const changedIndex = newRaw.findIndex(c => c.relpath === relpath)
     if (changedIndex > -1) {
