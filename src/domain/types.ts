@@ -1,3 +1,4 @@
+import { GitStagingStatus } from "./types"
 export type FileInfo = {
   name: string
   gitStatus: string
@@ -46,12 +47,6 @@ export type CommitDescription = {
   }
 }
 
-export type GitFileStatus = {
-  relpath: string
-  status: GitStatusString | "error"
-  staged: boolean
-}
-
 export type GitRepositoryStatus = {
   currentBranch: string
   branches: string[]
@@ -59,25 +54,27 @@ export type GitRepositoryStatus = {
 }
 
 export type GitStagingStatus = {
-  raw: GitFileStatus[]
-  staged: string[]
-  modified: string[]
-  unmodified: string[]
+  [fpath: string]: GitStagingStatus
 }
 
 // https://isomorphic-git.github.io/docs/status.html
 export type GitStatusString =
+  // not staged
   | "ignored"
-  | "unmodified"
   | "absent"
+  | "unmodified"
+  // staged chages
   | "modified"
   | "deleted"
   | "added"
+  // unstaged changes
   | "*modified"
   | "*deleted"
   | "*added"
   | "*unmodified"
   | "*absent"
+  // internal error
+  | "__error__"
 
 export type GitTrackingStatus = {
   tracked: string[]

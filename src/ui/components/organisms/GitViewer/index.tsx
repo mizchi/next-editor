@@ -1,20 +1,18 @@
-import React from "react"
-import { toast, ToastContainer } from "react-toastify"
-import { lifecycle } from "recompose"
-import { connector } from "../../../reducers"
-import { Padding } from "../../utils/LayoutUtils"
-import { BranchController } from "./BranchController"
-import { History } from "./History"
-import { GitCommitStatus } from "./Staging"
+import React from "react";
+import { toast, ToastContainer } from "react-toastify";
+import { lifecycle } from "recompose";
+import { connector } from "../../../reducers";
+import { Padding } from "../../utils/LayoutUtils";
+import { BranchController } from "./BranchController";
+import { History } from "./History";
+import { Staging } from "./Staging";
 
 export const GitViewer = connector(
   state => {
     return {
-      gitRepositoryStatus: state.repository.gitRepositoryStatus,
-      gitStatusLoading: state.repository.gitStatusLoading,
-      gitTouchCounter: state.repository.gitTouchCounter,
+      git: state.git,
       projectRoot: state.repository.currentProjectRoot,
-      fsTouchCounter: state.repository.fsTouchCounter
+      touchCounter: state.repository.touchCounter
     }
   },
   actions => {
@@ -24,42 +22,25 @@ export const GitViewer = connector(
       createBranch: actions.repository.createBranch,
       checkoutToOtherBranch: actions.repository.checkoutToOtherBranch,
       commitStagedChanges: actions.repository.commitStagedChanges,
-      commitUnstagedChanges: actions.repository.commitUnstagedChanges,
-      updateGitStatus: actions.repository.updateGitStatus,
-      removeFileFromGit: actions.repository.removeFileFromGit
+      // commitUnstagedChanges: actions.repository.commitUnstagedChanges,
+      removeFileFromGit: actions.repository.removeFileFromGit,
+      initialize: actions.git.initialize
     }
   },
   lifecycle({
     componentDidMount() {
       const p: any = this.props
-      p.updateGitStatus(p.projectRoot)
-    },
-    componentDidUpdate(prev: any) {
-      const p: any = this.props
-      if (p.fsTouchCounter !== prev.fsTouchCounter) {
-        p.updateGitStatus(p.projectRoot)
+      if (p.git.type === "loading") {
+        p.initialize(p.projectRoot)
       }
     }
   })
 )(props => {
-  const { projectRoot, gitRepositoryStatus, gitStatusLoading } = props
-
-  if (gitRepositoryStatus == null) {
-    return <span>Loading</span>
+  const { projectRoot, git } = props
+  if (git.type === "loading") {
+    return <span>[Git] initialize...</span>
   } else {
-    const { currentBranch, branches, history } = gitRepositoryStatus
-    // const { untracked } = gitRepositoryStatus
-    // const { staged, unstaged, rawStatusList } = gitRepositoryStatus
-    // const stagedChanges: any = staged.map(s => {
-    //   return rawStatusList.find(change => change.relpath === s)
-    // })
-    // const unstagedChanges: any = unstaged.map(u => {
-    //   const x = rawStatusList.find(change => change.relpath === u)
-    //   return x
-    // })
-    const stagedChanges: any = []
-    const unstagedChanges: any = []
-    const untracked: any = []
+    const { currentBranch, branches, history, staging, stagingLoading } = git
     return (
       <Padding value={10} key={projectRoot}>
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -105,39 +86,48 @@ export const GitViewer = connector(
             }}
             onChangeBranch={async (branchName: string) => {
               await props.checkoutToOtherBranch(projectRoot, branchName)
-              props.updateGitStatus(props.projectRoot)
+              // TODO: Update
             }}
             onClickCreateBranch={async (newBranchName: string) => {
               await props.createBranch(projectRoot, newBranchName)
+              // TODO: Update
             }}
           />
           <History history={history} />
           <div style={{ flex: 1 }}>
-            <GitCommitStatus
-              loading={gitStatusLoading}
-              stagedChanges={stagedChanges}
-              unstagedChanges={unstagedChanges}
-              untracked={untracked}
-              onClickReload={() => {
-                props.updateGitStatus(props.projectRoot)
-              }}
-              onClickGitAdd={(filepath: string) => {
-                props.addToStage(projectRoot, filepath)
-              }}
-              onClickGitRemove={(filepath: string) => {
-                props.removeFileFromGit(projectRoot, filepath)
-              }}
-              onClickGitCommit={(message: string) => {
-                props.commitStagedChanges(projectRoot, message || "Update")
-              }}
-              onClickGitCommitUnstaged={(message: string) => {
-                props.commitUnstagedChanges(
-                  projectRoot,
-                  unstagedChanges,
-                  message || "Update"
-                )
-              }}
-            />
+            {staging && (
+              <Staging
+                staging={staging}
+                loading={stagingLoading}
+                onClickReload={() => {
+                  props.initialize(props.projectRoot)
+                }}
+                onClickGitAdd={(filepath: string) => {
+                  props.addToStage(projectRoot, filepath)
+                }}
+                onClickGitRemove={(filepath: string) => {
+                  props.removeFileFromGit(projectRoot, filepath)
+                }}
+                onClickGitCommit={(message: string) => {
+                  props.commitStagedChanges(projectRoot, message || "Update")
+                }}
+                onClickGitCommitUnstaged={(message: string) => {
+                  alert('not implemented yet')
+                  // TODO
+                  // const unstagedChanges: GitFileStatus[] = staging.modified.map(
+                  //   u => {
+                  //     const x = staging.raw.find(change => change.relpath === u)
+                  //     return x
+                  //   }
+                  // ) as any
+                  // props.commitUnstagedChanges(
+                  //   projectRoot,
+                  //   unstagedChanges,
+                  //   message || "Update"
+                  // )
+                }}
+              />
+            )}
           </div>
         </div>
       </Padding>

@@ -6,10 +6,10 @@ export async function getFileStatus(
   projectRoot: string,
   relpath: string,
   ref: string | null = null
-): Promise<GitStatusString | "error"> {
+): Promise<GitStatusString> {
   try {
     return await git.status({ fs, dir: projectRoot, filepath: relpath, ref })
   } catch (e) {
-    return "error"
+    return "__error__"
   }
 }

@@ -1,33 +1,28 @@
-import { GitFileStatus, GitStagingStatus, GitStatusString } from "../../types"
-import { arrangeRawStatus } from "./arrangeRawStatus"
+import { GitStagingStatus, GitStatusString } from "./../../types"
 import { getFileStatus } from "./getFileStatus"
 import { getRepositoryFiles } from "./getRepositoryFiles"
 
+type FileStatus = { filepath: string; status: GitStatusString }
+
 export async function getStagingStatus(
   projectRoot: string,
-  callback?: (s: GitFileStatus) => void
+  callback?: (s: FileStatus) => void
 ): Promise<GitStagingStatus> {
   const relpaths = await getRepositoryFiles(projectRoot)
 
-  const raw = await Promise.all(
+  const list: FileStatus[] = await Promise.all(
     relpaths.map(async relpath => {
       const status = await getFileStatus(projectRoot, relpath)
-      const ret = { relpath, status, staged: isStaged(status) }
+      const ret = { filepath: relpath, status }
       callback && callback(ret)
       return ret
     })
   )
 
-  const { staged, modified, unmodified } = arrangeRawStatus(raw)
-  return {
-    raw,
-    modified,
-    staged,
-    unmodified
-  }
-}
-
-function isStaged(status: GitStatusString | "error"): boolean {
-  const firstChar = status[0]
-  return firstChar !== "*"
+  return list.reduce((acc: GitStagingStatus, { filepath, status }) => {
+    return {
+      ...acc,
+      [filepath]: status
+    }
+  }, {})
 }

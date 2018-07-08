@@ -71,7 +71,7 @@ export class BranchController extends React.Component<
               />
             </div>
             <div>
-              <MergeManager projectRoot={projectRoot} />
+              <MergeManager projectRoot={projectRoot} branches={branches} />
             </div>
             {this.state.remotes.length > 0 && (
               <>

@@ -10,32 +10,48 @@ import { commitChanges } from "../../domain/git/commands/commitChanges"
 import { createBranch as createGitBranch } from "../../domain/git/commands/createBranch"
 import { pushBranch } from "../../domain/git/commands/pushBranch"
 import { removeFromGit } from "../../domain/git/commands/removeFromGit"
-import { getBranchStatus } from "../../domain/git/queries/getBranchStatus"
 import { listBranches } from "../../domain/git/queries/listBranches"
-import { GitFileStatus, GitRepositoryStatus } from "../../domain/types"
-import { GitStagingStatus } from "./../../domain/types"
+import { GitRepositoryStatus } from "../../domain/types"
+import * as Git from "./git"
 import { loadProjectList } from "./project"
 import { RepositoryState } from "./repository"
-
-type ThunkAction<A> = (
-  dispatch: (a: A) => void | Promise<void>
-) => void | Promise<void>
-
-const j = path.join
+// import { ActionCreator, buildActionCreator, createReducer } from "hard-reducer"
+// const { createAction } = buildActionCreator({ prefix: "git/" })
 
 // Action
-
 const CHANGED = "repository:changed"
-const FILE_CHANGED = "repository:file-changed"
 const PROJECT_ROOT_CHANGED = "repository:project-root-changed"
-const GIT_STATUS_UPDATED_START = "repository:git-status-updated-start"
-const GIT_STATUS_UPDATED_END = "repository:git-status-updated-end"
 const FILE_CREATING_IN_DIR_START = "repository:file-creating-in-dir-start"
 const FILE_CREATING_IN_DIR_CANCEL = "repository:file-creating-in-dir-cancel"
 const FILE_CREATING_IN_DIR_END = "repository:file-creating-in-dir-end"
 const DIR_CREATING_IN_DIR_START = "repository:dir-creating-in-dir-start"
 const DIR_CREATING_IN_DIR_CANCEL = "repository:dir-creating-in-dir-cancel"
 const DIR_CREATING_IN_DIR_END = "repository:dir-creating-in-dir-end"
+
+// State
+export type RepositoryState = {
+  fileCreatingDir: string | null
+  dirCreatingDir: string | null
+  renamingFilepath: string | null
+  currentProjectRoot: string
+  lastChanges: Change[]
+  touchCounter: number
+}
+
+const initialState: RepositoryState = {
+  fileCreatingDir: null,
+  dirCreatingDir: null,
+  renamingFilepath: null,
+  currentProjectRoot: "/playground",
+  lastChanges: [],
+  touchCounter: 0
+}
+
+// actions
+type ThunkAction<A> = (
+  dispatch: (a: A) => void | Promise<void>,
+  getState: () => RootState
+) => void | Promise<void>
 
 type FileCreatingInDirStart = {
   type: typeof FILE_CREATING_IN_DIR_START
@@ -76,17 +92,7 @@ type DirCreatingInDirEnd = {
 type Changed = {
   type: typeof CHANGED
   payload: {
-    git?: boolean
-    file?: boolean
-    changedPath?: string
-  }
-}
-
-type FileChanged = {
-  type: typeof FILE_CHANGED
-  payload: {
-    projectRoot: string
-    relpath: string
+    changes: Change[]
   }
 }
 
@@ -98,21 +104,9 @@ type ProjectRootChanged = {
   }
 }
 
-type GitStatusUpdatedStart = {
-  type: typeof GIT_STATUS_UPDATED_START
-}
-
-type GitStatusUpdated = {
-  type: typeof GIT_STATUS_UPDATED_END
-  payload: GitRepositoryStatus
-}
-
 export type Action =
-  | GitStatusUpdated
   | Changed
-  | FileChanged
   | ProjectRootChanged
-  | GitStatusUpdatedStart
   | FileCreatingInDirStart
   | FileCreatingInDirCancel
   | FileCreatingInDirEnd
@@ -120,8 +114,7 @@ export type Action =
   | DirCreatingInDirCancel
   | DirCreatingInDirEnd
 
-// ActionCreator
-
+// ActionCreators
 export function startFileCreating(dirpath: string): FileCreatingInDirStart {
   return {
     type: FILE_CREATING_IN_DIR_START,
@@ -138,7 +131,7 @@ export function cancelFileCreating(): FileCreatingInDirCancel {
 }
 
 export function endFileCreating(filepath: string) {
-  return async (dispatch: any, getState: () => RootState) => {
+  return async (dispatch: any, _getState: () => RootState) => {
     await writeFile(filepath, "")
     dispatch({
       type: FILE_CREATING_IN_DIR_END,
@@ -146,12 +139,7 @@ export function endFileCreating(filepath: string) {
         filepath
       }
     })
-    // TODO: Create file
-    const state = getState()
-    const projectRoot = state.repository.currentProjectRoot
-    const relpath = path.resolve(projectRoot, filepath)
-    // dispatch(fileChanged({ projectRoot, relpath }))
-    dispatch(changed())
+    dispatch(changed({ changedPath: filepath }))
   }
 }
 
@@ -179,50 +167,30 @@ export function endDirCreating(dirpath: string) {
         dirpath
       }
     })
-    dispatch(changed())
-  }
-}
-
-export async function fileChanged({
-  relpath,
-  projectRoot
-}: {
-  relpath: string
-  projectRoot: string
-}) {
-  return async (dispatch: any, getState: () => RootState) => {
-    const {
-      repository: { gitRepositoryStatus }
-    } = getState()
-    if (gitRepositoryStatus) {
-      // const gitStatus = await updateFileStatusInProject(
-      //   projectRoot,
-      //   gitRepositoryStatus,
-      //   relpath
-      // )
-      // dispatch({
-      //   type: GIT_STATUS_UPDATED_END,
-      //   payload: gitStatus
-      // })
-    }
+    dispatch(changed({ changedPath: dirpath, isDir: true }))
   }
 }
 
 export function changed({
-  git = true,
-  file = true,
-  changedPath = "/"
+  changedPath,
+  isDir = false
 }: {
-  git?: boolean
-  file?: boolean
   changedPath?: string
-} = {}): Changed {
-  return {
-    type: CHANGED,
-    payload: {
-      git,
-      file,
-      changedPath
+  isDir?: boolean
+} = {}): ThunkAction<any> {
+  return (dispatch, getState) => {
+    dispatch({
+      type: CHANGED,
+      payload: {
+        changes: changedPath ? [createLastChange(changedPath, isDir)] : []
+      }
+    })
+    if (isDir === false && changedPath) {
+      const state = getState()
+      const projectRoot = state.repository.currentProjectRoot
+      // debugger
+      const relpath = path.relative(projectRoot, changedPath)
+      dispatch(Git.startStagingUpdate(projectRoot, [relpath]))
     }
   }
 }
@@ -235,35 +203,22 @@ export async function projectRootChanged(projectRoot: string) {
         projectRoot
       }
     })
-    dispatch(await updateGitStatus(projectRoot))
-  }
-}
-
-export async function updateGitStatus(
-  projectRoot: string
-): Promise<ThunkAction<GitStatusUpdated | GitStatusUpdatedStart>> {
-  return async (dispatch: any) => {
-    dispatch({ type: GIT_STATUS_UPDATED_START })
-    dispatch({
-      type: GIT_STATUS_UPDATED_END,
-      payload: await getBranchStatus(projectRoot)
-    })
+    dispatch(await Git.initialize(projectRoot))
   }
 }
 
 export async function createFile(
-  aPath: string,
+  filepath: string,
   content: string = ""
-): Promise<Changed> {
-  await writeFile(aPath, content)
-  const dirname = path.dirname(aPath)
-  return changed({ changedPath: dirname })
+): Promise<any> {
+  await writeFile(filepath, content)
+  return changed({ changedPath: filepath })
 }
 
 export async function pushCurrentBranchToOrigin(
   projectRoot: string,
   branch: string
-): Promise<Changed | void> {
+): Promise<any> {
   const githubToken = window.localStorage.getItem("github-token")
   if (githubToken != null) {
     await pushBranch(projectRoot, "origin", branch, githubToken)
@@ -276,45 +231,34 @@ export async function pushCurrentBranchToOrigin(
 
 export async function createBranch(projectRoot: string, newBranchName: string) {
   await createGitBranch(projectRoot, newBranchName)
-
-  console.log("create branch", newBranchName)
+  // TODO: show modal
   return changed()
 }
 
+// TODO: Move to git
 export function checkoutToOtherBranch(
   projectRoot: string,
   branchName: string
-): ThunkAction<Changed> {
+): ThunkAction<any> {
   return async dispatch => {
     const branches = await listBranches(projectRoot)
     if (branches.includes(branchName)) {
       await checkoutBranch(projectRoot, branchName)
-      dispatch(changed())
+      dispatch(Git.startStagingUpdate(projectRoot, []))
     } else {
       console.error(`Git: Unknown branch: ${branchName}`)
     }
   }
 }
 
-export async function updateFile(
-  aPath: string,
-  content: string
-): Promise<Changed> {
-  await writeFile(aPath, content)
-  const dirname = path.dirname(aPath)
-  return changed({ changedPath: dirname })
+export async function createDirectory(dirname: string) {
+  await mkdir(dirname)
+  return changed({ changedPath: dirname, isDir: true })
 }
 
-export async function createDirectory(aPath: string) {
-  await mkdir(aPath)
-  const dirname = path.dirname(aPath)
-  return changed({ changedPath: dirname })
-}
-
-export async function deleteFile(aPath: string) {
-  await unlink(aPath)
-  const dirname = path.dirname(aPath)
-  return changed({ changedPath: dirname })
+export async function deleteFile(filename: string) {
+  await unlink(filename)
+  return changed({ changedPath: filename })
 }
 
 export async function deleteDirectory(dirpath: string) {
@@ -331,127 +275,66 @@ export async function deleteProject(dirpath: string) {
 
 export async function addToStage(projectRoot: string, relpath: string) {
   await addFile(projectRoot, relpath)
-  // return fileChanged({ projectRoot, relpath })
-  return changed()
+  return changed({ changedPath: path.join(projectRoot, relpath) })
 }
 
 export async function removeFileFromGit(projectRoot: string, relpath: string) {
   await removeFromGit(projectRoot, relpath)
-  return fileChanged({ projectRoot, relpath })
+  return changed({ changedPath: path.join(projectRoot, relpath) })
 }
 
 export async function commitStagedChanges(
   projectRoot: string,
   message: string = "Update"
-): Promise<Changed> {
+): Promise<any> {
   const author = {
     email: localStorage.getItem("committer-email") || "dummy",
     name: localStorage.getItem("committer-name") || "dummy"
   }
-  const hash = await commitChanges(projectRoot, message, author)
-  return changed({ changedPath: projectRoot })
+  await commitChanges(projectRoot, message, author)
+  // TODO: update only commited files
+  return Git.startStagingUpdate(projectRoot, [])
 }
 
-export async function commitUnstagedChanges(
-  projectRoot: string,
-  unstagedFiles: GitFileStatus[],
-  message: string = "Update"
-): Promise<Changed> {
-  await Promise.all(
-    unstagedFiles.map(async file => {
-      if (file.status === "*deleted") {
-        await removeFromGit(projectRoot, file.relpath)
-      } else {
-        await addFile(projectRoot, file.relpath)
-      }
-    })
-  )
-  const author = {
-    email: localStorage.getItem("committer-email") || "dummy",
-    name: localStorage.getItem("committer-name") || "dummy"
-  }
-  const hash = await commitChanges(projectRoot, message, author)
-  return changed({ changedPath: projectRoot })
-}
+// export async function commitUnstagedChanges(
+//   projectRoot: string,
+//   unstagedFiles: GitFileStatus[],
+//   message: string = "Update"
+// ): Promise<any> {
+//   await Promise.all(
+//     unstagedFiles.map(async file => {
+//       if (file.status === "*deleted") {
+//         await removeFromGit(projectRoot, file.relpath)
+//       } else {
+//         await addFile(projectRoot, file.relpath)
+//       }
+//     })
+//   )
+//   const author = {
+//     email: localStorage.getItem("committer-email") || "dummy",
+//     name: localStorage.getItem("committer-name") || "dummy"
+//   }
+//   await commitChanges(projectRoot, message, author)
+//   return changed()
+// }
 
-export type RepositoryState = {
-  fileCreatingDir: string | null
-  dirCreatingDir: string | null
-  renamingFilepath: string | null
-  gitRepositoryStatus: GitRepositoryStatus | null
-  gitStagingStatus: GitStagingStatus | null
-  gitStatusLoading: boolean
-  currentProjectRoot: string
-  lastChangedPath: string
-  lastChangedGithPath: string
-  fsTouchCounter: number
-  gitTouchCounter: number
-}
-
-const initialState: RepositoryState = {
-  fileCreatingDir: null,
-  dirCreatingDir: null,
-  renamingFilepath: null,
-  gitRepositoryStatus: null,
-  gitStagingStatus: null,
-  gitStatusLoading: false,
-  currentProjectRoot: "/playground",
-  gitTouchCounter: 0,
-  lastChangedGithPath: "",
-  lastChangedPath: "/playground",
-  fsTouchCounter: 0
-}
-
-export function reducer(state: RepositoryState = initialState, action: Action) {
+export function reducer(
+  state: RepositoryState = initialState,
+  action: Action
+): RepositoryState {
   switch (action.type) {
     case PROJECT_ROOT_CHANGED: {
       return {
         ...state,
         currentProjectRoot: action.payload.projectRoot,
-        fsTouchCounter: 0,
-        gitRepositoryStatus: null,
-        gitTouchCounter: 0
-      }
-    }
-    case FILE_CHANGED: {
-      const { projectRoot, relpath } = action.payload
-      if (state.gitRepositoryStatus != null) {
-        return {
-          ...state
-          // gitRepositoryStatus: updateFileStatusInProject(
-          //   projectRoot,
-          //   state.gitRepositoryStatus,
-          //   relpath
-          // )
-        }
-      } else {
-        return state
+        touchCounter: 0
       }
     }
     case CHANGED: {
       return {
         ...state,
-        fsTouchCounter: action.payload.file
-          ? state.fsTouchCounter + 1
-          : state.fsTouchCounter,
-        gitTouchCounter: action.payload.git
-          ? state.gitTouchCounter + 1
-          : state.gitTouchCounter,
-        lastChangedPath: action.payload.changedPath
-      }
-    }
-    case GIT_STATUS_UPDATED_START: {
-      return {
-        ...state,
-        gitStatusLoading: true
-      }
-    }
-    case GIT_STATUS_UPDATED_END: {
-      return {
-        ...state,
-        gitRepositoryStatus: action.payload,
-        gitTouchCounter: state.gitTouchCounter + 1,
-        gitStatusLoading: false
+        touchCounter: state.touchCounter + 1,
+        lastChanges: action.payload.changes
       }
     }
     case FILE_CREATING_IN_DIR_START: {
@@ -493,5 +376,18 @@ export function reducer(state: RepositoryState = initialState, action: Action) {
     default: {
       return state
     }
+  }
+}
+
+// ---
+type Change = {
+  dirname: string
+  filepath: string | null
+}
+
+function createLastChange(filepath: string, isDir: boolean = false): Change {
+  return {
+    filepath: isDir ? null : filepath,
+    dirname: isDir ? filepath : path.dirname(filepath)
   }
 }

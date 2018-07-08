@@ -2,27 +2,25 @@ import fs from "fs"
 import * as git from "isomorphic-git"
 import React from "react"
 import { toast, ToastContainer } from "react-toastify"
-import {
-  listBranches,
-  listOriginBranches
-} from "../../../../domain/git/queries/listBranches"
+import { listOriginBranches } from "../../../../domain/git/queries/listBranches"
 
-export class MergeManager extends React.Component<{ projectRoot: string }> {
+export class MergeManager extends React.Component<{
+  projectRoot: string
+  branches: string[]
+}> {
   state = {
     ours: "master",
     theirs: "master",
-    branches: [],
     originBranches: []
   }
   async componentDidMount() {
     const { projectRoot } = this.props
-    const branches = await listBranches(projectRoot)
     const originBranches = await listOriginBranches(projectRoot)
-    this.setState({ branches, originBranches })
+    this.setState({ originBranches })
   }
 
   render() {
-    const mergeableBranches: string[] = this.state.branches.concat(
+    const mergeableBranches: string[] = this.props.branches.concat(
       (this.state.originBranches as any).map(
         (m: string) => `remotes/origin/${m}`
       )
@@ -47,7 +45,7 @@ export class MergeManager extends React.Component<{ projectRoot: string }> {
             value={this.state.ours}
             onChange={e => this.setState({ ours: e.target.value })}
           >
-            {this.state.branches.map(b => (
+            {this.props.branches.map(b => (
               <option key={b} value={b}>
                 {b}
               </option>

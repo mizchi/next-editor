@@ -8,46 +8,56 @@ import { getStagingStatus } from "../getStagingStatus"
 test("detect unmodified / modified", async () => {
   const root = await helpers.createTempGitProject()
   await helpers.batchUpdateFiles(root, [["a", "1"], ["b", "2"]])
-  const status0 = await getStagingStatus(root)
-  assert.deepEqual(status0.unmodified, ["a", "b"])
+  assert.deepEqual(await getStagingStatus(root), {
+    a: "unmodified",
+    b: "unmodified"
+  })
 
   // Update a
   await fs.promises.writeFile(path.join(root, "a"), "3")
   await git.add({ fs, dir: root, filepath: "a" })
-  const status1 = await getStagingStatus(root)
-  assert.deepEqual(status1.unmodified, ["b"])
-  assert.deepEqual(status1.staged, ["a"])
+  assert.deepEqual(await getStagingStatus(root), {
+    a: "modified",
+    b: "unmodified"
+  })
 
   // Back to unmodified
   await fs.promises.writeFile(path.join(root, "a"), "1")
   await git.add({ fs, dir: root, filepath: "a" })
-  const status2 = await getStagingStatus(root)
-  assert.deepEqual(status2.unmodified, ["a", "b"])
+  assert.deepEqual(await getStagingStatus(root), {
+    a: "unmodified",
+    b: "unmodified"
+  })
 })
 
 test("detect staging", async () => {
   const root = await helpers.createTempGitProject()
   await helpers.batchUpdateFiles(root, [["a", "1"]])
-  const status0 = await getStagingStatus(root)
-  assert.deepEqual(status0.unmodified, ["a"])
+  assert.deepEqual(await getStagingStatus(root), {
+    a: "unmodified"
+  })
 
   // Update a
   await fs.promises.writeFile(path.join(root, "a"), "1-modified")
-  const status1 = await getStagingStatus(root)
-  assert.deepEqual(status1.modified, ["a"])
-  assert.deepEqual(status1.unmodified, [])
+  assert.deepEqual(await getStagingStatus(root), {
+    a: "*modified"
+  })
 })
 
 test("list added files", async () => {
   const root = await helpers.createTempGitProject()
   await helpers.batchUpdateFiles(root, [["a", "1"]])
 
+  // Add b
   await fs.promises.writeFile(path.join(root, "b"), "2")
+  assert.deepEqual(await getStagingStatus(root), {
+    a: "unmodified",
+    b: "*added"
+  })
+  await git.add({ fs, dir: root, filepath: "b" })
 
-  const status0 = await getStagingStatus(root)
-  assert.deepEqual(status0.raw[1], {
-    relpath: "b",
-    status: "*added",
-    staged: false
+  assert.deepEqual(await getStagingStatus(root), {
+    a: "unmodified",
+    b: "added"
   })
 })

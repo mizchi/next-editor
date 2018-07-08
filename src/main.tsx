@@ -1,13 +1,13 @@
 /// <reference> ./decls.d.ts
-import fs from "fs";
-import * as git from "isomorphic-git";
-import "normalize.css/normalize.css";
-import * as React from "react";
-import "react-contexify/dist/ReactContexify.min.css";
-import * as ReactDOM from "react-dom";
-import Modal from "react-modal";
-import { setupInitialRepository } from "./lib/setupInitialRepository";
-import { App } from "./ui/components/App";
+import fs from "fs"
+import * as git from "isomorphic-git"
+import "normalize.css/normalize.css"
+import * as React from "react"
+import "react-contexify/dist/ReactContexify.min.css"
+import * as ReactDOM from "react-dom"
+import Modal from "react-modal"
+import { setupInitialRepository } from "./lib/setupInitialRepository"
+import { App } from "./ui/components/App"
 
 // export to globals for debug
 const g: any = global
@@ -27,6 +27,5 @@ if (typeof window === "object") {
   } catch (e) {
     console.log("error")
   }
-  console.log("start app")
   ReactDOM.render(<App />, document.querySelector(".root"))
 })()

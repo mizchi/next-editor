@@ -34,7 +34,6 @@ const actions = {
 
 type Props = OwnProps &
   (typeof actions) & {
-    lastChangedPath: string
     editingFilepath: string | null
     touchCounter: number
     isFileCreating: boolean
@@ -55,8 +54,7 @@ export const Directory: React.ComponentType<OwnProps> = connect(
     return {
       ...ownProps,
       editingFilepath: state.editor.filePath,
-      lastChangedPath: state.repository.lastChangedPath,
-      touchCounter: state.repository.fsTouchCounter,
+      touchCounter: state.repository.touchCounter,
       isFileCreating: ownProps.dirpath === state.repository.fileCreatingDir,
       isDirCreating: ownProps.dirpath === state.repository.dirCreatingDir
     }

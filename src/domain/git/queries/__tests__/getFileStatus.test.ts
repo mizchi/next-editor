@@ -11,7 +11,7 @@ test("getFileStatus", async () => {
 
   // TODO: WIP Error as initialState
   const s0 = await getFileStatus(root, "a")
-  assert(s0 === "error")
+  assert(s0 === "__error__")
 
   await git.commit({
     fs,

@@ -3,16 +3,18 @@ import { InferableComponentEnhancerWithProps } from "recompose"
 import { combineReducers, compose } from "redux"
 import * as app from "./app"
 import * as editor from "./editor"
+import * as git from "./git"
 import * as project from "./project"
 import * as repository from "./repository"
 
-const allActions = { app, editor, project, repository }
+const allActions = { app, editor, project, repository, git }
 
 export type RootState = {
   app: app.AppState
   repository: repository.RepositoryState
   project: project.ProjectState
   editor: editor.EditorState
+  git: git.GitState
 }
 
 export type AllAction = typeof allActions
@@ -24,7 +26,8 @@ export const rootReducer: (
   app: app.reducer,
   project: project.reducer,
   editor: editor.reducer,
-  repository: repository.reducer
+  repository: repository.reducer,
+  git: git.reducer
 } as any)
 
 export const connector = <

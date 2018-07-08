@@ -1,12 +1,11 @@
+import invertBy from "lodash/invertBy"
 import React from "react"
-import { GitFileStatus } from "../../../../domain/types"
+import { GitStagingStatus, GitStatusString } from "../../../../domain/types"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
 
 type Props = {
-  stagedChanges: GitFileStatus[]
-  unstagedChanges: GitFileStatus[]
+  staging: GitStagingStatus
   loading: boolean
-  untracked: string[]
   onClickReload: () => void
   onClickGitAdd: (filepath: string) => void
   onClickGitRemove: (filepath: string) => void
@@ -14,22 +13,15 @@ type Props = {
   onClickGitCommitUnstaged: (message: string) => void
 }
 
-export function GitCommitStatus(props: Props) {
-  const {
-    stagedChanges,
-    unstagedChanges,
-    untracked,
-    loading,
-    onClickGitAdd,
-    onClickGitCommit,
-    onClickGitCommitUnstaged,
-    onClickGitRemove
-  } = props
+const STAGED_KEYS: GitStatusString[] = ["modified", "deleted", "added"]
+const MODIFIED_KEYS: GitStatusString[] = ["*modified", "*deleted", "*absent"]
+const UNTRAKED_KEYS: GitStatusString[] = ["*added"]
 
-  if (loading) {
+export function Staging(props: Props) {
+  if (props.loading) {
     return (
       <div>
-        <fieldset>
+        <fieldset style={{ height: "100%" }}>
           <legend> Staging </legend>
           Git Status Loading...
         </fieldset>
@@ -37,44 +29,43 @@ export function GitCommitStatus(props: Props) {
     )
   }
 
-  const hasStagedChanges = stagedChanges.length > 0
-  const hasUnstagedChanges = unstagedChanges.length > 0
-  const hasChanges = hasStagedChanges || hasUnstagedChanges
+  const {
+    staging,
+    onClickReload,
+    onClickGitAdd,
+    onClickGitCommit,
+    onClickGitCommitUnstaged,
+    onClickGitRemove
+  } = props
+
+  const inv: { [s in GitStatusString]: string[] | null } = invertBy(
+    staging
+  ) as any
+  const hasStaged: boolean = STAGED_KEYS.some(key => !!(inv as any)[key])
+  const hasModified: boolean = MODIFIED_KEYS.some(key => !!(inv as any)[key])
+  const hasUntracked: boolean = UNTRAKED_KEYS.some(key => !!(inv as any)[key])
+  const hasError: boolean = !!inv.__error__
+  const hasChanges = hasStaged || hasModified
   return (
     <div>
       <fieldset style={{ height: "100%" }}>
         <legend>Staging</legend>
         {!hasChanges && <>No changes</>}
-
-        {!hasStagedChanges &&
-          hasUnstagedChanges && (
-            <>
-              <div>
-                <CommandWithInput
-                  validate={value => value.length > 0}
-                  description="Commit all unstaged changes"
-                  onExec={value => {
-                    onClickGitCommitUnstaged(value)
-                  }}
-                />
-              </div>
-            </>
-          )}
-        {hasStagedChanges && (
-          <>
+        {/* <pre>{JSON.stringify(inv, null, 2)}</pre> */}
+        {/* <button onClick={() => onClickReload()}>Reload</button> */}
+        {/* {!hasStaged &&
+          hasModified && (
             <div>
               <CommandWithInput
-                description="Commit staged changes"
-                tooltip={value => `git commit -m '${value}'`}
                 validate={value => value.length > 0}
+                description="Commit all unstaged changes"
                 onExec={value => {
-                  onClickGitCommit(value)
+                  onClickGitCommitUnstaged(value)
                 }}
               />
             </div>
-          </>
-        )}
-        {hasStagedChanges && (
+          )} */}
+        {hasStaged && (
           <fieldset>
             <legend>staged</legend>
             <CommandWithInput
@@ -84,31 +75,30 @@ export function GitCommitStatus(props: Props) {
                 onClickGitCommit(value)
               }}
             />
-
-            {stagedChanges.map(change => {
-              return (
-                <div key={change.relpath}>
-                  {change.relpath} ({change.status})
+            {STAGED_KEYS.map(key => {
+              const files = inv[key] || []
+              return files.map(relpath => (
+                <div key={relpath}>
+                  {relpath} ({key})
                 </div>
-              )
+              ))
             })}
           </fieldset>
         )}
-        {hasUnstagedChanges && (
+        {hasModified && (
           <fieldset>
-            <legend>unstaged</legend>
-            {unstagedChanges.map(change => {
-              const needRemoveAction = ["*deleted", "*absent"].includes(
-                change.status
-              )
-              return (
-                <div key={change.relpath}>
-                  {change.relpath}
-                  &nbsp; ({change.status}) &nbsp;
+            <legend>modified</legend>
+            {MODIFIED_KEYS.map(key => {
+              const files = inv[key] || []
+              const needRemoveAction = ["*deleted", "*absent"].includes(key)
+              return files.map(relpath => (
+                <div key={relpath}>
+                  {relpath}
+                  &nbsp; ({key}) &nbsp;
                   {needRemoveAction && (
                     <button
                       onClick={() => {
-                        onClickGitRemove(change.relpath)
+                        onClickGitRemove(relpath)
                       }}
                     >
                       remove from git
@@ -117,34 +107,44 @@ export function GitCommitStatus(props: Props) {
                   {!needRemoveAction && (
                     <button
                       onClick={() => {
-                        onClickGitAdd(change.relpath)
+                        onClickGitAdd(relpath)
                       }}
                     >
                       add to stage
                     </button>
                   )}
                 </div>
-              )
+              ))
             })}
           </fieldset>
         )}
-        {untracked.length > 0 && (
+        {hasUntracked && (
           <fieldset>
             <legend>untracked</legend>
-            {untracked.map(filepath => {
-              return (
-                <div key={filepath}>
-                  {filepath}
+            {UNTRAKED_KEYS.map(key => {
+              const files = inv[key] || []
+              return files.map(relpath => (
+                <div key={relpath}>
+                  {relpath}
                   &nbsp;
                   <button
                     onClick={() => {
-                      onClickGitAdd(filepath)
+                      onClickGitAdd(relpath)
                     }}
                   >
                     add to stage
                   </button>
                 </div>
-              )
+              ))
+            })}
+          </fieldset>
+        )}
+        {hasError && (
+          <fieldset>
+            <legend>error</legend>
+            <button onClick={() => onClickReload()}>Reload</button>
+            {(inv.__error__ || []).map(relpath => {
+              return <div key={relpath}>{relpath}</div>
             })}
           </fieldset>
         )}

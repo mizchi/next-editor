@@ -1,17 +1,28 @@
-import path from "path";
-import { RootState } from ".";
-import { writeFile } from "../../domain/filesystem/commands/writeFile";
-import { readFile } from "../../domain/filesystem/queries/readFile";
-import { extToFileType } from "../../lib/extToFileType";
-import * as RepositoryActions from "./repository";
-const CHANGE_VALUE = "editor/change-value"
+import path from "path"
+import { RootState } from "."
+import { writeFile } from "../../domain/filesystem/commands/writeFile"
+import { readFile } from "../../domain/filesystem/queries/readFile"
+import { extToFileType } from "../../lib/extToFileType"
+import * as Git from "./git"
+import * as RepositoryActions from "./repository"
+
+export const CHANGE_VALUE = "editor/change-value"
 const LOAD_FILE = "editor/load-file"
+const FILE_CHANGED = "editor:file-changed"
 const UNLOAD_FILE = "editor/unload-file"
 
 type ChangeValue = {
   type: typeof CHANGE_VALUE
   payload: {
     value: string
+  }
+}
+
+type FileChanged = {
+  type: typeof FILE_CHANGED
+  payload: {
+    projectRoot: string
+    relpath: string
   }
 }
 
@@ -56,6 +67,15 @@ export async function unloadFile() {
   }
 }
 
+export async function fileChanged({ relpath }: { relpath: string }) {
+  return async (dispatch: any, getState: () => RootState) => {
+    const state = getState()
+    dispatch(
+      Git.startStagingUpdate(state.repository.currentProjectRoot, [relpath])
+    )
+  }
+}
+
 export async function updateValue(filepath: string, value: string) {
   return async (
     dispatch: (a: Action | RepositoryActions.Action) => void,
@@ -73,7 +93,7 @@ export async function updateValue(filepath: string, value: string) {
     const state = getState()
     const projectRoot = state.repository.currentProjectRoot
     const relpath = path.relative(projectRoot, filepath)
-    dispatch(RepositoryActions.fileChanged({ projectRoot, relpath }) as any)
+    dispatch(fileChanged({ relpath }) as any)
   }
 }
 

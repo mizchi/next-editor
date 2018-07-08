@@ -1,29 +1,24 @@
 import { GitStagingStatus } from "../../types"
-import { arrangeRawStatus } from "./arrangeRawStatus"
 import { getFileStatus } from "./getFileStatus"
+import { getStagingStatus } from "./getStagingStatus"
 
 export async function updateStagingStatus(
   projectRoot: string,
   status: GitStagingStatus,
   relpaths: string[]
 ): Promise<GitStagingStatus> {
-  const newRaw = status.raw.slice()
-  for (const relpath of relpaths) {
-    const newStatus = {
-      relpath,
-      staged: false,
-      status: await getFileStatus(projectRoot, relpath)
-    }
-    const changedIndex = newRaw.findIndex(c => c.relpath === relpath)
-    if (changedIndex > -1) {
-      newRaw[changedIndex] = newStatus
-    }
+  // return getStagingStatus(projectRoot)
+  if (relpaths.length === 0) {
+    return getStagingStatus(projectRoot)
   }
-  const { staged, unstaged, unmodified } = arrangeRawStatus(newRaw)
-  return {
-    raw: newRaw,
-    unstaged,
-    staged,
-    unmodified
+  const list = await Promise.all(
+    relpaths.map(async relpath => {
+      return [relpath, await getFileStatus(projectRoot, relpath)]
+    })
+  )
+  const newStatus: GitStagingStatus = { ...status }
+  for (const [relpath, s] of list) {
+    ;(newStatus as any)[relpath] = s
   }
+  return newStatus
 }
