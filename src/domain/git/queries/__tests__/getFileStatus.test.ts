@@ -2,15 +2,12 @@ import fs from "fs"
 import * as git from "isomorphic-git"
 import path from "path"
 import assert from "power-assert"
-import {
-  batchUpdateFiles,
-  createTempGitProject
-} from "../../__testHelpers__/helpers"
+import * as helpers from "../../__testHelpers__/helpers"
 import { getFileStatus } from "../getFileStatus"
 
 // test for git.status
 test("getFileStatus", async () => {
-  const root = await createTempGitProject()
+  const root = await helpers.createTempGitProject()
 
   // TODO: WIP Error as initialState
   const s0 = await getFileStatus(root, "a")
@@ -28,7 +25,7 @@ test("getFileStatus", async () => {
   assert(s1 === "absent")
 
   // unmodified after write
-  await batchUpdateFiles(root, [["a", "1"]])
+  await helpers.batchUpdateFiles(root, [["a", "1"]])
   const s2 = await getFileStatus(root, "a")
   assert(s2 === "unmodified")
 

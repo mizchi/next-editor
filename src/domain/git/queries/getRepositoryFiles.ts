@@ -1,10 +1,15 @@
 import { getFilesRecursively } from "../../filesystem/queries/getFileRecursively"
 
 export async function getRepositoryFiles(
-  projectRoot: string
+  projectRoot: string,
+  ignoreGit: boolean = true
 ): Promise<string[]> {
   const files = await getFilesRecursively(projectRoot)
-  return files
-    .map(fpath => fpath.replace(projectRoot + "/", ""))
-    .filter(fpath => !fpath.startsWith(".git"))
+  const relpaths = files.map(fpath => fpath.replace(projectRoot + "/", ""))
+
+  if (ignoreGit) {
+    return relpaths.filter(fpath => !fpath.startsWith(".git"))
+  } else {
+    return relpaths
+  }
 }

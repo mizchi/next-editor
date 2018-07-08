@@ -1,8 +1,8 @@
-import { GitFileStatus, GitStatusString } from "../../types"
+import { GitFileStatus } from "../../types"
 
 export function arrangeRawStatus(
   raw: GitFileStatus[]
-): { staged: string[]; unstaged: string[]; unmodified: string[] } {
+): { staged: string[]; modified: string[]; unmodified: string[] } {
   const staged = raw
     .filter(a => a.staged && a.status !== "unmodified")
     .map(a => a.relpath)
@@ -11,11 +11,6 @@ export function arrangeRawStatus(
     .filter(a => a.status === "unmodified")
     .map(a => a.relpath)
 
-  const unstaged = raw.filter(a => !a.staged).map(a => a.relpath)
-  return { staged, unstaged, unmodified }
-}
-
-function isStaged(status: GitStatusString | "error"): boolean {
-  const firstChar = status[0]
-  return firstChar !== "*"
+  const modified = raw.filter(a => !a.staged).map(a => a.relpath)
+  return { staged, modified, unmodified }
 }

@@ -60,9 +60,9 @@ export type GitRepositoryStatus = {
 
 export type GitStagingStatus = {
   raw: GitFileStatus[]
-  unmodified: string[]
   staged: string[]
-  unstaged: string[]
+  modified: string[]
+  unmodified: string[]
 }
 
 // https://isomorphic-git.github.io/docs/status.html
