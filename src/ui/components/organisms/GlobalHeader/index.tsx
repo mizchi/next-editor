@@ -1,10 +1,13 @@
 import React from "react"
 import FaCog from "react-icons/fa/cog"
+import FaToggleOff from "react-icons/fa/toggle-off"
+import FaToggleOn from "react-icons/fa/toggle-on"
 import styled from "styled-components"
 import { connector } from "../../../reducers"
 
 export const GlobalHeader = connector(
   state => ({
+    layouts: state.app.layouts,
     currentScene: state.app.sceneStack[state.app.sceneStack.length - 1]
   }),
   actions => {
@@ -17,18 +20,28 @@ export const GlobalHeader = connector(
   return (
     <Header>
       <Title>Next Editor</Title>
-      <Menus>{/*  */}</Menus>
+      <Menus>
+        <button
+          onClick={() => {
+            if (props.layouts.length === 2) {
+              props.setLayoutMode(["editor"])
+            } else {
+              props.setLayoutMode(["editor", "preview"])
+            }
+          }}
+        >
+          {props.layouts.length === 2 ? <FaToggleOff /> : <FaToggleOn />}
+        </button>
+      </Menus>
       <ConfigMenu>
         {props.currentScene !== "config" && (
-          <>
-            <button
-              onClick={() => {
-                props.pushScene("config")
-              }}
-            >
-              <FaCog />
-            </button>
-          </>
+          <button
+            onClick={() => {
+              props.pushScene("config")
+            }}
+          >
+            <FaCog />
+          </button>
         )}
       </ConfigMenu>
     </Header>

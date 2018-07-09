@@ -29,9 +29,10 @@ Load to 0.1.0
 - [ ] TypeScript on monaco
 - [ ] UI: Inline Rename
 - [ ] UI: Reload after clone
+- [ ] UI: Fix initial loading about update
 - [ ] UI: Load history after checkout
 - [ ] UI: Drag and drop
-- [ ] UI: Folding github tools
+- [x] UI: Folding github tools
 - [ ] UI: Toggle auto save
 - [ ] UI: Switch layout button
 - [x] UI: Lazy git status loading
