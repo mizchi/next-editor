@@ -8,8 +8,6 @@ export function cloneRepository(
     fs,
     dir: projectRoot,
     url: clonePath,
-    ref: "master",
-    singleBranch: true,
-    depth: 1
+    ref: "master"
   })
 }

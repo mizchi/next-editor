@@ -13,6 +13,7 @@ export const ProjectManager = connector(
   state => {
     return {
       project: state.project,
+      githubProxy: state.config.githubProxy,
       repository: state.repository
     }
   },
@@ -35,6 +36,7 @@ export const ProjectManager = connector(
   const {
     createNewProject,
     cloneFromGitHub,
+    githubProxy,
     project: { projects }
   } = props
   return (
@@ -51,9 +53,7 @@ export const ProjectManager = connector(
         &nbsp;
         <CloneProjectButton
           onClickClone={dirname => {
-            const clonePath =
-              "https://" +
-              path.join("cors-buster-tbgktfqyku.now.sh/github.com", dirname)
+            const clonePath = githubProxy + dirname
             const [, repoName] = dirname.split("/")
             const projectRoot = path.join("/", repoName)
             cloneFromGitHub({ projectRoot, clonePath })

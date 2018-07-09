@@ -5,13 +5,16 @@ import { GlobalHeader } from "../organisms/GlobalHeader"
 import { Grid, GridArea, Root } from "../utils/LayoutUtils"
 
 export const Config = connector(
-  () => ({}),
+  state => ({
+    config: state.config
+  }),
   actions => {
     return {
+      setConfigValue: actions.config.setConfigValue,
       popScene: actions.app.popScene
     }
   }
-)((props: any) => {
+)(props => {
   return (
     <Root>
       {/* prettier-ignore */}
@@ -30,7 +33,13 @@ export const Config = connector(
           <GlobalHeader />
         </GridArea>
         <GridArea name="content">
-          <ConfigContent onClickBack={() => props.popScene()} />
+          <ConfigContent
+            config={props.config}
+            onClickBack={() => props.popScene()}
+            onChangeConfigValue={(key, value) => {
+              props.setConfigValue({key, value})
+            }}
+          />
         </GridArea>
       </Grid>
     </Root>

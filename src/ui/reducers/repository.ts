@@ -5,11 +5,8 @@ import { removeDirectory } from "../../domain/filesystem/commands/removeDirector
 import { unlink } from "../../domain/filesystem/commands/unlink"
 import { writeFile } from "../../domain/filesystem/commands/writeFile"
 import { addFile } from "../../domain/git/commands/addFile"
-import { checkoutBranch } from "../../domain/git/commands/checkoutBranch"
-import { createBranch as createGitBranch } from "../../domain/git/commands/createBranch"
 import { pushBranch } from "../../domain/git/commands/pushBranch"
 import { removeFromGit } from "../../domain/git/commands/removeFromGit"
-import { listBranches } from "../../domain/git/queries/listBranches"
 import { GitRepositoryStatus } from "../../domain/types"
 import * as Git from "./git"
 import { loadProjectList } from "./project"
@@ -216,35 +213,16 @@ export async function createFile(
 export async function pushCurrentBranchToOrigin(
   projectRoot: string,
   branch: string
-): Promise<any> {
-  const githubToken = window.localStorage.getItem("github-token")
-  if (githubToken != null) {
-    await pushBranch(projectRoot, "origin", branch, githubToken)
-    console.log("push succeeded")
-    return changed()
-  } else {
-    console.error("push failed")
-  }
-}
-
-export async function createBranch(projectRoot: string, newBranchName: string) {
-  await createGitBranch(projectRoot, newBranchName)
-  // TODO: show modal
-  return changed()
-}
-
-// TODO: Move to git
-export function checkoutToOtherBranch(
-  projectRoot: string,
-  branchName: string
-): ThunkAction<any> {
-  return async dispatch => {
-    const branches = await listBranches(projectRoot)
-    if (branches.includes(branchName)) {
-      await checkoutBranch(projectRoot, branchName)
-      dispatch(Git.startStagingUpdate(projectRoot, []))
+) {
+  return async (dispatch: any, getState: () => RootState) => {
+    const state = getState()
+    const githubToken = state.config.githubApiToken
+    if (githubToken.length > 0) {
+      await pushBranch(projectRoot, "origin", branch, githubToken)
+      console.log("push succeeded")
+      dispatch(changed())
     } else {
-      console.error(`Git: Unknown branch: ${branchName}`)
+      console.error("push failed")
     }
   }
 }

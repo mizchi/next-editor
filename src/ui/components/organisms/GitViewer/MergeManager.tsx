@@ -2,24 +2,21 @@ import fs from "fs"
 import * as git from "isomorphic-git"
 import React from "react"
 import { toast, ToastContainer } from "react-toastify"
-import { listOriginBranches } from "../../../../domain/git/queries/listBranches"
 
 export class MergeManager extends React.Component<{
   projectRoot: string
   branches: string[]
+  remotes: string[]
+  remoteBranches: string[]
 }> {
   state = {
     ours: "master",
     theirs: "master",
     originBranches: []
   }
-  async componentDidMount() {
-    const { projectRoot } = this.props
-    const originBranches = await listOriginBranches(projectRoot)
-    this.setState({ originBranches })
-  }
 
   render() {
+    // TODO: fast forward check
     const mergeableBranches: string[] = this.props.branches.concat(
       (this.state.originBranches as any).map(
         (m: string) => `remotes/origin/${m}`

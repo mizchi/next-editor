@@ -47,7 +47,7 @@ export function replaceScene(nextScene: string): ReplaceScene {
   }
 }
 
-export function popScene(nextScene: string): PopScene {
+export function popScene(): PopScene {
   return {
     type: POP_SCENE
   }

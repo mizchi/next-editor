@@ -1,7 +1,6 @@
 import React from "react"
 import FaMinusSquare from "react-icons/fa/minus-square-o"
 import FaPlusSquare from "react-icons/fa/plus-square-o"
-import { getRemotes } from "../../../../domain/git/queries/getRemotes"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
 import { CommandWithSelect } from "../../atoms/CommandWithSelect"
 import { FetchManager } from "./FetchManager"
@@ -12,24 +11,23 @@ export class BranchController extends React.Component<
     projectRoot: string
     currentBranch: string
     branches: string[]
+    remotes: string[]
+    remoteBranches: string[]
     onChangeBranch: (branchName: string) => void
     onClickCreateBranch: (branchName: string) => void
     onClickGitPush: (branchName: string) => void
   },
-  { remotes: string[]; opened: boolean }
+  { opened: boolean }
 > {
   state = {
-    remotes: [],
     opened: true
-  }
-  async componentDidMount() {
-    const remotes = await getRemotes(this.props.projectRoot)
-    this.setState({ remotes })
   }
   render() {
     const {
       currentBranch,
       branches,
+      remotes,
+      remoteBranches,
       onChangeBranch,
       onClickCreateBranch,
       onClickGitPush,
@@ -48,8 +46,9 @@ export class BranchController extends React.Component<
           <>
             <div>
               <CommandWithSelect
+                key={currentBranch}
                 description="Checkout"
-                tooltip={value => `> git checkout ${value}`}
+                tooltip={value => `git checkout ${value}`}
                 validate={value => value !== currentBranch}
                 initialValue={currentBranch}
                 options={branches}
@@ -60,8 +59,8 @@ export class BranchController extends React.Component<
             </div>
             <div>
               <CommandWithInput
-                description="Create new branch"
-                tooltip={value => `> git branch ${value}`}
+                description="Checkout new branch"
+                tooltip={value => `git checkout -b ${value}`}
                 validate={value =>
                   value.length > 0 && !branches.includes(value)
                 }
@@ -71,16 +70,18 @@ export class BranchController extends React.Component<
               />
             </div>
             <div>
-              <MergeManager projectRoot={projectRoot} branches={branches} />
+              <MergeManager
+                remoteBranches={remoteBranches}
+                projectRoot={projectRoot}
+                branches={branches}
+                remotes={remotes}
+              />
             </div>
-            {this.state.remotes.length > 0 && (
+            {remotes.length > 0 && (
               <>
                 <hr />
                 <div>
-                  <FetchManager
-                    projectRoot={projectRoot}
-                    remotes={this.state.remotes}
-                  />
+                  <FetchManager projectRoot={projectRoot} remotes={remotes} />
                 </div>
                 <div>
                   <CommandWithSelect

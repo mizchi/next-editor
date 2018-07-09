@@ -1,7 +1,16 @@
 import React from "react"
 import styled from "styled-components"
+import { ConfigState } from "../../reducers/config"
 
-export const Config = ({ onClickBack }: { onClickBack: () => void }) => {
+export const Config = ({
+  config,
+  onClickBack,
+  onChangeConfigValue
+}: {
+  config: ConfigState
+  onClickBack: () => void
+  onChangeConfigValue: (key: string, value: string) => void
+}) => {
   return (
     <Container>
       <h1>Config</h1>
@@ -9,9 +18,9 @@ export const Config = ({ onClickBack }: { onClickBack: () => void }) => {
         <span>Git: Committer Name</span>
         &nbsp;
         <input
-          defaultValue={localStorage.getItem("committer-name") || ""}
+          defaultValue={config.committerName}
           onChange={event => {
-            localStorage.setItem("committer-name", event.target.value)
+            onChangeConfigValue("committerName", event.target.value)
           }}
         />
       </div>
@@ -19,9 +28,9 @@ export const Config = ({ onClickBack }: { onClickBack: () => void }) => {
         <span>Git: Commiter Email</span>
         &nbsp;
         <input
-          defaultValue={localStorage.getItem("committer-email") || ""}
+          defaultValue={config.committerEmail}
           onChange={event => {
-            localStorage.setItem("committer-email", event.target.value)
+            onChangeConfigValue("committerEmail", event.target.value)
           }}
         />
       </div>
@@ -29,16 +38,26 @@ export const Config = ({ onClickBack }: { onClickBack: () => void }) => {
         <span>GitHub: Private Access Token</span>
         &nbsp;
         <input
-          defaultValue={localStorage.getItem("github-token") || ""}
+          defaultValue={config.githubApiToken}
           onChange={event => {
-            localStorage.setItem("github-token", event.target.value)
+            onChangeConfigValue("githubApiToken", event.target.value)
           }}
         />
-        <p>
-          CAUTION!!!: Setting token is at your own risk. If we have
-          vulnerability to access localStorage, it might be leak.
-        </p>
       </div>
+      <div>
+        <span>GitHub: CORS Proxy</span>
+        &nbsp;
+        <input
+          defaultValue={config.githubProxy}
+          onChange={event => {
+            onChangeConfigValue("githubProxy", event.target.value)
+          }}
+        />
+      </div>
+      <p>
+        CAUTION!!!: Setting token and using proxy are at your own risk. If we
+        have vulnerability to access localStorage, it might be leak.
+      </p>
       <div>
         <button onClick={onClickBack}>Back</button>
       </div>

@@ -1,6 +1,8 @@
 import { ActionCreator, buildActionCreator, createReducer } from "hard-reducer"
 import { RootState } from "."
+import { checkoutBranch } from "../../domain/git/commands/checkoutBranch"
 import { commitChanges } from "../../domain/git/commands/commitChanges"
+import { createBranch as createGitBranch } from "../../domain/git/commands/createBranch"
 import { getBranchStatus } from "../../domain/git/queries/getBranchStatus"
 import { getHistory } from "../../domain/git/queries/getHistory"
 import { getStagingStatus } from "../../domain/git/queries/getStagingStatus"
@@ -10,11 +12,6 @@ import {
   GitStagingStatus,
   GitStatusString
 } from "../../domain/types"
-
-type ThunkAction<A> = (
-  dispatch: (a: A) => void | Promise<void>,
-  getState: () => RootState
-) => void | Promise<void>
 
 const {
   createAction,
@@ -38,6 +35,8 @@ export const endInitialize: ActionCreator<{
   history: CommitDescription[]
   currentBranch: string
   branches: string[]
+  remotes: string[]
+  remoteBranches: string[]
 }> = createAction("initialize-end")
 
 export const progressStagingLoading: ActionCreator<{
@@ -51,6 +50,24 @@ export const endStagingLoading: ActionCreator<{
 export const updateStaging: ActionCreator<{
   staging: GitStagingStatus
 }> = createAction("update-staging")
+
+export const moveToBranch = createThunkAction(
+  "move-to-branches",
+  async (input: { projectRoot: string; branch: string }) => {
+    await checkoutBranch(input.projectRoot, input.branch)
+    return { currentBranch: input.branch }
+  }
+)
+
+export const checkoutNewBranch = createThunkAction(
+  "update-branches",
+  async (input: { projectRoot: string; branch: string }) => {
+    await createGitBranch(input.projectRoot, input.branch)
+    await checkoutBranch(input.projectRoot, input.branch)
+    const { branches } = await getBranchStatus(input.projectRoot)
+    return { branches, currentBranch: input.branch }
+  }
+)
 
 export const updateHistory = createAsyncAction(
   "update-history",
@@ -73,9 +90,10 @@ export const commitStagedChanges = createThunkAction(
     dispatch,
     getState: () => RootState
   ) => {
+    const { config } = getState()
     const author = {
-      email: window.localStorage.getItem("committer-email") || "dummy",
-      name: window.localStorage.getItem("committer-name") || "dummy"
+      name: config.committerName || "<none>",
+      email: config.committerEmail || "<none>"
     }
     const state = getState()
     await commitChanges(projectRoot, message, author)
@@ -84,20 +102,25 @@ export const commitStagedChanges = createThunkAction(
   }
 )
 
-export async function initialize(
-  projectRoot: string
-): Promise<ThunkAction<any>> {
-  return async (dispatch, getState) => {
+export async function initialize(projectRoot: string) {
+  return async (dispatch: any, getState: () => RootState) => {
     dispatch(startInitialize({ projectRoot }))
 
-    const { currentBranch, branches } = await getBranchStatus(projectRoot)
+    const {
+      currentBranch,
+      branches,
+      remotes,
+      remoteBranches
+    } = await getBranchStatus(projectRoot)
     const history = await getHistory(projectRoot, { ref: currentBranch })
 
     dispatch(
       endInitialize({
         history,
+        remotes,
         currentBranch,
-        branches
+        branches,
+        remoteBranches
       })
     )
 
@@ -141,6 +164,8 @@ export type GitState = {
   projectRoot: string
   currentBranch: string
   branches: string[]
+  remotes: string[]
+  remoteBranches: string[]
   history: CommitDescription[]
   staging: GitStagingStatus | null
   stagingLoading: boolean
@@ -152,6 +177,8 @@ const initialState: GitState = {
   projectRoot: null as any,
   currentBranch: null as any,
   branches: [],
+  remotes: [],
+  remoteBranches: [],
   history: [],
   staging: null,
   stagingLoading: true
@@ -179,6 +206,8 @@ export const reducer = createReducer(initialState)
       currentBranch: payload.currentBranch,
       branches: payload.branches,
       history: payload.history,
+      remotes: payload.remotes,
+      remoteBranches: payload.remoteBranches,
       stagingLoading: true,
       staging: null
     }
@@ -200,5 +229,18 @@ export const reducer = createReducer(initialState)
     return {
       ...state,
       history: payload.history
+    }
+  })
+  .case(checkoutNewBranch.resolved, (state, payload) => {
+    return {
+      ...state,
+      branches: payload.branches,
+      currentBranch: payload.currentBranch
+    }
+  })
+  .case(moveToBranch.resolved, (state, payload) => {
+    return {
+      ...state,
+      currentBranch: payload.currentBranch
     }
   })

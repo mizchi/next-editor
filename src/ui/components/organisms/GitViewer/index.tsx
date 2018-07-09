@@ -18,8 +18,8 @@ export const GitViewer = connector(
     return {
       addToStage: actions.repository.addToStage,
       pushCurrentBranchToOrigin: actions.repository.pushCurrentBranchToOrigin,
-      createBranch: actions.repository.createBranch,
-      checkoutToOtherBranch: actions.repository.checkoutToOtherBranch,
+      checkoutNewBranch: actions.git.checkoutNewBranch,
+      moveToBranch: actions.git.moveToBranch,
       commitStagedChanges: actions.git.commitStagedChanges,
       removeFileFromGit: actions.repository.removeFileFromGit,
       initialize: actions.git.initialize
@@ -38,12 +38,18 @@ export const GitViewer = connector(
   if (git.type === "loading") {
     return <span>[Git] initialize...</span>
   } else {
-    const { currentBranch, branches, history, staging, stagingLoading } = git
+    const {
+      currentBranch,
+      branches,
+      history,
+      staging,
+      stagingLoading,
+      remotes,
+      remoteBranches
+    } = git
     return (
       <div key={projectRoot} style={{ width: "100%", padding: "10px" }}>
-        <div
-          style={{ display: "flex", flexDirection: "column" }}
-        >
+        <div style={{ display: "flex", flexDirection: "column" }}>
           <div>
             {projectRoot} [{currentBranch}]
           </div>
@@ -60,9 +66,11 @@ export const GitViewer = connector(
             pauseOnHover
           />
           <BranchController
+            remoteBranches={remoteBranches}
             projectRoot={projectRoot}
             currentBranch={currentBranch}
             branches={branches}
+            remotes={remotes}
             onClickGitPush={async branchName => {
               try {
                 await props.pushCurrentBranchToOrigin(projectRoot, branchName)
@@ -85,12 +93,14 @@ export const GitViewer = connector(
               }
             }}
             onChangeBranch={async (branchName: string) => {
-              await props.checkoutToOtherBranch(projectRoot, branchName)
+              await props.moveToBranch({ projectRoot, branch: branchName })
               // TODO: Update
             }}
             onClickCreateBranch={async (newBranchName: string) => {
-              await props.createBranch(projectRoot, newBranchName)
-              // TODO: Update
+              await props.checkoutNewBranch({
+                projectRoot,
+                branch: newBranchName
+              })
             }}
           />
           <History history={history} />
