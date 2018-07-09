@@ -21,7 +21,7 @@
     "@storybook/addons": "3.4.8",
     "@storybook/react": "3.4.8",
     "@types/jest": "23.1.5",
-    "@types/lodash": "4.14.110",
+    "@types/lodash": "4.14.111",
     "@types/node": "10.5.2",
     "@types/pify": "3.0.2",
     "@types/power-assert": "1.5.0",
