@@ -27,14 +27,15 @@ Load to 0.1.0
 
 - [ ] Alert dangerous operation
 - [ ] TypeScript on monaco
-- [ ] UI: Show commit date
 - [ ] UI: Inline Rename
 - [ ] UI: Reload after clone
-- [ ] UI: Lazy git status loading
+- [ ] UI: Load history after checkout
 - [ ] UI: Drag and drop
 - [ ] UI: Folding github tools
 - [ ] UI: Toggle auto save
 - [ ] UI: Switch layout button
+- [x] UI: Lazy git status loading
+- [x] UI: Show commit date
 - [x] redux-persist
 - [x] Restore last commited state
 - [x] CircleCI

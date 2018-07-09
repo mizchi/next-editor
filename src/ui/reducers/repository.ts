@@ -1,19 +1,19 @@
-import path from "path";
-import { RootState } from ".";
-import { mkdir } from "../../domain/filesystem/commands/mkdir";
-import { removeDirectory } from "../../domain/filesystem/commands/removeDirectory";
-import { unlink } from "../../domain/filesystem/commands/unlink";
-import { writeFile } from "../../domain/filesystem/commands/writeFile";
-import { addFile } from "../../domain/git/commands/addFile";
-import { checkoutBranch } from "../../domain/git/commands/checkoutBranch";
-import { createBranch as createGitBranch } from "../../domain/git/commands/createBranch";
-import { pushBranch } from "../../domain/git/commands/pushBranch";
-import { removeFromGit } from "../../domain/git/commands/removeFromGit";
-import { listBranches } from "../../domain/git/queries/listBranches";
-import { GitRepositoryStatus } from "../../domain/types";
-import * as Git from "./git";
-import { loadProjectList } from "./project";
-import { RepositoryState } from "./repository";
+import path from "path"
+import { RootState } from "."
+import { mkdir } from "../../domain/filesystem/commands/mkdir"
+import { removeDirectory } from "../../domain/filesystem/commands/removeDirectory"
+import { unlink } from "../../domain/filesystem/commands/unlink"
+import { writeFile } from "../../domain/filesystem/commands/writeFile"
+import { addFile } from "../../domain/git/commands/addFile"
+import { checkoutBranch } from "../../domain/git/commands/checkoutBranch"
+import { createBranch as createGitBranch } from "../../domain/git/commands/createBranch"
+import { pushBranch } from "../../domain/git/commands/pushBranch"
+import { removeFromGit } from "../../domain/git/commands/removeFromGit"
+import { listBranches } from "../../domain/git/queries/listBranches"
+import { GitRepositoryStatus } from "../../domain/types"
+import * as Git from "./git"
+import { loadProjectList } from "./project"
+import { RepositoryState } from "./repository"
 
 // Action
 const CHANGED = "repository:changed"
@@ -185,9 +185,10 @@ export function changed({
     if (isDir === false && changedPath) {
       const state = getState()
       const projectRoot = state.repository.currentProjectRoot
-      // debugger
       const relpath = path.relative(projectRoot, changedPath)
-      dispatch(Git.startStagingUpdate(projectRoot, [relpath]))
+      if (!relpath.startsWith("..")) {
+        dispatch(Git.startStagingUpdate(projectRoot, [relpath]))
+      }
     }
   }
 }

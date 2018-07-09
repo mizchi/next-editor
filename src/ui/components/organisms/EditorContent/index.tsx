@@ -22,7 +22,7 @@ export const EditorContent = connector(
   const { filepath, layouts, setLayoutMode, unloadFile } = props
   const paneWidthPercent = Math.floor(100 / layouts.length)
   return (
-    <Row>
+    <Row height={"100%"}>
       <Keydown
         keydown={(e: KeyboardEvent) => {
           // 1

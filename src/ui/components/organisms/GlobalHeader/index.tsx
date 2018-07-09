@@ -9,14 +9,15 @@ export const GlobalHeader = connector(
   }),
   actions => {
     return {
-      pushScene: actions.app.pushScene
+      pushScene: actions.app.pushScene,
+      setLayoutMode: actions.app.setLayoutMode
     }
   }
 )(props => {
   return (
     <Header>
       <Title>Next Editor</Title>
-      <Menus />
+      <Menus>{/*  */}</Menus>
       <ConfigMenu>
         {props.currentScene !== "config" && (
           <>

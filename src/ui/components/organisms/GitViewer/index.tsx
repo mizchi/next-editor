@@ -2,7 +2,6 @@ import React from "react"
 import { toast, ToastContainer } from "react-toastify"
 import { lifecycle } from "recompose"
 import { connector } from "../../../reducers"
-import { Padding } from "../../utils/LayoutUtils"
 import { BranchController } from "./BranchController"
 import { History } from "./History"
 import { Staging } from "./Staging"
@@ -41,8 +40,10 @@ export const GitViewer = connector(
   } else {
     const { currentBranch, branches, history, staging, stagingLoading } = git
     return (
-      <Padding value={10} key={projectRoot}>
-        <div style={{ display: "flex", flexDirection: "column" }}>
+      <div key={projectRoot} style={{ width: "100%", padding: "10px" }}>
+        <div
+          style={{ display: "flex", flexDirection: "column" }}
+        >
           <div>
             {projectRoot} [{currentBranch}]
           </div>
@@ -132,7 +133,7 @@ export const GitViewer = connector(
             )}
           </div>
         </div>
-      </Padding>
+      </div>
     )
   }
 })

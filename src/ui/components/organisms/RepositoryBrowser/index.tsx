@@ -24,7 +24,7 @@ export const RepositoryBrowser = connect(
   actions
 )((props: Props) => {
   return (
-    <fieldset style={{ height: "100%", padding: 0 }}>
+    <fieldset style={{ padding: 0 }}>
       <legend>Files</legend>
       <RootDirectory
         key={props.currentProjectRoot}

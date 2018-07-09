@@ -1,24 +1,24 @@
 import * as React from "react"
-import { AllAction, connector } from "../../reducers"
+import { connector } from "../../reducers"
 import { Config as ConfigContent } from "../organisms/Config"
 import { GlobalHeader } from "../organisms/GlobalHeader"
 import { Grid, GridArea, Root } from "../utils/LayoutUtils"
 
-const selector = () => ({})
-const actionSelector = (actions: AllAction) => {
-  return {
-    popScene: actions.app.popScene
+export const Config = connector(
+  () => ({}),
+  actions => {
+    return {
+      popScene: actions.app.popScene
+    }
   }
-}
-
-export const Config = connector(selector, actionSelector)((props: any) => {
+)((props: any) => {
   return (
     <Root>
       {/* prettier-ignore */}
       <Grid
         columns={["1fr"]}
         rows={[
-          "40px",
+          "30px",
           "1fr"
         ]}
         areas={[

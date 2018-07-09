@@ -9,11 +9,11 @@ export async function getRepositoryFiles(
 ): Promise<string[]> {
   const files = await getFilesRecursively(projectRoot)
   const relpaths = files.map(fpath => fpath.replace(projectRoot + "/", ""))
-  const indexes: string[] = await git.listFiles({
+  const indexes: string[] = (await git.listFiles({
     fs,
     dir: projectRoot,
     ref: "HEAD"
-  })
+  })).filter((a: string) => !a.startsWith(".."))
 
   const withGitIndex = uniq(relpaths.concat(indexes))
   withGitIndex.sort()

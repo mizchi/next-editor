@@ -24,8 +24,16 @@ class PreviewSwitcher extends React.Component<Props, State> {
   render() {
     const { fileType, value } = this.props
     return (
-      <div style={{ background: "#eee", width: "100%" }}>
-        <div>
+      <div
+        style={{
+          background: "#eee",
+          width: "100%",
+          height: "100%",
+          overflowY: "scroll",
+          overflowX: "hidden"
+        }}
+      >
+        <div style={{ overflow: "auto" }}>
           <button
             style={{
               background: this.state.mode === "git-browser" ? "#eee" : "#fff",

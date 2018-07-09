@@ -62,7 +62,9 @@ export async function updateValue(filepath: string, value: string) {
     const state = getState()
     const projectRoot = state.repository.currentProjectRoot
     const relpath = path.relative(projectRoot, filepath)
-    dispatch(fileChanged({ relpath }) as any)
+    if (!relpath.startsWith("..")) {
+      dispatch(fileChanged({ relpath }) as any)
+    }
   }
 }
 

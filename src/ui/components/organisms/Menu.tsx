@@ -4,7 +4,14 @@ import { RepositoryBrowser } from "./RepositoryBrowser"
 
 export function Menu() {
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        overflowY: "auto",
+        height: "100%"
+      }}
+    >
       <div>
         <ProjectManager />
       </div>

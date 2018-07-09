@@ -21,7 +21,7 @@ export function Staging(props: Props) {
   if (props.loading) {
     return (
       <div>
-        <fieldset style={{ height: "100%" }}>
+        <fieldset>
           <legend> Staging </legend>
           Git Status Loading...
         </fieldset>
@@ -48,7 +48,7 @@ export function Staging(props: Props) {
   const hasChanges = hasStaged || hasModified
   return (
     <div>
-      <fieldset style={{ height: "100%" }}>
+      <fieldset>
         <legend>Staging</legend>
         {!hasChanges && <>No changes</>}
         {/* <pre>{JSON.stringify(inv, null, 2)}</pre> */}
