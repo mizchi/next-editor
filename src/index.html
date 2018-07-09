@@ -41,12 +41,46 @@
       border-radius: 0px;
       box-shadow: 0 0 0 1px rgba(255, 255, 255, .3);
     }
+
+    /* loader */
+
+    #__loader {
+      border: 5px solid #333;
+      border-radius: 200px;
+
+      height: 150px;
+      width: 150px;
+
+      left: 50%;
+      top: 50%;
+      margin: -75px 0 0 -75px;
+      opacity: 0;
+      position: absolute;
+      animation: pulsate 2s ease-out;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes pulsate {
+      0% {
+        transform: scale(.1);
+        opacity: 0.0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.2);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 
 <body>
   <div class=root>
-    Loading...
+    <div style="width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center;">
+      Next Editor
+    </div>
   </div>
   <script src="/assets/browserfs.min.js"></script>
   <script nomodule type=text/javascript>
@@ -124,21 +158,33 @@ async function setupFonts() {
   document.body.style.fontFamily = 'Inconsolata'
 }
 
+const showLoadingMessage = (mes) => {
+  el.innerHTML =`
+    <div style="width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; font-size: 1.5em;">
+      <span>${mes}</span>
+      <div id="__loader"></div>
+    </div>
+  `
+}
+
 ;(async () => {
   try {
     // SW
-    el.innerHTML = 'Checking service worker ...'
+    showLoadingMessage('Checking service-worker...')
     await setupServiceWorker()
 
     // Run
-    el.innerHTML = 'Loading...'
+    showLoadingMessage('Loading assets...')
     await setupBrowserFS()
     await setupFonts()
 
-    el.innerHTML = ''
+    showLoadingMessage('Loading...')
+
     await import('./main.js')
   } catch (e) {
-    el.innerHTML = 'Something wrong: ' + e.message
+    showLoadingMessage(
+      'Something wrong: ' + e.message
+    )
   }
 })()
   </script>
