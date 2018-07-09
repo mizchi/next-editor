@@ -13,30 +13,35 @@ Standalone Git Editor
 
 ## How to use git
 
-TBD
+Remote features are not stable yet.
 
-## How to push
+## How to use your own cors proxy
 
-TBD
+See detail https://github.com/wmhilton/cors-buster
+\`\`\`
+$ npm i -g now
+# login to now
+$ now wmhilton/cors-buster
+\`\`\`
 
+Set your githubProxy on config \`<your proxy>/github.com/\`
 `
 
 /* WRITE */
 export async function setupInitialRepository(projectRoot: string) {
   // ensure directory
   if (await existsPath(projectRoot)) {
-    console.log("Project: already exists")
+    // Pass
   } else {
-    console.log("Project: creating...")
+    console.info("Project: creating...")
     await mkdir(projectRoot)
     await writeFile(path.join(projectRoot, "README.md"), Introduction)
-    // await writeFileInRepository(repo, "src/index.js", "export default {}")
-    console.log("Project: creating done")
+    console.info("Project: creating done")
   }
 
   // ensure git
   if (await existsPath(j(projectRoot, ".git"))) {
-    console.log(".git: already exists")
+    // Pass
   } else {
     await git.init({ fs, dir: projectRoot })
     await git.add({
@@ -53,6 +58,5 @@ export async function setupInitialRepository(projectRoot: string) {
       fs,
       message: "Init"
     })
-    console.log("Ensure initial commit")
   }
 }
