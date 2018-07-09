@@ -269,7 +269,7 @@ export async function deleteDirectory(dirpath: string) {
 export async function deleteProject(dirpath: string) {
   return async (dispatch: any) => {
     await removeDirectory(dirpath)
-    dispatch(await loadProjectList())
+    dispatch(await loadProjectList({}))
   }
 }
 

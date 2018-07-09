@@ -1,6 +1,7 @@
 import { ActionCreator, buildActionCreator, createReducer } from "hard-reducer"
 import { RootState } from "."
 import { getBranchStatus } from "../../domain/git/queries/getBranchStatus"
+import { getHistory } from "../../domain/git/queries/getHistory"
 import { getStagingStatus } from "../../domain/git/queries/getStagingStatus"
 import { updateStagingStatus } from "../../domain/git/queries/updateStagingStatus"
 import {
@@ -49,9 +50,9 @@ export async function initialize(
   return async (dispatch, getState) => {
     dispatch(startInitialize({ projectRoot }))
 
-    const { currentBranch, branches, history } = await getBranchStatus(
-      projectRoot
-    )
+    const { currentBranch, branches } = await getBranchStatus(projectRoot)
+    const history = await getHistory(projectRoot, { ref: currentBranch })
+
     dispatch(
       endInitialize({
         history,
