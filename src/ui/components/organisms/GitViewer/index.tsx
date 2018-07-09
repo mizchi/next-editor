@@ -1,11 +1,11 @@
-import React from "react";
-import { toast, ToastContainer } from "react-toastify";
-import { lifecycle } from "recompose";
-import { connector } from "../../../reducers";
-import { Padding } from "../../utils/LayoutUtils";
-import { BranchController } from "./BranchController";
-import { History } from "./History";
-import { Staging } from "./Staging";
+import React from "react"
+import { toast, ToastContainer } from "react-toastify"
+import { lifecycle } from "recompose"
+import { connector } from "../../../reducers"
+import { Padding } from "../../utils/LayoutUtils"
+import { BranchController } from "./BranchController"
+import { History } from "./History"
+import { Staging } from "./Staging"
 
 export const GitViewer = connector(
   state => {
@@ -21,8 +21,7 @@ export const GitViewer = connector(
       pushCurrentBranchToOrigin: actions.repository.pushCurrentBranchToOrigin,
       createBranch: actions.repository.createBranch,
       checkoutToOtherBranch: actions.repository.checkoutToOtherBranch,
-      commitStagedChanges: actions.repository.commitStagedChanges,
-      // commitUnstagedChanges: actions.repository.commitUnstagedChanges,
+      commitStagedChanges: actions.git.commitStagedChanges,
       removeFileFromGit: actions.repository.removeFileFromGit,
       initialize: actions.git.initialize
     }
@@ -109,10 +108,13 @@ export const GitViewer = connector(
                   props.removeFileFromGit(projectRoot, filepath)
                 }}
                 onClickGitCommit={(message: string) => {
-                  props.commitStagedChanges(projectRoot, message || "Update")
+                  props.commitStagedChanges({
+                    projectRoot,
+                    message: message || "Update"
+                  })
                 }}
                 onClickGitCommitUnstaged={(message: string) => {
-                  alert('not implemented yet')
+                  alert("not implemented yet")
                   // TODO
                   // const unstagedChanges: GitFileStatus[] = staging.modified.map(
                   //   u => {

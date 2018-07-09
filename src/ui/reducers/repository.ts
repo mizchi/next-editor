@@ -1,22 +1,19 @@
-import path from "path"
-import { RootState } from "."
-import { mkdir } from "../../domain/filesystem/commands/mkdir"
-import { removeDirectory } from "../../domain/filesystem/commands/removeDirectory"
-import { unlink } from "../../domain/filesystem/commands/unlink"
-import { writeFile } from "../../domain/filesystem/commands/writeFile"
-import { addFile } from "../../domain/git/commands/addFile"
-import { checkoutBranch } from "../../domain/git/commands/checkoutBranch"
-import { commitChanges } from "../../domain/git/commands/commitChanges"
-import { createBranch as createGitBranch } from "../../domain/git/commands/createBranch"
-import { pushBranch } from "../../domain/git/commands/pushBranch"
-import { removeFromGit } from "../../domain/git/commands/removeFromGit"
-import { listBranches } from "../../domain/git/queries/listBranches"
-import { GitRepositoryStatus } from "../../domain/types"
-import * as Git from "./git"
-import { loadProjectList } from "./project"
-import { RepositoryState } from "./repository"
-// import { ActionCreator, buildActionCreator, createReducer } from "hard-reducer"
-// const { createAction } = buildActionCreator({ prefix: "git/" })
+import path from "path";
+import { RootState } from ".";
+import { mkdir } from "../../domain/filesystem/commands/mkdir";
+import { removeDirectory } from "../../domain/filesystem/commands/removeDirectory";
+import { unlink } from "../../domain/filesystem/commands/unlink";
+import { writeFile } from "../../domain/filesystem/commands/writeFile";
+import { addFile } from "../../domain/git/commands/addFile";
+import { checkoutBranch } from "../../domain/git/commands/checkoutBranch";
+import { createBranch as createGitBranch } from "../../domain/git/commands/createBranch";
+import { pushBranch } from "../../domain/git/commands/pushBranch";
+import { removeFromGit } from "../../domain/git/commands/removeFromGit";
+import { listBranches } from "../../domain/git/queries/listBranches";
+import { GitRepositoryStatus } from "../../domain/types";
+import * as Git from "./git";
+import { loadProjectList } from "./project";
+import { RepositoryState } from "./repository";
 
 // Action
 const CHANGED = "repository:changed"
@@ -281,19 +278,6 @@ export async function addToStage(projectRoot: string, relpath: string) {
 export async function removeFileFromGit(projectRoot: string, relpath: string) {
   await removeFromGit(projectRoot, relpath)
   return changed({ changedPath: path.join(projectRoot, relpath) })
-}
-
-export async function commitStagedChanges(
-  projectRoot: string,
-  message: string = "Update"
-): Promise<any> {
-  const author = {
-    email: localStorage.getItem("committer-email") || "dummy",
-    name: localStorage.getItem("committer-name") || "dummy"
-  }
-  await commitChanges(projectRoot, message, author)
-  // TODO: update only commited files
-  return Git.startStagingUpdate(projectRoot, [])
 }
 
 // export async function commitUnstagedChanges(
