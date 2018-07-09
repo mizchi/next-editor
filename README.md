@@ -31,9 +31,10 @@ Load to 0.1.0
 - [ ] UI: Inline Rename
 - [ ] UI: Reload after clone
 - [ ] UI: Fix initial loading about update
-- [ ] UI: Load history after checkout
 - [ ] UI: Drag and drop
 - [ ] UI: Toggle auto save
+- [ ] UI: Configurable cors proxy
+- [x] UI: Load history after checkout
 - [x] UI: Switch layout button
 - [x] UI: Folding github tools
 - [x] UI: Lazy git status loading
