@@ -80,6 +80,7 @@
     "@babel/preset-react": "7.0.0-beta.52",
     "@babel/standalone": "7.0.0-beta.52",
     "browserfs": "1.4.3",
+    "date-fns": "^1.29.0",
     "delay": "3.0.0",
     "hard-reducer": "2.3.0",
     "ini": "1.3.5",
