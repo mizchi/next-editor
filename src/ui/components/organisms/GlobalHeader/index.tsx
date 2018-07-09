@@ -30,7 +30,7 @@ export const GlobalHeader = connector(
             }
           }}
         >
-          {props.layouts.length === 2 ? <FaToggleOff /> : <FaToggleOn />}
+          {props.layouts.length === 2 ? <FaToggleOn /> : <FaToggleOff />}
         </button>
       </Menus>
       <ConfigMenu>
