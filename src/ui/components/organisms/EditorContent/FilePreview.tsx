@@ -26,7 +26,6 @@ class PreviewSwitcher extends React.Component<Props, State> {
     return (
       <div
         style={{
-          background: "#eee",
           width: "100%",
           height: "100%",
           overflowY: "scroll",

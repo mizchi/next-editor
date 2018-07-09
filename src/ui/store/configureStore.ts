@@ -12,12 +12,14 @@ const persistConfig = {
   storage
 }
 
+const middlewares =
+  process.env.NODE_ENV === "development"
+    ? [thunk, promise, logger]
+    : [thunk, promise]
+
 export function configureStore() {
   const persistedReducer = persistReducer(persistConfig, rootReducer as any)
-  const store = createStore(
-    persistedReducer,
-    applyMiddleware(thunk, promise, logger)
-  )
+  const store = createStore(persistedReducer, applyMiddleware(...middlewares))
   const persistor = persistStore(store)
   return { store, persistor }
 }

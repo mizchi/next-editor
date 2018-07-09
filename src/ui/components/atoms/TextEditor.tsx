@@ -8,6 +8,7 @@ type Props = {
 }
 
 type State = {
+  fontScale: number
   value: string
 }
 
@@ -15,6 +16,7 @@ export class TextEditor extends React.Component<Props, State> {
   constructor(props: any) {
     super(props)
     this.state = {
+      fontScale: 1.0,
       value: props.initialValue
     }
   }
@@ -22,26 +24,41 @@ export class TextEditor extends React.Component<Props, State> {
   render() {
     const { value } = this.state
     return (
-      <Textarea
-        value={value}
-        onChange={(e: any) => {
-          this.setState({ value: e.target.value }, () => {
-            const { onChange } = this.props
-            onChange && onChange(this.state.value)
-          })
-        }}
-        onKeyDown={(e: any) => {
-          // const { onSave } = this.props
-          // onSave && onSave(e.target.value)
-        }}
-      />
+      <Container>
+        <Textarea
+          fontScale={this.state.fontScale}
+          spellCheck={false}
+          value={value}
+          onChange={(e: any) => {
+            this.setState({ value: e.target.value }, () => {
+              const { onChange } = this.props
+              onChange && onChange(this.state.value)
+            })
+          }}
+        />
+      </Container>
     )
   }
 }
 
-const Textarea = styled.textarea`
-  background: #fff;
-  line-height: 1.5em;
-  width: 100%;
+const Container = styled.div`
   height: 100%;
+`
+
+const Toolbar = styled.div`
+  height: 0px;
+`
+
+const Textarea: React.ComponentType<{
+  fontScale: number
+  spellCheck: boolean
+  value: string
+  onChange: any
+}> = styled.textarea`
+  font-size: ${p => p.fontScale}em;
+  line-height: 1.5em;
+  background: #fff;
+  width: 100%;
+  resize: none;
+  height: calc(100% - 0px);
 `

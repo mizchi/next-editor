@@ -4,7 +4,7 @@ import { RootState } from "../../reducers"
 import * as EditorActions from "../../reducers/editor"
 import { EditorState } from "../../reducers/editor"
 import { JavaScriptEditor } from "../atoms/JavaScriptEditor"
-import { MarkdownEditor } from "../atoms/MarkdownEditor"
+import { TextEditor } from "../atoms/TextEditor"
 
 const selector = (state: RootState) => {
   return state.editor
@@ -42,26 +42,10 @@ export const Editor = connect(
             />
           )
         }
-        case "markdown": {
-          return (
-            <MarkdownEditor
-              key={key}
-              initialValue={this.props.value || ""}
-              onSave={newValue => {
-                console.log("on save", newValue)
-                // this.setState({ editorValue: value })
-              }}
-              onChange={async newValue => {
-                if (this.props.filepath) {
-                  this.props.updateValue(this.props.filepath, newValue)
-                }
-              }}
-            />
-          )
-        }
+        case "markdown":
         case "text": {
           return (
-            <MarkdownEditor
+            <TextEditor
               key={key}
               initialValue={this.props.value || ""}
               onSave={newValue => {
