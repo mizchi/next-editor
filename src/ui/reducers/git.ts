@@ -25,6 +25,7 @@ const {
 })
 
 // actions
+
 /* start git project loading */
 export const startInitialize: ActionCreator<{
   projectRoot: string

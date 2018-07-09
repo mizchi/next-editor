@@ -1,9 +1,13 @@
-<html>
+<!DOCTYPE html>
+<html lang='en-US'>
 
 <head>
   <title>Next Editor</title>
-  <meta charset="utf8">
   <link rel="manifest" href="/manifest.json" />
+  <meta name="Description" content="Editor with git for everyone">
+  <meta charset="utf8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport">
   <meta name="theme-color" content="#317EFB" />
   <meta name="mobile-web-app-capable" content="no" />
   <meta name="apple-mobile-web-app-capable" content="no" />
@@ -44,7 +48,7 @@
   <div class=root>
     Loading...
   </div>
-  <script src="/assets/browserfs.js"></script>
+  <script src="/assets/browserfs.min.js"></script>
   <script nomodule type=text/javascript>
   document.body.innerHTML = "Please use modern browser. (I checked to work only latest chrome)"
   </script>
@@ -84,9 +88,12 @@ async function setupServiceWorker() {
     throw new Error('Your browser can not use serviceWorker')
   }
 
-  let installed = !!navigator.serviceWorker.controller
+  let isFirstInstall = navigator.serviceWorker.controller == null
+
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (installed) {
+    if (isFirstInstall) {
+      isFirstInstall = false
+    } else {
       const modal = document.createElement('div')
       modal.innerHTML = `
         <div style='position: absolute; outline: 1px solid black; right: 10px; bottom: 50px; width: 350px; height: 50px; background: white; padding: 10px;'>
@@ -100,7 +107,6 @@ async function setupServiceWorker() {
 
   const reg = await navigator.serviceWorker.register('/sw.js');
   await navigator.serviceWorker.ready
-  installed = true
   if (location.href.indexOf('localhost') > -1 ) {
     setInterval(() => {
       reg.update();

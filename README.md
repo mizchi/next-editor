@@ -25,6 +25,7 @@ In development, you need to wait local service-worker upgrading.
 
 Load to 0.1.0
 
+- [ ] Prompt to set committer name
 - [ ] Alert dangerous operation
 - [ ] TypeScript on monaco
 - [ ] UI: Inline Rename
@@ -32,9 +33,9 @@ Load to 0.1.0
 - [ ] UI: Fix initial loading about update
 - [ ] UI: Load history after checkout
 - [ ] UI: Drag and drop
-- [x] UI: Folding github tools
 - [ ] UI: Toggle auto save
-- [ ] UI: Switch layout button
+- [x] UI: Switch layout button
+- [x] UI: Folding github tools
 - [x] UI: Lazy git status loading
 - [x] UI: Show commit date
 - [x] redux-persist
