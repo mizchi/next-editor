@@ -78,7 +78,6 @@ module.exports = {
       swDest: "sw.js",
       clientsClaim: true,
       skipWaiting: true,
-      verbose: false,
       exclude: DEV ? [/index\.html/, /main\.js/] : []
     })
   ]
