@@ -1,7 +1,7 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
 import { zipWith } from "lodash"
-import { getGitStatus } from "./getGitStatus"
+import { getFileStatus } from "./getFileStatus"
 
 export async function listGitFiles(
   projectRoot: string,
@@ -18,7 +18,7 @@ export async function listGitFiles(
     ref
   })
   const statusList = await Promise.all(
-    files.map(f => getGitStatus(projectRoot, f))
+    files.map(f => getFileStatus(projectRoot, f))
   )
   return zipWith(files, statusList, (filepath, gitStatus) => ({
     filepath,

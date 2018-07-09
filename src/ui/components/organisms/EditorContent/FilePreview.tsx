@@ -9,7 +9,7 @@ import { GitViewer } from "../GitViewer"
 const selector = (state: RootState) => state.editor
 
 type Props = {
-  fileType: string
+  fileType: string | null
   value: string
 }
 type State = {

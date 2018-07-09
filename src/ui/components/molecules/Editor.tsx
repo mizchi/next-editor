@@ -24,7 +24,7 @@ export const Editor = connect(
 )(
   class extends React.Component<Props, State> {
     render() {
-      const key = this.props.filePath || "unknown"
+      const key = this.props.filepath || "unknown"
       switch (this.props.fileType) {
         case "javascript": {
           return (
@@ -35,8 +35,8 @@ export const Editor = connect(
                 console.log("on save", newValue)
               }}
               onChange={async newValue => {
-                if (this.props.filePath) {
-                  this.props.updateValue(this.props.filePath, newValue)
+                if (this.props.filepath) {
+                  this.props.updateValue(this.props.filepath, newValue)
                 }
               }}
             />
@@ -52,8 +52,8 @@ export const Editor = connect(
                 // this.setState({ editorValue: value })
               }}
               onChange={async newValue => {
-                if (this.props.filePath) {
-                  this.props.updateValue(this.props.filePath, newValue)
+                if (this.props.filepath) {
+                  this.props.updateValue(this.props.filepath, newValue)
                 }
               }}
             />
@@ -66,11 +66,10 @@ export const Editor = connect(
               initialValue={this.props.value || ""}
               onSave={newValue => {
                 console.log("on save", newValue)
-                // this.setState({ editorValue: value })
               }}
               onChange={async newValue => {
-                if (this.props.filePath) {
-                  this.props.updateValue(this.props.filePath, newValue)
+                if (this.props.filepath) {
+                  this.props.updateValue(this.props.filepath, newValue)
                 }
               }}
             />

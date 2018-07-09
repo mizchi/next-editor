@@ -45,7 +45,7 @@ export const ProjectManager = connector(
         <CreateNewProjectButton
           onClickCreate={dirname => {
             const newProjectRoot = path.join("/", dirname)
-            createNewProject(newProjectRoot)
+            createNewProject({ newProjectRoot })
           }}
         />
         &nbsp;
@@ -56,7 +56,7 @@ export const ProjectManager = connector(
               path.join("cors-buster-tbgktfqyku.now.sh/github.com", dirname)
             const [, repoName] = dirname.split("/")
             const projectRoot = path.join("/", repoName)
-            cloneFromGitHub(projectRoot, clonePath)
+            cloneFromGitHub({ projectRoot, clonePath })
           }}
         />
         {projects.map(p => {
