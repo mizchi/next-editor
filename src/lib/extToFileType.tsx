@@ -6,7 +6,7 @@ const EXT_TO_FILETYPE_MAP: any = {
   ".txt": "text"
 }
 
-export function extToFileType(filePath: string): string {
-  const type = path.extname(filePath)
+export function extToFileType(filepath: string): string {
+  const type = path.extname(filepath)
   return EXT_TO_FILETYPE_MAP[type] || "text"
 }

@@ -4944,9 +4944,9 @@ har-validator@~5.0.3:
     ajv "^5.1.0"
     har-schema "^2.0.0"
 
-hard-reducer@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/hard-reducer/-/hard-reducer-2.1.0.tgz#8027bfaeade1bc9cb327ee515ec4603d28d65d67"
+hard-reducer@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/hard-reducer/-/hard-reducer-2.2.0.tgz#035063bd0e0700ec114d6619fde85d7d3606208b"
   dependencies:
     uuid "^3.2.1"
 

@@ -1,7 +1,7 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
 import { GitRepositoryStatus } from "../../types"
-import { getGitHistory } from "./getGitHistory"
+import { getHistory } from "./getHistory"
 
 export async function getBranchStatus(
   projectRoot: string
@@ -9,7 +9,7 @@ export async function getBranchStatus(
   const currentBranch = await git.currentBranch({ fs, dir: projectRoot })
   const branches = await git.listBranches({ fs, dir: projectRoot })
   // TODO: history
-  const history = await getGitHistory(projectRoot, { ref: currentBranch })
+  const history = await getHistory(projectRoot, { ref: currentBranch })
   return {
     currentBranch,
     branches,

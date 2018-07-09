@@ -1,4 +1,4 @@
-import { GitStagingStatus, GitStatusString } from "./../../types"
+import { GitStagingStatus, GitStatusString } from "../../types"
 import { getFileStatus } from "./getFileStatus"
 import { getRepositoryFiles } from "./getRepositoryFiles"
 

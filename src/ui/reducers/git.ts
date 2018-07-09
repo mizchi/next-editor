@@ -3,8 +3,11 @@ import { RootState } from "."
 import { getBranchStatus } from "../../domain/git/queries/getBranchStatus"
 import { getStagingStatus } from "../../domain/git/queries/getStagingStatus"
 import { updateStagingStatus } from "../../domain/git/queries/updateStagingStatus"
-import { CommitDescription, GitStatusString } from "../../domain/types"
-import { GitStagingStatus } from "./../../domain/types"
+import {
+  CommitDescription,
+  GitStagingStatus,
+  GitStatusString
+} from "../../domain/types"
 
 type ThunkAction<A> = (
   dispatch: (a: A) => void | Promise<void>,
@@ -44,7 +47,7 @@ export async function initialize(
   projectRoot: string
 ): Promise<ThunkAction<any>> {
   return async (dispatch, getState) => {
-    dispatch(startInitialize({}))
+    dispatch(startInitialize({ projectRoot }))
 
     const { currentBranch, branches, history } = await getBranchStatus(
       projectRoot

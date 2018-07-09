@@ -1,22 +1,22 @@
-import range from "lodash/range"
-import path from "path"
-import React from "react"
-import { ContextMenuProvider } from "react-contexify"
-import FaFile from "react-icons/fa/file"
-import FaFolder from "react-icons/fa/folder"
-import FaFolderOpen from "react-icons/fa/folder-open"
-import FaTrash from "react-icons/fa/trash"
-import { connect } from "react-redux"
-import Tooltip from "react-tooltip"
-import { lifecycle } from "recompose"
-import styled from "styled-components"
-import { readFileStats } from "../../../../domain/filesystem/queries/readFileStats"
-import { FileInfo } from "../../../../domain/types"
-import { RootState } from "../../../reducers"
-import * as RepositoryActions from "../../../reducers/repository"
-import { AddDir } from "./AddDir"
-import { AddFile } from "./AddFile"
-import { File } from "./File"
+import range from "lodash/range";
+import path from "path";
+import React from "react";
+import { ContextMenuProvider } from "react-contexify";
+import FaFile from "react-icons/fa/file";
+import FaFolder from "react-icons/fa/folder";
+import FaFolderOpen from "react-icons/fa/folder-open";
+import FaTrash from "react-icons/fa/trash";
+import { connect } from "react-redux";
+import Tooltip from "react-tooltip";
+import { lifecycle } from "recompose";
+import styled from "styled-components";
+import { readFileStats } from "../../../../domain/filesystem/queries/readFileStats";
+import { FileInfo } from "../../../../domain/types";
+import { RootState } from "../../../reducers";
+import * as RepositoryActions from "../../../reducers/repository";
+import { AddDir } from "./AddDir";
+import { AddFile } from "./AddFile";
+import { File } from "./File";
 
 type OwnProps = {
   root: string
@@ -53,7 +53,7 @@ export const Directory: React.ComponentType<OwnProps> = connect(
   (state: RootState, ownProps: OwnProps) => {
     return {
       ...ownProps,
-      editingFilepath: state.editor.filePath,
+      editingFilepath: state.editor.filepath,
       touchCounter: state.repository.touchCounter,
       isFileCreating: ownProps.dirpath === state.repository.fileCreatingDir,
       isDirCreating: ownProps.dirpath === state.repository.dirCreatingDir

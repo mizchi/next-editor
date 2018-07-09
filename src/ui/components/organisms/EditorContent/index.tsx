@@ -8,7 +8,7 @@ import { FilePreview } from "./FilePreview"
 export const EditorContent = connector(
   state => {
     return {
-      filepath: state.editor.filePath,
+      filepath: state.editor.filepath,
       layouts: state.app.layouts
     }
   },
@@ -39,7 +39,7 @@ export const EditorContent = connector(
         <FileEditor
           filepath={filepath || ""}
           onClickClose={() => {
-            unloadFile()
+            unloadFile({})
           }}
         />
       </FlexItem>
