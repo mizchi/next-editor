@@ -12,8 +12,10 @@ const persistConfig = {
   storage
 }
 
+const devFlagBySearch =
+  typeof window === "object" && window.location.search === "?dev"
 const middlewares =
-  process.env.NODE_ENV === "development"
+  process.env.NODE_ENV !== "production" || devFlagBySearch
     ? [thunk, promise, logger]
     : [thunk, promise]
 
