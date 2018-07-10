@@ -772,9 +772,9 @@
     "@webassemblyjs/wast-parser" "1.5.13"
     long "^3.2.0"
 
-"@webpack-contrib/cli-utils@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@webpack-contrib/cli-utils/-/cli-utils-1.0.1.tgz#c51ac91194be72d777e5a087fa0d584eb3f08f06"
+"@webpack-contrib/cli-utils@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@webpack-contrib/cli-utils/-/cli-utils-1.0.2.tgz#9618b68a79f5b3462224e0ecca416cc812b65054"
   dependencies:
     "@webpack-contrib/schema-utils" "^1.0.0-beta.0"
     camelize "^1.0.0"
@@ -10751,12 +10751,12 @@ webpack-log@^1.0.1, webpack-log@^1.1.1, webpack-log@^1.1.2, webpack-log@^1.2.0:
     loglevelnext "^1.0.1"
     uuid "^3.1.0"
 
-webpack-serve@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/webpack-serve/-/webpack-serve-2.0.1.tgz#2359e91bf068cae2cb4db1a6cfb81a1cdac2f4cf"
+webpack-serve@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/webpack-serve/-/webpack-serve-2.0.2.tgz#6263b7c2888e169f84105da2119079098512b404"
   dependencies:
     "@shellscape/koa-static" "^4.0.4"
-    "@webpack-contrib/cli-utils" "^1.0.1"
+    "@webpack-contrib/cli-utils" "^1.0.2"
     "@webpack-contrib/config-loader" "^1.1.1"
     "@webpack-contrib/schema-utils" "^1.0.0-beta.0"
     chalk "^2.3.0"
