@@ -7117,9 +7117,9 @@ neo-async@^2.5.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.5.1.tgz#acb909e327b1e87ec9ef15f41b8a269512ad41ee"
 
-netlify-cli@1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/netlify-cli/-/netlify-cli-1.2.2.tgz#e2719952bcd4a698fa75616ab003e111541207e0"
+netlify-cli@1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/netlify-cli/-/netlify-cli-1.2.3.tgz#e73c1870fd84162a1e82ccd2d3e846dc1d293603"
   dependencies:
     chalk "^0.5.1"
     commander "^2.9.0"
