@@ -20,7 +20,7 @@ export const ProjectManager = connector(
   actions => {
     return {
       loadProjectList: actions.project.loadProjectList,
-      projectRootChanged: actions.repository.projectRootChanged,
+      startProjectRootChanged: actions.repository.startProjectRootChanged,
       createNewProject: actions.project.createNewProject,
       cloneFromGitHub: actions.project.cloneFromGitHub,
       deleteProject: actions.repository.deleteProject,
@@ -70,7 +70,8 @@ export const ProjectManager = connector(
               <Container
                 selected={selected}
                 onClick={() => {
-                  props.projectRootChanged(p.projectRoot)
+                  const projectRoot = p.projectRoot
+                  props.startProjectRootChanged({ projectRoot })
                 }}
               >
                 <FaBox />

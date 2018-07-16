@@ -29,9 +29,8 @@ export const FileContextMenu: any = connect(
     <ContextMenu id="file">
       <Item
         onClick={({ dataFromProvider }: any) => {
-          const rel = path.relative(props.root, dataFromProvider.filepath)
-          console.log("add to stage", props.root, rel)
-          props.addToStage(props.root, rel)
+          const relpath = path.relative(props.root, dataFromProvider.filepath)
+          props.addToStage({ projectRoot: props.root, relpath })
         }}
       >
         Add to stage

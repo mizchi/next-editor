@@ -29,7 +29,7 @@ export const DirectoryContextMenu: any = connect(
       <Item
         onClick={({ dataFromProvider }: any) => {
           const { dirpath } = dataFromProvider
-          props.startFileCreating(dirpath)
+          props.startFileCreating({ fileCreatingDir: dirpath })
         }}
       >
         Create File
@@ -37,7 +37,7 @@ export const DirectoryContextMenu: any = connect(
       <Item
         onClick={({ dataFromProvider }: any) => {
           const { dirpath } = dataFromProvider
-          props.startDirCreating(dirpath)
+          props.startDirCreating({ dirCreatingDir: dirpath })
         }}
       >
         Create Directory
@@ -46,7 +46,7 @@ export const DirectoryContextMenu: any = connect(
       <Item
         onClick={({ dataFromProvider }: any) => {
           // props.deleteFile(dataFromProvider.filepath)
-          props.deleteDirectory(dataFromProvider.dirpath)
+          props.deleteDirectory({ dirpath: dataFromProvider.dirpath })
         }}
       >
         Delete

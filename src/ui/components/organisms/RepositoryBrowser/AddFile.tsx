@@ -8,13 +8,13 @@ import {
   cancelFileCreating,
   createDirectory,
   createFile,
-  endFileCreating
+  finishFileCreating
 } from "../../../reducers/repository"
 
 const actions = {
   createFile,
   createDirectory,
-  endFileCreating,
+  finishFileCreating,
   cancelFileCreating
 }
 
@@ -58,14 +58,15 @@ export const AddFile = (connect as any)(
               this.setState({ value: event.target.value })
             }}
             onBlur={() => {
-              this.props.cancelFileCreating()
+              this.props.cancelFileCreating({})
             }}
             onKeyDown={ev => {
               if (ev.keyCode === 27) {
-                this.props.cancelFileCreating()
+                this.props.cancelFileCreating({})
               }
               if (ev.keyCode === 13) {
-                this.props.endFileCreating(path.join(parentDir, value))
+                const filepath = path.join(parentDir, value)
+                this.props.finishFileCreating({ filepath })
               }
             }}
           />

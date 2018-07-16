@@ -10,7 +10,6 @@ import { writeFile } from "../../domain/filesystem/commands/writeFile"
 import { readFile } from "../../domain/filesystem/queries/readFile"
 import { extToFileType } from "../../lib/extToFileType"
 import * as Git from "./git"
-import * as RepositoryActions from "./repository"
 
 const { createAction, createAsyncAction } = buildActionCreator({
   prefix: "editor/"
@@ -51,10 +50,7 @@ export const changeValue: ActionCreator<{
 }> = createAction("change-value")
 
 export async function updateValue(filepath: string, value: string) {
-  return async (
-    dispatch: (a: any | RepositoryActions.Action) => void,
-    getState: () => RootState
-  ) => {
+  return async (dispatch: (a: any) => void, getState: () => RootState) => {
     dispatch(changeValue({ value }))
     await writeFile(filepath, value)
 

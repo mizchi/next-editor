@@ -112,11 +112,11 @@ export const GitViewer = connector(
                 onClickReload={() => {
                   props.initialize(props.projectRoot)
                 }}
-                onClickGitAdd={(filepath: string) => {
-                  props.addToStage(projectRoot, filepath)
+                onClickGitAdd={(relpath: string) => {
+                  props.addToStage({ projectRoot, relpath })
                 }}
-                onClickGitRemove={(filepath: string) => {
-                  props.removeFileFromGit(projectRoot, filepath)
+                onClickGitRemove={(relpath: string) => {
+                  props.removeFileFromGit({ projectRoot, relpath })
                 }}
                 onClickGitCommit={(message: string) => {
                   props.commitStagedChanges({

@@ -1,22 +1,22 @@
-import range from "lodash/range";
-import path from "path";
-import React from "react";
-import { ContextMenuProvider } from "react-contexify";
-import FaFile from "react-icons/fa/file";
-import FaFolder from "react-icons/fa/folder";
-import FaFolderOpen from "react-icons/fa/folder-open";
-import FaTrash from "react-icons/fa/trash";
-import { connect } from "react-redux";
-import Tooltip from "react-tooltip";
-import { lifecycle } from "recompose";
-import styled from "styled-components";
-import { readFileStats } from "../../../../domain/filesystem/queries/readFileStats";
-import { FileInfo } from "../../../../domain/types";
-import { RootState } from "../../../reducers";
-import * as RepositoryActions from "../../../reducers/repository";
-import { AddDir } from "./AddDir";
-import { AddFile } from "./AddFile";
-import { File } from "./File";
+import range from "lodash/range"
+import path from "path"
+import React from "react"
+import { ContextMenuProvider } from "react-contexify"
+import FaFile from "react-icons/fa/file"
+import FaFolder from "react-icons/fa/folder"
+import FaFolderOpen from "react-icons/fa/folder-open"
+import FaTrash from "react-icons/fa/trash"
+import { connect } from "react-redux"
+import Tooltip from "react-tooltip"
+import { lifecycle } from "recompose"
+import styled from "styled-components"
+import { readFileStats } from "../../../../domain/filesystem/queries/readFileStats"
+import { FileInfo } from "../../../../domain/types"
+import { RootState } from "../../../reducers"
+import * as RepositoryActions from "../../../reducers/repository"
+import { AddDir } from "./AddDir"
+import { AddFile } from "./AddFile"
+import { File } from "./File"
 
 type OwnProps = {
   root: string
@@ -143,7 +143,9 @@ export const Directory: React.ComponentType<OwnProps> = connect(
                         onClick={ev => {
                           ev.stopPropagation()
                           this.setState({ opened: true }, () => {
-                            this.props.startFileCreating(dirpath)
+                            this.props.startFileCreating({
+                              fileCreatingDir: dirpath
+                            })
                           })
                         }}
                       />
@@ -153,7 +155,9 @@ export const Directory: React.ComponentType<OwnProps> = connect(
                         onClick={ev => {
                           ev.stopPropagation()
                           this.setState({ opened: true }, () => {
-                            this.props.startDirCreating(dirpath)
+                            this.props.startDirCreating({
+                              dirCreatingDir: dirpath
+                            })
                           })
                         }}
                       />
@@ -165,7 +169,7 @@ export const Directory: React.ComponentType<OwnProps> = connect(
                             onClick={ev => {
                               ev.stopPropagation()
                               if (confirm(`Confirm: delete ${dirpath}`)) {
-                                this.props.deleteDirectory(dirpath)
+                                this.props.deleteDirectory({ dirpath })
                               }
                             }}
                           />

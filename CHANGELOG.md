@@ -2,6 +2,7 @@
 
 ## CURRENT
 
+- [ ] TypeScript 3.0
 - [ ] Unload editor on change repository
 - [ ] Prompt to set committer name
 - [ ] Alert dangerous operation: like checkout

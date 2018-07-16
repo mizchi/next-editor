@@ -8,13 +8,13 @@ import {
   cancelDirCreating,
   createDirectory,
   createFile,
-  endDirCreating
+  finishDirCreating
 } from "../../../reducers/repository"
 
 const actions = {
   createFile,
   createDirectory,
-  endDirCreating,
+  finishDirCreating,
   cancelDirCreating
 }
 
@@ -58,14 +58,15 @@ export const AddDir = (connect as any)(
               this.setState({ value: event.target.value })
             }}
             onBlur={() => {
-              this.props.cancelDirCreating()
+              this.props.cancelDirCreating({})
             }}
             onKeyDown={ev => {
               if (ev.keyCode === 27) {
-                this.props.cancelDirCreating()
+                this.props.cancelDirCreating({})
               }
               if (ev.keyCode === 13) {
-                this.props.endDirCreating(path.join(parentDir, value))
+                const dirpath = path.join(parentDir, value)
+                this.props.finishDirCreating({ dirpath })
               }
             }}
           />

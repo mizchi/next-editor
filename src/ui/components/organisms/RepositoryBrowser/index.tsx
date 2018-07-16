@@ -1,10 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import { RootState } from "../../../reducers"
-import {
-  projectRootChanged,
-  RepositoryState
-} from "../../../reducers/repository"
+import { RepositoryState } from "../../../reducers/repository"
 import { RootDirectory } from "./Directory"
 import { DirectoryContextMenu } from "./DirectoryContextMenu"
 import { FileContextMenu } from "./FileContextMenu"
@@ -13,16 +10,9 @@ const selector = (state: RootState) => {
   return state.repository
 }
 
-const actions = {
-  projectRootChanged
-}
+type Props = RepositoryState
 
-type Props = (typeof actions) & RepositoryState
-
-export const RepositoryBrowser = connect(
-  selector,
-  actions
-)((props: Props) => {
+export const RepositoryBrowser = connect(selector)((props: Props) => {
   return (
     <fieldset style={{ padding: 0 }}>
       <legend>Files</legend>
