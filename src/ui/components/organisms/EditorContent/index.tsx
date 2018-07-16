@@ -1,6 +1,6 @@
 import React from "react"
 import { lifecycle } from "recompose"
-import { connector } from "../../../reducers"
+import { connector } from "../../../actions"
 import { FlexItem, Row } from "../../utils/LayoutUtils"
 import { FileEditor } from "./FileEditor"
 import { FilePreview } from "./FilePreview"

@@ -1,7 +1,7 @@
 import React from "react"
 import { toast, ToastContainer } from "react-toastify"
 import { lifecycle } from "recompose"
-import { connector } from "../../../reducers"
+import { connector } from "../../../actions"
 import { BranchController } from "./BranchController"
 import { History } from "./History"
 import { Staging } from "./Staging"

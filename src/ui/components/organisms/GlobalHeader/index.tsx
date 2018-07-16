@@ -3,7 +3,7 @@ import FaCog from "react-icons/fa/cog"
 import FaToggleOff from "react-icons/fa/toggle-off"
 import FaToggleOn from "react-icons/fa/toggle-on"
 import styled from "styled-components"
-import { connector } from "../../../reducers"
+import { connector } from "../../../actions"
 
 export const GlobalHeader = connector(
   state => ({

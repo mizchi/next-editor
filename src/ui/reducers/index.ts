@@ -1,6 +1,4 @@
-import { connect } from "react-redux"
-import { InferableComponentEnhancerWithProps } from "recompose"
-import { combineReducers, compose } from "redux"
+import { combineReducers } from "redux"
 import allActions from "../actions"
 import * as app from "./app"
 import * as buffer from "./buffer"
@@ -31,22 +29,3 @@ export const rootReducer: (
   git: git.reducer,
   config: config.reducer
 } as any)
-
-export const connector = <
-  OwnProps extends {} = {},
-  Connected extends {} = {},
-  BoundAction extends {} = {}
->(
-  stateSelector: (state: RootState, ownProps: OwnProps) => Connected,
-  actionSelector: (actions: AllAction) => BoundAction,
-  // ...hocs: Array<(props: Connected & BoundAction) => any>
-  ...hocs: any[]
-): InferableComponentEnhancerWithProps<Connected & BoundAction, OwnProps> => {
-  return (compose as any)(
-    connect(
-      stateSelector,
-      actionSelector(allActions)
-    ),
-    ...hocs
-  )
-}
