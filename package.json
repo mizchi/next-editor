@@ -20,7 +20,7 @@
     "@storybook/addon-storyshots": "3.4.8",
     "@storybook/addons": "3.4.8",
     "@storybook/react": "3.4.8",
-    "@types/jest": "23.1.5",
+    "@types/jest": "23.3.0",
     "@types/lodash": "4.14.111",
     "@types/node": "10.5.2",
     "@types/pify": "3.0.2",
