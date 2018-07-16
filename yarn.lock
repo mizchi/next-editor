@@ -3508,7 +3508,7 @@ diff-match-patch@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/diff-match-patch/-/diff-match-patch-1.0.1.tgz#d5f880213d82fbc124d2b95111fb3c033dbad7fa"
 
-diff3@^0.0.3:
+diff3@0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/diff3/-/diff3-0.0.3.tgz#d4e5c3a4cdf4e5fe1211ab42e693fcb4321580fc"
 
@@ -11193,7 +11193,7 @@ ws@^5.1.1:
   dependencies:
     async-limiter "~1.0.0"
 
-wu-diff-js@^0.1.6:
+wu-diff-js@0.1.6:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/wu-diff-js/-/wu-diff-js-0.1.6.tgz#ef41ae072e8e69872fec280275e89fec6e5d098b"
   dependencies:
