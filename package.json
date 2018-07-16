@@ -77,8 +77,8 @@
   "dependencies": {
     "@babel/core": "7.0.0-beta.54",
     "@babel/plugin-proposal-object-rest-spread": "7.0.0-beta.53",
-    "@babel/preset-react": "7.0.0-beta.53",
-    "@babel/standalone": "7.0.0-beta.53",
+    "@babel/preset-react": "7.0.0-beta.54",
+    "@babel/standalone": "7.0.0-beta.54",
     "browserfs": "1.4.3",
     "date-fns": "1.29.0",
     "delay": "3.0.0",
