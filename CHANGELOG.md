@@ -2,8 +2,9 @@
 
 ## CURRENT
 
+- [ ] Unload editor on change repository
 - [ ] Prompt to set committer name
-- [ ] Alert dangerous operation: checkout
+- [ ] Alert dangerous operation: like checkout
 - [ ] TypeScript on monaco
 - [ ] UI: Inline Rename
 - [ ] UI: Reload after clone
