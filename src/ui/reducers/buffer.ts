@@ -17,7 +17,7 @@ const { createAction, createAsyncAction } = buildActionCreator({
 
 export type BufferState = {
   filepath: string | null
-  fileType: string | null
+  filetype: string | null
   loading: boolean
   value: string | null
 }
@@ -28,7 +28,7 @@ export const loadFile = createAsyncAction(
     const fileContent = await readFile(filepath)
     return {
       filepath,
-      fileType: extToFileType(filepath),
+      filetype: extToFileType(filepath),
       value: fileContent.toString()
     }
   }
@@ -66,7 +66,7 @@ export async function updateValue(filepath: string, value: string) {
 
 const initialState: BufferState = {
   filepath: null,
-  fileType: null,
+  filetype: null,
   loading: true,
   value: null
 }
@@ -76,7 +76,7 @@ export const reducer: Reducer<BufferState> = createReducer(initialState)
     return {
       ...state,
       filepath: null,
-      fileType: "text",
+      filetype: "text",
       loading: false,
       value: null
     }

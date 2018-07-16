@@ -25,7 +25,7 @@ export const Editor = connect(
   class extends React.Component<Props, State> {
     render() {
       const key = this.props.filepath || "unknown"
-      switch (this.props.fileType) {
+      switch (this.props.filetype) {
         case "javascript": {
           return (
             <JavaScriptEditor
