@@ -9,8 +9,18 @@ import * as git from "../reducers/git"
 import * as project from "../reducers/project"
 import * as repository from "../reducers/repository"
 import * as editor from "./editorActions"
+import * as global from "./globalActions"
 
-const allActions = { app, buffer, project, repository, git, config, editor }
+const allActions = {
+  app,
+  buffer,
+  project,
+  repository,
+  git,
+  config,
+  editor,
+  global
+}
 export type AllAction = typeof allActions
 
 export default allActions

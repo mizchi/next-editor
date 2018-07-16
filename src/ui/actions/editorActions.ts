@@ -6,16 +6,14 @@ import * as GitActions from "../reducers/git"
 import * as ProjectActions from "../reducers/project"
 import * as RepositoryActions from "../reducers/repository"
 import { RootState } from "./../reducers"
+import * as GlobalActions from "./globalActions"
 
 // Action
-const {
-  createAsyncAction,
-  createAction,
-  createThunkAction
-} = buildActionCreator({
+const { createThunkAction } = buildActionCreator({
   prefix: "editor/"
 })
 
+// Mutations
 export const createFile = createThunkAction(
   "create-file",
   async (
@@ -146,8 +144,8 @@ export const startUpdate = createThunkAction(
 export const startProjectRootChanged = createThunkAction(
   "start-project-root-changed",
   async ({ projectRoot }: { projectRoot: string }, dispatch) => {
-    dispatch(RepositoryActions.projectRootChanged({ projectRoot }))
-    dispatch(await GitActions.initialize(projectRoot))
+    dispatch(GlobalActions.projectChanged({ projectRoot }))
+    dispatch(await initializeGitStatus(projectRoot))
   }
 )
 
@@ -164,6 +162,47 @@ export async function pushCurrentBranchToOrigin(
       dispatch(startUpdate({}))
     } else {
       console.error("push failed")
+    }
+  }
+}
+
+export async function initializeGitStatus(projectRoot: string) {
+  return async (dispatch: any, getState: () => RootState) => {
+    dispatch(GlobalActions.projectChanged({ projectRoot }))
+
+    const {
+      currentBranch,
+      branches,
+      remotes,
+      remoteBranches
+    } = await Git.getBranchStatus(projectRoot)
+    const history = await Git.getHistory(projectRoot, { ref: currentBranch })
+
+    dispatch(
+      GitActions.endInitialize({
+        history,
+        remotes,
+        currentBranch,
+        branches,
+        remoteBranches
+      })
+    )
+
+    const staging = await Git.getStagingStatus(projectRoot, status => {
+      const current = getState()
+      // stop if root changed
+      if (current.repository.currentProjectRoot === projectRoot) {
+        dispatch(
+          GitActions.progressStagingLoading({
+            status
+          })
+        )
+      }
+    })
+
+    const lastState = getState()
+    if (lastState.repository.currentProjectRoot === projectRoot) {
+      dispatch(GitActions.endStagingLoading({ staging }))
     }
   }
 }

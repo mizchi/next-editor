@@ -8,6 +8,7 @@ import path from "path"
 import { RootState } from "."
 import { readFile, writeFile } from "../../domain/filesystem"
 import { extToFileType } from "../../lib/extToFileType"
+import { projectChanged } from "./../actions/globalActions"
 import * as Git from "./git"
 
 const { createAction, createAsyncAction } = buildActionCreator({
@@ -71,6 +72,9 @@ const initialState: BufferState = {
 }
 
 export const reducer: Reducer<BufferState> = createReducer(initialState)
+  .case(projectChanged, () => {
+    return initialState
+  })
   .case(unloadFile, state => {
     return {
       ...state,

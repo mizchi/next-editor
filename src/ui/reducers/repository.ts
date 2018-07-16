@@ -4,6 +4,7 @@ import {
   createReducer,
   Reducer
 } from "hard-reducer"
+import { projectChanged } from "../actions/globalActions"
 import { RepositoryState } from "./repository"
 
 // State
@@ -16,11 +17,7 @@ export type RepositoryState = {
 }
 
 // Action
-const {
-  createAsyncAction,
-  createAction,
-  createThunkAction
-} = buildActionCreator({
+const { createAction } = buildActionCreator({
   prefix: "repository/"
 })
 
@@ -60,12 +57,8 @@ export const endDirCreating: ActionCreator<{ dirpath: string }> = createAction(
 
 export const changed = createAction("changed")
 
-export const projectRootChanged: ActionCreator<{
-  projectRoot: string
-}> = createAction("project-root-changed")
-
 export const reducer: Reducer<RepositoryState> = createReducer(initialState)
-  .case(projectRootChanged, (state, payload) => {
+  .case(projectChanged, (state, payload) => {
     return {
       ...state,
       currentProjectRoot: payload.projectRoot,

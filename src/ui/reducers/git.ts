@@ -1,4 +1,9 @@
-import { ActionCreator, buildActionCreator, createReducer } from "hard-reducer"
+import {
+  ActionCreator,
+  buildActionCreator,
+  createReducer,
+  Reducer
+} from "hard-reducer"
 import { RootState } from "."
 import * as Git from "../../domain/git"
 import {
@@ -6,6 +11,7 @@ import {
   GitStagingStatus,
   GitStatusString
 } from "../../domain/types"
+import { projectChanged } from "../actions/globalActions"
 
 const {
   createAction,
@@ -17,12 +23,6 @@ const {
 
 // actions
 
-/* start git project loading */
-export const startInitialize: ActionCreator<{
-  projectRoot: string
-}> = createAction("initialize-start")
-
-/* start git project */
 export const failInitialize: ActionCreator<{}> = createAction("initialize-fail")
 
 export const endInitialize: ActionCreator<{
@@ -98,47 +98,6 @@ export const commitStagedChanges = createThunkAction(
   }
 )
 
-export async function initialize(projectRoot: string) {
-  return async (dispatch: any, getState: () => RootState) => {
-    dispatch(startInitialize({ projectRoot }))
-
-    const {
-      currentBranch,
-      branches,
-      remotes,
-      remoteBranches
-    } = await Git.getBranchStatus(projectRoot)
-    const history = await Git.getHistory(projectRoot, { ref: currentBranch })
-
-    dispatch(
-      endInitialize({
-        history,
-        remotes,
-        currentBranch,
-        branches,
-        remoteBranches
-      })
-    )
-
-    const staging = await Git.getStagingStatus(projectRoot, status => {
-      const current = getState()
-      // stop if root changed
-      if (current.repository.currentProjectRoot === projectRoot) {
-        dispatch(
-          progressStagingLoading({
-            status
-          })
-        )
-      }
-    })
-
-    const lastState = getState()
-    if (lastState.repository.currentProjectRoot === projectRoot) {
-      dispatch(endStagingLoading({ staging }))
-    }
-  }
-}
-
 export function startStagingUpdate(projectRoot: string, files: string[]) {
   return async (dispatch: any, getState: () => RootState) => {
     const state = getState()
@@ -180,8 +139,8 @@ const initialState: GitState = {
   stagingLoading: true
 }
 
-export const reducer = createReducer(initialState)
-  .case(startInitialize, (state, payload) => {
+export const reducer: Reducer<GitState> = createReducer(initialState)
+  .case(projectChanged, (state, payload) => {
     return {
       ...state,
       type: "loading",

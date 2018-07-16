@@ -1,53 +1,73 @@
-import { buildActionCreator, createReducer, Reducer } from "hard-reducer"
+import {
+  ActionCreator,
+  buildActionCreator,
+  createReducer,
+  Reducer
+} from "hard-reducer"
 import { readDirectories } from "../../domain/filesystem"
 import { cloneRepository, createProject } from "../../domain/git"
+import { projectChanged } from "./../actions/globalActions"
 
 type Project = {
   projectRoot: string
 }
 
-const { createAsyncAction } = buildActionCreator({
+const { createThunkAction, createAction } = buildActionCreator({
   prefix: "project/"
 })
 
-export const loadProjectList = createAsyncAction(
-  "load-project-list",
-  async () => {
-    return updateProjects()
-  }
-)
+export const updateProjectList: ActionCreator<{
+  projects: Project[]
+}> = createAction("update-project-list")
 
-export const createNewProject = createAsyncAction(
+export const loadProjectList = createThunkAction(
   "create-new-project",
-  async (input: { newProjectRoot: string }) => {
-    await createProject(input.newProjectRoot)
-    return updateProjects()
+  async (_, dispatch) => {
+    dispatch(updateProjectList(await updateProjects()))
   }
 )
 
-export const cloneFromGitHub = createAsyncAction(
+export const createNewProject = createThunkAction(
+  "create-new-project",
+  async (input: { newProjectRoot: string }, dispatch) => {
+    await createProject(input.newProjectRoot)
+    dispatch(updateProjectList(await updateProjects()))
+  }
+)
+
+export const cloneFromGitHub = createThunkAction(
   "clone-from-github",
-  async (input: { projectRoot: string; clonePath: string }) => {
+  async (input: { projectRoot: string; clonePath: string }, dispatch) => {
     await cloneRepository(input.projectRoot, input.clonePath)
-    return updateProjects()
+    dispatch(updateProjectList(await updateProjects()))
   }
 )
 
 export type ProjectState = {
+  projectRoot: string
   projects: Project[]
 }
 
 const initialState: ProjectState = {
+  projectRoot: "/",
   projects: []
 }
 
 export const reducer: Reducer<ProjectState> = createReducer(initialState)
-  // TODO: Error handler
-  .case(loadProjectList.resolved, (_, payload) => payload)
-  .case(createNewProject.resolved, (_, payload) => payload)
-  .case(cloneFromGitHub.resolved, (_, payload) => payload)
+  .case(projectChanged, (state, payload) => {
+    return {
+      ...state,
+      projectRoot: payload.projectRoot
+    }
+  })
+  .case(updateProjectList, (state, payload) => {
+    return {
+      ...state,
+      projects: payload.projects
+    }
+  })
 
-async function updateProjects(): Promise<ProjectState> {
+async function updateProjects(): Promise<{ projects: Project[] }> {
   const projectNames = await readDirectories("/")
   return {
     projects: projectNames.map(p => {

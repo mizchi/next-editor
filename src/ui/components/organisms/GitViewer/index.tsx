@@ -22,7 +22,7 @@ export const GitViewer = connector(
       moveToBranch: actions.git.moveToBranch,
       commitStagedChanges: actions.git.commitStagedChanges,
       removeFileFromGit: actions.editor.removeFileFromGit,
-      initialize: actions.git.initialize
+      initializeGitStatus: actions.editor.initializeGitStatus
     }
   },
   lifecycle({
@@ -110,7 +110,7 @@ export const GitViewer = connector(
                 staging={staging}
                 loading={stagingLoading}
                 onClickReload={() => {
-                  props.initialize(props.projectRoot)
+                  props.initializeGitStatus(props.projectRoot)
                 }}
                 onClickGitAdd={(relpath: string) => {
                   props.addToStage({ projectRoot, relpath })
