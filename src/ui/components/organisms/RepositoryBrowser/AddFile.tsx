@@ -3,19 +3,14 @@ import React from "react"
 import FaFile from "react-icons/fa/file"
 import { connect } from "react-redux"
 import styled from "styled-components"
+import Actions from "../../../actions"
 import { RootState } from "../../../reducers"
-import {
-  cancelFileCreating,
-  createDirectory,
-  createFile,
-  finishFileCreating
-} from "../../../reducers/repository"
 
 const actions = {
-  createFile,
-  createDirectory,
-  finishFileCreating,
-  cancelFileCreating
+  createFile: Actions.editor.createFile,
+  createDirectory: Actions.editor.createDirectory,
+  finishFileCreating: Actions.editor.finishFileCreating,
+  cancelFileCreating: Actions.repository.cancelFileCreating
 }
 
 type OwnProps = {

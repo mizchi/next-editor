@@ -1,14 +1,13 @@
 import { connect } from "react-redux"
 import { InferableComponentEnhancerWithProps } from "recompose"
 import { combineReducers, compose } from "redux"
+import allActions from "../actions"
 import * as app from "./app"
 import * as buffer from "./buffer"
 import * as config from "./config"
 import * as git from "./git"
 import * as project from "./project"
 import * as repository from "./repository"
-
-const allActions = { app, buffer, project, repository, git, config }
 
 export type RootState = {
   app: app.AppState

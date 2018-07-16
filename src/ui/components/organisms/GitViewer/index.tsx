@@ -16,12 +16,12 @@ export const GitViewer = connector(
   },
   actions => {
     return {
-      addToStage: actions.repository.addToStage,
-      pushCurrentBranchToOrigin: actions.repository.pushCurrentBranchToOrigin,
+      addToStage: actions.editor.addToStage,
+      pushCurrentBranchToOrigin: actions.editor.pushCurrentBranchToOrigin,
       checkoutNewBranch: actions.git.checkoutNewBranch,
       moveToBranch: actions.git.moveToBranch,
       commitStagedChanges: actions.git.commitStagedChanges,
-      removeFileFromGit: actions.repository.removeFileFromGit,
+      removeFileFromGit: actions.editor.removeFileFromGit,
       initialize: actions.git.initialize
     }
   },

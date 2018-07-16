@@ -6,8 +6,7 @@ import {
 } from "hard-reducer"
 import path from "path"
 import { RootState } from "."
-import { writeFile } from "../../domain/filesystem/commands/writeFile"
-import { readFile } from "../../domain/filesystem/queries/readFile"
+import { readFile, writeFile } from "../../domain/filesystem"
 import { extToFileType } from "../../lib/extToFileType"
 import * as Git from "./git"
 

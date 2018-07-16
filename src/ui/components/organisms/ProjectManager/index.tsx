@@ -20,10 +20,10 @@ export const ProjectManager = connector(
   actions => {
     return {
       loadProjectList: actions.project.loadProjectList,
-      startProjectRootChanged: actions.repository.startProjectRootChanged,
+      startProjectRootChanged: actions.editor.startProjectRootChanged,
       createNewProject: actions.project.createNewProject,
       cloneFromGitHub: actions.project.cloneFromGitHub,
-      deleteProject: actions.repository.deleteProject,
+      deleteProject: actions.editor.deleteProject,
       pushScene: actions.app.pushScene
     }
   },

@@ -3,19 +3,14 @@ import React from "react"
 import FaFolder from "react-icons/fa/folder"
 import { connect } from "react-redux"
 import styled from "styled-components"
+import Actions from "../../../actions"
 import { RootState } from "../../../reducers"
-import {
-  cancelDirCreating,
-  createDirectory,
-  createFile,
-  finishDirCreating
-} from "../../../reducers/repository"
 
 const actions = {
-  createFile,
-  createDirectory,
-  finishDirCreating,
-  cancelDirCreating
+  createFile: Actions.editor.createFile,
+  createDirectory: Actions.editor.createDirectory,
+  finishDirCreating: Actions.editor.finishDirCreating,
+  cancelDirCreating: Actions.repository.cancelDirCreating
 }
 
 type OwnProps = {

@@ -1,6 +1,7 @@
 import React from "react"
 import { ContextMenu, Item, Separator } from "react-contexify"
 import { connect } from "react-redux"
+import * as EditorActions from "../../../actions/editorActions"
 import { RootState } from "../../../reducers"
 import * as RepositoryActions from "../../../reducers/repository"
 
@@ -13,9 +14,9 @@ type Props = OwnProps & (typeof actions)
 const actions = {
   startFileCreating: RepositoryActions.startFileCreating,
   startDirCreating: RepositoryActions.startDirCreating,
-  addToStage: RepositoryActions.addToStage,
-  deleteFile: RepositoryActions.deleteFile,
-  deleteDirectory: RepositoryActions.deleteDirectory
+  addToStage: EditorActions.addToStage,
+  deleteFile: EditorActions.deleteFile,
+  deleteDirectory: EditorActions.deleteDirectory
 }
 
 export const DirectoryContextMenu: any = connect(

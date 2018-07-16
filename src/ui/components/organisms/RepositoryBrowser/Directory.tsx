@@ -12,6 +12,7 @@ import { lifecycle } from "recompose"
 import styled from "styled-components"
 import { readFileStats } from "../../../../domain/filesystem/queries/readFileStats"
 import { FileInfo } from "../../../../domain/types"
+import * as EditorActions from "../../../actions/editorActions"
 import { RootState } from "../../../reducers"
 import * as RepositoryActions from "../../../reducers/repository"
 import { AddDir } from "./AddDir"
@@ -29,7 +30,7 @@ type OwnProps = {
 const actions = {
   startFileCreating: RepositoryActions.startFileCreating,
   startDirCreating: RepositoryActions.startDirCreating,
-  deleteDirectory: RepositoryActions.deleteDirectory
+  deleteDirectory: EditorActions.deleteDirectory
 }
 
 type Props = OwnProps &

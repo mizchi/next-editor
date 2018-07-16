@@ -1,7 +1,6 @@
 import { buildActionCreator, createReducer, Reducer } from "hard-reducer"
-import { readDirectories } from "../../domain/filesystem/queries/readDirectories"
-import { cloneRepository } from "../../domain/git/commands/cloneRepository"
-import { createProject } from "../../domain/git/commands/createProject"
+import { readDirectories } from "../../domain/filesystem"
+import { cloneRepository, createProject } from "../../domain/git"
 
 type Project = {
   projectRoot: string
