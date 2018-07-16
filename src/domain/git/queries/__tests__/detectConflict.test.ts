@@ -1,7 +1,7 @@
+import diff3Merge from "diff3"
 import fs from "fs"
 import * as git from "isomorphic-git"
 import assert from "power-assert"
-import diff from "wu-diff-js"
 // tslint:disable-next-line
 import * as helpers from "../../__testHelpers__/helpers"
 import { getRefOids } from "../getRefOids"
@@ -28,46 +28,24 @@ test("hasConflict", async () => {
   const [they2] = await getRefOids(dir, "c")
 
   const { object: ours } = await git.readObject({ fs, dir, oid: our.oid })
-  const { object: theirs1 } = await git.readObject({
+  const { object: t1 } = await git.readObject({
     fs,
     dir,
     oid: they1.oid
   })
 
-  const { object: theirs2 } = await git.readObject({
+  const { object: t2 } = await git.readObject({
     fs,
     dir,
     oid: they2.oid
   })
 
-  // create diff
-  const diffAB = diff(
-    ours.toString().split("\n"),
-    theirs1.toString().split("\n")
-  )
-  const diffAC = diff(
-    ours.toString().split("\n"),
-    theirs2.toString().split("\n")
-  )
-
-  assert.deepEqual(diffAB, [
-    { type: "common", value: "a" },
-    { type: "added", value: "b" }
-  ])
-  assert.deepEqual(diffAC, [
-    { type: "common", value: "a" },
-    { type: "added", value: "c" }
-  ])
-  // WIP: Validate them
-
-  // use diff3merge
-  const diff3Merge = require("diff3")
   const diff3 = diff3Merge(
     ours.toString().split("\n"),
-    theirs1.toString().split("\n"),
-    theirs2.toString().split("\n")
+    t1.toString().split("\n"),
+    t2.toString().split("\n")
   )
 
-  const hasConflict = diff3.some(i => i.conflict)
+  const hasConflict = diff3.some((i: any) => i.conflict)
   assert(hasConflict)
 })
