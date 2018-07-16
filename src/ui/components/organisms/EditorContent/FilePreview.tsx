@@ -2,11 +2,11 @@ import React from "react"
 import FaEye from "react-icons/fa/eye"
 import FaGit from "react-icons/fa/git"
 import { connector, RootState } from "../../../reducers"
-import { EditorState } from "../../../reducers/editor"
+import { BufferState } from "../../../reducers/buffer"
 import { MarkdownPreview } from "../../atoms/MarkdownPreview"
 import { GitViewer } from "../GitViewer"
 
-const selector = (state: RootState) => state.editor
+const selector = (state: RootState) => state.buffer
 
 type Props = {
   fileType: string | null
@@ -88,7 +88,7 @@ class PreviewSwitcher extends React.Component<Props, State> {
 }
 
 export const FilePreview = connector(selector, actions => ({}))(
-  (props: EditorState) => {
+  (props: BufferState) => {
     return (
       <PreviewSwitcher fileType={props.fileType} value={props.value || ""} />
     )

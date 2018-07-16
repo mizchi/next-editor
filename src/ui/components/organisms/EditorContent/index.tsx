@@ -8,14 +8,14 @@ import { FilePreview } from "./FilePreview"
 export const EditorContent = connector(
   state => {
     return {
-      filepath: state.editor.filepath,
+      filepath: state.buffer.filepath,
       layouts: state.app.layouts
     }
   },
   actions => {
     return {
       setLayoutMode: actions.app.setLayoutMode,
-      unloadFile: actions.editor.unloadFile
+      unloadFile: actions.buffer.unloadFile
     }
   }
 )(props => {

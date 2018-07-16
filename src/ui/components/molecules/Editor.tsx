@@ -1,13 +1,13 @@
 import React from "react"
 import { connect } from "react-redux"
 import { RootState } from "../../reducers"
-import * as EditorActions from "../../reducers/editor"
-import { EditorState } from "../../reducers/editor"
+import * as EditorActions from "../../reducers/buffer"
+import { BufferState } from "../../reducers/buffer"
 import { JavaScriptEditor } from "../atoms/JavaScriptEditor"
 import { TextEditor } from "../atoms/TextEditor"
 
 const selector = (state: RootState) => {
-  return state.editor
+  return state.buffer
 }
 
 const actions = {
@@ -15,7 +15,7 @@ const actions = {
   updateValue: EditorActions.updateValue
 }
 
-type Props = (typeof actions) & EditorState
+type Props = (typeof actions) & BufferState
 type State = { value: string }
 
 export const Editor = connect(

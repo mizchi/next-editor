@@ -2,19 +2,19 @@ import { connect } from "react-redux"
 import { InferableComponentEnhancerWithProps } from "recompose"
 import { combineReducers, compose } from "redux"
 import * as app from "./app"
+import * as buffer from "./buffer"
 import * as config from "./config"
-import * as editor from "./editor"
 import * as git from "./git"
 import * as project from "./project"
 import * as repository from "./repository"
 
-const allActions = { app, editor, project, repository, git, config }
+const allActions = { app, buffer, project, repository, git, config }
 
 export type RootState = {
   app: app.AppState
   repository: repository.RepositoryState
   project: project.ProjectState
-  editor: editor.EditorState
+  buffer: buffer.BufferState
   git: git.GitState
   config: config.ConfigState
 }
@@ -27,7 +27,7 @@ export const rootReducer: (
 ) => RootState = combineReducers({
   app: app.reducer,
   project: project.reducer,
-  editor: editor.reducer,
+  buffer: buffer.reducer,
   repository: repository.reducer,
   git: git.reducer,
   config: config.reducer

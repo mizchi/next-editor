@@ -53,7 +53,7 @@ export const Directory: React.ComponentType<OwnProps> = connect(
   (state: RootState, ownProps: OwnProps) => {
     return {
       ...ownProps,
-      editingFilepath: state.editor.filepath,
+      editingFilepath: state.buffer.filepath,
       touchCounter: state.repository.touchCounter,
       isFileCreating: ownProps.dirpath === state.repository.fileCreatingDir,
       isDirCreating: ownProps.dirpath === state.repository.dirCreatingDir

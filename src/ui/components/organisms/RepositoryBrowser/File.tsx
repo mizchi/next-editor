@@ -21,12 +21,12 @@ export const File: React.ComponentType<OwnProps> = connector<OwnProps>(
   (state, ownProps) => {
     return {
       ...ownProps,
-      editingFilepath: state.editor.filepath
+      editingFilepath: state.buffer.filepath
     }
   },
   actions => {
     return {
-      loadFile: actions.editor.loadFile
+      loadFile: actions.buffer.loadFile
     }
   }
 )((props: Props) => {

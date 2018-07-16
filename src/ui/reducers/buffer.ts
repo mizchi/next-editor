@@ -12,10 +12,10 @@ import { extToFileType } from "../../lib/extToFileType"
 import * as Git from "./git"
 
 const { createAction, createAsyncAction } = buildActionCreator({
-  prefix: "editor/"
+  prefix: "buffer/"
 })
 
-export type EditorState = {
+export type BufferState = {
   filepath: string | null
   fileType: string | null
   loading: boolean
@@ -64,14 +64,14 @@ export async function updateValue(filepath: string, value: string) {
   }
 }
 
-const initialState: EditorState = {
+const initialState: BufferState = {
   filepath: null,
   fileType: null,
   loading: true,
   value: null
 }
 
-export const reducer: Reducer<EditorState> = createReducer(initialState)
+export const reducer: Reducer<BufferState> = createReducer(initialState)
   .case(unloadFile, state => {
     return {
       ...state,
