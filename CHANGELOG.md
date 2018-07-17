@@ -2,14 +2,15 @@
 
 ## CURRENT
 
-- [ ] Reload history on change branch
-- [ ] Merge with fast-forward check
 - [ ] Checkout HEAD file on editor
 - [ ] UI: auto save toggling
 - [ ] Alert dangerous operation: like checkout
 - [ ] UI: Inline Rename
 - [ ] UI: Reload after clone
 - [ ] UI: Drag and drop
+- [x] Git: delete branch
+- [x] Merge with fast-forward check
+- [x] Reload history on change branch
 - [x] UI: Fix initial loading about git status
 - [x] Prompt to set committer name/email
 - [x] Prompt to set github api token

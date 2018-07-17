@@ -17,6 +17,8 @@ export const GitViewer = connector(
   },
   actions => {
     return {
+      removeBranch: actions.git.removeBranch,
+      mergeBranches: actions.git.mergeBranches,
       pushScene: actions.app.pushScene,
       addToStage: actions.editor.addToStage,
       pushCurrentBranchToOrigin: actions.editor.pushCurrentBranchToOrigin,
@@ -74,6 +76,12 @@ export const GitViewer = connector(
             currentBranch={currentBranch}
             branches={branches}
             remotes={remotes}
+            onClickMerge={async (ref1, ref2) => {
+              props.mergeBranches({ projectRoot, ref1, ref2 })
+            }}
+            onClickRemoveBranch={async branch => {
+              props.removeBranch({ projectRoot, branch })
+            }}
             onClickGitPush={async branchName => {
               try {
                 await props.pushCurrentBranchToOrigin(projectRoot, branchName)
@@ -109,7 +117,7 @@ export const GitViewer = connector(
               props.pushScene("config")
             }}
           />
-          <History history={history} />
+          <History branch={currentBranch} history={history} />
           <div style={{ flex: 1 }}>
             {staging && (
               <Staging

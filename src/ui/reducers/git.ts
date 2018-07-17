@@ -1,9 +1,11 @@
+import fs from "fs"
 import {
   ActionCreator,
   buildActionCreator,
   createReducer,
   Reducer
 } from "hard-reducer"
+import * as git from "isomorphic-git"
 import { RootState } from "."
 import * as Git from "../../domain/git"
 import { GitStagingStatus, GitStatusString } from "../../domain/types"
@@ -45,6 +47,7 @@ export const updateStaging: ActionCreator<{
 export const moveToBranch = createThunkAction(
   "move-to-branches",
   async (input: { projectRoot: string; branch: string }, dispatch) => {
+    // TODO: refactor
     await Git.checkoutBranch(input.projectRoot, input.branch)
     dispatch(
       updateHistory({ projectRoot: input.projectRoot, branch: input.branch })
@@ -53,11 +56,50 @@ export const moveToBranch = createThunkAction(
   }
 )
 
+export const mergeBranches = createThunkAction(
+  "merge-branches",
+  async (
+    {
+      projectRoot,
+      ref1,
+      ref2
+    }: { projectRoot: string; ref1: string; ref2: string },
+    dispatch
+  ) => {
+    await git.merge({
+      fs,
+      dir: projectRoot,
+      ours: ref1,
+      theirs: ref2
+    })
+    dispatch(updateHistory({ projectRoot, branch: ref1 }))
+  }
+)
+
 export const checkoutNewBranch = createThunkAction(
   "update-branches",
   async (input: { projectRoot: string; branch: string }) => {
     await Git.createBranch(input.projectRoot, input.branch)
     await Git.checkoutBranch(input.projectRoot, input.branch)
+    const { branches } = await Git.getBranchStatus(input.projectRoot)
+    return { branches, currentBranch: input.branch }
+  }
+)
+
+export const removeBranch = createThunkAction(
+  "remove-branches",
+  async (
+    input: { projectRoot: string; branch: string },
+    _dispatch,
+    getState: () => RootState
+  ) => {
+    const state = getState()
+    await Git.deleteBranch(input.projectRoot, input.branch)
+
+    // checkout master if target is currentBranch
+    if (state.git.currentBranch === input.branch) {
+      await Git.checkoutBranch(input.projectRoot, "master")
+    }
     const { branches } = await Git.getBranchStatus(input.projectRoot)
     return { branches, currentBranch: input.branch }
   }
@@ -191,6 +233,12 @@ export const reducer: Reducer<GitState> = createReducer(initialState)
       ...state,
       branches: payload.branches,
       currentBranch: payload.currentBranch
+    }
+  })
+  .case(removeBranch.resolved, (state, payload) => {
+    return {
+      ...state,
+      branches: payload.branches
     }
   })
   .case(moveToBranch.resolved, (state, payload) => {

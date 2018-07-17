@@ -1,11 +1,11 @@
 import React from "react"
 import FaMinusSquare from "react-icons/fa/minus-square-o"
 import FaPlusSquare from "react-icons/fa/plus-square-o"
+import { isFastForward } from "../../../../domain/git"
 import { ConfigState } from "../../../reducers/config"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
 import { CommandWithSelect } from "../../atoms/CommandWithSelect"
 import { FetchManager } from "./FetchManager"
-import { MergeManager } from "./MergeManager"
 
 export class BranchController extends React.Component<
   {
@@ -17,8 +17,10 @@ export class BranchController extends React.Component<
     remoteBranches: string[]
     onChangeBranch: (branchName: string) => void
     onClickCreateBranch: (branchName: string) => void
+    onClickRemoveBranch: (branchName: string) => void
     onClickGitPush: (branchName: string) => void
     onClickOpenConfig: () => void
+    onClickMerge: (ref1: string, ref2: string) => void
   },
   { opened: boolean }
 > {
@@ -35,6 +37,7 @@ export class BranchController extends React.Component<
       onChangeBranch,
       onClickCreateBranch,
       onClickGitPush,
+      onClickRemoveBranch,
       projectRoot
     } = this.props
     return (
@@ -62,6 +65,21 @@ export class BranchController extends React.Component<
               />
             </div>
             <div>
+              <CommandWithSelect
+                key={currentBranch}
+                description="Delete branch"
+                tooltip={value => `git branch -d ${value}`}
+                initialValue={""}
+                validate={value => {
+                  return value.length > 0 && value !== currentBranch
+                }}
+                options={[""].concat(branches.filter(b => b !== "master"))}
+                onExec={value => {
+                  onClickRemoveBranch(value)
+                }}
+              />
+            </div>
+            <div>
               <CommandWithInput
                 description="Checkout new branch"
                 tooltip={value => `git checkout -b ${value}`}
@@ -75,10 +93,15 @@ export class BranchController extends React.Component<
             </div>
             <div>
               <MergeManager
+                key={currentBranch}
+                currentBranch={currentBranch}
                 remoteBranches={remoteBranches}
                 projectRoot={projectRoot}
                 branches={branches}
                 remotes={remotes}
+                onMerge={async (ref1, ref2) => {
+                  this.props.onClickMerge(ref1, ref2)
+                }}
               />
             </div>
             {remotes.length > 0 && (
@@ -110,6 +133,67 @@ export class BranchController extends React.Component<
           </>
         )}
       </fieldset>
+    )
+  }
+}
+
+class MergeManager extends React.Component<
+  {
+    projectRoot: string
+    branches: string[]
+    remotes: string[]
+    currentBranch: string
+    remoteBranches: string[]
+    onMerge: (ref1: string, ref2: string) => void
+  },
+  {
+    theirs: string
+    mergeable: boolean
+  }
+> {
+  constructor(props: any) {
+    super(props)
+    this.state = {
+      theirs: this.props.currentBranch,
+      mergeable: false
+    }
+  }
+  render() {
+    return (
+      <div>
+        <div>
+          Merge ours: [{this.props.currentBranch}] : theirs:
+          <select
+            value={this.state.theirs}
+            onChange={async e => {
+              const theirs = e.target.value
+              this.setState({ theirs, mergeable: false })
+              const ret = await isFastForward(
+                this.props.projectRoot,
+                this.props.currentBranch,
+                theirs
+              )
+              this.setState({ mergeable: ret.fastForward && !ret.self })
+            }}
+          >
+            {this.props.branches.map(b => (
+              <option key={b} value={b}>
+                {b}
+              </option>
+            ))}
+          </select>
+          &nbsp;
+          <button
+            disabled={!this.state.mergeable}
+            onClick={async () => {
+              this.props.onMerge(this.props.currentBranch, this.state.theirs)
+            }}
+          >
+            exec
+          </button>
+          {!this.state.mergeable && <span>(fast forward only)</span>}
+        </div>
+      </div>
     )
   }
 }
