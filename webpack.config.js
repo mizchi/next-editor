@@ -70,7 +70,7 @@ module.exports = {
         to: __dirname + "/public/favicon.ico"
       },
       {
-        from: __dirname + "/assets/*",
+        from: __dirname + "/assets/**",
         to: __dirname + "/public"
       }
     ]),
