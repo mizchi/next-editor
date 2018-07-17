@@ -17,7 +17,7 @@ type Props = OwnProps & {
   editingFilepath: string
 }
 
-export const File: React.ComponentType<OwnProps> = connector<OwnProps>(
+export const FileLine: React.ComponentType<OwnProps> = connector<OwnProps>(
   (state, ownProps) => {
     return {
       ...ownProps,
@@ -33,16 +33,16 @@ export const File: React.ComponentType<OwnProps> = connector<OwnProps>(
   const { depth, filepath, editingFilepath } = props
   const basename = path.basename(filepath)
   return (
-    <Container selected={editingFilepath === filepath}>
-      <ContextMenuProvider id="file" data={{ filepath }}>
+    <ContextMenuProvider id="file" data={{ filepath }}>
+      <Container selected={editingFilepath === filepath}>
         <div onClick={() => props.loadFile({ filepath })}>
           {range(depth).map((_, k) => <span key={k}>&nbsp;&nbsp;</span>)}
           <FaFile />
           &nbsp;
           <span>{basename}</span>
         </div>
-      </ContextMenuProvider>
-    </Container>
+      </Container>
+    </ContextMenuProvider>
   )
 }) as any
 

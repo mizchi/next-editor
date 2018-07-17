@@ -10,10 +10,12 @@
 - [ ] UI: auto save toggling
 - [ ] UI: Inline Rename
 - [ ] UI: Drag and drop
+- [ ] UI: Update git status at directory remove
 - [x] UI: Reload after clone
 - [x] UI: Show changelog in app
 - [x] Merge with remote branches
 - [x] Regression: remove project does not work
+- [x] Regression: remove file does not work
 
 ## Icebox
 

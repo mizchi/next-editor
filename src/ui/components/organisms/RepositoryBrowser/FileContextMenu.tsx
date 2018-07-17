@@ -38,7 +38,7 @@ export const FileContextMenu: any = connect(
       <Separator />
       <Item
         onClick={({ dataFromProvider }: any) => {
-          props.deleteFile(dataFromProvider.filepath)
+          props.deleteFile({ filename: dataFromProvider.filepath })
         }}
       >
         Delete

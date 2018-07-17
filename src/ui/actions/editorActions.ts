@@ -57,6 +57,7 @@ export const deleteDirectory = createThunkAction(
   async ({ dirpath }: { dirpath: string }, dispatch) => {
     await FS.removeDirectory(dirpath)
     dispatch(startUpdate({ changedPath: dirpath }))
+    // TODO: Update git status
   }
 )
 

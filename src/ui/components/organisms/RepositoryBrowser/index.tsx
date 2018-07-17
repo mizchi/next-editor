@@ -2,8 +2,8 @@ import React from "react"
 import { connect } from "react-redux"
 import { RootState } from "../../../reducers"
 import { RepositoryState } from "../../../reducers/repository"
-import { RootDirectory } from "./Directory"
 import { DirectoryContextMenu } from "./DirectoryContextMenu"
+import { RootDirectory } from "./DirectoryLine"
 import { FileContextMenu } from "./FileContextMenu"
 
 const selector = (state: RootState) => {

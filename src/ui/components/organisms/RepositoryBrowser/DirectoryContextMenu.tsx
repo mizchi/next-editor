@@ -46,7 +46,6 @@ export const DirectoryContextMenu: any = connect(
       <Separator />
       <Item
         onClick={({ dataFromProvider }: any) => {
-          // props.deleteFile(dataFromProvider.filepath)
           props.deleteDirectory({ dirpath: dataFromProvider.dirpath })
         }}
       >
