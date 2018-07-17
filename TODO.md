@@ -27,5 +27,3 @@
 - [ ] React: Component Preview
 - [ ] GitHub: Issue integration
 - [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
-
----
