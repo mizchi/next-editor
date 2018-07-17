@@ -1,5 +1,5 @@
 const webpack = require("webpack")
-const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin")
+// const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin")
 const path = require("path")
 const CopyPlugin = require("copy-webpack-plugin")
 const mode = process.env.NODE_ENV || "development"
@@ -78,7 +78,7 @@ module.exports = {
       "process.env.NODE_ENV": JSON.stringify(MODE),
       "process.env.DEBUG": JSON.stringify(process.env.DEBUG || DEV)
     }),
-    new MonacoWebpackPlugin(),
+    // new MonacoWebpackPlugin(),
     new WorkboxPlugin.GenerateSW({
       swDest: "sw.js",
       clientsClaim: true,
