@@ -1,21 +1,21 @@
 import React from "react"
 import { connect } from "react-redux"
+import * as EditorActions from "../../actions/editorActions"
 import { RootState } from "../../reducers"
-import * as EditorActions from "../../reducers/editor"
-import { EditorState } from "../../reducers/editor"
+import { BufferState } from "../../reducers/buffer"
 import { JavaScriptEditor } from "../atoms/JavaScriptEditor"
 import { TextEditor } from "../atoms/TextEditor"
 
 const selector = (state: RootState) => {
-  return state.editor
+  return state.buffer
 }
 
 const actions = {
   loadFile: EditorActions.loadFile,
-  updateValue: EditorActions.updateValue
+  updateFileContent: EditorActions.updateFileContent
 }
 
-type Props = (typeof actions) & EditorState
+type Props = (typeof actions) & BufferState
 type State = { value: string }
 
 export const Editor = connect(
@@ -25,7 +25,7 @@ export const Editor = connect(
   class extends React.Component<Props, State> {
     render() {
       const key = this.props.filepath || "unknown"
-      switch (this.props.fileType) {
+      switch (this.props.filetype) {
         case "javascript": {
           return (
             <JavaScriptEditor
@@ -36,7 +36,7 @@ export const Editor = connect(
               }}
               onChange={async newValue => {
                 if (this.props.filepath) {
-                  this.props.updateValue(this.props.filepath, newValue)
+                  this.props.updateFileContent(this.props.filepath, newValue)
                 }
               }}
             />
@@ -53,7 +53,7 @@ export const Editor = connect(
               }}
               onChange={async newValue => {
                 if (this.props.filepath) {
-                  this.props.updateValue(this.props.filepath, newValue)
+                  this.props.updateFileContent(this.props.filepath, newValue)
                 }
               }}
             />

@@ -1,17 +1,17 @@
-import { ActionCreator, buildActionCreator, createReducer } from "hard-reducer"
+import {
+  ActionCreator,
+  buildActionCreator,
+  createReducer,
+  Reducer
+} from "hard-reducer"
 import { RootState } from "."
-import { checkoutBranch } from "../../domain/git/commands/checkoutBranch"
-import { commitChanges } from "../../domain/git/commands/commitChanges"
-import { createBranch as createGitBranch } from "../../domain/git/commands/createBranch"
-import { getBranchStatus } from "../../domain/git/queries/getBranchStatus"
-import { getHistory } from "../../domain/git/queries/getHistory"
-import { getStagingStatus } from "../../domain/git/queries/getStagingStatus"
-import { updateStagingStatus } from "../../domain/git/queries/updateStagingStatus"
+import * as Git from "../../domain/git"
 import {
   CommitDescription,
   GitStagingStatus,
   GitStatusString
 } from "../../domain/types"
+import { projectChanged } from "../actions/globalActions"
 
 const {
   createAction,
@@ -23,12 +23,6 @@ const {
 
 // actions
 
-/* start git project loading */
-export const startInitialize: ActionCreator<{
-  projectRoot: string
-}> = createAction("initialize-start")
-
-/* start git project */
 export const failInitialize: ActionCreator<{}> = createAction("initialize-fail")
 
 export const endInitialize: ActionCreator<{
@@ -54,7 +48,7 @@ export const updateStaging: ActionCreator<{
 export const moveToBranch = createThunkAction(
   "move-to-branches",
   async (input: { projectRoot: string; branch: string }) => {
-    await checkoutBranch(input.projectRoot, input.branch)
+    await Git.checkoutBranch(input.projectRoot, input.branch)
     return { currentBranch: input.branch }
   }
 )
@@ -62,9 +56,9 @@ export const moveToBranch = createThunkAction(
 export const checkoutNewBranch = createThunkAction(
   "update-branches",
   async (input: { projectRoot: string; branch: string }) => {
-    await createGitBranch(input.projectRoot, input.branch)
-    await checkoutBranch(input.projectRoot, input.branch)
-    const { branches } = await getBranchStatus(input.projectRoot)
+    await Git.createBranch(input.projectRoot, input.branch)
+    await Git.checkoutBranch(input.projectRoot, input.branch)
+    const { branches } = await Git.getBranchStatus(input.projectRoot)
     return { branches, currentBranch: input.branch }
   }
 )
@@ -72,7 +66,9 @@ export const checkoutNewBranch = createThunkAction(
 export const updateHistory = createAsyncAction(
   "update-history",
   async (input: { projectRoot: string; branch: string }) => {
-    const history = await getHistory(input.projectRoot, { ref: input.branch })
+    const history = await Git.getHistory(input.projectRoot, {
+      ref: input.branch
+    })
     return { history }
   }
 )
@@ -96,58 +92,17 @@ export const commitStagedChanges = createThunkAction(
       email: config.committerEmail || "<none>"
     }
     const state = getState()
-    await commitChanges(projectRoot, message, author)
+    await Git.commitChanges(projectRoot, message, author)
     dispatch(startStagingUpdate(projectRoot, []))
     dispatch(updateHistory({ projectRoot, branch: state.git.currentBranch }))
   }
 )
 
-export async function initialize(projectRoot: string) {
-  return async (dispatch: any, getState: () => RootState) => {
-    dispatch(startInitialize({ projectRoot }))
-
-    const {
-      currentBranch,
-      branches,
-      remotes,
-      remoteBranches
-    } = await getBranchStatus(projectRoot)
-    const history = await getHistory(projectRoot, { ref: currentBranch })
-
-    dispatch(
-      endInitialize({
-        history,
-        remotes,
-        currentBranch,
-        branches,
-        remoteBranches
-      })
-    )
-
-    const staging = await getStagingStatus(projectRoot, status => {
-      const current = getState()
-      // stop if root changed
-      if (current.repository.currentProjectRoot === projectRoot) {
-        dispatch(
-          progressStagingLoading({
-            status
-          })
-        )
-      }
-    })
-
-    const lastState = getState()
-    if (lastState.repository.currentProjectRoot === projectRoot) {
-      dispatch(endStagingLoading({ staging }))
-    }
-  }
-}
-
 export function startStagingUpdate(projectRoot: string, files: string[]) {
   return async (dispatch: any, getState: () => RootState) => {
     const state = getState()
     if (state.git.staging) {
-      const newStaging = await updateStagingStatus(
+      const newStaging = await Git.updateStagingStatus(
         projectRoot,
         state.git.staging,
         files
@@ -184,8 +139,8 @@ const initialState: GitState = {
   stagingLoading: true
 }
 
-export const reducer = createReducer(initialState)
-  .case(startInitialize, (state, payload) => {
+export const reducer: Reducer<GitState> = createReducer(initialState)
+  .case(projectChanged, (state, payload) => {
     return {
       ...state,
       type: "loading",

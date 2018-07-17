@@ -1,7 +1,7 @@
 import React from "react"
 import { toast, ToastContainer } from "react-toastify"
 import { lifecycle } from "recompose"
-import { connector } from "../../../reducers"
+import { connector } from "../../../actions"
 import { BranchController } from "./BranchController"
 import { History } from "./History"
 import { Staging } from "./Staging"
@@ -16,13 +16,13 @@ export const GitViewer = connector(
   },
   actions => {
     return {
-      addToStage: actions.repository.addToStage,
-      pushCurrentBranchToOrigin: actions.repository.pushCurrentBranchToOrigin,
+      addToStage: actions.editor.addToStage,
+      pushCurrentBranchToOrigin: actions.editor.pushCurrentBranchToOrigin,
       checkoutNewBranch: actions.git.checkoutNewBranch,
       moveToBranch: actions.git.moveToBranch,
       commitStagedChanges: actions.git.commitStagedChanges,
-      removeFileFromGit: actions.repository.removeFileFromGit,
-      initialize: actions.git.initialize
+      removeFileFromGit: actions.editor.removeFileFromGit,
+      initializeGitStatus: actions.editor.initializeGitStatus
     }
   },
   lifecycle({
@@ -110,13 +110,13 @@ export const GitViewer = connector(
                 staging={staging}
                 loading={stagingLoading}
                 onClickReload={() => {
-                  props.initialize(props.projectRoot)
+                  props.initializeGitStatus(props.projectRoot)
                 }}
-                onClickGitAdd={(filepath: string) => {
-                  props.addToStage(projectRoot, filepath)
+                onClickGitAdd={(relpath: string) => {
+                  props.addToStage({ projectRoot, relpath })
                 }}
-                onClickGitRemove={(filepath: string) => {
-                  props.removeFileFromGit(projectRoot, filepath)
+                onClickGitRemove={(relpath: string) => {
+                  props.removeFileFromGit({ projectRoot, relpath })
                 }}
                 onClickGitCommit={(message: string) => {
                   props.commitStagedChanges({

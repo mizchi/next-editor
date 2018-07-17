@@ -3,19 +3,14 @@ import React from "react"
 import FaFolder from "react-icons/fa/folder"
 import { connect } from "react-redux"
 import styled from "styled-components"
+import Actions from "../../../actions"
 import { RootState } from "../../../reducers"
-import {
-  cancelDirCreating,
-  createDirectory,
-  createFile,
-  endDirCreating
-} from "../../../reducers/repository"
 
 const actions = {
-  createFile,
-  createDirectory,
-  endDirCreating,
-  cancelDirCreating
+  createFile: Actions.editor.createFile,
+  createDirectory: Actions.editor.createDirectory,
+  finishDirCreating: Actions.editor.finishDirCreating,
+  cancelDirCreating: Actions.repository.cancelDirCreating
 }
 
 type OwnProps = {
@@ -58,14 +53,15 @@ export const AddDir = (connect as any)(
               this.setState({ value: event.target.value })
             }}
             onBlur={() => {
-              this.props.cancelDirCreating()
+              this.props.cancelDirCreating({})
             }}
             onKeyDown={ev => {
               if (ev.keyCode === 27) {
-                this.props.cancelDirCreating()
+                this.props.cancelDirCreating({})
               }
               if (ev.keyCode === 13) {
-                this.props.endDirCreating(path.join(parentDir, value))
+                const dirpath = path.join(parentDir, value)
+                this.props.finishDirCreating({ dirpath })
               }
             }}
           />

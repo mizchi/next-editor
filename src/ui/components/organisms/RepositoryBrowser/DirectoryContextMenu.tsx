@@ -1,6 +1,7 @@
 import React from "react"
 import { ContextMenu, Item, Separator } from "react-contexify"
 import { connect } from "react-redux"
+import * as EditorActions from "../../../actions/editorActions"
 import { RootState } from "../../../reducers"
 import * as RepositoryActions from "../../../reducers/repository"
 
@@ -13,9 +14,9 @@ type Props = OwnProps & (typeof actions)
 const actions = {
   startFileCreating: RepositoryActions.startFileCreating,
   startDirCreating: RepositoryActions.startDirCreating,
-  addToStage: RepositoryActions.addToStage,
-  deleteFile: RepositoryActions.deleteFile,
-  deleteDirectory: RepositoryActions.deleteDirectory
+  addToStage: EditorActions.addToStage,
+  deleteFile: EditorActions.deleteFile,
+  deleteDirectory: EditorActions.deleteDirectory
 }
 
 export const DirectoryContextMenu: any = connect(
@@ -29,7 +30,7 @@ export const DirectoryContextMenu: any = connect(
       <Item
         onClick={({ dataFromProvider }: any) => {
           const { dirpath } = dataFromProvider
-          props.startFileCreating(dirpath)
+          props.startFileCreating({ fileCreatingDir: dirpath })
         }}
       >
         Create File
@@ -37,7 +38,7 @@ export const DirectoryContextMenu: any = connect(
       <Item
         onClick={({ dataFromProvider }: any) => {
           const { dirpath } = dataFromProvider
-          props.startDirCreating(dirpath)
+          props.startDirCreating({ dirCreatingDir: dirpath })
         }}
       >
         Create Directory
@@ -46,7 +47,7 @@ export const DirectoryContextMenu: any = connect(
       <Item
         onClick={({ dataFromProvider }: any) => {
           // props.deleteFile(dataFromProvider.filepath)
-          props.deleteDirectory(dataFromProvider.dirpath)
+          props.deleteDirectory({ dirpath: dataFromProvider.dirpath })
         }}
       >
         Delete

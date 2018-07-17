@@ -3,19 +3,14 @@ import React from "react"
 import FaFile from "react-icons/fa/file"
 import { connect } from "react-redux"
 import styled from "styled-components"
+import Actions from "../../../actions"
 import { RootState } from "../../../reducers"
-import {
-  cancelFileCreating,
-  createDirectory,
-  createFile,
-  endFileCreating
-} from "../../../reducers/repository"
 
 const actions = {
-  createFile,
-  createDirectory,
-  endFileCreating,
-  cancelFileCreating
+  createFile: Actions.editor.createFile,
+  createDirectory: Actions.editor.createDirectory,
+  finishFileCreating: Actions.editor.finishFileCreating,
+  cancelFileCreating: Actions.repository.cancelFileCreating
 }
 
 type OwnProps = {
@@ -58,14 +53,15 @@ export const AddFile = (connect as any)(
               this.setState({ value: event.target.value })
             }}
             onBlur={() => {
-              this.props.cancelFileCreating()
+              this.props.cancelFileCreating({})
             }}
             onKeyDown={ev => {
               if (ev.keyCode === 27) {
-                this.props.cancelFileCreating()
+                this.props.cancelFileCreating({})
               }
               if (ev.keyCode === 13) {
-                this.props.endFileCreating(path.join(parentDir, value))
+                const filepath = path.join(parentDir, value)
+                this.props.finishFileCreating({ filepath })
               }
             }}
           />

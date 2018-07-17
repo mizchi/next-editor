@@ -109,7 +109,7 @@ function showUpgradeModal() {
     modal.innerHTML = `
       <div style='position: absolute; outline: 1px solid black; right: 10px; bottom: 10px; width: 350px; height: 50px; background: white; padding: 10px;'>
         <div>New version available!</div>
-        <span>It will be applied from the next</span> - <button onclick="location.reload()">Reload</button>
+        <span>It will be applied from the next</span> - <button onclick="localStorage.clear(); location.reload()">Reload</button>
       </div>
     `
   }

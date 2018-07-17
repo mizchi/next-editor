@@ -4,7 +4,7 @@ import React from "react"
 import { ContextMenuProvider } from "react-contexify"
 import FaFile from "react-icons/fa/file"
 import styled from "styled-components"
-import { connector } from "../../../reducers"
+import { connector } from "../../../actions"
 
 type OwnProps = {
   depth: number
@@ -21,7 +21,7 @@ export const File: React.ComponentType<OwnProps> = connector<OwnProps>(
   (state, ownProps) => {
     return {
       ...ownProps,
-      editingFilepath: state.editor.filepath
+      editingFilepath: state.buffer.filepath
     }
   },
   actions => {

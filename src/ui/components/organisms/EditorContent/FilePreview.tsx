@@ -1,15 +1,16 @@
 import React from "react"
 import FaEye from "react-icons/fa/eye"
 import FaGit from "react-icons/fa/git"
-import { connector, RootState } from "../../../reducers"
-import { EditorState } from "../../../reducers/editor"
+import { connector } from "../../../actions"
+import { RootState } from "../../../reducers"
+import { BufferState } from "../../../reducers/buffer"
 import { MarkdownPreview } from "../../atoms/MarkdownPreview"
 import { GitViewer } from "../GitViewer"
 
-const selector = (state: RootState) => state.editor
+const selector = (state: RootState) => state.buffer
 
 type Props = {
-  fileType: string | null
+  filetype: string | null
   value: string
 }
 type State = {
@@ -22,7 +23,7 @@ class PreviewSwitcher extends React.Component<Props, State> {
   }
 
   render() {
-    const { fileType, value } = this.props
+    const { filetype, value } = this.props
     return (
       <div
         style={{
@@ -43,7 +44,7 @@ class PreviewSwitcher extends React.Component<Props, State> {
           >
             <FaGit />
           </button>
-          {fileType === "markdown" && (
+          {filetype === "markdown" && (
             <button
               style={{
                 background:
@@ -62,9 +63,9 @@ class PreviewSwitcher extends React.Component<Props, State> {
         <div>
           {this.state.mode === "preview-by-filetype" && (
             <>
-              filetype: <span>{fileType}</span>
+              filetype: <span>{filetype}</span>
               {(() => {
-                switch (fileType) {
+                switch (filetype) {
                   // case "javascript": {
                   //   return <BabelCodePreview source={value || ""} />
                   // }
@@ -88,9 +89,9 @@ class PreviewSwitcher extends React.Component<Props, State> {
 }
 
 export const FilePreview = connector(selector, actions => ({}))(
-  (props: EditorState) => {
+  (props: BufferState) => {
     return (
-      <PreviewSwitcher fileType={props.fileType} value={props.value || ""} />
+      <PreviewSwitcher filetype={props.filetype} value={props.value || ""} />
     )
   }
 )

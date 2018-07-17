@@ -1,6 +1,6 @@
 import React from "react"
 import { lifecycle } from "recompose"
-import { connector } from "../../../reducers"
+import { connector } from "../../../actions"
 import { FlexItem, Row } from "../../utils/LayoutUtils"
 import { FileEditor } from "./FileEditor"
 import { FilePreview } from "./FilePreview"
@@ -8,14 +8,14 @@ import { FilePreview } from "./FilePreview"
 export const EditorContent = connector(
   state => {
     return {
-      filepath: state.editor.filepath,
+      filepath: state.buffer.filepath,
       layouts: state.app.layouts
     }
   },
   actions => {
     return {
       setLayoutMode: actions.app.setLayoutMode,
-      unloadFile: actions.editor.unloadFile
+      unloadFile: actions.buffer.unloadFile
     }
   }
 )(props => {

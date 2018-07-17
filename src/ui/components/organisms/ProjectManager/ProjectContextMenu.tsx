@@ -2,12 +2,12 @@ import React from "react"
 import { ContextMenu, Item } from "react-contexify"
 import FaTrash from "react-icons/fa/trash"
 import { connect } from "react-redux"
-import * as RepositoryActions from "../../../reducers/repository"
+import Actions from "../../../actions"
 
 const selector = () => ({})
 
 const actions = {
-  deleteProject: RepositoryActions.deleteProject
+  deleteProject: Actions.editor.deleteProject
 }
 
 type Props = typeof actions

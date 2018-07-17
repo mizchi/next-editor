@@ -4,7 +4,7 @@ import { ContextMenuProvider } from "react-contexify"
 import FaBox from "react-icons/io/ios-box"
 import { lifecycle } from "recompose"
 import styled from "styled-components"
-import { connector } from "../../../reducers"
+import { connector } from "../../../actions"
 import { CloneProjectButton } from "./CloneProjectButton"
 import { CreateNewProjectButton } from "./CreateNewProjectButton"
 import { ProjectContextMenu } from "./ProjectContextMenu"
@@ -20,10 +20,10 @@ export const ProjectManager = connector(
   actions => {
     return {
       loadProjectList: actions.project.loadProjectList,
-      projectRootChanged: actions.repository.projectRootChanged,
+      startProjectRootChanged: actions.editor.startProjectRootChanged,
       createNewProject: actions.project.createNewProject,
       cloneFromGitHub: actions.project.cloneFromGitHub,
-      deleteProject: actions.repository.deleteProject,
+      deleteProject: actions.editor.deleteProject,
       pushScene: actions.app.pushScene
     }
   },
@@ -70,7 +70,8 @@ export const ProjectManager = connector(
               <Container
                 selected={selected}
                 onClick={() => {
-                  props.projectRootChanged(p.projectRoot)
+                  const projectRoot = p.projectRoot
+                  props.startProjectRootChanged({ projectRoot })
                 }}
               >
                 <FaBox />
