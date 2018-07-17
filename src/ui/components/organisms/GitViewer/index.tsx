@@ -10,12 +10,14 @@ export const GitViewer = connector(
   state => {
     return {
       git: state.git,
+      config: state.config,
       projectRoot: state.repository.currentProjectRoot,
       touchCounter: state.repository.touchCounter
     }
   },
   actions => {
     return {
+      pushScene: actions.app.pushScene,
       addToStage: actions.editor.addToStage,
       pushCurrentBranchToOrigin: actions.editor.pushCurrentBranchToOrigin,
       checkoutNewBranch: actions.git.checkoutNewBranch,
@@ -34,7 +36,7 @@ export const GitViewer = connector(
     }
   })
 )(props => {
-  const { projectRoot, git } = props
+  const { projectRoot, git, config } = props
   if (git.type === "loading") {
     return <span>[Git] initialize...</span>
   } else {
@@ -66,6 +68,7 @@ export const GitViewer = connector(
             pauseOnHover
           />
           <BranchController
+            config={config}
             remoteBranches={remoteBranches}
             projectRoot={projectRoot}
             currentBranch={currentBranch}
@@ -102,6 +105,9 @@ export const GitViewer = connector(
                 branch: newBranchName
               })
             }}
+            onClickOpenConfig={() => {
+              props.pushScene("config")
+            }}
           />
           <History history={history} />
           <div style={{ flex: 1 }}>
@@ -109,8 +115,12 @@ export const GitViewer = connector(
               <Staging
                 staging={staging}
                 loading={stagingLoading}
+                config={config}
                 onClickReload={() => {
                   props.initializeGitStatus(props.projectRoot)
+                }}
+                onClickOpenConfig={() => {
+                  props.pushScene("config")
                 }}
                 onClickGitAdd={(relpath: string) => {
                   props.addToStage({ projectRoot, relpath })
@@ -123,21 +133,6 @@ export const GitViewer = connector(
                     projectRoot,
                     message: message || "Update"
                   })
-                }}
-                onClickGitCommitUnstaged={(message: string) => {
-                  alert("not implemented yet")
-                  // TODO
-                  // const unstagedChanges: GitFileStatus[] = staging.modified.map(
-                  //   u => {
-                  //     const x = staging.raw.find(change => change.relpath === u)
-                  //     return x
-                  //   }
-                  // ) as any
-                  // props.commitUnstagedChanges(
-                  //   projectRoot,
-                  //   unstagedChanges,
-                  //   message || "Update"
-                  // )
                 }}
               />
             )}

@@ -6,12 +6,9 @@ import {
 } from "hard-reducer"
 import { RootState } from "."
 import * as Git from "../../domain/git"
-import {
-  CommitDescription,
-  GitStagingStatus,
-  GitStatusString
-} from "../../domain/types"
+import { GitStagingStatus, GitStatusString } from "../../domain/types"
 import { projectChanged } from "../actions/globalActions"
+import { CommitDescription } from "./../../domain/types"
 
 const {
   createAction,
@@ -47,8 +44,11 @@ export const updateStaging: ActionCreator<{
 
 export const moveToBranch = createThunkAction(
   "move-to-branches",
-  async (input: { projectRoot: string; branch: string }) => {
+  async (input: { projectRoot: string; branch: string }, dispatch) => {
     await Git.checkoutBranch(input.projectRoot, input.branch)
+    dispatch(
+      updateHistory({ projectRoot: input.projectRoot, branch: input.branch })
+    )
     return { currentBranch: input.branch }
   }
 )

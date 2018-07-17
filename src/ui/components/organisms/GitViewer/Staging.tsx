@@ -1,16 +1,18 @@
 import invertBy from "lodash/invertBy"
 import React from "react"
 import { GitStagingStatus, GitStatusString } from "../../../../domain/types"
+import { ConfigState } from "../../../reducers/config"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
 
 type Props = {
   staging: GitStagingStatus
   loading: boolean
+  config: ConfigState
   onClickReload: () => void
+  onClickOpenConfig: () => void
   onClickGitAdd: (filepath: string) => void
   onClickGitRemove: (filepath: string) => void
   onClickGitCommit: (message: string) => void
-  onClickGitCommitUnstaged: (message: string) => void
 }
 
 const STAGED_KEYS: GitStatusString[] = ["modified", "deleted", "added"]
@@ -31,10 +33,10 @@ export function Staging(props: Props) {
 
   const {
     staging,
+    config,
     onClickReload,
     onClickGitAdd,
     onClickGitCommit,
-    onClickGitCommitUnstaged,
     onClickGitRemove
   } = props
 
@@ -51,20 +53,6 @@ export function Staging(props: Props) {
       <fieldset>
         <legend>Staging</legend>
         {!hasChanges && <>No changes</>}
-        {/* <pre>{JSON.stringify(inv, null, 2)}</pre> */}
-        {/* <button onClick={() => onClickReload()}>Reload</button> */}
-        {/* {!hasStaged &&
-          hasModified && (
-            <div>
-              <CommandWithInput
-                validate={value => value.length > 0}
-                description="Commit all unstaged changes"
-                onExec={value => {
-                  onClickGitCommitUnstaged(value)
-                }}
-              />
-            </div>
-          )} */}
         {hasStaged && (
           <fieldset>
             <legend>staged</legend>
@@ -75,6 +63,16 @@ export function Staging(props: Props) {
                 onClickGitCommit(value)
               }}
             />
+            {!config.committerName &&
+              !config.committerEmail && (
+                <button
+                  onClick={() => {
+                    props.onClickOpenConfig()
+                  }}
+                >
+                  Set name/email by config
+                </button>
+              )}
             {STAGED_KEYS.map(key => {
               const files = inv[key] || []
               return files.map(relpath => (

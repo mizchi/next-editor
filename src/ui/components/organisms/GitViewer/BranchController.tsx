@@ -1,6 +1,7 @@
 import React from "react"
 import FaMinusSquare from "react-icons/fa/minus-square-o"
 import FaPlusSquare from "react-icons/fa/plus-square-o"
+import { ConfigState } from "../../../reducers/config"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
 import { CommandWithSelect } from "../../atoms/CommandWithSelect"
 import { FetchManager } from "./FetchManager"
@@ -8,6 +9,7 @@ import { MergeManager } from "./MergeManager"
 
 export class BranchController extends React.Component<
   {
+    config: ConfigState
     projectRoot: string
     currentBranch: string
     branches: string[]
@@ -16,6 +18,7 @@ export class BranchController extends React.Component<
     onChangeBranch: (branchName: string) => void
     onClickCreateBranch: (branchName: string) => void
     onClickGitPush: (branchName: string) => void
+    onClickOpenConfig: () => void
   },
   { opened: boolean }
 > {
@@ -24,6 +27,7 @@ export class BranchController extends React.Component<
   }
   render() {
     const {
+      config,
       currentBranch,
       branches,
       remotes,
@@ -80,6 +84,11 @@ export class BranchController extends React.Component<
             {remotes.length > 0 && (
               <>
                 <hr />
+                {!config.githubApiToken && (
+                  <button onClick={() => this.props.onClickOpenConfig()}>
+                    Set github API Token
+                  </button>
+                )}
                 <div>
                   <FetchManager projectRoot={projectRoot} remotes={remotes} />
                 </div>
