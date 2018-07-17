@@ -3,6 +3,7 @@ import path from "path"
 import * as FS from "../../domain/filesystem"
 import { writeFile } from "../../domain/filesystem"
 import * as Git from "../../domain/git"
+import { extToFileType } from "../../lib/extToFileType"
 import * as BufferActions from "../reducers/buffer"
 import * as GitActions from "../reducers/git"
 import * as ProjectActions from "../reducers/project"
@@ -29,6 +30,7 @@ export const createFile = createThunkAction(
     dispatch
   ) => {
     await FS.writeFile(filepath, content)
+    dispatch(loadFile({ filepath }))
     dispatch(startUpdate({ changedPath: filepath }))
   }
 )
@@ -91,7 +93,6 @@ export const removeFileFromGit = createThunkAction(
   }
 )
 
-// Thunked: move later
 export const deleteProject = createThunkAction(
   "delete-project",
   async ({ dirpath }: { dirpath: string }, dispatch) => {
@@ -227,3 +228,17 @@ export async function updateFileContent(filepath: string, value: string) {
     }
   }
 }
+
+export const loadFile = createThunkAction(
+  "load-file",
+  async ({ filepath }: { filepath: string }, dispatch) => {
+    const fileContent = await FS.readFile(filepath)
+    dispatch(
+      BufferActions.setFileContent({
+        filepath,
+        filetype: extToFileType(filepath),
+        value: fileContent.toString()
+      })
+    )
+  }
+)

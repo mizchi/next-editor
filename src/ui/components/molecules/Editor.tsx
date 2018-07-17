@@ -2,7 +2,6 @@ import React from "react"
 import { connect } from "react-redux"
 import * as EditorActions from "../../actions/editorActions"
 import { RootState } from "../../reducers"
-import * as BufferActions from "../../reducers/buffer"
 import { BufferState } from "../../reducers/buffer"
 import { JavaScriptEditor } from "../atoms/JavaScriptEditor"
 import { TextEditor } from "../atoms/TextEditor"
@@ -12,7 +11,7 @@ const selector = (state: RootState) => {
 }
 
 const actions = {
-  loadFile: BufferActions.loadFile,
+  loadFile: EditorActions.loadFile,
   updateFileContent: EditorActions.updateFileContent
 }
 

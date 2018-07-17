@@ -4,11 +4,9 @@ import {
   createReducer,
   Reducer
 } from "hard-reducer"
-import { readFile } from "../../domain/filesystem"
-import { extToFileType } from "../../lib/extToFileType"
 import { projectChanged } from "./../actions/globalActions"
 
-const { createAction, createAsyncAction } = buildActionCreator({
+const { createAction } = buildActionCreator({
   prefix: "buffer/"
 })
 
@@ -19,17 +17,11 @@ export type BufferState = {
   value: string | null
 }
 
-export const loadFile = createAsyncAction(
-  "load-file",
-  async ({ filepath }: { filepath: string }) => {
-    const fileContent = await readFile(filepath)
-    return {
-      filepath,
-      filetype: extToFileType(filepath),
-      value: fileContent.toString()
-    }
-  }
-)
+export const setFileContent: ActionCreator<{
+  filepath: string
+  filetype: string
+  value: string
+}> = createAction("set-file-content")
 
 export const unloadFile: ActionCreator<{}> = createAction("unload-file")
 
@@ -48,16 +40,13 @@ export const reducer: Reducer<BufferState> = createReducer(initialState)
   .case(projectChanged, () => {
     return initialState
   })
-  .case(unloadFile, state => {
+  .case(unloadFile, () => {
     return {
-      ...state,
-      filepath: null,
-      filetype: "text",
-      loading: false,
-      value: null
+      ...initialState,
+      loading: false
     }
   })
-  .case(loadFile.resolved, (state, payload) => {
+  .case(setFileContent, (state, payload) => {
     return { ...state, ...payload, loading: false }
   })
   .case(changeValue, (state, payload) => {

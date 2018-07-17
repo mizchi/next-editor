@@ -26,7 +26,7 @@ export const File: React.ComponentType<OwnProps> = connector<OwnProps>(
   },
   actions => {
     return {
-      loadFile: actions.buffer.loadFile
+      loadFile: actions.editor.loadFile
     }
   }
 )((props: Props) => {
