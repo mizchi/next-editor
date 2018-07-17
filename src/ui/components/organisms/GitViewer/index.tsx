@@ -34,7 +34,7 @@ export const GitViewer = connector(
     componentDidMount() {
       const p: any = this.props
       if (p.git.type === "loading") {
-        p.initialize(p.projectRoot)
+        p.initializeGitStatus(p.projectRoot)
       }
     }
   })
