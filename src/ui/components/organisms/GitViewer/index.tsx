@@ -1,5 +1,5 @@
 import React from "react"
-import { toast, ToastContainer } from "react-toastify"
+import { ToastContainer } from "react-toastify"
 import { lifecycle } from "recompose"
 import { connector } from "../../../actions"
 import { BranchController } from "./BranchController"
@@ -84,25 +84,7 @@ export const GitViewer = connector(
               props.removeBranch({ projectRoot, branch })
             }}
             onClickGitPush={async branchName => {
-              try {
-                await props.pushCurrentBranchToOrigin(projectRoot, branchName)
-                toast(`Push success`, {
-                  position: "top-right",
-                  autoClose: 3000,
-                  hideProgressBar: true,
-                  pauseOnHover: true,
-                  draggable: false
-                })
-              } catch (e) {
-                toast(`Merge success`, {
-                  type: "error",
-                  position: "top-right",
-                  autoClose: 3000,
-                  hideProgressBar: true,
-                  pauseOnHover: true,
-                  draggable: false
-                })
-              }
+              await props.pushCurrentBranchToOrigin(projectRoot, branchName)
             }}
             onChangeBranch={async (branchName: string) => {
               if (staging) {

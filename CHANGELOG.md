@@ -2,11 +2,17 @@
 
 ## CURRENT
 
+- [ ] Merge with remote branches
+- [ ] Clone with countdown
+- [ ] Git: Cherry pick
+- [ ] Git: Rebase
+- [ ] Git: Ensure git clone
 - [ ] Checkout HEAD file on editor
 - [ ] UI: auto save toggling
 - [ ] UI: Inline Rename
 - [ ] UI: Reload after clone
 - [ ] UI: Drag and drop
+- [x] Regression: remove project does not work
 
 ## Icebox
 
@@ -16,9 +22,9 @@
 - [ ] Jest integration
 - [ ] Easy Commit UI for writers
 - [ ] Git: Stash
-- [ ] Git: Rebase
 - [ ] Git: Rebase with conflict manager
 - [ ] React: Component Preview
+- [ ] GitHub: Issue integration
 - [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
 
 ---

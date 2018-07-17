@@ -13,7 +13,12 @@ export async function listRemoteBranches(
   remote: string
 ): Promise<string[]> {
   try {
-    return git.listBranches({ fs, dir: projectRoot, remote })
+    const branches: string[] = await git.listBranches({
+      fs,
+      dir: projectRoot,
+      remote
+    })
+    return branches.map(b => `remotes/${remote}/${b}`)
   } catch (e) {
     // TODO: Check remote fetched once
     return []

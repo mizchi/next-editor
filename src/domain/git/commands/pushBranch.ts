@@ -15,5 +15,10 @@ export async function pushBranch(
     authUsername: token,
     authPassword: token
   })
+
+  if (ret.errors && ret.errors.length > 0) {
+    console.log(ret.errors)
+    throw new Error(ret.errors.join("|"))
+  }
   return !!ret.ok
 }

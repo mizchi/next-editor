@@ -1,5 +1,6 @@
 import { buildActionCreator } from "hard-reducer"
 import path from "path"
+import { toast } from "react-toastify"
 import * as FS from "../../domain/filesystem"
 import { writeFile } from "../../domain/filesystem"
 import * as Git from "../../domain/git"
@@ -160,9 +161,26 @@ export async function pushCurrentBranchToOrigin(
     const state = getState()
     const githubToken = state.config.githubApiToken
     if (githubToken.length > 0) {
-      await Git.pushBranch(projectRoot, "origin", branch, githubToken)
-      console.log("push succeeded")
-      dispatch(startUpdate({}))
+      try {
+        await Git.pushBranch(projectRoot, "origin", branch, githubToken)
+        toast(`Push success`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          pauseOnHover: true,
+          draggable: false
+        })
+        dispatch(startUpdate({}))
+      } catch (e) {
+        toast(`Push fail: ${e.message}`, {
+          type: "error",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          pauseOnHover: true,
+          draggable: false
+        })
+      }
     } else {
       console.error("push failed")
     }

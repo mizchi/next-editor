@@ -23,7 +23,7 @@ export const ProjectContextMenu: any = connect(
           dataFromProvider.dirpath === "/playground"
         }
         onClick={({ dataFromProvider }: any) => {
-          props.deleteProject(dataFromProvider.dirpath)
+          props.deleteProject({dirpath: dataFromProvider.dirpath})
         }}
       >
         <FaTrash />

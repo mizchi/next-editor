@@ -159,6 +159,7 @@ class MergeManager extends React.Component<
     }
   }
   render() {
+    const mergeBranches = [...this.props.branches, ...this.props.remoteBranches]
     return (
       <div>
         <div>
@@ -176,7 +177,7 @@ class MergeManager extends React.Component<
               this.setState({ mergeable: ret.fastForward && !ret.self })
             }}
           >
-            {this.props.branches.map(b => (
+            {mergeBranches.map(b => (
               <option key={b} value={b}>
                 {b}
               </option>
