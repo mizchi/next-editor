@@ -3,6 +3,7 @@ import { toast, ToastContainer } from "react-toastify"
 import { lifecycle } from "recompose"
 import { connector } from "../../../actions"
 import { BranchController } from "./BranchController"
+import { buildGroupedGitStatus } from "./helpers"
 import { History } from "./History"
 import { Staging } from "./Staging"
 
@@ -104,8 +105,22 @@ export const GitViewer = connector(
               }
             }}
             onChangeBranch={async (branchName: string) => {
-              await props.moveToBranch({ projectRoot, branch: branchName })
-              // TODO: Update
+              if (staging) {
+                const data = buildGroupedGitStatus(staging)
+                if (data.hasStaged || data.hasModified) {
+                  const checked = window.confirm(
+                    `You have staged or modified changes.Checkout really?`
+                  )
+                  if (checked) {
+                    await props.moveToBranch({
+                      projectRoot,
+                      branch: branchName
+                    })
+                  }
+                } else {
+                  await props.moveToBranch({ projectRoot, branch: branchName })
+                }
+              }
             }}
             onClickCreateBranch={async (newBranchName: string) => {
               await props.checkoutNewBranch({

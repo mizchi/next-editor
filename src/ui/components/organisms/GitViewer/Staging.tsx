@@ -1,8 +1,13 @@
-import invertBy from "lodash/invertBy"
 import React from "react"
-import { GitStagingStatus, GitStatusString } from "../../../../domain/types"
+import { GitStagingStatus } from "../../../../domain/types"
 import { ConfigState } from "../../../reducers/config"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
+import {
+  buildGroupedGitStatus,
+  MODIFIED_KEYS,
+  STAGED_KEYS,
+  UNTRAKED_KEYS
+} from "./helpers"
 
 type Props = {
   staging: GitStagingStatus
@@ -14,10 +19,6 @@ type Props = {
   onClickGitRemove: (filepath: string) => void
   onClickGitCommit: (message: string) => void
 }
-
-const STAGED_KEYS: GitStatusString[] = ["modified", "deleted", "added"]
-const MODIFIED_KEYS: GitStatusString[] = ["*modified", "*deleted", "*absent"]
-const UNTRAKED_KEYS: GitStatusString[] = ["*added"]
 
 export function Staging(props: Props) {
   if (props.loading) {
@@ -40,14 +41,15 @@ export function Staging(props: Props) {
     onClickGitRemove
   } = props
 
-  const inv: { [s in GitStatusString]: string[] | null } = invertBy(
-    staging
-  ) as any
-  const hasStaged: boolean = STAGED_KEYS.some(key => !!(inv as any)[key])
-  const hasModified: boolean = MODIFIED_KEYS.some(key => !!(inv as any)[key])
-  const hasUntracked: boolean = UNTRAKED_KEYS.some(key => !!(inv as any)[key])
-  const hasError: boolean = !!inv.__error__
-  const hasChanges = hasStaged || hasModified
+  const {
+    grouped: inv,
+    hasChanges,
+    hasModified,
+    hasUntracked,
+    hasError,
+    hasStaged
+  } = buildGroupedGitStatus(staging)
+
   return (
     <div>
       <fieldset>
