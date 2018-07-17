@@ -1,5 +1,7 @@
 # Next Editor
 
+<img src="Logotype primary.png" width="65%" height="65%" />
+
 [![CircleCI](https://circleci.com/gh/mizchi/next-editor.svg?style=svg)](https://circleci.com/gh/mizchi/next-editor)
 
 Standalone git integrated editor for chromebook
