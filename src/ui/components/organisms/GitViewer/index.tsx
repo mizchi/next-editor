@@ -24,7 +24,7 @@ export const GitViewer = connector(
       addToStage: actions.editor.addToStage,
       pushCurrentBranchToOrigin: actions.editor.pushCurrentBranchToOrigin,
       checkoutNewBranch: actions.git.checkoutNewBranch,
-      moveToBranch: actions.git.moveToBranch,
+      moveToBranch: actions.editor.moveToBranch,
       commitStagedChanges: actions.git.commitStagedChanges,
       removeFileFromGit: actions.editor.removeFileFromGit,
       initializeGitStatus: actions.editor.initializeGitStatus

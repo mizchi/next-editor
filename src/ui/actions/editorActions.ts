@@ -242,3 +242,34 @@ export const loadFile = createThunkAction(
     )
   }
 )
+
+export const moveToBranch = createThunkAction(
+  "move-to-branches",
+  async (
+    input: { projectRoot: string; branch: string },
+    dispatch,
+    getState: () => RootState
+  ) => {
+    await Git.checkoutBranch(input.projectRoot, input.branch)
+
+    const state = getState()
+    dispatch(
+      GitActions.updateBranchStatus({
+        currentBranch: input.branch,
+        branches: state.git.branches
+      })
+    )
+    dispatch(
+      GitActions.updateHistory({
+        projectRoot: input.projectRoot,
+        branch: input.branch
+      })
+    )
+
+    if (state.buffer.filepath) {
+      // TODO: fix update value
+      dispatch(BufferActions.unloadFile({}))
+      dispatch(loadFile({ filepath: state.buffer.filepath }))
+    }
+  }
+)

@@ -44,17 +44,10 @@ export const updateStaging: ActionCreator<{
   staging: GitStagingStatus
 }> = createAction("update-staging")
 
-export const moveToBranch = createThunkAction(
-  "move-to-branches",
-  async (input: { projectRoot: string; branch: string }, dispatch) => {
-    // TODO: refactor
-    await Git.checkoutBranch(input.projectRoot, input.branch)
-    dispatch(
-      updateHistory({ projectRoot: input.projectRoot, branch: input.branch })
-    )
-    return { currentBranch: input.branch }
-  }
-)
+export const updateBranchStatus: ActionCreator<{
+  currentBranch: string
+  branches: string[]
+}> = createAction("update-branch-status")
 
 export const mergeBranches = createThunkAction(
   "merge-branches",
@@ -235,15 +228,10 @@ export const reducer: Reducer<GitState> = createReducer(initialState)
       currentBranch: payload.currentBranch
     }
   })
-  .case(removeBranch.resolved, (state, payload) => {
+  .case(updateBranchStatus, (state, payload) => {
     return {
       ...state,
+      currentBranch: payload.currentBranch,
       branches: payload.branches
-    }
-  })
-  .case(moveToBranch.resolved, (state, payload) => {
-    return {
-      ...state,
-      currentBranch: payload.currentBranch
     }
   })
