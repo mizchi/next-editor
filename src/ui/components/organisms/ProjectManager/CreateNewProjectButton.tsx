@@ -44,6 +44,7 @@ export class CreateNewProjectButton extends React.Component<
           <p>Create directory to local file system.</p>
           <div>
             <input
+              spellCheck={false}
               style={{ width: "100%" }}
               value={this.state.newProjectPath}
               onChange={event => {

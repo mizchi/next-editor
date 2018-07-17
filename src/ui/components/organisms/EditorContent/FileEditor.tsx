@@ -33,6 +33,8 @@ export function FileEditor(props: Props) {
       </FlexItem>
     </Column>
   ) : (
-    <Help />
+    <>
+      <Help />
+    </>
   )
 }

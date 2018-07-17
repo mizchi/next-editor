@@ -52,6 +52,10 @@ module.exports = {
       {
         test: /\.css$/,
         use: [{ loader: "style-loader/url" }, { loader: "file-loader" }]
+      },
+      {
+        test: /\.md$/,
+        use: ["babel-loader", "@mdx-js/loader"]
       }
     ]
   },

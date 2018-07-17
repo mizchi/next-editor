@@ -2,10 +2,14 @@ import React from "react"
 import FaClone from "react-icons/fa/clone"
 import FaCog from "react-icons/fa/cog"
 import FaPlus from "react-icons/fa/plus"
+import ChangeLog from "../../../../CHANGELOG.md"
 import pkg from "../../../../package.json"
 
 export const Help = () => (
-  <div className="markdown-body" style={{ padding: "10px" }}>
+  <div
+    className="markdown-body"
+    style={{ padding: "10px", overflowY: "auto", height: "100%" }}
+  >
     <h1>Next Editor v{pkg.version}</h1>
     <h2>What's this?</h2>
     <ul>
@@ -37,5 +41,7 @@ export const Help = () => (
       </a>{" "}
       or <a href={"https://twitter.com/mizchi"}>@mizchi</a>
     </p>
+    <hr />
+    <ChangeLog />
   </div>
 )

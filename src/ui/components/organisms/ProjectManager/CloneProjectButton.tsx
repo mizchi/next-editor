@@ -41,6 +41,7 @@ export class CloneProjectButton extends React.Component<
             <input
               style={{ width: "100%" }}
               placeholder="username/repo"
+              spellCheck={false}
               value={this.state.value}
               onChange={event => this.setState({ value: event.target.value })}
             />

@@ -131,6 +131,7 @@ export const FlexItem: React.ComponentType<{
   order?: number
   width?: string
   height?: string
+  style?: any
 }> = styled.div`
   flex-grow: ${p => p.grow || 0};
   flex-shrink: ${p => p.shrink || 0};
