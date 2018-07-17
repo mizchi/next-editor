@@ -21,6 +21,7 @@ const allActions = {
   editor,
   global
 }
+
 export type AllAction = typeof allActions
 
 export default allActions

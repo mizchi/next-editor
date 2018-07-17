@@ -4,12 +4,9 @@ import {
   createReducer,
   Reducer
 } from "hard-reducer"
-import path from "path"
-import { RootState } from "."
-import { readFile, writeFile } from "../../domain/filesystem"
+import { readFile } from "../../domain/filesystem"
 import { extToFileType } from "../../lib/extToFileType"
 import { projectChanged } from "./../actions/globalActions"
-import * as Git from "./git"
 
 const { createAction, createAsyncAction } = buildActionCreator({
   prefix: "buffer/"
@@ -36,33 +33,9 @@ export const loadFile = createAsyncAction(
 
 export const unloadFile: ActionCreator<{}> = createAction("unload-file")
 
-export async function fileChanged({ relpath }: { relpath: string }) {
-  return async (dispatch: any, getState: () => RootState) => {
-    const state = getState()
-    dispatch(
-      Git.startStagingUpdate(state.repository.currentProjectRoot, [relpath])
-    )
-  }
-}
-
 export const changeValue: ActionCreator<{
   value: string
 }> = createAction("change-value")
-
-export async function updateValue(filepath: string, value: string) {
-  return async (dispatch: (a: any) => void, getState: () => RootState) => {
-    dispatch(changeValue({ value }))
-    await writeFile(filepath, value)
-
-    // update git status
-    const state = getState()
-    const projectRoot = state.repository.currentProjectRoot
-    const relpath = path.relative(projectRoot, filepath)
-    if (!relpath.startsWith("..")) {
-      dispatch(fileChanged({ relpath }) as any)
-    }
-  }
-}
 
 const initialState: BufferState = {
   filepath: null,

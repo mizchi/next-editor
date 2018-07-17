@@ -1,5 +1,4 @@
 import { combineReducers } from "redux"
-import allActions from "../actions"
 import * as app from "./app"
 import * as buffer from "./buffer"
 import * as config from "./config"
@@ -15,8 +14,6 @@ export type RootState = {
   git: git.GitState
   config: config.ConfigState
 }
-
-export type AllAction = typeof allActions
 
 export const rootReducer: (
   state: RootState,

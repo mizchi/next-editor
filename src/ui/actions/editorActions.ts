@@ -1,7 +1,9 @@
 import { buildActionCreator } from "hard-reducer"
 import path from "path"
 import * as FS from "../../domain/filesystem"
+import { writeFile } from "../../domain/filesystem"
 import * as Git from "../../domain/git"
+import * as BufferActions from "../reducers/buffer"
 import * as GitActions from "../reducers/git"
 import * as ProjectActions from "../reducers/project"
 import * as RepositoryActions from "../reducers/repository"
@@ -203,6 +205,25 @@ export async function initializeGitStatus(projectRoot: string) {
     const lastState = getState()
     if (lastState.repository.currentProjectRoot === projectRoot) {
       dispatch(GitActions.endStagingLoading({ staging }))
+    }
+  }
+}
+
+export async function updateFileContent(filepath: string, value: string) {
+  return async (dispatch: (a: any) => void, getState: () => RootState) => {
+    dispatch(BufferActions.changeValue({ value }))
+    await writeFile(filepath, value)
+
+    // update git status
+    const state = getState()
+    const projectRoot = state.repository.currentProjectRoot
+    const relpath = path.relative(projectRoot, filepath)
+    if (!relpath.startsWith("..")) {
+      dispatch(
+        GitActions.startStagingUpdate(state.repository.currentProjectRoot, [
+          relpath
+        ])
+      )
     }
   }
 }
