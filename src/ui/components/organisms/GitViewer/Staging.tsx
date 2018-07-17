@@ -1,21 +1,24 @@
-import invertBy from "lodash/invertBy"
 import React from "react"
-import { GitStagingStatus, GitStatusString } from "../../../../domain/types"
+import { GitStagingStatus } from "../../../../domain/types"
+import { ConfigState } from "../../../reducers/config"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
+import {
+  buildGroupedGitStatus,
+  MODIFIED_KEYS,
+  STAGED_KEYS,
+  UNTRAKED_KEYS
+} from "./helpers"
 
 type Props = {
   staging: GitStagingStatus
   loading: boolean
+  config: ConfigState
   onClickReload: () => void
+  onClickOpenConfig: () => void
   onClickGitAdd: (filepath: string) => void
   onClickGitRemove: (filepath: string) => void
   onClickGitCommit: (message: string) => void
-  onClickGitCommitUnstaged: (message: string) => void
 }
-
-const STAGED_KEYS: GitStatusString[] = ["modified", "deleted", "added"]
-const MODIFIED_KEYS: GitStatusString[] = ["*modified", "*deleted", "*absent"]
-const UNTRAKED_KEYS: GitStatusString[] = ["*added"]
 
 export function Staging(props: Props) {
   if (props.loading) {
@@ -31,40 +34,27 @@ export function Staging(props: Props) {
 
   const {
     staging,
+    config,
     onClickReload,
     onClickGitAdd,
     onClickGitCommit,
-    onClickGitCommitUnstaged,
     onClickGitRemove
   } = props
 
-  const inv: { [s in GitStatusString]: string[] | null } = invertBy(
-    staging
-  ) as any
-  const hasStaged: boolean = STAGED_KEYS.some(key => !!(inv as any)[key])
-  const hasModified: boolean = MODIFIED_KEYS.some(key => !!(inv as any)[key])
-  const hasUntracked: boolean = UNTRAKED_KEYS.some(key => !!(inv as any)[key])
-  const hasError: boolean = !!inv.__error__
-  const hasChanges = hasStaged || hasModified
+  const {
+    grouped: inv,
+    hasChanges,
+    hasModified,
+    hasUntracked,
+    hasError,
+    hasStaged
+  } = buildGroupedGitStatus(staging)
+
   return (
     <div>
       <fieldset>
         <legend>Staging</legend>
         {!hasChanges && <>No changes</>}
-        {/* <pre>{JSON.stringify(inv, null, 2)}</pre> */}
-        {/* <button onClick={() => onClickReload()}>Reload</button> */}
-        {/* {!hasStaged &&
-          hasModified && (
-            <div>
-              <CommandWithInput
-                validate={value => value.length > 0}
-                description="Commit all unstaged changes"
-                onExec={value => {
-                  onClickGitCommitUnstaged(value)
-                }}
-              />
-            </div>
-          )} */}
         {hasStaged && (
           <fieldset>
             <legend>staged</legend>
@@ -75,6 +65,16 @@ export function Staging(props: Props) {
                 onClickGitCommit(value)
               }}
             />
+            {!config.committerName &&
+              !config.committerEmail && (
+                <button
+                  onClick={() => {
+                    props.onClickOpenConfig()
+                  }}
+                >
+                  Set name/email by config
+                </button>
+              )}
             {STAGED_KEYS.map(key => {
               const files = inv[key] || []
               return files.map(relpath => (

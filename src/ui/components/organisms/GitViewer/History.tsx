@@ -6,6 +6,7 @@ import { CommitDescription } from "../../../../domain/types"
 
 export class History extends React.Component<
   {
+    branch: string
     history: CommitDescription[]
   },
   { opened: boolean }
@@ -14,7 +15,7 @@ export class History extends React.Component<
     opened: true
   }
   render() {
-    const { history } = this.props
+    const { history, branch } = this.props
     return (
       <div>
         <fieldset>
@@ -23,7 +24,7 @@ export class History extends React.Component<
             onClick={() => this.setState({ opened: !this.state.opened })}
           >
             {this.state.opened ? <FaMinusSquare /> : <FaPlusSquare />}
-            History
+            History[{branch}]
           </legend>
           {this.state.opened && (
             <>

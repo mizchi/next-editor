@@ -2,19 +2,16 @@
 
 ## CURRENT
 
-- [ ] TypeScript 3.0
-- [ ] Unload editor on change repository
-- [ ] Prompt to set committer name
-- [ ] Alert dangerous operation: like checkout
-- [ ] TypeScript on monaco
+- [ ] Checkout HEAD file on editor
+- [ ] UI: auto save toggling
 - [ ] UI: Inline Rename
 - [ ] UI: Reload after clone
 - [ ] UI: Drag and drop
-- [ ] UI: Toggle auto save
-- [ ] UI: Fix initial loading about git status
 
 ## Icebox
 
+- [ ] Guidance for github api token on config
+- [ ] TypeScript on monaco
 - [ ] Pluggable Editor by webcomponents
 - [ ] Jest integration
 - [ ] Easy Commit UI for writers
@@ -25,6 +22,20 @@
 - [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
 
 ---
+
+## 0.0.4
+
+- [x] Alert dangerous operation: like checkout
+- [x] Reload file content on checkout
+- [x] Git: delete branch
+- [x] Merge with fast-forward check
+- [x] Reload history on change branch
+- [x] UI: Fix initial loading about git status
+- [x] Prompt to set committer name/email
+- [x] Prompt to set github api token
+- [x] TypeScript 3.0
+- [x] Unload editor on change repository
+- [x] Refactor actions
 
 ## 0.0.3
 

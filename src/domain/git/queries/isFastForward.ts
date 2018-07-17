@@ -12,6 +12,7 @@ export async function isFastForward(
     }
   | {
       fastForward: true
+      self: boolean
       commits: CommitDescription[]
     }
 > {
@@ -23,6 +24,7 @@ export async function isFastForward(
     const index = logB.findIndex(i => i.oid === oid)
     return {
       fastForward: true,
+      self: logA[0].oid === logB[0].oid,
       commits: logB.slice(index)
     }
   } else {

@@ -3,6 +3,7 @@ import { toast, ToastContainer } from "react-toastify"
 import { lifecycle } from "recompose"
 import { connector } from "../../../actions"
 import { BranchController } from "./BranchController"
+import { buildGroupedGitStatus } from "./helpers"
 import { History } from "./History"
 import { Staging } from "./Staging"
 
@@ -10,16 +11,20 @@ export const GitViewer = connector(
   state => {
     return {
       git: state.git,
+      config: state.config,
       projectRoot: state.repository.currentProjectRoot,
       touchCounter: state.repository.touchCounter
     }
   },
   actions => {
     return {
+      removeBranch: actions.git.removeBranch,
+      mergeBranches: actions.git.mergeBranches,
+      pushScene: actions.app.pushScene,
       addToStage: actions.editor.addToStage,
       pushCurrentBranchToOrigin: actions.editor.pushCurrentBranchToOrigin,
       checkoutNewBranch: actions.git.checkoutNewBranch,
-      moveToBranch: actions.git.moveToBranch,
+      moveToBranch: actions.editor.moveToBranch,
       commitStagedChanges: actions.git.commitStagedChanges,
       removeFileFromGit: actions.editor.removeFileFromGit,
       initializeGitStatus: actions.editor.initializeGitStatus
@@ -34,7 +39,7 @@ export const GitViewer = connector(
     }
   })
 )(props => {
-  const { projectRoot, git } = props
+  const { projectRoot, git, config } = props
   if (git.type === "loading") {
     return <span>[Git] initialize...</span>
   } else {
@@ -66,11 +71,18 @@ export const GitViewer = connector(
             pauseOnHover
           />
           <BranchController
+            config={config}
             remoteBranches={remoteBranches}
             projectRoot={projectRoot}
             currentBranch={currentBranch}
             branches={branches}
             remotes={remotes}
+            onClickMerge={async (ref1, ref2) => {
+              props.mergeBranches({ projectRoot, ref1, ref2 })
+            }}
+            onClickRemoveBranch={async branch => {
+              props.removeBranch({ projectRoot, branch })
+            }}
             onClickGitPush={async branchName => {
               try {
                 await props.pushCurrentBranchToOrigin(projectRoot, branchName)
@@ -93,8 +105,22 @@ export const GitViewer = connector(
               }
             }}
             onChangeBranch={async (branchName: string) => {
-              await props.moveToBranch({ projectRoot, branch: branchName })
-              // TODO: Update
+              if (staging) {
+                const data = buildGroupedGitStatus(staging)
+                if (data.hasStaged || data.hasModified) {
+                  const checked = window.confirm(
+                    `You have staged or modified changes.Checkout really?`
+                  )
+                  if (checked) {
+                    await props.moveToBranch({
+                      projectRoot,
+                      branch: branchName
+                    })
+                  }
+                } else {
+                  await props.moveToBranch({ projectRoot, branch: branchName })
+                }
+              }
             }}
             onClickCreateBranch={async (newBranchName: string) => {
               await props.checkoutNewBranch({
@@ -102,15 +128,22 @@ export const GitViewer = connector(
                 branch: newBranchName
               })
             }}
+            onClickOpenConfig={() => {
+              props.pushScene("config")
+            }}
           />
-          <History history={history} />
+          <History branch={currentBranch} history={history} />
           <div style={{ flex: 1 }}>
             {staging && (
               <Staging
                 staging={staging}
                 loading={stagingLoading}
+                config={config}
                 onClickReload={() => {
                   props.initializeGitStatus(props.projectRoot)
+                }}
+                onClickOpenConfig={() => {
+                  props.pushScene("config")
                 }}
                 onClickGitAdd={(relpath: string) => {
                   props.addToStage({ projectRoot, relpath })
@@ -123,21 +156,6 @@ export const GitViewer = connector(
                     projectRoot,
                     message: message || "Update"
                   })
-                }}
-                onClickGitCommitUnstaged={(message: string) => {
-                  alert("not implemented yet")
-                  // TODO
-                  // const unstagedChanges: GitFileStatus[] = staging.modified.map(
-                  //   u => {
-                  //     const x = staging.raw.find(change => change.relpath === u)
-                  //     return x
-                  //   }
-                  // ) as any
-                  // props.commitUnstagedChanges(
-                  //   projectRoot,
-                  //   unstagedChanges,
-                  //   message || "Update"
-                  // )
                 }}
               />
             )}
