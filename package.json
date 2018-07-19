@@ -109,7 +109,7 @@
     "redux-persist": "5.10.0",
     "redux-promise": "0.6.0",
     "redux-thunk": "2.3.0",
-    "rehype-react": "3.0.2",
+    "rehype-react": "3.0.3",
     "remark": "9.0.0",
     "remark-parse": "5.0.0",
     "remark-react": "4.0.3",
