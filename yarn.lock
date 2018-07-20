@@ -5688,9 +5688,9 @@ isomorphic-fetch@^2.1.1:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
 
-isomorphic-git@0.22.3:
-  version "0.22.3"
-  resolved "https://registry.yarnpkg.com/isomorphic-git/-/isomorphic-git-0.22.3.tgz#511b3eee0e43b996f566ed21ec280ac737c55a67"
+isomorphic-git@0.23.0:
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/isomorphic-git/-/isomorphic-git-0.23.0.tgz#f693d4e9511c59333acceab793284fb5108044e0"
   dependencies:
     async-lock "^1.1.0"
     babel-runtime "^6.26.0"
