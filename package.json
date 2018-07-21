@@ -17,7 +17,7 @@
   "devDependencies": {
     "@babel/core": "7.0.0-beta.54",
     "@babel/plugin-proposal-class-properties": "7.0.0-beta.54",
-    "@babel/plugin-proposal-object-rest-spread": "7.0.0-beta.54",
+    "@babel/plugin-syntax-object-rest-spread": "^7.0.0-beta.54",
     "@babel/preset-env": "^7.0.0-beta.54",
     "@babel/preset-react": "^7.0.0-beta.54",
     "@babel/standalone": "7.0.0-beta.54",
@@ -63,7 +63,7 @@
     "ts-loader": "4.4.2",
     "tslint": "5.11.0",
     "tslint-config-prettier": "1.14.0",
-    "typescript": "3.1.0-dev.20180717",
+    "typescript": "^2.9.2",
     "uglify-es": "3.3.9",
     "uglifyjs-webpack-plugin": "1.2.7",
     "webpack": "4.16.1",

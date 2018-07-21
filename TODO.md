@@ -2,6 +2,7 @@
 
 ## CURRENT
 
+- [ ] Dev: redux-dev-tools
 - [ ] Clone with countdown
 - [ ] Git: Cherry pick
 - [ ] Git: Rebase
@@ -11,6 +12,9 @@
 - [ ] UI: Inline Rename
 - [ ] UI: Drag and drop
 - [ ] UI: Update git status at directory remove
+- [x] Dev: docz
+- [x] Dev: babel7
+- [x] Dev: deploy with netlify
 - [x] UI: Reload after clone
 - [x] UI: Show changelog in app
 - [x] Merge with remote branches

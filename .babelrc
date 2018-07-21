@@ -1,4 +1,10 @@
 {
-  "presets": ["@babel/preset-react", ["@babel/preset-env", {"targets": {"chorme": 67} }]],
-  "plugins": ["@babel/plugin-proposal-class-properties", "@babel/plugin-proposal-object-rest-spread"]
+  "presets": [
+    "@babel/preset-react",
+    ["@babel/preset-env", {"targets": {"chorme": 67} }]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-syntax-object-rest-spread"
+  ]
 }
