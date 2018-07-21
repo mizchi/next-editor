@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "watch": "webpack-serve --no-reload",
-    "build": "rimraf public && NODE_ENV=production webpack",
-    "deploy": "yarn build && netlify deploy -p public",
+    "build:prod": "rimraf public && NODE_ENV=production webpack",
+    "deploy": "yarn build:prod && netlify deploy -p public",
     "lint": "tslint src/**.ts src/**.tsx",
     "test": "run-s test:*",
     "test:jest": "jest",
