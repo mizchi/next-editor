@@ -6,7 +6,7 @@
   "scripts": {
     "watch": "webpack-serve --no-reload",
     "build": "rimraf public && NODE_ENV=production webpack",
-    "deploy": "NODE_ENV=production yarn build && netlify deploy -p public",
+    "deploy": "yarn build && netlify deploy -p public",
     "lint": "tslint src/**.ts src/**.tsx",
     "test": "run-s test:*",
     "test:jest": "jest",
