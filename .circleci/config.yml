@@ -18,14 +18,13 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       # run tests!
       - run: yarn test
-  deploy:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/node:10.5
-    steps:
-      - checkout
-      - run: - yarn netlify -d public --site-id ${DEV_SITE_ID} --access-token ${NETLIFY_TOKEN}
-
+    deploy:
+      working_directory: ~/repo
+      docker:
+        - image: circleci/node:10.5
+      steps:
+        - checkout
+        - run: - yarn netlify -d public --site-id ${DEV_SITE_ID} --access-token ${NETLIFY_TOKEN}
 workflows:
   version: 2
   build-and-deploy:
