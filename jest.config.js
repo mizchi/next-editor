@@ -7,8 +7,16 @@ module.exports = {
       useBabelrc: false
     }
   },
-  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(js|tsx?)$",
+  moduleNameMapper: {
+    "react-icons(.*)": "<rootDir>/__tests__/mocks/dummyComponent.js",
+    "(.*).md": "<rootDir>/__tests__/mocks/dummyComponent.js",
+    "(.*).css": "<rootDir>/__tests__/mocks/dummyObject.js"
+  },
+  testMatch: [
+    "**/__tests__/**.test.ts",
+    "**/__tests__/**.test.tsx",
+    "**/__tests__/**.test.js"
+  ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  transformIgnorePatterns: ["/node_modules/(?!react-icons)"],
   collectCoverageFrom: ["src/**.ts", "src/**.tsx"]
 }

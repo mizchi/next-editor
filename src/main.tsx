@@ -1,4 +1,4 @@
-/// <reference> ./decls.d.ts
+/// <reference> ../decls.d.ts
 import fs from "fs"
 import * as git from "isomorphic-git"
 import "normalize.css/normalize.css"
