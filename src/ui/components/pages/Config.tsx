@@ -36,7 +36,7 @@ export const Config = connector(
         <GridArea name="content">
           <ConfigContent
             config={props.config}
-            onClickBack={() => props.popScene()}
+            onClickBack={() => props.popScene({})}
             onChangeConfigValue={(key, value) => {
               props.setConfigValue({key, value})
             }}

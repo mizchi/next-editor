@@ -111,7 +111,7 @@ export const GitViewer = connector(
               })
             }}
             onClickOpenConfig={() => {
-              props.pushScene("config")
+              props.pushScene({ nextScene: "config" })
             }}
           />
           <History branch={currentBranch} history={history} />
@@ -125,7 +125,7 @@ export const GitViewer = connector(
                   props.initializeGitStatus(props.projectRoot)
                 }}
                 onClickOpenConfig={() => {
-                  props.pushScene("config")
+                  props.pushScene({ nextScene: "config" })
                 }}
                 onClickGitAdd={(relpath: string) => {
                   props.addToStage({ projectRoot, relpath })

@@ -1,90 +1,72 @@
-const PUSH_SCENE = "app/push-scene"
-const POP_SCENE = "app/pop-scene"
-const REPLACE_SCENE = "app/replace-scene"
-const SET_LAYOUT_MODE = "app/set-layout-mode"
+import {
+  ActionCreator,
+  buildActionCreator,
+  createReducer,
+  Reducer
+} from "hard-reducer"
 
-type LayoutMode = "main" | "support"
+const { createAction } = buildActionCreator({
+  prefix: "app/"
+})
 
-type SetLayoutMode = {
-  type: typeof SET_LAYOUT_MODE
-  payload: LayoutMode[]
-}
+type AreaName = "main" | "support"
 
-type PushScene = {
-  type: typeof PUSH_SCENE
-  payload: string
-}
+export const setLayoutMode: ActionCreator<{
+  areas: AreaName[][]
+}> = createAction("set-layout-mode")
 
-type PopScene = {
-  type: typeof POP_SCENE
-}
+export const pushScene: ActionCreator<{
+  nextScene: string
+}> = createAction("push-scene")
 
-type ReplaceScene = {
-  type: typeof REPLACE_SCENE
-  payload: string
-}
+export const replaceScene: ActionCreator<{
+  nextScene: string
+}> = createAction("replace-scene")
 
-type Action = PushScene | PopScene | ReplaceScene | SetLayoutMode
+export const popScene: ActionCreator<{}> = createAction("pop-scene")
 
-export function setLayoutMode(layouts: LayoutMode[]): SetLayoutMode {
-  return {
-    type: SET_LAYOUT_MODE,
-    payload: layouts
-  }
-}
-
-export function pushScene(nextScene: string): PushScene {
-  return {
-    type: PUSH_SCENE,
-    payload: nextScene
-  }
-}
-
-export function replaceScene(nextScene: string): ReplaceScene {
-  return {
-    type: REPLACE_SCENE,
-    payload: nextScene
-  }
-}
-
-export function popScene(): PopScene {
-  return {
-    type: POP_SCENE
-  }
+export type Layout = {
+  areas: AreaName[][]
+  columns: string[]
+  rows: string[]
 }
 
 export type AppState = {
   sceneStack: string[]
-  layouts: LayoutMode[]
+  mainLayout: Layout
 }
 
 const initialState: AppState = {
   sceneStack: ["main"],
-  layouts: ["main", "support"]
-}
-
-export function reducer(state: AppState = initialState, action: Action) {
-  switch (action.type) {
-    case SET_LAYOUT_MODE: {
-      return {
-        ...state,
-        layouts: action.payload
-      }
-    }
-    case PUSH_SCENE: {
-      return { ...state, sceneStack: state.sceneStack.concat([action.payload]) }
-    }
-    case REPLACE_SCENE: {
-      const length = state.sceneStack.length
-      const popped = state.sceneStack.slice(0, length - 1)
-      return { ...state, sceneStack: popped.concat([action.payload]) }
-    }
-    case POP_SCENE: {
-      const length = state.sceneStack.length
-      return { ...state, sceneStack: state.sceneStack.slice(0, length - 1) }
-    }
-    default: {
-      return state
-    }
+  mainLayout: {
+    columns: ["1fr", "1fr"],
+    rows: ["1fr"],
+    areas: [["main", "support"]]
   }
 }
+
+export const reducer: Reducer<AppState> = createReducer(initialState)
+  .case(setLayoutMode, (state, payload) => {
+    return {
+      ...state,
+      mainLayout: {
+        ...state.mainLayout,
+        areas: payload.areas
+      }
+    }
+  })
+  .case(pushScene, (state, payload) => {
+    return {
+      ...state,
+      sceneStack: state.sceneStack.concat([payload.nextScene])
+    }
+  })
+  .case(replaceScene, (state, payload) => {
+    const length = state.sceneStack.length
+    const popped = state.sceneStack.slice(0, length - 1)
+    return { ...state, sceneStack: popped.concat([payload.nextScene]) }
+  })
+  .case(popScene, state => {
+    const length = state.sceneStack.length
+    return { ...state, sceneStack: state.sceneStack.slice(0, length - 1) }
+  })

@@ -7,7 +7,7 @@ import { connector } from "../../../actions"
 
 export const GlobalHeader = connector(
   state => ({
-    layouts: state.app.layouts,
+    mainLayout: state.app.mainLayout,
     currentScene: state.app.sceneStack[state.app.sceneStack.length - 1]
   }),
   actions => {
@@ -17,27 +17,28 @@ export const GlobalHeader = connector(
     }
   }
 )(props => {
+  const currentColumnConut = props.mainLayout.areas[0].length
   return (
     <Header>
       <Title>Next Editor</Title>
       <Menus>
         <button
           onClick={() => {
-            if (props.layouts.length === 2) {
-              props.setLayoutMode(["main"])
+            if (currentColumnConut === 2) {
+              props.setLayoutMode({ areas: [["main"]] })
             } else {
-              props.setLayoutMode(["main", "support"])
+              props.setLayoutMode({ areas: [["main", "support"]] })
             }
           }}
         >
-          {props.layouts.length === 2 ? <FaToggleOn /> : <FaToggleOff />}
+          {currentColumnConut === 2 ? <FaToggleOn /> : <FaToggleOff />}
         </button>
       </Menus>
       <ConfigMenu>
         {props.currentScene !== "config" && (
           <button
             onClick={() => {
-              props.pushScene("config")
+              props.pushScene({ nextScene: "config" })
             }}
           >
             <FaCog />

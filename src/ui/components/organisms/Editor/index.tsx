@@ -1,5 +1,6 @@
 import React from "react"
 import { connector } from "../../../actions"
+import { Help } from "../../atoms/Help"
 import { TextEditor } from "../../atoms/TextEditor"
 
 export const Editor = connector(
@@ -37,6 +38,6 @@ export const Editor = connector(
       />
     )
   } else {
-    return <span>...</span>
+    return <Help />
   }
 })

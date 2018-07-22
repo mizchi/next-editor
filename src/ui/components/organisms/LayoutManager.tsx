@@ -1,14 +1,14 @@
 import React from "react"
 import { lifecycle } from "recompose"
 import { connector } from "../../actions"
-import { GridArea, GridColumn } from "../utils/Grid"
+import { Grid, GridArea } from "../utils/Grid"
 import { Editor } from "./Editor"
 import { UserSupport } from "./UserSupport"
 
 export const LayoutManager = connector(
   state => {
     return {
-      layouts: state.app.layouts
+      mainLayout: state.app.mainLayout
     }
   },
   actions => {
@@ -17,32 +17,33 @@ export const LayoutManager = connector(
     }
   }
 )(props => {
-  const { layouts, setLayoutMode } = props
+  const { mainLayout, setLayoutMode } = props
   return (
     <>
       <Keydown
         keydown={(e: KeyboardEvent) => {
           // 1
           if (e.ctrlKey && e.keyCode === 49) {
-            setLayoutMode(["main"])
+            setLayoutMode({ areas: [["main"]] })
           }
           // 2
           if (e.ctrlKey && e.keyCode === 50) {
-            setLayoutMode(["main", "support"])
+            setLayoutMode({ areas: [["main", "support"]] })
           }
         }}
       />
-      <GridColumn
-        columns={["1fr", "1fr"]}
-        areas={["left", layouts.length === 2 ? "right" : "left"]}
+      <Grid
+        rows={mainLayout.rows}
+        columns={mainLayout.columns}
+        areas={mainLayout.areas}
       >
-        <GridArea name="left">
+        <GridArea name="main">
           <Editor />
         </GridArea>
-        <GridArea name="right">
+        <GridArea name="support">
           <UserSupport />
         </GridArea>
-      </GridColumn>
+      </Grid>
     </>
   )
 })

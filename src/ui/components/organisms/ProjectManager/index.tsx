@@ -23,8 +23,7 @@ export const ProjectManager = connector(
       startProjectRootChanged: actions.editor.startProjectRootChanged,
       createNewProject: actions.project.createNewProject,
       cloneFromGitHub: actions.project.cloneFromGitHub,
-      deleteProject: actions.editor.deleteProject,
-      pushScene: actions.app.pushScene
+      deleteProject: actions.editor.deleteProject
     }
   },
   lifecycle({
