@@ -4,6 +4,8 @@
 
 [![CircleCI](https://circleci.com/gh/mizchi/next-editor.svg?style=svg)](https://circleci.com/gh/mizchi/next-editor)
 
+[![Coverage Status](https://coveralls.io/repos/github/mizchi/next-editor/badge.svg?branch=release)](https://coveralls.io/github/mizchi/next-editor?branch=release)
+
 Standalone git integrated editor for chromebook
 
 See [next-editor.app](https://next-editor.app)
