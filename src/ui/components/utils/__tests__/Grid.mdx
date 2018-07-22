@@ -1,0 +1,95 @@
+---
+name: Layout/Grid
+---
+
+import { Grid, GridRow, GridColumn, GridArea } from '../Grid'
+import { Pane, Content } from '../Pane'
+import { Playground } from 'docz'
+
+# Grid
+
+<Playground style={{ height: 300 }}>
+  <Grid
+    columns={["1fr", "1fr"]}
+    rows={["1fr", "1fr"]}
+    areas={[["l-t", "r-t"], ["l-b", "r-b"]]}
+  >
+    <GridArea name="l-t">Left Top</GridArea>
+    <GridArea name="r-t">Right Top</GridArea>
+    <GridArea name="l-b">Left Bottom</GridArea>
+    <GridArea name="r-b">Right Bottom</GridArea>
+  </Grid>
+</Playground>
+
+# GridRow
+
+<Playground style={{ height: 300 }}>
+  <GridRow
+    rows={["1fr", "30px"]}
+    areas={["a", "b"]}
+  >
+    <GridArea name="a">
+      <Pane background="red">a</Pane>
+    </GridArea>
+    <GridArea name="b">
+      <Pane background="blue">b</Pane>
+    </GridArea>
+  </GridRow>
+</Playground>
+
+# GridColumn
+
+<Playground style={{ height: 300 }}>
+  <GridColumn
+    columns={["1fr", "60px"]}
+    areas={["a", "b"]}
+  >
+    <GridArea name="a">Left</GridArea>
+    <GridArea name="b">Right</GridArea>
+  </GridColumn>
+</Playground>
+
+# Pane in Grid
+
+<Playground style={{ height: 300 }}>
+  <Grid
+    columns={["1fr", "1fr"]}
+    rows={["1fr", "1fr"]}
+    areas={[["l-t", "r-t"], ["l-b", "r-b"]]}
+  >
+    <GridArea name="l-t">
+      <Pane>
+        <Content>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+          <p>sc</p>
+        </Content>
+      </Pane>
+    </GridArea>
+    <GridArea name="r-t" overflowX="hidden">
+      <div style={{width: 2000}}>
+        overflowwwwwwwwwwwwwwwwwwwwwwww---------------------------------------------
+      </div>
+    </GridArea>
+    <GridArea name="l-b">Left Bottom</GridArea>
+    <GridArea name="r-b">Right Bottom</GridArea>
+  </Grid>
+</Playground>

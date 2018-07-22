@@ -1,7 +1,7 @@
 import React from "react"
 import { Help } from "../../atoms/Help"
 import { Editor } from "../../molecules/Editor"
-import { Column, Fixed, FlexItem, Row } from "../../utils/LayoutUtils"
+import { GridArea, GridRow } from "../../utils/Grid"
 
 type Props = {
   filepath: string
@@ -11,27 +11,31 @@ type Props = {
 export function FileEditor(props: Props) {
   const { filepath } = props
   return filepath ? (
-    <Column>
-      <Fixed height={"30px"}>
-        <Row>
-          <FlexItem width="calc(100% - 30px)" height="100%">
-            {filepath}
-          </FlexItem>
-          <FlexItem>
-            <button
-              onClick={() => {
-                props.onClickClose()
-              }}
-            >
-              x
-            </button>
-          </FlexItem>
-        </Row>
-      </Fixed>
-      <FlexItem height="calc(100% - 30px)" width="100%">
+    // prettier-ignore
+    <GridRow
+      rows={[
+        "30px",
+        "1fr"
+      ]}
+      areas={[
+        "header",
+        "editor"
+      ]}
+    >
+      <GridArea name="header">
+        {filepath}
+        <button
+          onClick={() => {
+            props.onClickClose()
+          }}
+        >
+          x
+        </button>
+      </GridArea>
+      <GridArea name="editor" overflowX="hidden">
         <Editor />
-      </FlexItem>
-    </Column>
+      </GridArea>
+    </GridRow>
   ) : (
     <>
       <Help />

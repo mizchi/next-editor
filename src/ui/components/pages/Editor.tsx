@@ -2,7 +2,8 @@ import * as React from "react"
 import { EditorContent } from "../organisms/EditorContent"
 import { GlobalHeader } from "../organisms/GlobalHeader"
 import { Menu } from "../organisms/Menu"
-import { Grid, GridArea, Root } from "../utils/LayoutUtils"
+import { Grid, GridArea } from "../utils/Grid"
+import { Root } from "../utils/Root"
 
 export function Editor() {
   return (
@@ -23,19 +24,16 @@ export function Editor() {
       >
         <GridArea
           name="header"
-          height="30px"
         >
           <GlobalHeader />
         </GridArea>
         <GridArea
           name="menu"
-          height="calc(100vh - 30px)"
         >
           <Menu/>
         </GridArea>
         <GridArea
           name="content"
-          height="calc(100vh - 30px)"
         >
           <EditorContent/>
         </GridArea>

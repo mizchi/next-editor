@@ -60,5 +60,9 @@ const Textarea: React.ComponentType<{
   background: #fff;
   width: 100%;
   resize: none;
-  height: calc(100% - 0px);
+  height: 100%;
+  display: block;
+  border: 0;
+  padding: 4px 4px 0 4px;
+  box-sizing: border-box;
 `

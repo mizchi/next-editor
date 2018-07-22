@@ -8,7 +8,12 @@ import pkg from "../../../../package.json"
 export const Help = () => (
   <div
     className="markdown-body"
-    style={{ padding: "10px", overflowY: "auto", height: "100%" }}
+    style={{
+      padding: "10px",
+      overflowY: "auto",
+      height: "100%",
+      boxSizing: "border-box"
+    }}
   >
     <h1>Next Editor v{pkg.version}</h1>
     <h2>What's this?</h2>
