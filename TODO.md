@@ -2,6 +2,10 @@
 
 ## CURRENT
 
+- [ ] Dev: Coverage
+- [ ] UI: Avoid staging status for .git or ignored files
+- [ ] Dev: Redux dev-tools
+- [x] Dev: Supress renovate
 - [ ] Dev: redux-dev-tools
 - [ ] Clone with countdown
 - [ ] Git: Cherry pick

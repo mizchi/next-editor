@@ -9,6 +9,7 @@ const DEV = MODE == "development"
 
 module.exports = {
   mode: MODE,
+  devtool:  DEV ? 'inline-source-map' : 'source-map',
   entry: {
     main: [__dirname + "/src/main.tsx"]
   },

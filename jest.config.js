@@ -8,5 +8,9 @@ module.exports = {
     }
   },
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(js|tsx?)$",
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"]
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  collectCoverageFrom: [
+    "src/**.ts",
+    "src/**.tsx"
+  ]
 }
