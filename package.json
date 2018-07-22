@@ -6,6 +6,7 @@
   "scripts": {
     "watch": "webpack-serve --no-reload",
     "build:prod": "rimraf public && NODE_ENV=production webpack",
+    "release": "yarn standard-version && yarn standard-changelog",
     "deploy": "yarn build:prod && netlify deploy -p public",
     "lint": "tslint src/**.ts src/**.tsx",
     "test": "run-s test:*",
@@ -56,6 +57,7 @@
     "prettier": "1.13.7",
     "react-test-renderer": "16.4.1",
     "rimraf": "2.6.2",
+    "standard-changelog": "^2.0.0",
     "standard-version": "^4.4.0",
     "style-loader": "0.21.0",
     "stylelint": "9.3.0",
