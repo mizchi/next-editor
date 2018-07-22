@@ -26,7 +26,7 @@ export const GlobalHeader = connector(
             if (props.layouts.length === 2) {
               props.setLayoutMode(["main"])
             } else {
-              props.setLayoutMode(["main", "preview"])
+              props.setLayoutMode(["main", "support"])
             }
           }}
         >

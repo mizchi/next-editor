@@ -28,7 +28,7 @@ export const LayoutManager = connector(
           }
           // 2
           if (e.ctrlKey && e.keyCode === 50) {
-            setLayoutMode(["main", "preview"])
+            setLayoutMode(["main", "support"])
           }
         }}
       />
