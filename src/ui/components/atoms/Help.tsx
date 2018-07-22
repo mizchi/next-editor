@@ -2,7 +2,7 @@ import React from "react"
 import FaClone from "react-icons/fa/clone"
 import FaCog from "react-icons/fa/cog"
 import FaPlus from "react-icons/fa/plus"
-import ChangeLog from "../../../../CHANGELOG.md"
+// import ChangeLog from "../../../../CHANGELOG.md"
 import pkg from "../../../../package.json"
 
 export const Help = () => (
@@ -41,7 +41,7 @@ export const Help = () => (
       </a>{" "}
       or <a href={"https://twitter.com/mizchi"}>@mizchi</a>
     </p>
-    <hr />
-    <ChangeLog />
+    {/* <hr /> */}
+    {/* <ChangeLog /> */}
   </div>
 )

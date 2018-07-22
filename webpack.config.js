@@ -19,7 +19,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      fs: __dirname + "/src/lib/fs.js"
+      fs: __dirname + "/src/lib/fs.ts"
     },
     extensions: [".ts", ".tsx", ".js"]
   },
