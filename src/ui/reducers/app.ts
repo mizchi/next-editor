@@ -9,9 +9,9 @@ const { createAction } = buildActionCreator({
   prefix: "app/"
 })
 
-type AreaName = "main" | "support"
+export type AreaName = "editor" | "support"
 
-export const setLayoutMode: ActionCreator<{
+export const setLayoutAreas: ActionCreator<{
   areas: AreaName[][]
 }> = createAction("set-layout-mode")
 
@@ -41,12 +41,12 @@ const initialState: AppState = {
   mainLayout: {
     columns: ["1fr", "1fr"],
     rows: ["1fr"],
-    areas: [["main", "support"]]
+    areas: [["editor", "support"]]
   }
 }
 
 export const reducer: Reducer<AppState> = createReducer(initialState)
-  .case(setLayoutMode, (state, payload) => {
+  .case(setLayoutAreas, (state, payload) => {
     return {
       ...state,
       mainLayout: {

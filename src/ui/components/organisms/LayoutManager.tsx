@@ -1,9 +1,17 @@
+import flatten from "lodash/flatten"
+import uniq from "lodash/uniq"
 import React from "react"
 import { lifecycle } from "recompose"
 import { connector } from "../../actionCreators"
+import { AreaName } from "../../reducers/app"
 import { Grid, GridArea } from "../utils/Grid"
 import { Editor } from "./Editor"
 import { UserSupport } from "./UserSupport"
+
+const AreaMap: any = {
+  editor: Editor,
+  support: UserSupport
+}
 
 export const LayoutManager = connector(
   state => {
@@ -13,22 +21,23 @@ export const LayoutManager = connector(
   },
   actions => {
     return {
-      setLayoutMode: actions.app.setLayoutMode
+      setLayoutAreas: actions.app.setLayoutAreas
     }
   }
 )(props => {
-  const { mainLayout, setLayoutMode } = props
+  const { mainLayout, setLayoutAreas } = props
+  const areaNames: AreaName[] = uniq(flatten(mainLayout.areas))
   return (
     <>
       <Keydown
         keydown={(e: KeyboardEvent) => {
           // 1
           if (e.ctrlKey && e.keyCode === 49) {
-            setLayoutMode({ areas: [["main"]] })
+            setLayoutAreas({ areas: [["editor"]] })
           }
           // 2
           if (e.ctrlKey && e.keyCode === 50) {
-            setLayoutMode({ areas: [["main", "support"]] })
+            setLayoutAreas({ areas: [["editor", "support"]] })
           }
         }}
       />
@@ -37,12 +46,18 @@ export const LayoutManager = connector(
         columns={mainLayout.columns}
         areas={mainLayout.areas}
       >
-        <GridArea name="main">
-          <Editor />
-        </GridArea>
-        <GridArea name="support">
-          <UserSupport />
-        </GridArea>
+        {areaNames.map(area => {
+          const C = AreaMap[area]
+          if (C) {
+            return (
+              <GridArea key={area} name={area}>
+                {<C />}
+              </GridArea>
+            )
+          } else {
+            return <span key={area}>Error: {area} is not registered area</span>
+          }
+        })}
       </Grid>
     </>
   )
