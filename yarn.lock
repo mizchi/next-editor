@@ -589,7 +589,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "7.0.0-beta.42"
 
-"@babel/plugin-syntax-object-rest-spread@7.0.0-beta.54", "@babel/plugin-syntax-object-rest-spread@^7.0.0-beta.54":
+"@babel/plugin-syntax-object-rest-spread@7.0.0-beta.54":
   version "7.0.0-beta.54"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-object-rest-spread/-/plugin-syntax-object-rest-spread-7.0.0-beta.54.tgz#e0f445612081ab573e2535adbabc7b710d17940c"
   dependencies:
@@ -1117,7 +1117,7 @@
     invariant "^2.2.2"
     semver "^5.3.0"
 
-"@babel/preset-env@^7.0.0-beta.54":
+"@babel/preset-env@7.0.0-beta.54":
   version "7.0.0-beta.54"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.0.0-beta.54.tgz#4b05c4e3aaed64a509098e4e854dfc0e02edf053"
   dependencies:
@@ -1180,7 +1180,7 @@
     "@babel/plugin-transform-react-jsx-self" "7.0.0-beta.42"
     "@babel/plugin-transform-react-jsx-source" "7.0.0-beta.42"
 
-"@babel/preset-react@^7.0.0-beta.54":
+"@babel/preset-react@7.0.0-beta.54":
   version "7.0.0-beta.54"
   resolved "https://registry.yarnpkg.com/@babel/preset-react/-/preset-react-7.0.0-beta.54.tgz#98021037a74b27b46a46d3b28e84a1f2f406dadb"
   dependencies:
@@ -1516,7 +1516,7 @@
     "@types/react" "*"
     redux "^4.0.0"
 
-"@types/react-test-renderer@^16.0.1":
+"@types/react-test-renderer@16.0.1":
   version "16.0.1"
   resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-16.0.1.tgz#36ee8c4fe33c61d460ad0e7bc42a2d0ddcc775a1"
   dependencies:
@@ -2191,7 +2191,7 @@ babel-messages@^6.23.0:
   dependencies:
     babel-runtime "^6.22.0"
 
-babel-minify-webpack-plugin@^0.3.1:
+babel-minify-webpack-plugin@0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/babel-minify-webpack-plugin/-/babel-minify-webpack-plugin-0.3.1.tgz#292aa240af190e2dcadf4f684d6d84d179b6d5a4"
   dependencies:
@@ -3320,7 +3320,7 @@ cosmiconfig@^5.0.0, cosmiconfig@^5.0.2:
     js-yaml "^3.9.0"
     parse-json "^4.0.0"
 
-coveralls@^3.0.2:
+coveralls@3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/coveralls/-/coveralls-3.0.2.tgz#f5a0bcd90ca4e64e088b710fa8dda640aea4884f"
   dependencies:
@@ -3913,7 +3913,7 @@ docz-theme-default@^0.6.2:
     react-powerplug "^1.0.0-rc.1"
     webfontloader "^1.6.28"
 
-docz@^0.6.2:
+docz@0.6.2, docz@^0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/docz/-/docz-0.6.2.tgz#c5b02869b25988ac0303eab3724f5d8b6336979a"
   dependencies:
@@ -8431,7 +8431,7 @@ prompts@^0.1.9:
     clorox "^1.0.3"
     sisteransi "^0.1.1"
 
-prop-types@15.6.2, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@15.6.2, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.0, prop-types@^15.6.1:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   dependencies:
@@ -10467,7 +10467,7 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^2.9.2:
+typescript@2.9.2:
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
 
