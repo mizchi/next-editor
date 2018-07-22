@@ -1,3 +1,4 @@
+import { darken } from "polished"
 import React from "react"
 import styled from "styled-components"
 import { GridArea, GridRow } from "../utils/Grid"
@@ -59,7 +60,8 @@ const Textarea: React.ComponentType<{
 }> = styled.textarea`
   font-size: ${p => p.fontScale}em;
   line-height: 1.5em;
-  background: #fff;
+  background: ${p => darken(0.05, p.theme.main)};
+  color: ${p => p.theme.textColor};
   width: 100%;
   resize: none;
   height: 100%;

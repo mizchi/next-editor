@@ -33,7 +33,7 @@ export const LayoutManager = connector(
         keydown={(e: KeyboardEvent) => {
           // 1
           if (e.ctrlKey && e.keyCode === 49) {
-            setLayoutAreas({ areas: [["editor"]] })
+            setLayoutAreas({ areas: [["editor", "editor"]] })
           }
           // 2
           if (e.ctrlKey && e.keyCode === 50) {

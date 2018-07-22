@@ -1,3 +1,6 @@
+import flatten from "lodash/flatten"
+import uniq from "lodash/uniq"
+import { desaturate } from "polished"
 import React from "react"
 import FaCog from "react-icons/fa/cog"
 import FaToggleOff from "react-icons/fa/toggle-off"
@@ -13,11 +16,11 @@ export const GlobalHeader = connector(
   actions => {
     return {
       pushScene: actions.app.pushScene,
-      setLayoutMode: actions.app.setLayoutMode
+      setLayoutAreas: actions.app.setLayoutAreas
     }
   }
 )(props => {
-  const currentColumnConut = props.mainLayout.areas[0].length
+  const currentColumnConut = uniq(flatten(props.mainLayout.areas)).length
   return (
     <Header>
       <Title>Next Editor</Title>
@@ -25,9 +28,9 @@ export const GlobalHeader = connector(
         <button
           onClick={() => {
             if (currentColumnConut === 2) {
-              props.setLayoutMode({ areas: [["main"]] })
+              props.setLayoutAreas({ areas: [["editor", "editor"]] })
             } else {
-              props.setLayoutMode({ areas: [["main", "support"]] })
+              props.setLayoutAreas({ areas: [["editor", "support"]] })
             }
           }}
         >
@@ -56,7 +59,7 @@ const Header = styled.header`
   margin: 0;
   width: 100%;
   height: 100%;
-  background-color: #222;
+  background-color: ${p => desaturate(0.1, "#272822")};
 `
 
 const Title = styled.div`

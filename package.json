@@ -89,6 +89,7 @@
     "monaco-editor": "0.13.1",
     "normalize.css": "8.0.0",
     "pify": "3.0.0",
+    "polished": "^1.9.3",
     "prop-types": "15.6.2",
     "react": "16.4.1",
     "react-contexify": "3.0.2",

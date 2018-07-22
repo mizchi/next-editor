@@ -2,6 +2,8 @@ import React from "react"
 import styled from "styled-components"
 import { ConfigState } from "../../reducers/config"
 
+const themes = ["default", "dark"]
+
 export const Config = ({
   config,
   onClickBack,
@@ -14,6 +16,22 @@ export const Config = ({
   return (
     <Container>
       <h1>Config</h1>
+      <div>
+        <span>Theme</span>
+        &nbsp;
+        <select
+          defaultValue={config.theme}
+          onChange={event => {
+            onChangeConfigValue("theme", event.target.value)
+          }}
+        >
+          {themes.map(theme => (
+            <option value={theme} key={theme}>
+              {theme}
+            </option>
+          ))}
+        </select>
+      </div>
       <div>
         <span>Git: Committer Name</span>
         &nbsp;

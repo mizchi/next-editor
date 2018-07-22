@@ -1,16 +1,21 @@
 import React from "react"
-import { Provider } from "react-redux"
+import { connect, Provider } from "react-redux"
 import { ToastContainer } from "react-toastify"
 import { PersistGate } from "redux-persist/integration/react"
+// import { ThemeProvider } from "styled-components"
 import { configureStore } from "../store/configureStore"
 import { StackRouter } from "./utils/StackRouter"
+// import { RootState } from "../reducers"
+import { ThemeProvider } from "./utils/ThemeProvider"
 
 export const App = () => {
   const { store, persistor } = configureStore()
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <StackRouter />
+        <ThemeProvider>
+          <StackRouter />
+        </ThemeProvider>
         <ToastContainer
           position="top-right"
           autoClose={3000}

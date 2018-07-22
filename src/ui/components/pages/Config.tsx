@@ -1,9 +1,9 @@
 import * as React from "react"
 import { connector } from "../../actionCreators"
+import { Root } from "../atoms/Root"
 import { Config as ConfigContent } from "../organisms/Config"
 import { GlobalHeader } from "../organisms/GlobalHeader"
 import { Grid, GridArea } from "../utils/Grid"
-import { Root } from "../utils/Root"
 
 export const Config = connector(
   state => ({

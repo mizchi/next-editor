@@ -1,9 +1,9 @@
 import * as React from "react"
+import { Root } from "../atoms/Root"
 import { GlobalHeader } from "../organisms/GlobalHeader"
 import { LayoutManager } from "../organisms/LayoutManager"
 import { Menu } from "../organisms/Menu"
 import { Grid, GridArea } from "../utils/Grid"
-import { Root } from "../utils/Root"
 
 export function Main() {
   return (
