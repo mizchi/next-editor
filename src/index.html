@@ -156,11 +156,11 @@ async function setupFonts() {
   document.body.style.fontFamily = 'Inconsolata'
 }
 
-const showLoadingMessage = (mes) => {
+const showLoadingMessage = (mes, loading = true) => {
   el.innerHTML =`
     <div style="width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; font-size: 1.5em;">
       <span>${mes}</span>
-      <div id="__loader"></div>
+      ${loading ? '<div id="__loader"></div>' : ''}
     </div>
   `
 }
@@ -180,8 +180,10 @@ const showLoadingMessage = (mes) => {
 
     await import('./main.js')
   } catch (e) {
+    // TODO: Show restore guide
     showLoadingMessage(
-      'Something wrong: ' + e.message
+      'Something wrong: ' + e.message,
+      false
     )
   }
 })()
