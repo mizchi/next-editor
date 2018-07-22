@@ -1,9 +1,9 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
 import path from "path"
-import { mkdir } from "../domain/filesystem/commands/mkdir"
-import { writeFile } from "../domain/filesystem/commands/writeFile"
-import { existsPath } from "../domain/filesystem/queries/existsPath"
+import { mkdir } from "../../filesystem/commands/mkdir"
+import { writeFile } from "../../filesystem/commands/writeFile"
+import { existsPath } from "../../filesystem/queries/existsPath"
 
 const j = path.join
 
@@ -27,7 +27,6 @@ $ now wmhilton/cors-buster
 Set your githubProxy on config \`<your proxy>/github.com/\`
 `
 
-/* WRITE */
 export async function setupInitialRepository(projectRoot: string) {
   // ensure directory
   if (await existsPath(projectRoot)) {

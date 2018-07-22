@@ -2,7 +2,7 @@ import React from "react"
 import { Provider } from "react-redux"
 import renderer from "react-test-renderer"
 import { Config } from "../Config"
-import { Editor } from "../Editor"
+import { Main } from "../Main"
 import { configureTestStore } from "./createTestStore"
 
 jest.mock("react-toastify", () => {
@@ -17,11 +17,11 @@ process.on("unhandledRejection", () => {
   /**/
 })
 
-test("Editor", () => {
+test("Main", () => {
   const store = configureTestStore()
   renderer.create(
     <Provider store={store as any}>
-      <Editor />
+      <Main />
     </Provider>
   )
 })

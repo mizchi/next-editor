@@ -1,11 +1,11 @@
 import * as React from "react"
-import { EditorContent } from "../organisms/EditorContent"
 import { GlobalHeader } from "../organisms/GlobalHeader"
+import { LayoutManager } from "../organisms/LayoutManager"
 import { Menu } from "../organisms/Menu"
 import { Grid, GridArea } from "../utils/Grid"
 import { Root } from "../utils/Root"
 
-export function Editor() {
+export function Main() {
   return (
     <Root>
       {/* prettier-ignore */}
@@ -35,7 +35,7 @@ export function Editor() {
         <GridArea
           name="content"
         >
-          <EditorContent/>
+          <LayoutManager/>
         </GridArea>
       </Grid>
     </Root>

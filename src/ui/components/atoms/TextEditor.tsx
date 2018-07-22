@@ -1,10 +1,13 @@
 import React from "react"
 import styled from "styled-components"
+import { GridArea, GridRow } from "../utils/Grid"
 
 type Props = {
+  filepath: string
   initialValue: string
   onChange?: (e: any) => void
   onSave?: (e: any) => void
+  onClose: () => void
 }
 
 type State = {
@@ -22,32 +25,31 @@ export class TextEditor extends React.Component<Props, State> {
   }
 
   render() {
+    const { filepath } = this.props
     const { value } = this.state
     return (
-      <Container>
-        <Textarea
-          fontScale={this.state.fontScale}
-          spellCheck={false}
-          value={value}
-          onChange={(e: any) => {
-            this.setState({ value: e.target.value }, () => {
-              const { onChange } = this.props
-              onChange && onChange(this.state.value)
-            })
-          }}
-        />
-      </Container>
+      <GridRow rows={["30px", "1fr"]} areas={["header", "editor"]}>
+        <GridArea name="header">
+          {filepath}
+          <button onClick={() => this.props.onClose()}>x</button>
+        </GridArea>
+        <GridArea name="editor" overflowX="hidden">
+          <Textarea
+            fontScale={this.state.fontScale}
+            spellCheck={false}
+            value={value}
+            onChange={(e: any) => {
+              this.setState({ value: e.target.value }, () => {
+                const { onChange } = this.props
+                onChange && onChange(this.state.value)
+              })
+            }}
+          />
+        </GridArea>
+      </GridRow>
     )
   }
 }
-
-const Container = styled.div`
-  height: 100%;
-`
-
-const Toolbar = styled.div`
-  height: 0px;
-`
 
 const Textarea: React.ComponentType<{
   fontScale: number

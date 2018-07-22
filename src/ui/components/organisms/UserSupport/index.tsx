@@ -2,12 +2,9 @@ import React from "react"
 import FaEye from "react-icons/fa/eye"
 import FaGit from "react-icons/fa/git"
 import { connector } from "../../../actions"
-import { RootState } from "../../../reducers"
 import { BufferState } from "../../../reducers/buffer"
 import { MarkdownPreview } from "../../atoms/MarkdownPreview"
 import { GitViewer } from "../GitViewer"
-
-const selector = (state: RootState) => state.buffer
 
 type Props = {
   filetype: string | null
@@ -17,7 +14,18 @@ type State = {
   mode: "git-browser" | "preview-by-filetype"
 }
 
-class PreviewSwitcher extends React.Component<Props, State> {
+export const UserSupport = connector(
+  state => {
+    return state.buffer
+  },
+  _actions => ({})
+)((props: BufferState) => {
+  return (
+    <UserSupportContent filetype={props.filetype} value={props.value || ""} />
+  )
+})
+
+class UserSupportContent extends React.Component<Props, State> {
   state: State = {
     mode: "git-browser"
   }
@@ -87,11 +95,3 @@ class PreviewSwitcher extends React.Component<Props, State> {
     )
   }
 }
-
-export const FilePreview = connector(selector, actions => ({}))(
-  (props: BufferState) => {
-    return (
-      <PreviewSwitcher filetype={props.filetype} value={props.value || ""} />
-    )
-  }
-)

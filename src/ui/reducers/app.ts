@@ -3,7 +3,7 @@ const POP_SCENE = "app/pop-scene"
 const REPLACE_SCENE = "app/replace-scene"
 const SET_LAYOUT_MODE = "app/set-layout-mode"
 
-type LayoutMode = "editor" | "preview"
+type LayoutMode = "main" | "preview"
 
 type SetLayoutMode = {
   type: typeof SET_LAYOUT_MODE
@@ -59,8 +59,8 @@ export type AppState = {
 }
 
 const initialState: AppState = {
-  sceneStack: ["editor"],
-  layouts: ["editor", "preview"]
+  sceneStack: ["main"],
+  layouts: ["main", "preview"]
 }
 
 export function reducer(state: AppState = initialState, action: Action) {

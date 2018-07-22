@@ -6,7 +6,7 @@ import * as React from "react"
 import "react-contexify/dist/ReactContexify.min.css"
 import * as ReactDOM from "react-dom"
 import Modal from "react-modal"
-import { setupInitialRepository } from "./lib/setupInitialRepository"
+import { setupInitialRepository } from "./domain/git/commands/setupInitialRepository"
 import { App } from "./ui/components/App"
 
 // export to globals for debug

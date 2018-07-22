@@ -24,9 +24,9 @@ export const GlobalHeader = connector(
         <button
           onClick={() => {
             if (props.layouts.length === 2) {
-              props.setLayoutMode(["editor"])
+              props.setLayoutMode(["main"])
             } else {
-              props.setLayoutMode(["editor", "preview"])
+              props.setLayoutMode(["main", "preview"])
             }
           }}
         >
