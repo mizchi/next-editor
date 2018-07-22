@@ -1,10 +1,8 @@
 # TODO
 
-## CURRENT
+## Current
 
 - [ ] UI: Avoid staging status for .git or ignored files
-- [x] Dev: Supress renovate
-- [x] Dev: coveralls
 - [ ] Dev: redux-dev-tools
 - [ ] Clone with countdown
 - [ ] Git: Cherry pick
@@ -15,6 +13,8 @@
 - [ ] UI: Inline Rename
 - [ ] UI: Drag and drop
 - [ ] UI: Update git status at directory remove
+- [x] Dev: Supress renovate
+- [x] Dev: coveralls
 - [x] Dev: docz
 - [x] Dev: babel7
 - [x] Dev: deploy with netlify
@@ -36,3 +36,19 @@
 - [ ] React: Component Preview
 - [ ] GitHub: Issue integration
 - [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
+
+## v0.1.0
+
+- Define UI policy
+- Stable for Git actions
+
+## v1.0.0
+
+- Ready to use for writers (especially markdown editing)
+- Stable for GitHub actions
+
+## v2.0.0
+
+- Ready to use for frontend programmers
+  - Test JavaScript codes
+  - Edit React Component
