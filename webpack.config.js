@@ -1,5 +1,5 @@
 const webpack = require("webpack")
-const path = require('path')
+const path = require("path")
 // const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 const WorkboxPlugin = require("workbox-webpack-plugin")
@@ -9,7 +9,7 @@ const DEV = MODE == "development"
 
 module.exports = {
   mode: MODE,
-  devtool:  DEV ? 'inline-source-map' : 'source-map',
+  devtool: DEV ? "inline-source-map" : "source-map",
   entry: {
     main: [__dirname + "/src/main.tsx"]
   },
@@ -30,22 +30,18 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        include: [
-          path.join(__dirname, "src"),
-        ],
+        include: [path.join(__dirname, "src")],
         use: {
           loader: "babel-loader"
         }
       },
       {
         test: /\.js$/,
-        include: [
-          path.join(__dirname, "node_modules/react-icons")
-        ],
+        include: [path.join(__dirname, "node_modules/react-icons")],
         use: {
           loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-react']
+            presets: ["@babel/preset-react"]
           }
         }
       },
@@ -83,6 +79,10 @@ module.exports = {
       {
         from: __dirname + "/assets/favicon.ico",
         to: __dirname + "/public/favicon.ico"
+      },
+      {
+        from: __dirname + "/assets/landing.html",
+        to: __dirname + "/public/landing.html"
       },
       {
         from: __dirname + "/assets/**",
