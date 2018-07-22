@@ -1,7 +1,7 @@
 import React from "react"
 import { ToastContainer } from "react-toastify"
 import { lifecycle } from "recompose"
-import { connector } from "../../../actions"
+import { connector } from "../../../actionCreators"
 import { BranchController } from "./BranchController"
 import { buildGroupedGitStatus } from "./helpers"
 import { History } from "./History"

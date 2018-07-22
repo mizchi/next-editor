@@ -9,7 +9,7 @@ import * as git from "isomorphic-git"
 import { RootState } from "."
 import * as Git from "../../domain/git"
 import { GitStagingStatus, GitStatusString } from "../../domain/types"
-import { projectChanged } from "../actions/globalActions"
+import { projectChanged } from "../actionCreators/globalActions"
 import { CommitDescription } from "./../../domain/types"
 
 const {

@@ -1,6 +1,6 @@
 import React from "react"
 import { lifecycle } from "recompose"
-import { connector } from "../../actions"
+import { connector } from "../../actionCreators"
 import { Grid, GridArea } from "../utils/Grid"
 import { Editor } from "./Editor"
 import { UserSupport } from "./UserSupport"

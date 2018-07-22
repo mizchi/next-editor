@@ -1,5 +1,5 @@
 import * as React from "react"
-import { connector } from "../../actions"
+import { connector } from "../../actionCreators"
 import { Config as ConfigContent } from "../organisms/Config"
 import { GlobalHeader } from "../organisms/GlobalHeader"
 import { Grid, GridArea } from "../utils/Grid"

@@ -1,5 +1,5 @@
 import React from "react"
-import { connector } from "../../../actions"
+import { connector } from "../../../actionCreators"
 import { Help } from "../../atoms/Help"
 import { TextEditor } from "../../atoms/TextEditor"
 

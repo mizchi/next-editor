@@ -6,7 +6,7 @@ import {
 } from "hard-reducer"
 import { readDirectories } from "../../domain/filesystem"
 import { cloneRepository, createProject } from "../../domain/git"
-import { projectChanged } from "./../actions/globalActions"
+import { projectChanged } from "./../actionCreators/globalActions"
 
 type Project = {
   projectRoot: string

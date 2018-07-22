@@ -4,7 +4,7 @@ import React from "react"
 import { ContextMenuProvider } from "react-contexify"
 import FaFile from "react-icons/fa/file"
 import styled from "styled-components"
-import { connector } from "../../../actions"
+import { connector } from "../../../actionCreators"
 
 type OwnProps = {
   depth: number

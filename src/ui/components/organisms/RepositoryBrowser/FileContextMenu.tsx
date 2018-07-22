@@ -2,7 +2,7 @@ import path from "path"
 import React from "react"
 import { ContextMenu, Item, Separator } from "react-contexify"
 import { connect } from "react-redux"
-import * as EditorActions from "../../../actions/editorActions"
+import * as EditorActions from "../../../actionCreators/editorActions"
 import { RootState } from "../../../reducers"
 
 type OwnProps = {

@@ -2,7 +2,7 @@ import React from "react"
 import { ContextMenu, Item } from "react-contexify"
 import FaTrash from "react-icons/fa/trash"
 import { connect } from "react-redux"
-import Actions from "../../../actions"
+import Actions from "../../../actionCreators"
 
 const selector = () => ({})
 
@@ -23,7 +23,7 @@ export const ProjectContextMenu: any = connect(
           dataFromProvider.dirpath === "/playground"
         }
         onClick={({ dataFromProvider }: any) => {
-          props.deleteProject({dirpath: dataFromProvider.dirpath})
+          props.deleteProject({ dirpath: dataFromProvider.dirpath })
         }}
       >
         <FaTrash />

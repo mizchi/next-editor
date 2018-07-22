@@ -4,7 +4,7 @@ import {
   createReducer,
   Reducer
 } from "hard-reducer"
-import { projectChanged } from "./../actions/globalActions"
+import { projectChanged } from "./../actionCreators/globalActions"
 
 const { createAction } = buildActionCreator({
   prefix: "buffer/"

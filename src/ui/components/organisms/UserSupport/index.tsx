@@ -1,7 +1,7 @@
 import React from "react"
 import FaEye from "react-icons/fa/eye"
 import FaGit from "react-icons/fa/git"
-import { connector } from "../../../actions"
+import { connector } from "../../../actionCreators"
 import { BufferState } from "../../../reducers/buffer"
 import { MarkdownPreview } from "../../atoms/MarkdownPreview"
 import { GitViewer } from "../GitViewer"

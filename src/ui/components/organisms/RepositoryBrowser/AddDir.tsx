@@ -3,7 +3,7 @@ import React from "react"
 import FaFolder from "react-icons/fa/folder"
 import { connect } from "react-redux"
 import styled from "styled-components"
-import Actions from "../../../actions"
+import Actions from "../../../actionCreators"
 import { RootState } from "../../../reducers"
 
 const actions = {
