@@ -9,7 +9,7 @@ import * as git from "../reducers/git"
 import * as project from "../reducers/project"
 import * as repository from "../reducers/repository"
 import * as editor from "./editorActions"
-import * as global from "./globalActions"
+import * as _global from "./globalActions"
 
 const allActions = {
   app,
@@ -19,7 +19,7 @@ const allActions = {
   git,
   config,
   editor,
-  global
+  global: _global
 }
 
 export type AllAction = typeof allActions
