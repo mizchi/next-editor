@@ -170,7 +170,7 @@ const showLoadingMessage = (mes, loading = true) => {
 }
 
 ;(async () => {
-  if (window.hostname !== 'localhost' && window.location.protocol === 'http:') {
+  if (window.location.hostname !== 'localhost' && window.location.protocol === 'http:') {
     window.location.href = `https://${location.host}/${window.location.search}`
   }
 
