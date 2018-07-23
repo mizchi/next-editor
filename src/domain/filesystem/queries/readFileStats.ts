@@ -2,6 +2,7 @@ import fs from "fs"
 import orderBy from "lodash/orderBy"
 import path from "path"
 import pify from "pify"
+import { isIgnored } from "../../git/queries/isIgnored"
 import { FileInfo } from "../../types"
 
 export async function readFileStats(
@@ -16,7 +17,9 @@ export async function readFileStats(
       const stat = await pify(fs.stat)(childPath)
       return {
         name,
-        type: stat.isDirectory() ? "dir" : "file"
+        type: stat.isDirectory() ? "dir" : "file",
+        ignored: false
+        // ignored: await isIgnored(projectRoot, childPath)
       }
     })
   )

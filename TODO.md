@@ -14,6 +14,7 @@
 
 ## Icebox
 
+- [ ] textlint
 - [ ] Research ipfs or webtorrent to share
 - [ ] UI: Inline Rename
 - [ ] UI: Drag and drop

@@ -3,6 +3,7 @@ export type FileInfo = {
   name: string
   gitStatus: string
   type: "file" | "dir"
+  ignored: boolean
 }
 export type Repository = {
   fs: any
