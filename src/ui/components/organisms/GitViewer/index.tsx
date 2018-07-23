@@ -2,9 +2,9 @@ import React from "react"
 import { ToastContainer } from "react-toastify"
 import { lifecycle } from "recompose"
 import { connector } from "../../../actionCreators"
+import { GitBriefHistory } from "../GitBriefHistory"
 import { BranchController } from "./BranchController"
 import { buildGroupedGitStatus } from "./helpers"
-import { History } from "./History"
 import { Staging } from "./Staging"
 
 export const GitViewer = connector(
@@ -53,7 +53,7 @@ export const GitViewer = connector(
       remoteBranches
     } = git
     return (
-      <div key={projectRoot} style={{ width: "100%", padding: "10px" }}>
+      <div key={projectRoot} style={{ width: "100%", boxSizing: "border-box" }}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div>
             {projectRoot} [{currentBranch}]
@@ -114,7 +114,7 @@ export const GitViewer = connector(
               props.pushScene({ nextScene: "config" })
             }}
           />
-          <History branch={currentBranch} history={history} />
+          <GitBriefHistory />
           <div style={{ flex: 1 }}>
             {staging && (
               <Staging

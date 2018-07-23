@@ -26,12 +26,12 @@ export async function batchUpdateFiles(
   projectRoot: string,
   files: Array<[string, string]>,
   message: string = "Update"
-) {
+): Promise<string> {
   for (const [filename, content] of files) {
     await fs.promises.writeFile(path.join(projectRoot, filename), content)
     await git.add({ fs, dir: projectRoot, filepath: filename })
   }
-  await git.commit({
+  return git.commit({
     fs,
     dir: projectRoot,
     message,

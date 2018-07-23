@@ -1,10 +1,10 @@
 {
   "name": "@mizchi/next-editor",
   "author": "mizchi",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "license": "MIT",
   "scripts": {
-    "watch": "webpack-serve --no-reload",
+    "watch": "webpack-serve --no-reload --port 8099",
     "build:prod": "rimraf public && NODE_ENV=production webpack",
     "release": "yarn standard-version && yarn standard-changelog",
     "deploy": "yarn build:prod && netlify deploy -p public",
