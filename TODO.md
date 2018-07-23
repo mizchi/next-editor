@@ -2,35 +2,26 @@
 
 ## Current
 
+- [ ] Checkout HEAD file on editor
+- [ ] UI: Toggle auto save
+- [ ] UI: Wysiwyg for markdown
 - [ ] UI: Avoid staging status for .git or ignored files
-- [ ] Dev: redux-dev-tools
+- [ ] UI: Update git status at directory remove
+- [ ] UI: Easy Commit all
+- [ ] Checkout from file history on editor
+
+## Icebox
+
+- [ ] UI: Inline Rename
+- [ ] UI: Drag and drop
 - [ ] Clone with countdown
 - [ ] Git: Cherry pick
 - [ ] Git: Rebase
 - [ ] Git: Ensure git clone
-- [ ] Checkout HEAD file on editor
-- [ ] UI: auto save toggling
-- [ ] UI: Inline Rename
-- [ ] UI: Drag and drop
-- [ ] UI: Update git status at directory remove
-- [x] Dev: Supress renovate
-- [x] Dev: coveralls
-- [x] Dev: docz
-- [x] Dev: babel7
-- [x] Dev: deploy with netlify
-- [x] UI: Reload after clone
-- [x] UI: Show changelog in app
-- [x] Merge with remote branches
-- [x] Regression: remove project does not work
-- [x] Regression: remove file does not work
-
-## Icebox
-
 - [ ] Guidance for github api token on config
 - [ ] TypeScript on monaco
 - [ ] Pluggable Editor by webcomponents
 - [ ] Jest integration
-- [ ] Easy Commit UI for writers
 - [ ] Git: Stash
 - [ ] Git: Rebase with conflict manager
 - [ ] React: Component Preview
@@ -41,15 +32,30 @@
 
 - Ready to use for writers (especially markdown editing)
 - Stable for Git actions
-- Stable for GitHub actions
 
 ## v2.0.0
 
+- Stable for GitHub actions
 - Ready to use for frontend programmers
   - Test JavaScript codes
   - Edit React Component
 
 ---
+
+## 0.2.0
+
+- [x] UI: Theme
+- [x] Dev: redux-dev-tools
+- [x] Dev: Supress renovate
+- [x] Dev: coveralls
+- [x] Dev: docz
+- [x] Dev: babel7
+- [x] Dev: deploy with netlify
+- [x] UI: Reload after clone
+- [x] UI: Show changelog in app
+- [x] Merge with remote branches
+- [x] Regression: remove project does not work
+- [x] Regression: remove file does not work
 
 Old changelogs
 
