@@ -21,7 +21,7 @@ export const Help = () => (
     <h2>How to use</h2>
     <ul>
       <li>
-        Set your commiter name by <FaCog />
+        Set your committer name by <FaCog />
       </li>
       <li>
         Create project by <FaPlus />

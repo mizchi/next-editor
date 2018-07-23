@@ -43,7 +43,7 @@ export const Config = ({
         />
       </div>
       <div>
-        <span>Git: Commiter Email</span>
+        <span>Git: Committer Email</span>
         &nbsp;
         <input
           defaultValue={config.committerEmail}
