@@ -1,7 +1,8 @@
-import { darken } from "polished"
+import path from "path"
 import React from "react"
-import styled from "styled-components"
 import { BufferState } from "../../reducers/buffer"
+import { TextEditor } from "../atoms/TextEditor"
+import { WysiwygEditor } from "../atoms/WysiwygEditor"
 import { GridArea, GridColumn, GridRow } from "../utils/Grid"
 
 type Props = {
@@ -15,14 +16,16 @@ type Props = {
 type State = {
   fontScale: number
   value: string
+  wysiwyg: boolean
 }
 
-export class TextEditor extends React.Component<Props, State> {
+export class Editor extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
       fontScale: 1.0,
-      value: props.buffer.value
+      value: props.buffer.value,
+      wysiwyg: false
     }
   }
 
@@ -34,6 +37,10 @@ export class TextEditor extends React.Component<Props, State> {
       <GridRow rows={["30px", "1fr"]} areas={["toolbar", "editor"]}>
         <GridArea name="toolbar">
           <EditorToolbar
+            canUseWysiwyg={path.extname(filepath) === ".md"}
+            onToggleWysiwyg={() => {
+              this.setState({ wysiwyg: !this.state.wysiwyg })
+            }}
             filepath={filepath}
             changed={buffer.changed}
             autosave={buffer.autosave}
@@ -49,47 +56,32 @@ export class TextEditor extends React.Component<Props, State> {
           />
         </GridArea>
         <GridArea name="editor" overflowX="hidden">
-          <Textarea
-            fontScale={this.state.fontScale}
-            spellCheck={false}
-            value={value}
-            onKeyDown={(ev: KeyboardEvent) => {
-              if ((ev.metaKey || ev.ctrlKey) && ev.key === "s") {
-                ev.preventDefault()
-                onSave && onSave(this.state.value)
-              }
-            }}
-            onChange={(e: any) => {
-              this.setState({ value: e.target.value }, () => {
-                onChange && onChange(this.state.value)
-              })
-            }}
-          />
+          {this.state.wysiwyg ? (
+            <WysiwygEditor
+              initialValue={value}
+              onChange={(newVal: string) => {
+                this.setState({ value: newVal }, () => {
+                  onChange && onChange(newVal)
+                })
+              }}
+            />
+          ) : (
+            <TextEditor
+              fontScale={this.state.fontScale}
+              spellCheck={false}
+              value={value}
+              onChange={(e: any) => {
+                this.setState({ value: e.target.value }, () => {
+                  onChange && onChange(this.state.value)
+                })
+              }}
+            />
+          )}
         </GridArea>
       </GridRow>
     )
   }
 }
-
-const Textarea: React.ComponentType<{
-  fontScale: number
-  spellCheck: boolean
-  value: string
-  onChange: any
-  onKeyDown: any
-}> = styled.textarea`
-  font-size: ${p => p.fontScale}em;
-  line-height: 1.5em;
-  background: ${p => darken(0.05, p.theme.main)};
-  color: ${p => p.theme.textColor};
-  width: 100%;
-  resize: none;
-  height: 100%;
-  display: block;
-  border: 0;
-  padding: 4px 4px 0 4px;
-  box-sizing: border-box;
-`
 
 export function EditorToolbar({
   filepath,
@@ -97,7 +89,9 @@ export function EditorToolbar({
   autosave,
   onClickSave,
   onClickClose,
-  onChangeAutosave
+  onChangeAutosave,
+  onToggleWysiwyg,
+  canUseWysiwyg
 }: {
   filepath: string
   changed: boolean
@@ -105,6 +99,8 @@ export function EditorToolbar({
   onClickSave: any
   onClickClose: any
   onChangeAutosave: any
+  onToggleWysiwyg: any
+  canUseWysiwyg: boolean
 }) {
   return (
     <GridColumn
@@ -134,6 +130,7 @@ export function EditorToolbar({
             Save(⌘S)
           </button>
         )}
+        {canUseWysiwyg && <button onClick={onToggleWysiwyg}>W</button>}
       </GridArea>
       <GridArea name="close">
         <button onClick={onClickClose}>x</button>

@@ -22,7 +22,8 @@ export const LayoutManager = connector(
   actions => {
     return {
       setLayoutAreas: actions.app.setLayoutAreas,
-      commitAll: actions.git.commitAll
+      commitAll: actions.git.commitAll,
+      saveFile: actions.buffer.saveFile
     }
   }
 )(props => {
@@ -39,6 +40,12 @@ export const LayoutManager = connector(
           // 2
           if (e.ctrlKey && e.keyCode === 50) {
             setLayoutAreas({ areas: [["editor", "support"]] })
+          }
+
+          // Ctrl-Cmd-S
+          if ((e.metaKey || e.ctrlKey) && e.key === "s") {
+            e.preventDefault()
+            props.saveFile({})
           }
 
           // TODO: Move somewhere
