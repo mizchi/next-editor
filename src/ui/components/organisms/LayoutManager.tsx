@@ -21,7 +21,8 @@ export const LayoutManager = connector(
   },
   actions => {
     return {
-      setLayoutAreas: actions.app.setLayoutAreas
+      setLayoutAreas: actions.app.setLayoutAreas,
+      commitAll: actions.git.commitAll
     }
   }
 )(props => {
@@ -38,6 +39,12 @@ export const LayoutManager = connector(
           // 2
           if (e.ctrlKey && e.keyCode === 50) {
             setLayoutAreas({ areas: [["editor", "support"]] })
+          }
+
+          // TODO: Move somewhere
+          // commit all
+          if (e.shiftKey && e.metaKey && e.key === "s") {
+            props.commitAll({ message: "Update" })
           }
         }}
       />
