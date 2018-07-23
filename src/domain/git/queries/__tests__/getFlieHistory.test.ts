@@ -23,7 +23,6 @@ test("list up file changes", async () => {
 test("return [] if file is not on git", async () => {
   const dir = await helpers.createTempGitProject()
   await helpers.batchUpdateFiles(dir, [["b", "__x"]], "init")
-
   const fileChanges = await getFileHistory(dir, "master", "_eoauhsoaidsai")
   assert(fileChanges.length === 0)
 })

@@ -1,12 +1,17 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
-import { CommitDescription } from "../../types"
+import { CommitDescription, GitBlobDescription } from "../../types"
 
 export async function getFileHistory(
   dir: string,
   ref: string,
   filepath: string
-) {
+): Promise<
+  Array<{
+    commit: CommitDescription
+    blob: GitBlobDescription
+  }>
+> {
   const commits: CommitDescription[] = await git.log({ fs, dir, ref })
   const rawChanges = await Promise.all(
     commits.map(async commit => {
