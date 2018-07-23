@@ -2,14 +2,15 @@
 
 ## Current
 
-- [ ] Refactor:
-- [ ] Checkout HEAD file on editor
-- [ ] UI: Toggle auto save
+- [ ] UI: Easy Commit all
 - [ ] UI: Wysiwyg for markdown
+- [ ] Prettier for markdown
 - [ ] UI: Avoid staging status for .git or ignored files
 - [ ] UI: Update git status at directory remove
-- [ ] UI: Easy Commit all
-- [ ] Checkout from file history on editor
+- [ ] UI: Elastic plain textearea
+- [x] Checkout from file history on editor
+- [x] Checkout file on from history
+- [x] UI: Toggle auto save
 
 ## Icebox
 
