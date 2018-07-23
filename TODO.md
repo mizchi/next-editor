@@ -2,13 +2,14 @@
 
 ## Current
 
-- [ ] UI: Elastic plain textearea
 - [ ] UI: Auto focus on file select
 - [ ] UI: Hide .git
 - [ ] UI: Grayed out ignored files
 - [ ] UI: Avoid staging status for .git or ignored files
 - [ ] UI: Quick file search: (fuzzy match)
 - [ ] UI: Show diff on history
+- [ ] UI: Rewrite buffer without file change
+- [x] UI: Elastic plain textearea
 - [x] Prettier for markdown
 
 ## Icebox
@@ -31,6 +32,7 @@
 - [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
 - [ ] Create dump
 - [ ] Recovery mode
+- [ ] Recovery status
 
 ## v1.0.0
 
@@ -45,6 +47,8 @@
   - Edit React Component
 
 ---
+
+## Done
 
 ## 0.4.0
 
@@ -70,8 +74,6 @@
 - [x] Merge with remote branches
 - [x] Regression: remove project does not work
 - [x] Regression: remove file does not work
-
-Old changelogs
 
 ## 0.0.4
 

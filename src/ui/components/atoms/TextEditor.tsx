@@ -1,5 +1,6 @@
 import { darken } from "polished"
 import React from "react"
+import Textarea from "react-textarea-autosize"
 import styled from "styled-components"
 
 type Props = {
@@ -9,33 +10,50 @@ type Props = {
   onChange: (value: string) => void
 }
 
-export const TextEditor = (props: Props) => {
-  return (
-    <Textarea
-      spellCheck={props.spellCheck}
-      value={props.value}
-      onChange={(ev: any) => {
-        props.onChange(ev.target.value)
-      }}
-    />
-  )
+export class TextEditor extends React.Component<Props> {
+  textareaRef: React.RefObject<any> = React.createRef()
+  render() {
+    return (
+      <Container>
+        <StyledTextarea
+          minRows={6}
+          innerRef={this.textareaRef}
+          spellCheck={this.props.spellCheck}
+          value={this.props.value}
+          onChange={(ev: any) => {
+            this.props.onChange(ev.target.value)
+          }}
+        />
+      </Container>
+    )
+  }
 }
 
-export const Textarea: React.ComponentType<{
+const Container = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  background: ${p => darken(0.1, p.theme.main)};
+  overflow: auto;
+`
+
+const StyledTextarea: React.ComponentType<{
+  minRows: number
   fontScale?: number
   spellCheck: boolean
   value: string
   onChange: any
-}> = styled.textarea`
-  font-size: ${p => p.fontScale || "1"}em;
+  innerRef: any
+}> = styled(Textarea)`
+  font-size: 1.1em;
   line-height: 1.5em;
+  padding: 3px;
   background: ${p => darken(0.05, p.theme.main)};
   color: ${p => p.theme.textColor};
   width: 100%;
   resize: none;
-  height: 100%;
   display: block;
   border: 0;
-  padding: 4px 4px 0 4px;
   box-sizing: border-box;
 `
