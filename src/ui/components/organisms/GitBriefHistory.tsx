@@ -2,9 +2,25 @@ import format from "date-fns/format"
 import React from "react"
 import FaMinusSquare from "react-icons/fa/minus-square-o"
 import FaPlusSquare from "react-icons/fa/plus-square-o"
-import { CommitDescription } from "../../../../domain/types"
+import { CommitDescription } from "../../../domain/types"
+import { connector } from "../../actionCreators"
 
-export class History extends React.Component<
+export const GitBriefHistory = connector(
+  state => {
+    return {
+      currentBranch: state.git.currentBranch,
+      history: state.git.history
+    }
+  },
+  _actions => {
+    return {}
+  }
+)(props => {
+  const { currentBranch, history } = props
+  return <GitBriefHistoryContent branch={currentBranch} history={history} />
+})
+
+class GitBriefHistoryContent extends React.Component<
   {
     branch: string
     history: CommitDescription[]

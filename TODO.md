@@ -11,6 +11,7 @@
 - [x] Checkout from file history on editor
 - [x] Checkout file on from history
 - [x] UI: Toggle auto save
+- [ ] UI: Quick file search(fuzzy match)
 
 ## Icebox
 

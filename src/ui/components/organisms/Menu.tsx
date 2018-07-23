@@ -1,24 +1,17 @@
 import React from "react"
+import { GridArea, GridRow } from "../utils/Grid"
 import { ProjectManager } from "./ProjectManager"
 import { RepositoryBrowser } from "./RepositoryBrowser"
 
 export function Menu() {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        overflowY: "auto",
-        height: "100%"
-      }}
-    >
-      <div>
+    <GridRow rows={["120px", "1fr"]} areas={["project", "file-browser"]}>
+      <GridArea name="project">
         <ProjectManager />
-      </div>
-
-      <div style={{ flex: 1, paddingBottom: "5px" }}>
+      </GridArea>
+      <GridArea name="file-browser">
         <RepositoryBrowser />
-      </div>
-    </div>
+      </GridArea>
+    </GridRow>
   )
 }
