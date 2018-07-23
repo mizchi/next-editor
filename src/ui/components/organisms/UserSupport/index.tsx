@@ -4,6 +4,7 @@ import FaGit from "react-icons/fa/git"
 import { connector } from "../../../actionCreators"
 import { BufferState } from "../../../reducers/buffer"
 import { MarkdownPreview } from "../../atoms/MarkdownPreview"
+import { FileHistory } from "../FileHistory"
 import { GitViewer } from "../GitViewer"
 
 type Props = {
@@ -11,7 +12,7 @@ type Props = {
   value: string
 }
 type State = {
-  mode: "git-browser" | "preview-by-filetype"
+  mode: "git-browser" | "preview-by-filetype" | "git-history"
 }
 
 export const UserSupport = connector(
@@ -52,6 +53,18 @@ class UserSupportContent extends React.Component<Props, State> {
           >
             <FaGit />
           </button>
+
+          <button
+            style={{
+              background: this.state.mode === "git-history" ? "#eee" : "#fff",
+              outline: "none"
+            }}
+            disabled={this.state.mode === "git-history"}
+            onClick={() => this.setState({ mode: "git-history" })}
+          >
+            History
+          </button>
+
           {filetype === "markdown" && (
             <button
               style={{
@@ -68,6 +81,7 @@ class UserSupportContent extends React.Component<Props, State> {
         </div>
         {/* Content */}
         <div>{this.state.mode === "git-browser" && <GitViewer />}</div>
+        <div>{this.state.mode === "git-history" && <FileHistory />}</div>
         <div>
           {this.state.mode === "preview-by-filetype" && (
             <>

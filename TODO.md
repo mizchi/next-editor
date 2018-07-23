@@ -2,6 +2,7 @@
 
 ## Current
 
+- [ ] Refactor:
 - [ ] Checkout HEAD file on editor
 - [ ] UI: Toggle auto save
 - [ ] UI: Wysiwyg for markdown

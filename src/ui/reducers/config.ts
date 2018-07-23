@@ -9,10 +9,6 @@ const { createAction } = buildActionCreator({
   prefix: "config/"
 })
 
-const initialTheme = {
-  main: "#eeeeee"
-}
-
 export type ConfigState = {
   committerName: string
   committerEmail: string
