@@ -133,6 +133,30 @@ export const commitStagedChanges = createThunkAction(
   }
 )
 
+export const commitAll = createThunkAction(
+  "commit-all",
+  async (
+    {
+      message
+    }: {
+      message: string
+    },
+    dispatch,
+    getState: () => RootState
+  ) => {
+    const { config } = getState()
+    const author = {
+      name: config.committerName || "<none>",
+      email: config.committerEmail || "<none>"
+    }
+    const state = getState()
+    const projectRoot = state.repository.currentProjectRoot
+    await Git.commitAll(projectRoot, message, author)
+    dispatch(startStagingUpdate(projectRoot, []))
+    dispatch(updateHistory({ projectRoot, branch: state.git.currentBranch }))
+  }
+)
+
 export function startStagingUpdate(projectRoot: string, files: string[]) {
   return async (dispatch: any, getState: () => RootState) => {
     const state = getState()

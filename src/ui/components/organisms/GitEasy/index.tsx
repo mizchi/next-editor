@@ -12,8 +12,10 @@ export const GitEasy = connector(
       staging: state.git.staging
     }
   },
-  _actions => {
-    return {}
+  actions => {
+    return {
+      commitAll: actions.git.commitAll
+    }
   }
 )(props => {
   const { staging } = props
@@ -30,13 +32,13 @@ export const GitEasy = connector(
       <Pane>
         <Content>
           <fieldset>
-            <legend>Commit</legend>
+            <legend>Changes</legend>
             <CommandWithInput
               description="Commit all"
               placeholder="Commit message..."
               validate={() => modified.length > 0}
-              onExec={value => {
-                console.log("message", value, staging)
+              onExec={message => {
+                props.commitAll({ message: message || "Update" })
               }}
             />
             <hr />

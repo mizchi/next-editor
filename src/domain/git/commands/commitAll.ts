@@ -31,7 +31,7 @@ export async function commitAll(
   return git.commit({
     fs,
     dir: root,
-    message: "Update all",
-    author: { name: "x", email: "y" }
+    message,
+    author
   })
 }
