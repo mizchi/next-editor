@@ -1,7 +1,7 @@
 import React from "react"
 import { connector } from "../../../actionCreators"
 import { Help } from "../../atoms/Help"
-import { TextEditor } from "../../molecules/TextEditor"
+import { Editor as EditorContent } from "../../molecules/Editor"
 
 export const Editor = connector(
   state => {
@@ -22,7 +22,7 @@ export const Editor = connector(
   const { unloadFile, buffer } = props
   if (buffer.filepath) {
     return (
-      <TextEditor
+      <EditorContent
         key={
           buffer.filepath + ":" + buffer.reloadCounter.toString() || "/unknown/"
         }
