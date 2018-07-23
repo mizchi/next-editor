@@ -55,8 +55,9 @@ export const deleteFile = createThunkAction(
 export const deleteDirectory = createThunkAction(
   "delete-directory",
   async ({ dirpath }: { dirpath: string }, dispatch) => {
+    const files: string[] = await FS.getFilesRecursively(dirpath)
     await FS.removeDirectory(dirpath)
-    dispatch(startUpdate({ changedPath: dirpath }))
+    dispatch(startUpdate({ changedPath: files }))
     // TODO: Update git status
   }
 )
@@ -129,7 +130,7 @@ export const startUpdate = createThunkAction(
       changedPath,
       isDir = false
     }: {
-      changedPath?: string
+      changedPath?: string | string[]
       isDir?: boolean
     },
     dispatch,
@@ -139,9 +140,16 @@ export const startUpdate = createThunkAction(
     if (isDir === false && changedPath) {
       const state = getState()
       const projectRoot = state.repository.currentProjectRoot
-      const relpath = path.relative(projectRoot, changedPath)
-      if (!relpath.startsWith("..")) {
-        dispatch(GitActions.startStagingUpdate(projectRoot, [relpath]))
+      const relpaths = (changedPath instanceof Array
+        ? changedPath
+        : [changedPath]
+      )
+        .map(p => path.relative(projectRoot, p))
+        .filter((r: string) => {
+          return !r.startsWith("..")
+        })
+      if (relpaths.length > 0) {
+        dispatch(GitActions.startStagingUpdate(projectRoot, relpaths))
       }
     }
   }

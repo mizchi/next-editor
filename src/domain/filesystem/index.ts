@@ -1,6 +1,5 @@
 export * from "./commands/mkdir"
 export * from "./commands/removeDirectory"
-export * from "./commands/rmdir"
 export * from "./commands/unlink"
 export * from "./commands/writeFile"
 export * from "./queries/existsPath"

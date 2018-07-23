@@ -18,7 +18,11 @@ export async function updateStagingStatus(
   )
   const newStatus: GitStagingStatus = { ...status }
   for (const [relpath, s] of list) {
-    ;(newStatus as any)[relpath] = s
+    if (s === "absent") {
+      delete (newStatus as any)[relpath]
+    } else {
+      ;(newStatus as any)[relpath] = s
+    }
   }
   return newStatus
 }

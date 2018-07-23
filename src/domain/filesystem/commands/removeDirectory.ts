@@ -2,7 +2,6 @@ import fs from "fs"
 import path from "path"
 import pify from "pify"
 import { FileNode } from "../../types"
-import { rmdir } from "./rmdir"
 import { unlink } from "./unlink"
 
 export async function removeDirectory(dirpath: string) {
@@ -41,6 +40,7 @@ async function removeDirectoryRecursively(node: FileNode) {
     for (const child of node.children) {
       await removeDirectoryRecursively(child)
     }
-    await rmdir(node.pathname)
+    // console.log("rmdir", "rmd")
+    await pify(fs.rmdir)(node.pathname)
   }
 }
