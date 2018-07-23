@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/mizchi/next-editor/compare/v0.4.1...v0.5.0) (2018-07-23)
+
+
+### Bug Fixes
+
+* **deps:** pin dependency react-rte to 0.16.1 ([9f6d58a](https://github.com/mizchi/next-editor/commit/9f6d58a))
+* Fix dev env redirct ([cbdf4d2](https://github.com/mizchi/next-editor/commit/cbdf4d2))
+* Fix typos ([4f22ba9](https://github.com/mizchi/next-editor/commit/4f22ba9))
+* Update staging after multi file romove ([1b18ddb](https://github.com/mizchi/next-editor/commit/1b18ddb))
+* wysiwyg overflow workarround ([2d56d5f](https://github.com/mizchi/next-editor/commit/2d56d5f))
+
+
+### Features
+
+* Implement elastic textarea ([55a4ce1](https://github.com/mizchi/next-editor/commit/55a4ce1))
+* isIgnore ([9ad30d1](https://github.com/mizchi/next-editor/commit/9ad30d1))
+* Support prettier ([156912c](https://github.com/mizchi/next-editor/commit/156912c))
+
+
+
 <a name="0.4.1"></a>
 ## [0.4.1](https://github.com/mizchi/next-editor/compare/v0.4.0...v0.4.1) (2018-07-23)
 
