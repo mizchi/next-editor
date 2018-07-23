@@ -1,7 +1,7 @@
 import React from "react"
 import { connector } from "../../../actionCreators"
 import { Help } from "../../atoms/Help"
-import { TextEditor } from "../../atoms/TextEditor"
+import { TextEditor } from "../../molecules/TextEditor"
 
 export const Editor = connector(
   state => {
@@ -13,7 +13,9 @@ export const Editor = connector(
     return {
       unloadFile: actions.buffer.unloadFile,
       loadFile: actions.editor.loadFile,
-      updateFileContent: actions.editor.updateFileContent
+      updateFileContent: actions.editor.updateFileContent,
+      saveFile: actions.editor.saveFile,
+      setAutosave: actions.buffer.setAutosave
     }
   }
 )(props => {
@@ -21,19 +23,21 @@ export const Editor = connector(
   if (buffer.filepath) {
     return (
       <TextEditor
-        key={buffer.filepath || "/unknown/"}
-        filepath={buffer.filepath as any}
-        initialValue={buffer.value || ""}
+        key={
+          buffer.filepath + ":" + buffer.reloadCounter.toString() || "/unknown/"
+        }
+        buffer={buffer}
         onSave={newValue => {
-          console.log("on save", newValue)
+          props.saveFile(buffer.filepath, newValue)
         }}
         onChange={async newValue => {
-          if (buffer.filepath) {
-            props.updateFileContent(buffer.filepath, newValue)
-          }
+          props.updateFileContent(buffer.filepath, newValue)
         }}
         onClose={() => {
           unloadFile({})
+        }}
+        onSetAutosave={(value: boolean) => {
+          props.setAutosave({ autosave: value })
         }}
       />
     )

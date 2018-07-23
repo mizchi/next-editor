@@ -3,7 +3,6 @@ import path from "path"
 import React from "react"
 import { getFileHistory } from "../../../domain/git/queries/getFileHistory"
 import { connector } from "../../actionCreators"
-import { loadFile } from "../../actionCreators/editorActions"
 
 export const FileHistory = connector(
   state => {
@@ -15,11 +14,11 @@ export const FileHistory = connector(
   },
   actions => {
     return {
-      updateFileContent: actions.editor.updateFileContent
+      saveFile: actions.editor.saveFile
     }
   }
 )(props => {
-  const { filepath, projectRoot, currentBranch, updateFileContent } = props
+  const { filepath, projectRoot, currentBranch, saveFile } = props
   if (filepath) {
     return (
       <FileHistoryContent
@@ -27,7 +26,7 @@ export const FileHistory = connector(
         projectRoot={projectRoot}
         currentBranch={currentBranch}
         onCheckout={(_oid, value) => {
-          updateFileContent(filepath, value)
+          saveFile(filepath, value, true)
         }}
       />
     )
@@ -58,7 +57,6 @@ class FileHistoryContent extends React.Component<
   }
 
   async componentDidMount() {
-    //
     const { filepath, projectRoot, currentBranch } = this.props
     const relpath = path.relative(projectRoot, filepath)
     const changeHistory = await getFileHistory(
@@ -79,6 +77,7 @@ class FileHistoryContent extends React.Component<
       .reverse()
     this.setState({ history })
   }
+
   render() {
     const { filepath, projectRoot, currentBranch, onCheckout } = this.props
     const relpath = path.relative(projectRoot, filepath)
@@ -89,8 +88,8 @@ class FileHistoryContent extends React.Component<
         {this.state.history.map((h: any) => {
           return (
             <div key={h.commitId}>
-              {format(h.timestamp * 1000, "MM/DD HH:mm")}
-              :
+              {format(h.timestamp * 1000, "MM/DD-HH:mm")}
+              |&nbsp;
               {h.message}
               &nbsp;
               <button

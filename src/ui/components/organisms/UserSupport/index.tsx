@@ -8,7 +8,8 @@ import { FileHistory } from "../FileHistory"
 import { GitViewer } from "../GitViewer"
 
 type Props = {
-  filetype: string | null
+  filetype: string
+  filepath: string
   value: string
 }
 type State = {
@@ -17,12 +18,20 @@ type State = {
 
 export const UserSupport = connector(
   state => {
-    return state.buffer
+    return {
+      filetype: state.buffer.filetype,
+      value: state.buffer.value,
+      filepath: state.buffer.filepath
+    }
   },
   _actions => ({})
 )((props: BufferState) => {
   return (
-    <UserSupportContent filetype={props.filetype} value={props.value || ""} />
+    <UserSupportContent
+      filetype={props.filetype}
+      value={props.value}
+      filepath={props.filepath}
+    />
   )
 })
 
@@ -81,7 +90,11 @@ class UserSupportContent extends React.Component<Props, State> {
         </div>
         {/* Content */}
         <div>{this.state.mode === "git-browser" && <GitViewer />}</div>
-        <div>{this.state.mode === "git-history" && <FileHistory />}</div>
+        <div>
+          {this.state.mode === "git-history" && (
+            <FileHistory key={this.props.filepath} />
+          )}
+        </div>
         <div>
           {this.state.mode === "preview-by-filetype" && (
             <>

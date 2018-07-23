@@ -109,6 +109,7 @@ export const finishFileCreating = createThunkAction(
     await FS.writeFile(filepath, "")
     dispatch(RepositoryActions.endFileCreating({ filepath }))
     dispatch(startUpdate({ changedPath: filepath }))
+    dispatch(loadFile({ filepath }))
   }
 )
 
@@ -231,11 +232,45 @@ export async function initializeGitStatus(projectRoot: string) {
 
 export async function updateFileContent(filepath: string, value: string) {
   return async (dispatch: (a: any) => void, getState: () => RootState) => {
-    dispatch(BufferActions.changeValue({ value }))
-    await writeFile(filepath, value)
+    const state = getState()
+
+    if (state.buffer.autosave) {
+      dispatch(BufferActions.saveFile({ value }))
+      await writeFile(filepath, value)
+    } else {
+      dispatch(BufferActions.changeValue({ value }))
+    }
 
     // update git status
+    // TODO: Skip git on background
+    const projectRoot = state.repository.currentProjectRoot
+    const relpath = path.relative(projectRoot, filepath)
+    if (!relpath.startsWith("..")) {
+      dispatch(
+        GitActions.startStagingUpdate(state.repository.currentProjectRoot, [
+          relpath
+        ])
+      )
+    }
+  }
+}
+
+export async function saveFile(
+  filepath: string,
+  value: string,
+  withReload?: boolean
+) {
+  return async (dispatch: (a: any) => void, getState: () => RootState) => {
     const state = getState()
+    await writeFile(filepath, value)
+    dispatch(BufferActions.saveFile({ value }))
+
+    if (withReload) {
+      dispatch(BufferActions.reload({}))
+    }
+
+    // update git status
+    // TODO: Skip git on background
     const projectRoot = state.repository.currentProjectRoot
     const relpath = path.relative(projectRoot, filepath)
     if (!relpath.startsWith("..")) {
@@ -253,7 +288,7 @@ export const loadFile = createThunkAction(
   async ({ filepath }: { filepath: string }, dispatch) => {
     const fileContent = await FS.readFile(filepath)
     dispatch(
-      BufferActions.setFileContent({
+      BufferActions.loadFile({
         filepath,
         filetype: extToFileType(filepath),
         value: fileContent.toString()
