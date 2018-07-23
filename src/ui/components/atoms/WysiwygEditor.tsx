@@ -57,7 +57,8 @@ export class WysiwygEditor extends React.Component<
           this.props.onChange(value.toString("markdown"))
         }}
         rootStyle={{
-          height: "99%"
+          height: "99%",
+          overflow: "auto"
         }}
       />
     )
