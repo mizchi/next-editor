@@ -27,7 +27,7 @@ export const GitEasy = connector(
       .map((filepath: string) => {
         return { filepath, status: staging[filepath] }
       })
-      .filter((a: any) => a.status !== "unmodified")
+      .filter((a: any) => !["unmodified", "ignored"].includes(a.status))
     return (
       <Pane>
         <Content>
@@ -35,7 +35,7 @@ export const GitEasy = connector(
             <legend>Changes</legend>
             <CommandWithInput
               description="Commit all"
-              placeholder="Commit message..."
+              placeholder="Update"
               validate={() => modified.length > 0}
               onExec={message => {
                 props.commitAll({ message: message || "Update" })
