@@ -144,12 +144,20 @@ export const commitAll = createThunkAction(
     dispatch,
     getState: () => RootState
   ) => {
-    const { config } = getState()
-    const author = {
-      name: config.committerName || "<none>",
-      email: config.committerEmail || "<none>"
-    }
     const state = getState()
+
+    const hasChange =
+      Object.entries(state.git.staging as any).filter(
+        (p: any) => p[1] !== "unmodified"
+      ).length > 0
+    if (!hasChange) {
+      return
+    }
+
+    const author = {
+      name: state.config.committerName || "<none>",
+      email: state.config.committerEmail || "<none>"
+    }
     const projectRoot = state.repository.currentProjectRoot
     await Git.commitAll(projectRoot, message, author)
     dispatch(startStagingUpdate(projectRoot, []))
