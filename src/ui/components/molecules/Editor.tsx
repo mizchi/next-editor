@@ -77,8 +77,8 @@ export class Editor extends React.Component<Props, State> {
               fontScale={this.state.fontScale}
               spellCheck={false}
               value={value}
-              onChange={(e: any) => {
-                this.setState({ value: e.target.value }, () => {
+              onChange={newValue => {
+                this.setState({ value: newValue }, () => {
                   onChange && onChange(this.state.value)
                 })
               }}

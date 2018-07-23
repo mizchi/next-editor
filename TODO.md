@@ -3,10 +3,12 @@
 ## Current
 
 - [ ] UI: Elastic plain textearea
+- [ ] UI: Auto focus on file select
 - [ ] UI: Hide .git
 - [ ] UI: Grayed out ignored files
 - [ ] UI: Avoid staging status for .git or ignored files
 - [ ] UI: Quick file search: (fuzzy match)
+- [ ] UI: Show diff on history
 - [x] Prettier for markdown
 
 ## Icebox
