@@ -170,6 +170,10 @@ const showLoadingMessage = (mes, loading = true) => {
 }
 
 ;(async () => {
+  if (window.hostname !== 'localhost' && window.location.protocol === 'http:') {
+    window.location.href = `https://${location.host}/${window.location.search}`
+  }
+
   try {
     // SW
     showLoadingMessage('Checking service-worker...')
