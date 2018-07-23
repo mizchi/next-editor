@@ -16,12 +16,8 @@ export const Help = () => (
     }}
   >
     <h1>Next Editor v{pkg.version}</h1>
-    <h2>What's this?</h2>
-    <ul>
-      <li>PWA: offline ready editor for Chromebook</li>
-      <li>Git on browser</li>
-      <li>You can push to GitHub</li>
-    </ul>
+    <p>Standalne Editor with Git</p>
+
     <h2>How to use</h2>
     <ul>
       <li>
@@ -33,9 +29,18 @@ export const Help = () => (
       <li>
         Clone project from GitHub by <FaClone />
       </li>
-      <li>Press Ctrl-1: Editor mode</li>
-      <li>Press Ctrl-2: Editor-Preview mode</li>
     </ul>
+    <h2>Keybind</h2>
+    <dl>
+      <dt>Ctrl + 1</dt>
+      <dd>Editor Layout</dd>
+      <dt>Ctrl + 2</dt>
+      <dd>Editor-Support Layout</dd>
+      <dt>Meta + S</dt>
+      <dd>Save</dd>
+      <dt>Meta + Shift + S</dt>
+      <dd>Commit</dd>
+    </dl>
     <p>
       GitHub:&nbsp;
       <a href="https://github.com/mizchi/next-editor">mizchi/next-editor</a>
