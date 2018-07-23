@@ -238,7 +238,11 @@ export async function initializeGitStatus(projectRoot: string) {
   }
 }
 
-export async function updateFileContent(filepath: string, value: string) {
+export async function updateFileContent(
+  filepath: string,
+  value: string,
+  withReload: boolean = false
+) {
   return async (dispatch: (a: any) => void, getState: () => RootState) => {
     const state = getState()
 

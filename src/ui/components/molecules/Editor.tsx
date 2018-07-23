@@ -11,6 +11,7 @@ type Props = {
   onSave?: (e: any) => void
   onClose: () => void
   onSetAutosave: (value: boolean) => void
+  onFormat: () => void
 }
 
 type State = {
@@ -33,11 +34,14 @@ export class Editor extends React.Component<Props, State> {
     const { buffer, onSave, onChange, onSetAutosave } = this.props
     const { value } = this.state
     const { filepath } = buffer
+    const canUseWysiwyg = path.extname(filepath) === ".md"
+    const canFormat = path.extname(filepath) === ".md"
     return (
       <GridRow rows={["30px", "1fr"]} areas={["toolbar", "editor"]}>
         <GridArea name="toolbar">
           <EditorToolbar
-            canUseWysiwyg={path.extname(filepath) === ".md"}
+            canUseWysiwyg={canUseWysiwyg}
+            canFormat={canFormat}
             onToggleWysiwyg={() => {
               this.setState({ wysiwyg: !this.state.wysiwyg })
             }}
@@ -52,6 +56,9 @@ export class Editor extends React.Component<Props, State> {
             }}
             onClickClose={() => {
               this.props.onClose()
+            }}
+            onClickFormat={() => {
+              this.props.onFormat()
             }}
           />
         </GridArea>
@@ -89,18 +96,22 @@ export function EditorToolbar({
   autosave,
   onClickSave,
   onClickClose,
+  onClickFormat,
   onChangeAutosave,
   onToggleWysiwyg,
-  canUseWysiwyg
+  canUseWysiwyg,
+  canFormat
 }: {
   filepath: string
   changed: boolean
   autosave: boolean
   onClickSave: any
   onClickClose: any
+  canUseWysiwyg: boolean
   onChangeAutosave: any
   onToggleWysiwyg: any
-  canUseWysiwyg: boolean
+  onClickFormat: any
+  canFormat: boolean
 }) {
   return (
     <GridColumn
@@ -131,6 +142,7 @@ export function EditorToolbar({
           </button>
         )}
         {canUseWysiwyg && <button onClick={onToggleWysiwyg}>W</button>}
+        {canFormat && <button onClick={onClickFormat}>F</button>}
       </GridArea>
       <GridArea name="close">
         <button onClick={onClickClose}>x</button>

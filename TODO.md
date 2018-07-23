@@ -2,19 +2,16 @@
 
 ## Current
 
-- [ ] UI: Easy Commit all
-- [ ] UI: Wysiwyg for markdown
-- [ ] Prettier for markdown
-- [ ] UI: Avoid staging status for .git or ignored files
-- [ ] UI: Update git status at directory remove
 - [ ] UI: Elastic plain textearea
-- [x] Checkout from file history on editor
-- [x] Checkout file on from history
-- [x] UI: Toggle auto save
-- [ ] UI: Quick file search(fuzzy match)
+- [ ] UI: Hide .git
+- [ ] UI: Grayed out ignored files
+- [ ] UI: Avoid staging status for .git or ignored files
+- [ ] UI: Quick file search: (fuzzy match)
+- [x] Prettier for markdown
 
 ## Icebox
 
+- [ ] Research ipfs or webtorrent to share
 - [ ] UI: Inline Rename
 - [ ] UI: Drag and drop
 - [ ] Clone with countdown
@@ -30,6 +27,8 @@
 - [ ] React: Component Preview
 - [ ] GitHub: Issue integration
 - [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
+- [ ] Create dump
+- [ ] Recovery mode
 
 ## v1.0.0
 
@@ -44,6 +43,16 @@
   - Edit React Component
 
 ---
+
+## 0.4.0
+
+- [x] UI: Redirect to https on production
+- [x] UI: Easy Commit all
+- [x] UI: Wysiwyg for markdown
+- [x] Checkout from file history on editor
+- [x] Checkout file on from history
+- [x] UI: Toggle auto save
+- [x] UI: Update git status at directory remove
 
 ## 0.2.0
 

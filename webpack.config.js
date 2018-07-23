@@ -23,9 +23,6 @@ module.exports = {
     },
     extensions: [".ts", ".tsx", ".js"]
   },
-  stats: {
-    colors: false
-  },
   module: {
     rules: [
       {

@@ -1,4 +1,6 @@
+import path from "path"
 import React from "react"
+import { formatMarkdown } from "../../../../lib/formatMarkdown"
 import { connector } from "../../../actionCreators"
 import { Help } from "../../atoms/Help"
 import { Editor as EditorContent } from "../../molecules/Editor"
@@ -38,6 +40,15 @@ export const Editor = connector(
         }}
         onSetAutosave={(value: boolean) => {
           props.setAutosave({ autosave: value })
+        }}
+        onFormat={() => {
+          const ext = path.extname(buffer.filepath)
+          switch (ext) {
+            case ".md": {
+              const formatted = formatMarkdown(buffer.value)
+              props.saveFile(buffer.filepath, formatted, true)
+            }
+          }
         }}
       />
     )
