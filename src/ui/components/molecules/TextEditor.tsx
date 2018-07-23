@@ -1,5 +1,7 @@
+import path from "path"
 import { darken } from "polished"
 import React from "react"
+import RichTextEditor from "react-rte"
 import styled from "styled-components"
 import { BufferState } from "../../reducers/buffer"
 import { GridArea, GridColumn, GridRow } from "../utils/Grid"
@@ -15,6 +17,7 @@ type Props = {
 type State = {
   fontScale: number
   value: string
+  wysiwyg: boolean
 }
 
 export class TextEditor extends React.Component<Props, State> {
@@ -22,7 +25,8 @@ export class TextEditor extends React.Component<Props, State> {
     super(props)
     this.state = {
       fontScale: 1.0,
-      value: props.buffer.value
+      value: props.buffer.value,
+      wysiwyg: false
     }
   }
 
@@ -34,6 +38,10 @@ export class TextEditor extends React.Component<Props, State> {
       <GridRow rows={["30px", "1fr"]} areas={["toolbar", "editor"]}>
         <GridArea name="toolbar">
           <EditorToolbar
+            canUseWysiwyg={path.extname(filepath) === ".md"}
+            onToggleWysiwyg={() => {
+              this.setState({ wysiwyg: !this.state.wysiwyg })
+            }}
             filepath={filepath}
             changed={buffer.changed}
             autosave={buffer.autosave}
@@ -49,22 +57,27 @@ export class TextEditor extends React.Component<Props, State> {
           />
         </GridArea>
         <GridArea name="editor" overflowX="hidden">
-          <Textarea
-            fontScale={this.state.fontScale}
-            spellCheck={false}
-            value={value}
-            onKeyDown={(ev: KeyboardEvent) => {
-              if ((ev.metaKey || ev.ctrlKey) && ev.key === "s") {
-                ev.preventDefault()
-                onSave && onSave(this.state.value)
-              }
-            }}
-            onChange={(e: any) => {
-              this.setState({ value: e.target.value }, () => {
-                onChange && onChange(this.state.value)
-              })
-            }}
-          />
+          {this.state.wysiwyg ? (
+            <WysiwygEditor
+              initialValue={value}
+              onChange={(newVal: string) => {
+                this.setState({ value: newVal }, () => {
+                  onChange && onChange(newVal)
+                })
+              }}
+            />
+          ) : (
+            <Textarea
+              fontScale={this.state.fontScale}
+              spellCheck={false}
+              value={value}
+              onChange={(e: any) => {
+                this.setState({ value: e.target.value }, () => {
+                  onChange && onChange(this.state.value)
+                })
+              }}
+            />
+          )}
         </GridArea>
       </GridRow>
     )
@@ -76,7 +89,6 @@ const Textarea: React.ComponentType<{
   spellCheck: boolean
   value: string
   onChange: any
-  onKeyDown: any
 }> = styled.textarea`
   font-size: ${p => p.fontScale}em;
   line-height: 1.5em;
@@ -97,7 +109,9 @@ export function EditorToolbar({
   autosave,
   onClickSave,
   onClickClose,
-  onChangeAutosave
+  onChangeAutosave,
+  onToggleWysiwyg,
+  canUseWysiwyg
 }: {
   filepath: string
   changed: boolean
@@ -105,6 +119,8 @@ export function EditorToolbar({
   onClickSave: any
   onClickClose: any
   onChangeAutosave: any
+  onToggleWysiwyg: any
+  canUseWysiwyg: boolean
 }) {
   return (
     <GridColumn
@@ -134,10 +150,74 @@ export function EditorToolbar({
             Save(⌘S)
           </button>
         )}
+        {canUseWysiwyg && <button onClick={onToggleWysiwyg}>W</button>}
       </GridArea>
       <GridArea name="close">
         <button onClick={onClickClose}>x</button>
       </GridArea>
     </GridColumn>
   )
+}
+
+class WysiwygEditor extends React.Component<
+  {
+    onChange: any
+    initialValue: string
+  },
+  {
+    value: any
+  }
+> {
+  toolbarConfig = {
+    // Optionally specify the groups to display (displayed in the order listed).
+    display: [
+      "INLINE_STYLE_BUTTONS",
+      "BLOCK_TYPE_BUTTONS",
+      "LINK_BUTTONS",
+      "BLOCK_TYPE_DROPDOWN",
+      "HISTORY_BUTTONS"
+    ],
+    INLINE_STYLE_BUTTONS: [
+      { label: "Bold", style: "BOLD", className: "custom-css-class" },
+      { label: "Italic", style: "ITALIC" },
+      { label: "Underline", style: "UNDERLINE" }
+    ],
+    BLOCK_TYPE_DROPDOWN: [
+      { label: "Normal", style: "unstyled" },
+      { label: "Heading Large", style: "header-one" },
+      { label: "Heading Medium", style: "header-two" },
+      { label: "Heading Small", style: "header-three" }
+    ],
+    BLOCK_TYPE_BUTTONS: [
+      { label: "UL", style: "unordered-list-item" },
+      { label: "OL", style: "ordered-list-item" }
+    ]
+  }
+
+  constructor(props: any) {
+    super(props)
+    this.state = {
+      value: RichTextEditor.createValueFromString(
+        props.initialValue,
+        "markdown"
+      )
+    }
+  }
+
+  render() {
+    return (
+      <RichTextEditor
+        spellCheck={false}
+        toolbarConfig={this.toolbarConfig}
+        value={this.state.value}
+        onChange={(value: any) => {
+          this.setState({ value })
+          this.props.onChange(value.toString("markdown"))
+        }}
+        rootStyle={{
+          height: "99%"
+        }}
+      />
+    )
+  }
 }
