@@ -29,10 +29,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        include: [
-          path.join(__dirname, "src"),
-          path.join(__dirname, "node_modules/react-icons")
-        ],
+        include: [path.join(__dirname, "src")],
         use: {
           loader: "babel-loader"
         }
