@@ -153,10 +153,11 @@ async function setupServiceWorker() {
     }),
     // NOTE: Start without service-worker after 3s
     new Promise(resolve => {
-      console.log('timer start')
-      setTimeout(() => {
-        console.warn('Start without service-worker')
+      setTimeout(() => {        
         resolve()
+        if (navigator.serviceWorker.controller == null) {
+          console.warn('Start without service-worker')
+        }
       }, 3000)
     })
   ])
@@ -189,6 +190,7 @@ const showLoadingMessage = (mes, loading = true) => {
 }
 
 ;(async () => {
+  console.time('boot')
   if (window.location.hostname !== 'localhost' && window.location.protocol === 'http:') {
     window.location.href = `https://${location.host}/${window.location.search}`
   }
@@ -213,6 +215,7 @@ const showLoadingMessage = (mes, loading = true) => {
       false
     )
   }
+  console.timeEnd('boot')
 })()
   </script>
 </body>
