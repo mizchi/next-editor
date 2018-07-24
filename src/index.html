@@ -140,16 +140,9 @@ async function setupServiceWorker() {
       document.body.appendChild(modal)
     }
   });
+
   const reg = await navigator.serviceWorker.register('/sw.js');
-  // NOTE: Sometimes(development only?) navigator.serviceWorker.ready is never ready.
-  // I will catch controller changed or controlled worker
   await navigator.serviceWorker.ready
-  // await new Promise(resolve => {
-  //   if (navigator.serviceWorker.controller) {
-  //     return resolve();
-  //   }
-  //   navigator.serviceWorker.addEventListener('controllerchange', e => resolve());
-  // })
   if (location.href.indexOf('localhost') > -1 ) {
     setInterval(() => {
       reg.update();
