@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/mizchi/next-editor/compare/v0.4.1...v0.6.0) (2018-07-24)
+
+
+### Bug Fixes
+
+* **deps:** pin dependency react-rte to 0.16.1 ([9f6d58a](https://github.com/mizchi/next-editor/commit/9f6d58a))
+* Do not show ignored file on stage ([bd3d190](https://github.com/mizchi/next-editor/commit/bd3d190))
+* Fix dev env redirct ([cbdf4d2](https://github.com/mizchi/next-editor/commit/cbdf4d2))
+* Fix typos ([4f22ba9](https://github.com/mizchi/next-editor/commit/4f22ba9))
+* ServiceWorker on development ready ([d32d2a5](https://github.com/mizchi/next-editor/commit/d32d2a5))
+* Update staging after multi file romove ([1b18ddb](https://github.com/mizchi/next-editor/commit/1b18ddb))
+* wysiwyg overflow workarround ([2d56d5f](https://github.com/mizchi/next-editor/commit/2d56d5f))
+
+
+### Features
+
+* Grayed out pathname on ignore ([23b7515](https://github.com/mizchi/next-editor/commit/23b7515))
+* Implement elastic textarea ([cc050f9](https://github.com/mizchi/next-editor/commit/cc050f9))
+* isIgnore ([d1819f2](https://github.com/mizchi/next-editor/commit/d1819f2))
+* Start with scratch.md on first visit ([b195cce](https://github.com/mizchi/next-editor/commit/b195cce))
+* Support prettier ([e4a4916](https://github.com/mizchi/next-editor/commit/e4a4916))
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/mizchi/next-editor/compare/v0.4.1...v0.5.0) (2018-07-23)
 
