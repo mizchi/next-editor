@@ -15,6 +15,7 @@ import { connector } from "../../../actionCreators"
 import * as EditorActions from "../../../actionCreators/editorActions"
 import { RootState } from "../../../reducers"
 import * as RepositoryActions from "../../../reducers/repository"
+import { Pathname } from "../../atoms/Pathname"
 import { AddDir } from "./AddDir"
 import { AddFile } from "./AddFile"
 import { FileLine } from "./FileLine"
@@ -70,6 +71,8 @@ type State = {
 const DirectoryLineContent: React.ComponentClass<
   Props
 > = class extends React.Component<Props, State> {
+  _unmounted: boolean = false
+
   constructor(props: Props) {
     super(props)
     this.state = {
@@ -95,7 +98,14 @@ const DirectoryLineContent: React.ComponentClass<
     }
   }
 
+  componentWillUnmount() {
+    this._unmounted = true
+  }
+
   async _updateChildren() {
+    if (this._unmounted) {
+      return
+    }
     try {
       const fileList = await readFileStats(this.props.root, this.props.dirpath)
       this.setState({ fileList, loaded: true, loading: false })
@@ -105,11 +115,14 @@ const DirectoryLineContent: React.ComponentClass<
   }
 
   render() {
-    const { dirpath, depth, root, ignoreGit = false } = this.props
+    const { dirpath, depth, root } = this.props
     const { opened, fileList } = this.state
 
     const relpath = path.relative(root, dirpath)
     const basename = path.basename(relpath)
+
+    const ignoreGit = relpath === ".git" || this.props.ignoreGit || false
+
     // Just casting
     const MyContextMenuProvider: any = ContextMenuProvider
     return (
@@ -129,7 +142,9 @@ const DirectoryLineContent: React.ComponentClass<
               this.setState({ hovered: false })
             }}
             onClick={() => {
-              this.setState({ opened: !this.state.opened })
+              if (!this.state.loading) {
+                this.setState({ opened: !this.state.opened })
+              }
             }}
           >
             <div>
@@ -138,7 +153,9 @@ const DirectoryLineContent: React.ComponentClass<
                   <Prefix depth={depth} />
                   {opened ? <FaFolderOpen /> : <FaFolder />}
                   &nbsp;
-                  {basename || `${dirpath}`}
+                  <Pathname ignoreGit={ignoreGit}>
+                    {basename || `${dirpath}`}
+                  </Pathname>
                 </div>
                 {this.state.hovered && (
                   <HoveredMenu
@@ -196,7 +213,6 @@ const DirectoryLineContent: React.ComponentClass<
               dirpath={dirpath}
               depth={depth + 1}
               fileList={fileList}
-              ignoreGit={ignoreGit}
             />
           )}
       </>
@@ -208,14 +224,12 @@ const LinkedLines = ({
   dirpath,
   root,
   depth,
-  fileList,
-  ignoreGit
+  fileList
 }: {
   dirpath: string
   root: string
   depth: number
   fileList: FileInfo[]
-  ignoreGit: boolean
 }) => {
   return (
     <>
@@ -227,7 +241,7 @@ const LinkedLines = ({
               key={f.name}
               depth={depth}
               filepath={filepath}
-              ignoreGit={ignoreGit}
+              ignoreGit={f.ignored}
             />
           )
         } else if (f.type === "dir") {
@@ -237,7 +251,7 @@ const LinkedLines = ({
               root={root}
               dirpath={filepath}
               depth={depth}
-              ignoreGit={f.name === ".git"} // TODO: See .gitignore
+              ignoreGit={f.ignored} // TODO: See .gitignore
             />
           )
         }

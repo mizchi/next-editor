@@ -18,8 +18,7 @@ export async function readFileStats(
       return {
         name,
         type: stat.isDirectory() ? "dir" : "file",
-        ignored: false
-        // ignored: await isIgnored(projectRoot, childPath)
+        ignored: await isIgnored(projectRoot, childPath)
       }
     })
   )

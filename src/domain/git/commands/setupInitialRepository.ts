@@ -7,25 +7,19 @@ import { existsPath } from "../../filesystem/queries/existsPath"
 
 const j = path.join
 
-const Introduction = `# Next Editor
+const INTRODUCTION = `# Playground
 
-Standalone Git Editor
+This file may be rewrite by update
 
-## How to use git
-
-Remote features are not stable yet.
-
-## How to use your own cors proxy
-
-See detail https://github.com/wmhilton/cors-buster
-\`\`\`
-$ npm i -g now
-# login to now
-$ now wmhilton/cors-buster
-\`\`\`
-
-Set your githubProxy on config \`<your proxy>/github.com/\`
+You can edit this field.
 `
+
+const SCRATCH = `# Welcome to NextEditor!
+
+Edit here...
+`
+
+const GIT_IGNORE = `out\nbuild`
 
 export async function setupInitialRepository(projectRoot: string) {
   // ensure directory
@@ -34,7 +28,10 @@ export async function setupInitialRepository(projectRoot: string) {
   } else {
     console.info("Project: creating...")
     await mkdir(projectRoot)
-    await writeFile(path.join(projectRoot, "README.md"), Introduction)
+    await mkdir(path.join(projectRoot, "docs"))
+    await writeFile(path.join(projectRoot, "README.md"), INTRODUCTION)
+    await writeFile(path.join(projectRoot, ".gitignore"), GIT_IGNORE)
+    await writeFile(path.join(projectRoot, "scratch.md"), SCRATCH)
     console.info("Project: creating done")
   }
 
@@ -46,6 +43,16 @@ export async function setupInitialRepository(projectRoot: string) {
     await git.add({
       dir: "/playground",
       filepath: "README.md",
+      fs
+    })
+    await git.add({
+      dir: "/playground",
+      filepath: ".gitignore",
+      fs
+    })
+    await git.add({
+      dir: "/playground",
+      filepath: "scratch.md",
       fs
     })
     await git.commit({
