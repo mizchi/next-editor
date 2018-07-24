@@ -5,15 +5,18 @@
 - [ ] UI: Auto focus on file select
 - [ ] UI: Hide .git
 - [ ] UI: Grayed out ignored files
-- [ ] UI: Avoid staging status for .git or ignored files
 - [ ] UI: Quick file search: (fuzzy match)
 - [ ] UI: Show diff on history
 - [ ] UI: Rewrite buffer without file change
+- [ ] UI: Inhibit checkout if hash has same content
+- [x] UI: Avoid staging status for .git or ignored files
 - [x] UI: Elastic plain textearea
 - [x] Prettier for markdown
 
 ## Icebox
 
+- [ ] UI: Expand all
+- [ ] UI: Full text search
 - [ ] textlint
 - [ ] Research ipfs or webtorrent to share
 - [ ] UI: Inline Rename
