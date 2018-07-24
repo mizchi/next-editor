@@ -142,7 +142,21 @@ async function setupServiceWorker() {
   });
 
   const reg = await navigator.serviceWorker.register('/sw.js');
-  await navigator.serviceWorker.ready
+  await Promise.race([
+    await navigator.serviceWorker.ready,
+    // NOTE: Sometimes(development only?) navigator.serviceWorker.ready is never ready.
+    await new Promise(resolve => {
+      if (navigator.serviceWorker.controller) {
+        return resolve();
+      }
+      navigator.serviceWorker.addEventListener('controllerchange', e => resolve());
+    }),
+    // NOTE: Start without service-worker after 3s
+    await new Promise(resolve => setTimeout(() => {
+      console.warn('Start without service-worker')
+      resolve()
+    }, 3000))
+  ])
   if (location.href.indexOf('localhost') > -1 ) {
     setInterval(() => {
       reg.update();
@@ -153,6 +167,7 @@ async function setupServiceWorker() {
     }, 60 * 1000);
   }
 }
+
 async function setupFonts() {
   const font = new FontFace('Inconsolata', 'url(/assets/Inconsolata.otf)');
   const loadedFace = await font.load()
