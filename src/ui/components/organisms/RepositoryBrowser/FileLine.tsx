@@ -5,11 +5,12 @@ import { ContextMenuProvider } from "react-contexify"
 import FaFile from "react-icons/fa/file"
 import styled from "styled-components"
 import { connector } from "../../../actionCreators"
+import { Pathname } from "../../atoms/Pathname"
 
 type OwnProps = {
   depth: number
   filepath: string
-  ignoreGit?: boolean
+  ignoreGit: boolean
 }
 
 type Props = OwnProps & {
@@ -39,7 +40,7 @@ export const FileLine: React.ComponentType<OwnProps> = connector<OwnProps>(
           {range(depth).map((_, k) => <span key={k}>&nbsp;&nbsp;</span>)}
           <FaFile />
           &nbsp;
-          <span>{basename}</span>
+          <Pathname ignoreGit={props.ignoreGit}>{basename}</Pathname>
         </div>
       </Container>
     </ContextMenuProvider>
