@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.4"></a>
+## [0.6.4](https://github.com/mizchi/next-editor/compare/v0.6.3...v0.6.4) (2018-07-24)
+
+
+### Bug Fixes
+
+* Remove big icons! ([5d63939](https://github.com/mizchi/next-editor/commit/5d63939))
+
+
+
 <a name="0.6.3"></a>
 ## [0.6.3](https://github.com/mizchi/next-editor/compare/v0.6.2...v0.6.3) (2018-07-24)
 
