@@ -14,12 +14,14 @@ export type ConfigState = {
   committerEmail: string
   githubApiToken: string
   githubProxy: string
+  isFirstVisit: boolean
+  doneTutorial: boolean
   theme: string
 }
 
 export const setConfigValue: ActionCreator<{
   key: string
-  value: string
+  value: string | boolean
 }> = createAction("set-config-value")
 
 const initalState: ConfigState = {
@@ -27,7 +29,9 @@ const initalState: ConfigState = {
   committerEmail: "",
   githubApiToken: "",
   githubProxy: "https://cors-buster-zashozaqfk.now.sh/github.com/",
-  theme: "default"
+  theme: "default",
+  isFirstVisit: true,
+  doneTutorial: false
 }
 
 export const reducer: Reducer<ConfigState> = createReducer(initalState).case(
