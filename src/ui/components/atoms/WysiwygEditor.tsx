@@ -3,8 +3,8 @@ import RichTextEditor from "react-rte"
 
 export class WysiwygEditor extends React.Component<
   {
-    onChange: any
-    initialValue: string
+    onChange: (value: string) => void
+    initialValue?: string | null
   },
   {
     value: any
@@ -40,7 +40,7 @@ export class WysiwygEditor extends React.Component<
     super(props)
     this.state = {
       value: RichTextEditor.createValueFromString(
-        props.initialValue,
+        props.initialValue || "",
         "markdown"
       )
     }

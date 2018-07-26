@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import { RootState } from "../../reducers"
 import { Config } from "../pages/Config"
 import { Main } from "../pages/Main"
+import { Playground } from "../pages/Playground"
 
 type Props = {
   currentScene: string
@@ -21,6 +22,9 @@ export const StackRouter = connect(selector)((props: Props) => {
     }
     case "config": {
       return <Config />
+    }
+    case "playground": {
+      return <Playground />
     }
     default: {
       return <span>Route Error: No {props.currentScene}</span>
