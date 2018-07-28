@@ -48,7 +48,7 @@ const StyledTextarea: React.ComponentType<{
 }> = styled(Textarea)`
   font-size: 1.1em;
   line-height: 1.5em;
-  padding: 3px;
+  padding: 3px 3px 10px 3px;
   background: ${p => darken(0.05, p.theme.main)};
   color: ${p => p.theme.textColor};
   width: 100%;
