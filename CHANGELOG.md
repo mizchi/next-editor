@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.0"></a>
+# [0.9.0](https://github.com/mizchi/next-editor/compare/v0.7.0...v0.9.0) (2018-07-28)
+
+
+### Bug Fixes
+
+* **deps:** pin dependency diff to 3.5.0 ([3b6cdfd](https://github.com/mizchi/next-editor/commit/3b6cdfd))
+* Overflow filepath ([d6fcb5d](https://github.com/mizchi/next-editor/commit/d6fcb5d))
+
+
+### Features
+
+* History returns with diff ([848a121](https://github.com/mizchi/next-editor/commit/848a121))
+* Open diretory that includes editing filepath on open ([44c0a8d](https://github.com/mizchi/next-editor/commit/44c0a8d))
+* Show simple diff ([c795f26](https://github.com/mizchi/next-editor/commit/c795f26))
+
+
+
 <a name="0.8.1"></a>
 ## [0.8.1](https://github.com/mizchi/next-editor/compare/v0.8.0...v0.8.1) (2018-07-28)
 
