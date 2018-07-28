@@ -16,8 +16,8 @@ export class WysiwygEditor extends React.Component<
       "INLINE_STYLE_BUTTONS",
       "BLOCK_TYPE_BUTTONS",
       "LINK_BUTTONS",
-      "BLOCK_TYPE_DROPDOWN",
-      "HISTORY_BUTTONS"
+      "BLOCK_TYPE_DROPDOWN"
+      // "HISTORY_BUTTONS"
     ],
     INLINE_STYLE_BUTTONS: [
       { label: "Bold", style: "BOLD", className: "custom-css-class" },
@@ -25,10 +25,10 @@ export class WysiwygEditor extends React.Component<
       { label: "Underline", style: "UNDERLINE" }
     ],
     BLOCK_TYPE_DROPDOWN: [
-      { label: "Normal", style: "unstyled" },
-      { label: "Heading Large", style: "header-one" },
-      { label: "Heading Medium", style: "header-two" },
-      { label: "Heading Small", style: "header-three" }
+      { label: "--", style: "unstyled" },
+      { label: "H1", style: "header-one" },
+      { label: "H2", style: "header-two" },
+      { label: "H3", style: "header-three" }
     ],
     BLOCK_TYPE_BUTTONS: [
       { label: "UL", style: "unordered-list-item" },
