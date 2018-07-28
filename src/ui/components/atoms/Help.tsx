@@ -36,6 +36,9 @@ export const Help = () => (
       <dd>Editor Layout</dd>
       <dt>Ctrl + 2</dt>
       <dd>Editor-Support Layout</dd>
+      <dt>Ctrl + 3</dt>
+      <dd>Editor-only Layout</dd>
+
       <dt>Meta + S</dt>
       <dd>Save</dd>
       <dt>Meta + Shift + S</dt>
