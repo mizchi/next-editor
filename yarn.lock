@@ -1378,7 +1378,7 @@
   version "23.3.1"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.1.tgz#a4319aedb071d478e6f407d1c4578ec8156829cf"
 
-"@types/lodash@^4.14.115":
+"@types/lodash@4.14.115":
   version "4.14.115"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.115.tgz#54d171b2ce12c058742443b5f6754760f701b8f9"
 
@@ -1413,7 +1413,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-dom@^16.0.6":
+"@types/react-dom@16.0.6":
   version "16.0.6"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.6.tgz#f1a65a4e7be8ed5d123f8b3b9eacc913e35a1a3c"
   dependencies:
@@ -1458,7 +1458,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.4.7":
+"@types/react@*", "@types/react@16.4.7":
   version "16.4.7"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.7.tgz#f33f6d759a7e1833befa15224d68942d178a5a3f"
   dependencies:
@@ -2110,7 +2110,7 @@ babel-jest@^23.4.2:
     babel-plugin-istanbul "^4.1.6"
     babel-preset-jest "^23.2.0"
 
-babel-loader@^8.0.0-beta.4:
+babel-loader@8.0.0-beta.4, babel-loader@^8.0.0-beta.4:
   version "8.0.0-beta.4"
   resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-8.0.0-beta.4.tgz#c3fab00696c385c70c04dbe486391f0eb996f345"
   dependencies:
@@ -4106,7 +4106,7 @@ docz-theme-default@^0.7.1:
     react-syntax-highlighter "^8.0.1"
     webfontloader "^1.6.28"
 
-docz@^0.7.1:
+docz@0.7.1, docz@^0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/docz/-/docz-0.7.1.tgz#b9588eafa633d9b520a98eaa74d68f3c9e410ac9"
   dependencies:
@@ -11393,7 +11393,7 @@ webpack-dev-middleware@^3.0.0:
     url-join "^4.0.0"
     webpack-log "^1.0.1"
 
-webpack-hot-client@^4.1.0, webpack-hot-client@^4.1.1:
+webpack-hot-client@4.1.1, webpack-hot-client@^4.1.0, webpack-hot-client@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/webpack-hot-client/-/webpack-hot-client-4.1.1.tgz#fc02b396749d5fd26c4f2265567e2fc1521a41ff"
   dependencies:
@@ -11472,7 +11472,7 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^4.16.1, webpack@^4.16.3:
+webpack@4.16.3, webpack@^4.16.1:
   version "4.16.3"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.16.3.tgz#861be3176d81e7e3d71c66c8acc9bba35588b525"
   dependencies:
