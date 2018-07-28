@@ -51,7 +51,7 @@ const Container: React.ComponentType<{ selected: boolean }> = styled.div`
   cursor: pointer;
   user-select: none;
   padding-left: 2px;
-  color: ${p => (p.selected ? "rgb(255, 128, 128)" : "black")};
+  /* color: ${p => (p.selected ? "rgb(255, 128, 128)" : "black")}; */
   &:hover {
     background: black;
     color: white;
