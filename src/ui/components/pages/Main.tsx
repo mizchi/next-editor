@@ -10,14 +10,14 @@ export function Main() {
     <Root>
       {/* prettier-ignore */}
       <Grid
-        columns={["250px", "1fr"]}
+        columns={["1fr"]}
         rows={[
           "30px",
           "1fr"
         ]}
         areas={[
-          ["header", "header"],
-          ["menu",   "content"]
+          ["header"],
+          ["content"]
         ]}
         width="100vw"
         height="100vh"
@@ -26,11 +26,6 @@ export function Main() {
           name="header"
         >
           <GlobalHeader />
-        </GridArea>
-        <GridArea
-          name="menu"
-        >
-          <Menu/>
         </GridArea>
         <GridArea
           name="content"

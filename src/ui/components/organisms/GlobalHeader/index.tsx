@@ -28,9 +28,9 @@ export const GlobalHeader = connector(
         <button
           onClick={() => {
             if (currentColumnConut === 2) {
-              props.setLayoutAreas({ areas: [["editor", "editor"]] })
+              props.setLayoutAreas({ areas: [["menu", "editor", "editor"]] })
             } else {
-              props.setLayoutAreas({ areas: [["editor", "support"]] })
+              props.setLayoutAreas({ areas: [["menu", "editor", "support"]] })
             }
           }}
         >

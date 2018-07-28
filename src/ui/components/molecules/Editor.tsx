@@ -41,7 +41,7 @@ export class Editor extends React.Component<Props, State> {
     const displayFilepath = relpath
     const basename = path.basename(relpath)
     return (
-      <GridRow rows={["30px", "1fr"]} areas={["toolbar", "editor"]}>
+      <GridRow rows={["24px", "1fr"]} areas={["toolbar", "editor"]}>
         <GridArea name="toolbar">
           <EditorToolbar
             displayFilepath={displayFilepath}

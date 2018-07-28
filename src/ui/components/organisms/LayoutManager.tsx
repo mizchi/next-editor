@@ -1,16 +1,19 @@
 import flatten from "lodash/flatten"
 import uniq from "lodash/uniq"
 import React from "react"
+import { ToastContainer } from "react-toastify"
 import { lifecycle } from "recompose"
 import { connector } from "../../actionCreators"
 import { AreaName } from "../../reducers/app"
 import { Grid, GridArea } from "../utils/Grid"
 import { Editor } from "./Editor"
+import { Menu } from "./Menu"
 import { UserSupport } from "./UserSupport"
 
 const AreaMap: any = {
   editor: Editor,
-  support: UserSupport
+  support: UserSupport,
+  menu: Menu
 }
 
 export const LayoutManager = connector(
@@ -31,15 +34,33 @@ export const LayoutManager = connector(
   const areaNames: AreaName[] = uniq(flatten(mainLayout.areas))
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        draggablePercent={60}
+        closeOnClick
+        rtl={false}
+        pauseOnVisibilityChange
+        draggable
+        pauseOnHover
+      />
+
       <Keydown
         keydown={(e: KeyboardEvent) => {
           // 1
           if (e.ctrlKey && e.keyCode === 49) {
-            setLayoutAreas({ areas: [["editor", "editor"]] })
+            setLayoutAreas({ areas: [["menu", "editor", "editor"]] })
           }
           // 2
           if (e.ctrlKey && e.keyCode === 50) {
-            setLayoutAreas({ areas: [["editor", "support"]] })
+            setLayoutAreas({ areas: [["menu", "editor", "support"]] })
+          }
+
+          // 3
+          if (e.ctrlKey && e.keyCode === 51) {
+            setLayoutAreas({ areas: [["editor", "editor", "editor"]] })
           }
 
           // Ctrl-Cmd-S

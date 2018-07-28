@@ -61,18 +61,6 @@ export const App = lifecycle({
         <ThemeProvider>
           <StackRouter />
         </ThemeProvider>
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          draggablePercent={60}
-          closeOnClick
-          rtl={false}
-          pauseOnVisibilityChange
-          draggable
-          pauseOnHover
-        />
       </PersistGate>
     </Provider>
   )

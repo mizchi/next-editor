@@ -9,7 +9,7 @@ const { createAction } = buildActionCreator({
   prefix: "app/"
 })
 
-export type AreaName = "editor" | "support"
+export type AreaName = "menu" | "editor" | "support"
 
 export const setLayoutAreas: ActionCreator<{
   areas: AreaName[][]
@@ -39,9 +39,9 @@ export type AppState = {
 const initialState: AppState = {
   sceneStack: ["main"],
   mainLayout: {
-    columns: ["1fr", "1fr"],
+    columns: ["250px", "1fr", "1fr"],
     rows: ["1fr"],
-    areas: [["editor", "support"]]
+    areas: [["menu", "editor", "support"]]
   }
 }
 

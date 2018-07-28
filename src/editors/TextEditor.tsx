@@ -32,8 +32,8 @@ export class TextEditor extends React.Component<Props> {
 const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 100%;
-  padding: 5px;
+  height: 98%;
+  padding: 4px;
   background: ${p => darken(0.1, p.theme.main)};
   overflow: auto;
 `
@@ -48,7 +48,7 @@ const StyledTextarea: React.ComponentType<{
 }> = styled(Textarea)`
   font-size: 1.1em;
   line-height: 1.5em;
-  padding: 3px 3px 10px 3px;
+  padding: 3px 5px;
   background: ${p => darken(0.05, p.theme.main)};
   color: ${p => p.theme.textColor};
   width: 100%;
@@ -56,4 +56,6 @@ const StyledTextarea: React.ComponentType<{
   display: block;
   border: 0;
   box-sizing: border-box;
+  max-width: 70vw;
+  margin: 0 auto;
 `
