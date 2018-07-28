@@ -24,7 +24,7 @@
     "@babel/preset-react": "7.0.0-beta.54",
     "@babel/standalone": "7.0.0-beta.54",
     "@mdx-js/loader": "0.14.1",
-    "@mdx-js/mdx": "0.14.0",
+    "@mdx-js/mdx": "0.14.1",
     "@types/jest": "23.3.1",
     "@types/lodash": "^4.14.115",
     "@types/node": "10.5.4",
