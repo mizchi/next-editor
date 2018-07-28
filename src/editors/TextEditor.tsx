@@ -16,7 +16,7 @@ export class TextEditor extends React.Component<Props> {
     return (
       <Container>
         <StyledTextarea
-          minRows={6}
+          minRows={5}
           innerRef={this.textareaRef}
           spellCheck={this.props.spellCheck}
           value={this.props.value}
@@ -32,9 +32,11 @@ export class TextEditor extends React.Component<Props> {
 const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 98%;
+  height: 100%;
   padding: 4px;
-  background: ${p => darken(0.1, p.theme.main)};
+  background: ${p => darken(0.05, p.theme.main)};
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow (rgba(255, 255, 255, .3) -1px 0 0);
   overflow: auto;
 `
 
@@ -48,8 +50,8 @@ const StyledTextarea: React.ComponentType<{
 }> = styled(Textarea)`
   font-size: 1.1em;
   line-height: 1.5em;
-  padding: 3px 5px;
-  background: ${p => darken(0.05, p.theme.main)};
+  padding: 3px 5px 3px 10px;
+  background: ${p => darken(0.02, p.theme.main)};
   color: ${p => p.theme.textColor};
   width: 100%;
   resize: none;
@@ -58,4 +60,8 @@ const StyledTextarea: React.ComponentType<{
   box-sizing: border-box;
   max-width: 70vw;
   margin: 0 auto;
+  border-left: 1px solid rgba(0, 0, 0, 0.05);
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow (rgba(255, 255, 255, .3) -1px 0 0);
 `
