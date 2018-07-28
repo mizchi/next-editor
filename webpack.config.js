@@ -85,8 +85,7 @@ module.exports = {
         new WorkboxPlugin.GenerateSW({
           swDest: "sw.js",
           clientsClaim: true,
-          skipWaiting: true,
-          exclude: DEV ? [/index\.html/, /main\.js/] : []
+          skipWaiting: true
         })
       ]
 }
