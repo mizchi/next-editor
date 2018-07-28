@@ -2,12 +2,12 @@
 
 ## Current
 
-- [ ] UI: Start scratch.md on init
 - [ ] UI: Auto focus on file select
 - [ ] UI: Quick file search: (fuzzy match)
-- [ ] UI: Show diff on history
 - [ ] UI: Rewrite buffer without file change
 - [ ] UI: Inhibit checkout if hash has same content
+- [x] UI: Start scratch.md on init
+- [x] UI: Show diff on history
 - [x] UI: Grayed out ignored files
 - [x] UI: Hide .git
 - [x] UI: Avoid staging status for .git or ignored files

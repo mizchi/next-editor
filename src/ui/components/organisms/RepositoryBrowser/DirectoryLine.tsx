@@ -213,6 +213,7 @@ const DirectoryLineContent: React.ComponentClass<
               dirpath={dirpath}
               depth={depth + 1}
               fileList={fileList}
+              editingFilepath={this.props.editingFilepath}
             />
           )}
       </>
@@ -224,12 +225,14 @@ const LinkedLines = ({
   dirpath,
   root,
   depth,
-  fileList
+  fileList,
+  editingFilepath
 }: {
   dirpath: string
   root: string
   depth: number
   fileList: FileInfo[]
+  editingFilepath: string | null
 }) => {
   return (
     <>
@@ -251,6 +254,11 @@ const LinkedLines = ({
               root={root}
               dirpath={filepath}
               depth={depth}
+              open={
+                // open if dir includes editing filepath
+                editingFilepath != null &&
+                !path.relative(filepath, editingFilepath).startsWith("..")
+              }
               ignoreGit={f.ignored} // TODO: See .gitignore
             />
           )
