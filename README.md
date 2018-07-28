@@ -8,7 +8,9 @@
 
 Standalone git integrated editor for chromebook
 
-See [next-editor.app](https://next-editor.app)
+![](https://i.gyazo.com/56bc8ec35928e4a9e8956d31928519cd.png)
+
+Play here [next-editor.app](https://next-editor.app)
 
 **Unstable**: Data may be wiped by update
 
