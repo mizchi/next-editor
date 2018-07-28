@@ -1,7 +1,7 @@
 import format from "date-fns/format"
 import path from "path"
 import React from "react"
-import { getFileHistory } from "../../../domain/git/queries/getFileHistory"
+import { getFileHistoryWithDiff } from "../../../domain/git/queries/getFileHistory"
 import { connector } from "../../actionCreators"
 
 export const FileHistory = connector(
@@ -49,6 +49,7 @@ class FileHistoryContent extends React.Component<
       blobId: string
       timestamp: number
       content: string
+      diffText: string
     }>
   }
 > {
@@ -59,7 +60,7 @@ class FileHistoryContent extends React.Component<
   async componentDidMount() {
     const { filepath, projectRoot, currentBranch } = this.props
     const relpath = path.relative(projectRoot, filepath)
-    const changeHistory = await getFileHistory(
+    const changeHistory = await getFileHistoryWithDiff(
       projectRoot,
       currentBranch,
       relpath
@@ -71,7 +72,18 @@ class FileHistoryContent extends React.Component<
           commitId: c.commit.oid,
           blobId: c.blob.oid,
           timestamp: c.commit.committer.timestamp,
-          content: c.blob.object.toString()
+          content: c.blob.object.toString(),
+          diffText: c.diff
+            .map(d => {
+              if (d.added) {
+                return "+ " + d.value
+              }
+              if (d.removed) {
+                return "- " + d.value
+              }
+              return d.value
+            })
+            .join("\n")
         }
       })
       .reverse()
@@ -88,17 +100,20 @@ class FileHistoryContent extends React.Component<
         {this.state.history.map((h: any) => {
           return (
             <div key={h.commitId}>
-              {format(h.timestamp * 1000, "MM/DD-HH:mm")}
-              |&nbsp;
-              {h.message}
-              &nbsp;
-              <button
-                onClick={() => {
-                  onCheckout(h.blobId, h.content)
-                }}
-              >
-                checkout
-              </button>
+              <div>
+                {format(h.timestamp * 1000, "MM/DD-HH:mm")}
+                |&nbsp;
+                {h.message}
+                &nbsp;
+                <button
+                  onClick={() => {
+                    onCheckout(h.blobId, h.content)
+                  }}
+                >
+                  checkout
+                </button>
+              </div>
+              <pre style={{ background: "#fff", padding: 3 }}>{h.diffText}</pre>
             </div>
           )
         })}
