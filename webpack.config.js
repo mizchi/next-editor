@@ -5,6 +5,29 @@ const WorkboxPlugin = require("workbox-webpack-plugin")
 const MODE = process.env.NODE_ENV || "development"
 const DEV = MODE == "development"
 
+const copyRules = [
+  {
+    from: __dirname + "/src/index.html",
+    to: __dirname + "/dist/index.html"
+  },
+  {
+    from: __dirname + "/src/manifest.json",
+    to: __dirname + "/dist/manifest.json"
+  },
+  {
+    from: __dirname + "/assets/favicon.ico",
+    to: __dirname + "/dist/favicon.ico"
+  },
+  {
+    from: __dirname + "/assets/landing.html",
+    to: __dirname + "/dist/landing.html"
+  },
+  {
+    from: __dirname + "/assets/**",
+    to: __dirname + "/dist"
+  }
+]
+
 module.exports = {
   mode: MODE,
   devtool: DEV ? "inline-source-map" : "source-map",
@@ -55,34 +78,15 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new CopyPlugin([
-      {
-        from: __dirname + "/src/index.html",
-        to: __dirname + "/dist/index.html"
-      },
-      {
-        from: __dirname + "/src/manifest.json",
-        to: __dirname + "/dist/manifest.json"
-      },
-      {
-        from: __dirname + "/assets/favicon.ico",
-        to: __dirname + "/dist/favicon.ico"
-      },
-      {
-        from: __dirname + "/assets/landing.html",
-        to: __dirname + "/dist/landing.html"
-      },
-      {
-        from: __dirname + "/assets/**",
-        to: __dirname + "/dist"
-      }
-    ]),
-    new WorkboxPlugin.GenerateSW({
-      swDest: "sw.js",
-      clientsClaim: true,
-      skipWaiting: true,
-      exclude: DEV ? [/index\.html/, /main\.js/] : []
-    })
-  ]
+  plugins: DEV
+    ? [new CopyPlugin(copyRules)]
+    : [
+        new CopyPlugin(copyRules),
+        new WorkboxPlugin.GenerateSW({
+          swDest: "sw.js",
+          clientsClaim: true,
+          skipWaiting: true,
+          exclude: DEV ? [/index\.html/, /main\.js/] : []
+        })
+      ]
 }
