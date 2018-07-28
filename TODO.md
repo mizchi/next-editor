@@ -2,10 +2,13 @@
 
 ## Current
 
-- [ ] UI: Auto focus on file select
+- [ ] UI: Show short filename on toolbar
+- [ ] Refactor: Editors
 - [ ] UI: Quick file search: (fuzzy match)
 - [ ] UI: Rewrite buffer without file change
 - [ ] UI: Inhibit checkout if hash has same content
+- [x] UI: Auto focus on file select
+- [x] UI: Open editing file dir on open
 - [x] UI: Start scratch.md on init
 - [x] UI: Show diff on history
 - [x] UI: Grayed out ignored files

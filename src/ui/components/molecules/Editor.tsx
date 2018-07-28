@@ -6,6 +6,7 @@ import { WysiwygEditor } from "../atoms/WysiwygEditor"
 import { GridArea, GridColumn, GridRow } from "../utils/Grid"
 
 type Props = {
+  projectRoot: string
   buffer: BufferState
   onChange?: (e: any) => void
   onSave?: (e: any) => void
@@ -31,21 +32,24 @@ export class Editor extends React.Component<Props, State> {
   }
 
   render() {
-    const { buffer, onSave, onChange, onSetAutosave } = this.props
+    const { buffer, projectRoot, onSave, onChange, onSetAutosave } = this.props
     const { value } = this.state
     const { filepath } = buffer
     const canUseWysiwyg = path.extname(filepath) === ".md"
     const canFormat = path.extname(filepath) === ".md"
+    const relpath = filepath.replace(projectRoot + "/", "")
+    const displayFilepath = relpath
+    const basename = path.basename(relpath)
     return (
       <GridRow rows={["30px", "1fr"]} areas={["toolbar", "editor"]}>
         <GridArea name="toolbar">
           <EditorToolbar
+            displayFilepath={displayFilepath}
             canUseWysiwyg={canUseWysiwyg}
             canFormat={canFormat}
             onToggleWysiwyg={() => {
               this.setState({ wysiwyg: !this.state.wysiwyg })
             }}
-            filepath={filepath}
             changed={buffer.changed}
             autosave={buffer.autosave}
             onChangeAutosave={(ev: any) => {
@@ -91,7 +95,7 @@ export class Editor extends React.Component<Props, State> {
 }
 
 export function EditorToolbar({
-  filepath,
+  displayFilepath,
   changed,
   autosave,
   onClickSave,
@@ -102,7 +106,7 @@ export function EditorToolbar({
   canUseWysiwyg,
   canFormat
 }: {
-  filepath: string
+  displayFilepath: string
   changed: boolean
   autosave: boolean
   onClickSave: any
@@ -121,12 +125,13 @@ export function EditorToolbar({
       <GridArea name="filename">
         <div
           style={{
-            fontSize: "0.8em",
-            wordWrap: "break-word",
-            overflowY: "hidden"
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            width: "100%"
           }}
         >
-          {filepath + (changed ? "*" : "")}
+          {displayFilepath + (changed ? "*" : "")}
         </div>
       </GridArea>
       <GridArea name="buttons">

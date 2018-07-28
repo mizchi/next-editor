@@ -8,6 +8,7 @@ import { Editor as EditorContent } from "../../molecules/Editor"
 export const Editor = connector(
   state => {
     return {
+      projectRoot: state.repository.currentProjectRoot,
       buffer: state.buffer
     }
   },
@@ -21,10 +22,11 @@ export const Editor = connector(
     }
   }
 )(props => {
-  const { unloadFile, buffer } = props
+  const { unloadFile, buffer, projectRoot } = props
   if (buffer.filepath) {
     return (
       <EditorContent
+        projectRoot={projectRoot}
         key={
           buffer.filepath + ":" + buffer.reloadCounter.toString() || "/unknown/"
         }

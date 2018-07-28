@@ -306,6 +306,14 @@ export const loadFile = createThunkAction(
         value: fileContent.toString()
       })
     )
+
+    // TODO: Correct way to focus to textarea
+    setTimeout(() => {
+      const el = document.querySelector("textarea")
+      if (el) {
+        el.focus()
+      }
+    }, 64)
   }
 )
 
