@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/mizchi/next-editor/compare/v0.9.1...v0.10.0) (2018-07-28)
+
+
+### Bug Fixes
+
+* file name color for theme ([cadd031](https://github.com/mizchi/next-editor/commit/cadd031))
+
+
+### Features
+
+* 3 pain ([42c6bdf](https://github.com/mizchi/next-editor/commit/42c6bdf))
+
+
+
 <a name="0.9.1"></a>
 ## [0.9.1](https://github.com/mizchi/next-editor/compare/v0.9.0...v0.9.1) (2018-07-28)
 
