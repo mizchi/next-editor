@@ -2,11 +2,11 @@
 
 ## Current
 
-- [ ] UI: Show short filename on toolbar
+- [ ] UI: Save tab state in reducer
 - [ ] Refactor: Editors
-- [ ] UI: Quick file search: (fuzzy match)
+- [ ] UI: Quick file name search: (fuzzy match)
 - [ ] UI: Rewrite buffer without file change
-- [ ] UI: Inhibit checkout if hash has same content
+- [x] UI: Show short filename on toolbar
 - [x] UI: Auto focus on file select
 - [x] UI: Open editing file dir on open
 - [x] UI: Start scratch.md on init
@@ -19,6 +19,7 @@
 
 ## Icebox
 
+- [ ] UI: Inhibit checkout if hash has same content
 - [ ] UI: Expand all
 - [ ] UI: Full text search
 - [ ] textlint

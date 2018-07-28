@@ -1,8 +1,8 @@
 import path from "path"
 import React from "react"
+import { TextEditor } from "../../../editors/TextEditor"
+import { WysiwygEditor } from "../../../editors/WysiwygEditor"
 import { BufferState } from "../../reducers/buffer"
-import { TextEditor } from "../atoms/TextEditor"
-import { WysiwygEditor } from "../atoms/WysiwygEditor"
 import { GridArea, GridColumn, GridRow } from "../utils/Grid"
 
 type Props = {
