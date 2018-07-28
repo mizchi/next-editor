@@ -4,12 +4,11 @@ import FaCog from "react-icons/fa/cog"
 import FaPlus from "react-icons/fa/plus"
 // import ChangeLog from "../../../../CHANGELOG.md"
 import pkg from "../../../../package.json"
+import { GithubMarkdownBody } from "./GithubMarkdownBody"
 
 export const Help = () => (
-  <div
-    className="markdown-body"
+  <GithubMarkdownBody
     style={{
-      padding: "10px",
       overflowY: "auto",
       height: "100%",
       boxSizing: "border-box"
@@ -56,5 +55,5 @@ export const Help = () => (
     </p>
     {/* <hr /> */}
     {/* <ChangeLog /> */}
-  </div>
+  </GithubMarkdownBody>
 )
