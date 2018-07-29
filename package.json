@@ -17,12 +17,12 @@
     "docz:build": "docz"
   },
   "devDependencies": {
-    "@babel/core": "7.0.0-beta.54",
-    "@babel/plugin-proposal-class-properties": "7.0.0-beta.54",
-    "@babel/plugin-syntax-object-rest-spread": "7.0.0-beta.54",
-    "@babel/preset-env": "7.0.0-beta.54",
-    "@babel/preset-react": "7.0.0-beta.54",
-    "@babel/standalone": "7.0.0-beta.54",
+    "@babel/core": "7.0.0-beta.55",
+    "@babel/plugin-proposal-class-properties": "7.0.0-beta.55",
+    "@babel/plugin-syntax-object-rest-spread": "7.0.0-beta.55",
+    "@babel/preset-env": "7.0.0-beta.55",
+    "@babel/preset-react": "7.0.0-beta.55",
+    "@babel/standalone": "7.0.0-beta.55",
     "@mdx-js/loader": "0.14.1",
     "@mdx-js/mdx": "0.14.0",
     "@types/jest": "23.3.1",
