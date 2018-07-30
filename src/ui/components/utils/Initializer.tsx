@@ -51,5 +51,7 @@ export const Initializer = connector(
     }
   })
 )(function InitializerImpl({ children }) {
+  // NOTE: Enter recovery mode if you need
+  // throw new Error("test error message")
   return <>{children}</>
 })
