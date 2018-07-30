@@ -12,7 +12,13 @@ const ThemeMap: any = {
 
 export const ThemeProvider = connect((state: RootState) => ({
   theme: state.config.theme
-}))(function ThemeProviderImpl({ children, theme }: any) {
+}))(function ThemeProviderImpl({
+  children,
+  theme
+}: {
+  theme: string
+  children: React.ReactNode
+}) {
   return (
     <StyledThemeProvider theme={ThemeMap[theme] || DefaultTheme}>
       {children}
