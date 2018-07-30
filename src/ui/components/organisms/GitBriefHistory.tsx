@@ -15,7 +15,7 @@ export const GitBriefHistory = connector(
   _actions => {
     return {}
   }
-)(props => {
+)(function GitBriefHistoryImpl(props) {
   const { currentBranch, history } = props
   return <GitBriefHistoryContent branch={currentBranch} history={history} />
 })

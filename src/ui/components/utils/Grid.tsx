@@ -16,6 +16,7 @@ export const Grid: React.ComponentType<{
   width: ${p => p.width || "100%"};
   height: ${p => p.height || "100%"};
 `
+Grid.displayName = "Grid"
 
 export const GridRow: React.ComponentType<{
   areas: string[]
@@ -31,6 +32,7 @@ export const GridRow: React.ComponentType<{
   width: ${p => p.width || "100%"};
   height: ${p => p.height || "100%"};
 `
+GridRow.displayName = "GridRow"
 
 export const GridColumn: React.ComponentType<{
   columns: string[]
@@ -45,6 +47,7 @@ export const GridColumn: React.ComponentType<{
   width: ${p => p.width || "100%"};
   height: ${p => p.height || "100%"};
 `
+GridColumn.displayName = "GridColumn"
 
 type OverflowRules = "hidden" | "auto" | "visible" | "scroll"
 
@@ -71,3 +74,4 @@ export const GridArea: React.ComponentType<{
     </div>
   )
 }
+GridArea.displayName = "GridArea"

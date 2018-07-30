@@ -19,7 +19,7 @@ export const GlobalHeader = connector(
       setLayoutAreas: actions.app.setLayoutAreas
     }
   }
-)(props => {
+)(function GlobalHeaderImpl(props) {
   const currentColumnConut = uniq(flatten(props.mainLayout.areas)).length
   return (
     <Header>

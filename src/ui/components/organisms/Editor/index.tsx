@@ -21,7 +21,7 @@ export const Editor = connector(
       setAutosave: actions.buffer.setAutosave
     }
   }
-)(props => {
+)(function EditorImpl(props) {
   const { unloadFile, buffer, projectRoot } = props
   if (buffer.filepath) {
     return (

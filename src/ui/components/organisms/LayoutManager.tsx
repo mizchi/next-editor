@@ -2,7 +2,6 @@ import flatten from "lodash/flatten"
 import uniq from "lodash/uniq"
 import React from "react"
 import { ToastContainer } from "react-toastify"
-import { lifecycle } from "recompose"
 import { connector } from "../../actionCreators"
 import { AreaName } from "../../reducers/app"
 import { Grid, GridArea } from "../utils/Grid"
@@ -22,15 +21,11 @@ export const LayoutManager = connector(
       mainLayout: state.app.mainLayout
     }
   },
-  actions => {
-    return {
-      setLayoutAreas: actions.app.setLayoutAreas,
-      commitAll: actions.git.commitAll,
-      saveFile: actions.buffer.saveFile
-    }
+  _actions => {
+    return {}
   }
-)(props => {
-  const { mainLayout, setLayoutAreas } = props
+)(function LayoutManagerImpl(props) {
+  const { mainLayout } = props
   const areaNames: AreaName[] = uniq(flatten(mainLayout.areas))
   return (
     <>
@@ -45,36 +40,6 @@ export const LayoutManager = connector(
         pauseOnVisibilityChange
         draggable
         pauseOnHover
-      />
-
-      <Keydown
-        keydown={(e: KeyboardEvent) => {
-          // 1
-          if (e.ctrlKey && e.keyCode === 49) {
-            setLayoutAreas({ areas: [["menu", "editor", "editor"]] })
-          }
-          // 2
-          if (e.ctrlKey && e.keyCode === 50) {
-            setLayoutAreas({ areas: [["menu", "editor", "support"]] })
-          }
-
-          // 3
-          if (e.ctrlKey && e.keyCode === 51) {
-            setLayoutAreas({ areas: [["editor", "editor", "editor"]] })
-          }
-
-          // Ctrl-Cmd-S
-          if ((e.metaKey || e.ctrlKey) && e.key === "s") {
-            e.preventDefault()
-            props.saveFile({})
-          }
-
-          // TODO: Move somewhere
-          // commit all
-          if (e.shiftKey && e.metaKey && e.key === "s") {
-            props.commitAll({ message: "Update" })
-          }
-        }}
       />
       <Grid
         rows={mainLayout.rows}
@@ -97,17 +62,3 @@ export const LayoutManager = connector(
     </>
   )
 })
-
-export const Keydown: React.ComponentType<{
-  keydown: any
-}> = lifecycle({
-  componentDidMount() {
-    const self: any = this
-    self._keydown = self.props.keydown
-    window.addEventListener("keydown", self._keydown)
-  },
-  componentWillUnmount() {
-    const self: any = this
-    window.removeEventListener("keydown", self._keydown)
-  }
-})(_ => [] as any) as any

@@ -96,6 +96,7 @@
     "react": "16.4.1",
     "react-contexify": "3.0.3",
     "react-dom": "16.4.1",
+    "react-hotkeys": "^1.1.4",
     "react-icons": "2.2.7",
     "react-modal": "3.5.1",
     "react-redux": "5.0.7",

@@ -15,7 +15,9 @@ const selector = (state: RootState): Props => {
   }
 }
 
-export const StackRouter = connect(selector)((props: Props) => {
+export const StackRouter = connect(selector)(function StackRouterImpl(
+  props: Props
+) {
   switch (props.currentScene) {
     case "main": {
       return <Main />

@@ -17,7 +17,7 @@ export const FileHistory = connector(
       saveFile: actions.editor.saveFile
     }
   }
-)(props => {
+)(function FileHistoryImpl(props) {
   const { filepath, projectRoot, currentBranch, saveFile } = props
   if (filepath) {
     return (

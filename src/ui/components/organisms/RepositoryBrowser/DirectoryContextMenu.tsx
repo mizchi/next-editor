@@ -24,7 +24,7 @@ export const DirectoryContextMenu: any = connect(
     return ownProps
   },
   actions
-)((props: Props) => {
+)(function DirectoryContextMenuImpl(props: Props) {
   return (
     <ContextMenu id="directory">
       <Item

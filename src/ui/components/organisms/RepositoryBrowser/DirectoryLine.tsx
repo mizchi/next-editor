@@ -55,7 +55,7 @@ export const DirectoryLine: React.ComponentType<OwnProps> = connector(
       deleteDirectory: actions.editor.deleteDirectory
     }
   }
-)(props => {
+)(function DirectoryLineImpl(props) {
   return <DirectoryLineContent {...props} />
 })
 
@@ -221,7 +221,7 @@ const DirectoryLineContent: React.ComponentClass<
   }
 }
 
-const LinkedLines = ({
+function LinkedLines({
   dirpath,
   root,
   depth,
@@ -233,7 +233,7 @@ const LinkedLines = ({
   depth: number
   fileList: FileInfo[]
   editingFilepath: string | null
-}) => {
+}) {
   return (
     <>
       {fileList.map((f: FileInfo) => {

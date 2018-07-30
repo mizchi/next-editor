@@ -8,3 +8,4 @@ export const Root = styled.div`
   padding: 0;
   margin: 0;
 `
+Root.displayName = "Root"

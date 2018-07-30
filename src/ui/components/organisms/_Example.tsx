@@ -9,7 +9,7 @@ export const _Example = connector(
   _actions => {
     return {}
   }
-)(props => {
+)(function _ExampleImpl(props) {
   const {} = props
   return <div>{/*  */}</div>
 })
