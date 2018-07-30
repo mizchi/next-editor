@@ -30,7 +30,7 @@ export const FileLine: React.ComponentType<OwnProps> = connector<OwnProps>(
       loadFile: actions.editor.loadFile
     }
   }
-)((props: Props) => {
+)(function FileLineImpl(props: Props) {
   const { depth, filepath, editingFilepath } = props
   const basename = path.basename(filepath)
   return (
@@ -58,3 +58,4 @@ const Container: React.ComponentType<{ selected: boolean }> = styled.div`
     color: ${p => (p.selected ? "rgb(200, 64, 64)" : "white")};
   }
 `
+Container.displayName = "FileLine:Container"

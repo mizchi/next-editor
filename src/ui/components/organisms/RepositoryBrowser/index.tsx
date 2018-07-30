@@ -1,18 +1,18 @@
 import React from "react"
-import { connect } from "react-redux"
-import { RootState } from "../../../reducers"
+import { connector } from "../../../actionCreators"
 import { RepositoryState } from "../../../reducers/repository"
 import { DirectoryContextMenu } from "./DirectoryContextMenu"
 import { RootDirectory } from "./DirectoryLine"
 import { FileContextMenu } from "./FileContextMenu"
 
-const selector = (state: RootState) => {
-  return state.repository
-}
-
 type Props = RepositoryState
 
-export const RepositoryBrowser = connect(selector)((props: Props) => {
+export const RepositoryBrowser = connector(
+  state => {
+    return state.repository
+  },
+  () => ({})
+)(function RepositoryBrowserImpl(props: Props) {
   return (
     <fieldset style={{ padding: 0 }}>
       <legend>Files</legend>

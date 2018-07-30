@@ -28,3 +28,4 @@ const Container = styled.div`
   overflow: auto;
   height: 100%;
 `
+Container.displayName = "MarkdownPreview:Container"

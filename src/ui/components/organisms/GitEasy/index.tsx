@@ -17,7 +17,7 @@ export const GitEasy = connector(
       commitAll: actions.git.commitAll
     }
   }
-)(props => {
+)(function GitEasyImpl(props) {
   const { staging } = props
 
   if (!staging) {

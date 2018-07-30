@@ -706,3 +706,5 @@ export const GithubMarkdownBody = styled.div`
     border-bottom-color: #eee;
   }
 `
+
+GithubMarkdownBody.displayName = "GithubMarkdownBody"

@@ -15,7 +15,7 @@ export const Config = connector(
       popScene: actions.app.popScene
     }
   }
-)(props => {
+)(function ConfigImpl(props) {
   return (
     <Root>
       {/* prettier-ignore */}

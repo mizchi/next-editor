@@ -29,7 +29,7 @@ export const LayoutManager = connector(
       saveFile: actions.buffer.saveFile
     }
   }
-)(props => {
+)(function LayoutManagerImpl(props) {
   const { mainLayout, setLayoutAreas } = props
   const areaNames: AreaName[] = uniq(flatten(mainLayout.areas))
   return (

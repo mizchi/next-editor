@@ -4,7 +4,7 @@ import { ConfigState } from "../../reducers/config"
 
 const themes = ["default", "dark"]
 
-export const Config = ({
+export function Config({
   config,
   onClickBack,
   onChangeConfigValue
@@ -12,7 +12,7 @@ export const Config = ({
   config: ConfigState
   onClickBack: () => void
   onChangeConfigValue: (key: string, value: string) => void
-}) => {
+}) {
   return (
     <Container>
       <h1>Config</h1>

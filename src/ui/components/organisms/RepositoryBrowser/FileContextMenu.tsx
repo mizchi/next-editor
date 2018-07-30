@@ -24,7 +24,7 @@ export const FileContextMenu: any = connect(
     return ownProps
   },
   actions
-)((props: Props) => {
+)(function FileContextMenuImpl(props: Props) {
   return (
     <ContextMenu id="file">
       <Item

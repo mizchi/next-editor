@@ -5,3 +5,5 @@ export const Pathname: React.ComponentType<{
 }> = styled.span`
   color: ${p => (p.ignoreGit ? "#aaa" : "inherit")};
 `
+
+Pathname.displayName = "Pathname"

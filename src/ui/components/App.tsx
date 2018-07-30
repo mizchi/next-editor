@@ -52,7 +52,7 @@ export const App = lifecycle({
     const target = (document as any).querySelector("textarea")
     target && target.focus()
   }
-})(() => {
+})(function AppImpl() {
   const { store, persistor } = configureStore()
   _store = store
   return (
