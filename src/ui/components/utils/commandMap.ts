@@ -1,9 +1,4 @@
-// import * as AppActions from "../../reducers/app"
-// // import * as Actions from "../../reducers/buffer"
 import actions from "../../actionCreators"
-
-// commitAll: actions.git.commitAll,
-// saveFile: actions.buffer.saveFile
 
 type MousetrapExpr = string | string[]
 
