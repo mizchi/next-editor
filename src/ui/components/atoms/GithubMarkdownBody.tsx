@@ -11,8 +11,11 @@ injectGlobal`
 `
 
 export const GithubMarkdownBody = styled.div`
+  /* As container */
   background: #fff;
   padding: 10px;
+
+  /* from github-markdown-css */
   line-height: 1.5;
   color: #24292e;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
