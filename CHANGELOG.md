@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.11.0"></a>
+# [0.11.0](https://github.com/mizchi/next-editor/compare/v0.10.1...v0.11.0) (2018-07-30)
+
+
+### Bug Fixes
+
+* Multibyte ([a421657](https://github.com/mizchi/next-editor/commit/a421657))
+
+
+### Features
+
+* Recovery mode ([d23e8dd](https://github.com/mizchi/next-editor/commit/d23e8dd))
+
+
+
 <a name="0.10.1"></a>
 ## [0.10.1](https://github.com/mizchi/next-editor/compare/v0.10.0...v0.10.1) (2018-07-28)
 
