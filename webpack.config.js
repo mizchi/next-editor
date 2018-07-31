@@ -78,14 +78,16 @@ module.exports = {
       }
     ]
   },
-  plugins: DEV
-    ? [new CopyPlugin(copyRules)]
-    : [
-        new CopyPlugin(copyRules),
-        new WorkboxPlugin.GenerateSW({
-          swDest: "sw.js",
-          clientsClaim: true,
-          skipWaiting: true
-        })
-      ]
+  plugins:
+    // DEV
+    //   ? [new CopyPlugin(copyRules)]
+    //   :
+    [
+      new CopyPlugin(copyRules),
+      new WorkboxPlugin.GenerateSW({
+        swDest: "sw.js",
+        clientsClaim: true,
+        skipWaiting: true
+      })
+    ]
 }

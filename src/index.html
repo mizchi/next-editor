@@ -138,25 +138,26 @@ async function setupServiceWorker() {
   });
 
   const reg = await navigator.serviceWorker.register('/sw.js');
-  await Promise.race([
-    navigator.serviceWorker.ready,
-    // NOTE: Sometimes(development only?) navigator.serviceWorker.ready is never ready.
-    new Promise(resolve => {
-      if (navigator.serviceWorker.controller) {
-        return resolve();
-      }
-      navigator.serviceWorker.addEventListener('controllerchange', e => resolve());
-    }),
-    // NOTE: Start without service-worker after 3s
-    new Promise(resolve => {
-      setTimeout(() => {        
-        resolve()
-        if (navigator.serviceWorker.controller == null) {
-          console.warn('Start without service-worker')
-        }
-      }, 5000)
-    })
-  ])
+  await navigator.serviceWorker.ready;
+  // await Promise.race([
+  //   navigator.serviceWorker.ready,
+  //   // NOTE: Sometimes(development only?) navigator.serviceWorker.ready is never ready.
+  //   new Promise(resolve => {
+  //     if (navigator.serviceWorker.controller) {
+  //       return resolve();
+  //     }
+  //     navigator.serviceWorker.addEventListener('controllerchange', e => resolve());
+  //   }),
+  //   // NOTE: Start without service-worker after 3s
+  //   new Promise(resolve => {
+  //     setTimeout(() => {        
+  //       resolve()
+  //       if (navigator.serviceWorker.controller == null) {
+  //         console.warn('Start without service-worker')
+  //       }
+  //     }, 5000)
+  //   })
+  // ])
 
   if (location.href.indexOf('localhost') > -1 ) {
     setInterval(() => {
@@ -193,10 +194,8 @@ const showLoadingMessage = (mes, loading = true) => {
 
   try {
     // SW
-    if (location.hostname !== 'localhost') {
-      showLoadingMessage('Checking service-worker...')
-      await setupServiceWorker()
-    }
+    showLoadingMessage('Checking service-worker...')
+    await setupServiceWorker()
 
     // Run
     showLoadingMessage('Loading assets...')
