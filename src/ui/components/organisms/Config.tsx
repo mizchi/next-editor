@@ -7,10 +7,12 @@ const themes = ["default", "dark"]
 export function Config({
   config,
   onClickBack,
+  onClickEnterPlayground,
   onChangeConfigValue
 }: {
   config: ConfigState
   onClickBack: () => void
+  onClickEnterPlayground: () => void
   onChangeConfigValue: (key: string, value: string) => void
 }) {
   return (
@@ -76,6 +78,11 @@ export function Config({
         CAUTION!!!: Setting token and using proxy are at your own risk. If we
         have vulnerability to access localStorage, it might be leak.
       </p>
+      {process.env.NODE_ENV === "development" && (
+        <div>
+          <button onClick={onClickEnterPlayground}>Enter Playground</button>
+        </div>
+      )}
       <div>
         <button onClick={onClickBack}>Back</button>
       </div>

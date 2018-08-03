@@ -12,7 +12,8 @@ export const Config = connector(
   actions => {
     return {
       setConfigValue: actions.config.setConfigValue,
-      popScene: actions.app.popScene
+      popScene: actions.app.popScene,
+      pushScene: actions.app.pushScene
     }
   }
 )(function ConfigImpl(props) {
@@ -37,6 +38,7 @@ export const Config = connector(
           <ConfigContent
             config={props.config}
             onClickBack={() => props.popScene({})}
+            onClickEnterPlayground={() => props.pushScene({nextScene: 'playground'})}
             onChangeConfigValue={(key, value) => {
               props.setConfigValue({key, value})
             }}

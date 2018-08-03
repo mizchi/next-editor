@@ -1,9 +1,14 @@
 /// <reference> ../decls.d.ts
+import "react-contexify/dist/ReactContexify.min.css"
+
+import "normalize.css/normalize.css"
+
+import "@blueprintjs/core/lib/css/blueprint.css"
+import "@blueprintjs/icons/lib/css/blueprint-icons.css"
+
 import fs from "fs"
 import * as git from "isomorphic-git"
-import "normalize.css/normalize.css"
 import * as React from "react"
-import "react-contexify/dist/ReactContexify.min.css"
 import * as ReactDOM from "react-dom"
 import Modal from "react-modal"
 import { setupInitialRepository } from "./domain/git/commands/setupInitialRepository"
