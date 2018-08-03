@@ -6,6 +6,7 @@
   "scripts": {
     "watch": "webpack-serve --no-reload --port 8099",
     "build:prod": "rimraf dist && NODE_ENV=production webpack",
+    "analyze:size": "webpack --json | webpack-bundle-size-analyzer",
     "release": "yarn standard-version && yarn standard-changelog",
     "deploy": "yarn build:prod && netlify deploy -p dist",
     "lint": "tslint src/**.ts src/**.tsx",
@@ -69,7 +70,7 @@
     "ts-loader": "4.4.2",
     "tslint": "5.11.0",
     "tslint-config-prettier": "1.14.0",
-    "typescript": "2.9.2",
+    "typescript": "^3.0.1",
     "uglify-es": "3.3.9",
     "uglifyjs-webpack-plugin": "1.2.7",
     "webpack": "4.16.3",
@@ -79,6 +80,7 @@
     "workbox-webpack-plugin": "3.4.1"
   },
   "dependencies": {
+    "@blueprintjs/core": "^3.0.1",
     "browserfs": "1.4.3",
     "date-fns": "1.29.0",
     "delay": "3.0.0",
@@ -86,7 +88,7 @@
     "diff3": "0.0.3",
     "hard-reducer": "2.3.0",
     "ini": "1.3.5",
-    "isomorphic-git": "0.24.3",
+    "isomorphic-git": "^0.25.0",
     "lodash": "4.17.10",
     "monaco-editor": "0.13.1",
     "normalize.css": "8.0.0",
