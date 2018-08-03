@@ -1348,7 +1348,7 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@blueprintjs/core@^3.0.1":
+"@blueprintjs/core@3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@blueprintjs/core/-/core-3.1.0.tgz#9fafb6a2387de4f3adfe892a52026e980f7657ac"
   dependencies:
@@ -6422,7 +6422,7 @@ isomorphic-fetch@^2.1.1:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
 
-isomorphic-git@^0.25.0:
+isomorphic-git@0.25.0:
   version "0.25.0"
   resolved "https://registry.yarnpkg.com/isomorphic-git/-/isomorphic-git-0.25.0.tgz#71c37b76cb34f880c92de7d832d43bcfb7c65c28"
   dependencies:
@@ -11123,7 +11123,7 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^3.0.1:
+typescript@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.0.1.tgz#43738f29585d3a87575520a4b93ab6026ef11fdb"
 
