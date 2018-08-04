@@ -7,7 +7,7 @@ import { Grid, GridArea } from "../utils/Grid"
 
 export function Main() {
   return (
-    <Root>
+    <Root data-testid="main">
       {/* prettier-ignore */}
       <Grid
         columns={["1fr"]}

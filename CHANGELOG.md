@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.14.1"></a>
+## [0.14.1](https://github.com/mizchi/next-editor/compare/v0.14.0...v0.14.1) (2018-08-04)
+
+
+### Bug Fixes
+
+* **deps:** pin dependency [@blueprintjs](https://github.com/blueprintjs)/core to 3.2.0 ([61f0aa3](https://github.com/mizchi/next-editor/commit/61f0aa3))
+* typescript ([e47754e](https://github.com/mizchi/next-editor/commit/e47754e))
+
+
+
 <a name="0.14.0"></a>
 # [0.14.0](https://github.com/mizchi/next-editor/compare/v0.13.0...v0.14.0) (2018-08-04)
 

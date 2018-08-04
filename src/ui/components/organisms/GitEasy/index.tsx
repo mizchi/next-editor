@@ -41,6 +41,7 @@ export const GitEasy = connector(
               onClick={() => {
                 props.commitAll({ message: "Update" })
               }}
+              data-testid="commit-all-button"
             />
 
             <hr />
