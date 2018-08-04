@@ -1,3 +1,4 @@
+import { Button, Card } from "@blueprintjs/core"
 import format from "date-fns/format"
 import path from "path"
 import React from "react"
@@ -99,22 +100,23 @@ class FileHistoryContent extends React.Component<
         <hr />
         {this.state.history.map((h: any) => {
           return (
-            <div key={h.commitId}>
+            <Card key={h.commitId}>
               <div>
                 {format(h.timestamp * 1000, "MM/DD-HH:mm")}
                 |&nbsp;
                 {h.message}
                 &nbsp;
-                <button
+                <Button
                   onClick={() => {
                     onCheckout(h.blobId, h.content)
                   }}
-                >
-                  checkout
-                </button>
+                  text="checkout"
+                />
               </div>
-              <pre style={{ background: "#fff", padding: 3 }}>{h.diffText}</pre>
-            </div>
+              <pre className="bp3-code-block">
+                <code>{h.diffText}</code>
+              </pre>
+            </Card>
           )
         })}
       </div>

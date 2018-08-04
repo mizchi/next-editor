@@ -23,7 +23,6 @@ export class App extends React.Component<{}> {
               <ThemeProvider>
                 <Initializer>
                   {ENTER_PLAYGROUND ? <Playground /> : <StackRouter />}
-                  <Playground />
                 </Initializer>
               </ThemeProvider>
             </GlobalKeyHandler>

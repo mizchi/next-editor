@@ -58,7 +58,9 @@ export class WysiwygEditor extends React.Component<
         }}
         rootStyle={{
           height: "99%",
-          overflow: "auto"
+          overflow: "auto",
+          backgroundColor: "rgb(252, 252, 252)",
+          color: "#111"
         }}
       />
     )

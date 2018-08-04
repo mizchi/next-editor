@@ -1,13 +1,10 @@
+import { Button, ButtonGroup, Card } from "@blueprintjs/core"
 import path from "path"
 import React from "react"
-import { ContextMenuProvider } from "react-contexify"
-import FaBox from "react-icons/io/ios-box"
 import { lifecycle } from "recompose"
-import styled from "styled-components"
 import { connector } from "../../../actionCreators"
-import { CloneProjectButton } from "./CloneProjectButton"
-import { CreateNewProjectButton } from "./CreateNewProjectButton"
-import { ProjectContextMenu } from "./ProjectContextMenu"
+import { ButtonWithModal } from "../../atoms/ButtonWithModal"
+import { CloneProjectModalContent } from "./CloneProjectButton"
 
 export const ProjectManager = connector(
   state => {
@@ -39,62 +36,85 @@ export const ProjectManager = connector(
     project: { projects }
   } = props
   return (
-    <>
-      <ProjectContextMenu />
-      <fieldset>
-        <legend>repository</legend>
-        <CreateNewProjectButton
-          onClickCreate={dirname => {
-            const newProjectRoot = path.join("/", dirname)
-            createNewProject({ newProjectRoot })
+    <Card style={{ height: "100%", borderRadius: 0 }}>
+      <div>
+        <div className="bp3-select .modifier">
+          <select
+            value={props.repository.currentProjectRoot}
+            onChange={ev => {
+              const nextProjectRoot = ev.target.value
+              props.startProjectRootChanged({ projectRoot: nextProjectRoot })
+            }}
+          >
+            {projects.map((p, index) => {
+              return (
+                <option value={p.projectRoot} key={index}>
+                  {p.projectRoot}
+                </option>
+              )
+            })}
+          </select>
+        </div>
+        <Button
+          disabled={props.repository.currentProjectRoot === "/playground"}
+          icon="trash"
+          onClick={async () => {
+            const ret = window.confirm(
+              `Delete ${props.repository.currentProjectRoot}`
+            )
+            if (ret) {
+              props.deleteProject({
+                dirpath: props.repository.currentProjectRoot
+              })
+
+              await new Promise(r => setTimeout(r, 300))
+              props.startProjectRootChanged({
+                projectRoot: "/playground"
+              })
+            }
           }}
         />
-        &nbsp;
-        <CloneProjectButton
-          onClickClone={dirname => {
-            const clonePath = githubProxy + dirname
-            const [, repoName] = dirname.split("/")
-            const projectRoot = path.join("/", repoName)
-            cloneFromGitHub({ projectRoot, clonePath })
+      </div>
+      <div style={{ height: "5px" }} />
+      <ButtonGroup>
+        <ButtonWithModal
+          text="Add"
+          icon="add"
+          renderModal={({ onClose }) => {
+            return (
+              <CloneProjectModalContent
+                onConfirm={async dirname => {
+                  onClose()
+                  const newProjectRoot = path.join("/", dirname)
+                  createNewProject({ newProjectRoot })
+                  await new Promise(r => setTimeout(r, 300))
+                  props.startProjectRootChanged({ projectRoot: newProjectRoot })
+                }}
+                onCancel={onClose}
+              />
+            )
           }}
         />
-        {projects.map(p => {
-          const selected = p.projectRoot === props.repository.currentProjectRoot
-          return (
-            <ContextMenuProvider
-              key={p.projectRoot}
-              id="project"
-              data={{ dirpath: p.projectRoot }}
-            >
-              <Container
-                selected={selected}
-                onClick={() => {
-                  const projectRoot = p.projectRoot
+        <ButtonWithModal
+          text="Clone"
+          icon="git-repo"
+          renderModal={({ onClose }) => {
+            return (
+              <CloneProjectModalContent
+                onConfirm={async dirname => {
+                  const clonePath = githubProxy + dirname
+                  const [, repoName] = dirname.split("/")
+                  const projectRoot = path.join("/", repoName)
+                  cloneFromGitHub({ projectRoot, clonePath })
+                  await new Promise(r => setTimeout(r, 300))
                   props.startProjectRootChanged({ projectRoot })
                 }}
-              >
-                <FaBox />
-                {p.projectRoot}
-              </Container>
-            </ContextMenuProvider>
-          )
-        })}
-      </fieldset>
-    </>
+                onCancel={onClose as any}
+              />
+            )
+          }}
+        />
+      </ButtonGroup>
+    </Card>
   )
 })
-
-const Container: React.ComponentType<{
-  selected: boolean
-  onClick: any
-}> = styled.div`
-  cursor: pointer;
-  user-select: none;
-  padding-left: 2px;
-  color: ${p => (p.selected ? "rgb(255, 128, 128)" : "black")};
-  &:hover {
-    background: black;
-    color: white;
-    color: ${p => (p.selected ? "rgb(200, 64, 64)" : "white")};
-  }
-`

@@ -1,6 +1,5 @@
 import { darken } from "polished"
 import React from "react"
-import Textarea from "react-textarea-autosize"
 import styled from "styled-components"
 
 type Props = {
@@ -16,7 +15,6 @@ export class TextEditor extends React.Component<Props> {
     return (
       <Container>
         <StyledTextarea
-          minRows={5}
           innerRef={this.textareaRef}
           spellCheck={this.props.spellCheck}
           value={this.props.value}
@@ -41,19 +39,19 @@ const Container = styled.div`
 `
 
 const StyledTextarea: React.ComponentType<{
-  minRows: number
   fontScale?: number
   spellCheck: boolean
   value: string
   onChange: any
   innerRef: any
-}> = styled(Textarea)`
+}> = styled.textarea`
   font-size: 1.1em;
   line-height: 1.5em;
   padding: 3px 5px 3px 10px;
   background: ${p => darken(0.02, p.theme.main)};
   color: ${p => p.theme.textColor};
   width: 100%;
+  height: 100%;
   resize: none;
   display: block;
   border: 0;

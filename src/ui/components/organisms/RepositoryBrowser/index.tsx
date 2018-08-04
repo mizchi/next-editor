@@ -1,3 +1,4 @@
+import { Card } from "@blueprintjs/core"
 import React from "react"
 import { connector } from "../../../actionCreators"
 import { RepositoryState } from "../../../reducers/repository"
@@ -14,8 +15,8 @@ export const RepositoryBrowser = connector(
   () => ({})
 )(function RepositoryBrowserImpl(props: Props) {
   return (
-    <fieldset style={{ padding: 0 }}>
-      <legend>Files</legend>
+    <Card style={{ height: "100%", padding: 10, margin: 0 }}>
+      {/* <fieldset style={{ padding: 0 }}> */}
       <RootDirectory
         key={props.currentProjectRoot}
         root={props.currentProjectRoot}
@@ -25,6 +26,7 @@ export const RepositoryBrowser = connector(
       />
       <FileContextMenu root={props.currentProjectRoot} />
       <DirectoryContextMenu root={props.currentProjectRoot} />
-    </fieldset>
+      {/* </fieldset> */}
+    </Card>
   )
 })

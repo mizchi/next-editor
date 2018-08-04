@@ -20,8 +20,13 @@ export const ThemeProvider = connect((state: RootState) => ({
   children: React.ReactNode
 }) {
   return (
-    <StyledThemeProvider theme={ThemeMap[theme] || DefaultTheme}>
-      {children}
-    </StyledThemeProvider>
+    <div
+      className={theme === "dark" ? "bp3-dark" : "bp3-light"}
+      style={{ width: "100%", height: "100%" }}
+    >
+      <StyledThemeProvider theme={ThemeMap[theme] || DefaultTheme}>
+        {children}
+      </StyledThemeProvider>
+    </div>
   )
 })

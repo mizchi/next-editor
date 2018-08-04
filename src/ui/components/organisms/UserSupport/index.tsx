@@ -1,10 +1,8 @@
+import { Card, Tab, Tabs } from "@blueprintjs/core"
 import React from "react"
-import FaEye from "react-icons/fa/eye"
-import FaGit from "react-icons/fa/git"
 import { connector } from "../../../actionCreators"
 import { BufferState } from "../../../reducers/buffer"
 import { MarkdownPreview } from "../../atoms/MarkdownPreview"
-import { GridArea, GridRow } from "../../utils/Grid"
 import { FileHistory } from "../FileHistory"
 import { GitEasy } from "../GitEasy"
 import { GitViewer } from "../GitViewer"
@@ -39,97 +37,37 @@ export const UserSupport = connector(
 
 class UserSupportContent extends React.Component<Props, State> {
   state: State = {
+    // TODO: Move this into reducer
     mode: "git-easy"
   }
 
   render() {
     const { filetype, value } = this.props
+    const { mode } = this.state
     return (
-      <GridRow rows={["30px", "1fr"]} areas={["tabs", "content"]}>
-        <GridArea name="tabs">
-          <div style={{ overflow: "auto" }}>
-            <button
-              style={{
-                background: this.state.mode === "git-easy" ? "#eee" : "#fff",
-                outline: "none"
-              }}
-              disabled={this.state.mode === "git-easy"}
-              onClick={() => this.setState({ mode: "git-easy" })}
-            >
-              <FaGit /> easy
-            </button>
-
-            <button
-              style={{
-                background: this.state.mode === "git" ? "#eee" : "#fff",
-                outline: "none"
-              }}
-              disabled={this.state.mode === "git"}
-              onClick={() => this.setState({ mode: "git" })}
-            >
-              <FaGit />
-            </button>
-
-            <button
-              style={{
-                background: this.state.mode === "git-history" ? "#eee" : "#fff",
-                outline: "none"
-              }}
-              disabled={this.state.mode === "git-history"}
-              onClick={() => this.setState({ mode: "git-history" })}
-            >
-              History
-            </button>
-
-            {filetype === "markdown" && (
-              <button
-                style={{
-                  background:
-                    this.state.mode === "preview-by-filetype" ? "#eee" : "#fff",
-                  outline: "none"
-                }}
-                disabled={this.state.mode === "preview-by-filetype"}
-                onClick={() => this.setState({ mode: "preview-by-filetype" })}
-              >
-                <FaEye />
-              </button>
-            )}
-          </div>
-        </GridArea>
-        <GridArea name="content">
-          {/* Content */}
-          {this.state.mode === "git-easy" && <GitEasy />}
-          {this.state.mode === "git" && <GitViewer />}
-          <div>
-            {this.state.mode === "git-history" && (
-              <FileHistory key={this.props.filepath} />
-            )}
-          </div>
-          <div>
-            {this.state.mode === "preview-by-filetype" && (
-              <>
-                filetype: <span>{filetype}</span>
-                {(() => {
-                  switch (filetype) {
-                    // case "javascript": {
-                    //   return <BabelCodePreview source={value || ""} />
-                    // }
-                    case "markdown": {
-                      return <MarkdownPreview source={value || ""} />
-                    }
-                    case "text": {
-                      return <pre>{value || ""}</pre>
-                    }
-                    default: {
-                      return ""
-                    }
-                  }
-                })()}
-              </>
-            )}
-          </div>
-        </GridArea>
-      </GridRow>
+      <Card style={{ borderRadius: 0, height: "100%" }}>
+        <Tabs
+          id="TabsExample"
+          onChange={newTabId => this.setState({ mode: newTabId as any })}
+          selectedTabId={mode}
+          renderActiveTabPanelOnly
+        >
+          <Tab id="git-easy" title="Git Easy" panel={<GitEasy />} />
+          <Tab id="git" title="Git" panel={<GitViewer />} />
+          <Tab
+            id="history"
+            title="History"
+            panel={<FileHistory key={this.props.filepath} />}
+          />
+          {filetype === "markdown" && (
+            <Tab
+              id="preview-by-filetype"
+              title="Preview"
+              panel={<MarkdownPreview source={value || ""} />}
+            />
+          )}
+        </Tabs>
+      </Card>
     )
   }
 }

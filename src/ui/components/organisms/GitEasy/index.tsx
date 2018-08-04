@@ -1,3 +1,4 @@
+import { Button } from "@blueprintjs/core"
 import React from "react"
 import { connector } from "../../../actionCreators"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
@@ -33,14 +34,15 @@ export const GitEasy = connector(
         <Content>
           <fieldset>
             <legend>Changes</legend>
-            <CommandWithInput
-              description="Commit all"
+            <Button
+              text="Commit All"
               placeholder="Update"
-              validate={() => modified.length > 0}
-              onExec={message => {
-                props.commitAll({ message: message || "Update" })
+              disabled={modified.length === 0}
+              onClick={() => {
+                props.commitAll({ message: "Update" })
               }}
             />
+
             <hr />
 
             {modified.length > 0 ? (
