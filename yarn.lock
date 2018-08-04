@@ -4236,9 +4236,9 @@ doctrine@^2.0.0:
   dependencies:
     esutils "^2.0.2"
 
-docz-core@^0.9.3:
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/docz-core/-/docz-core-0.9.3.tgz#5c26cc47d29ef7c57fa6a6dd91c551e4dabc81a6"
+docz-core@^0.9.4:
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/docz-core/-/docz-core-0.9.4.tgz#d528cee57846b925a026a8bb3bec3db03fefaa99"
   dependencies:
     "@babel/core" "7.0.0-beta.55"
     "@babel/plugin-syntax-dynamic-import" "^7.0.0-beta.55"
@@ -4277,16 +4277,16 @@ docz-core@^0.9.3:
     koa-mount "^3.0.0"
     koa-range "^0.3.0"
     koa-static "^5.0.0"
-    load-cfg "^0.9.0"
+    load-cfg "^0.9.4"
     lodash.get "^4.4.2"
     prettier "^1.14.0"
     react-dev-utils "^5.0.1"
     react-docgen-typescript-loader "^2.1.1"
     react-hot-loader "4.3.4"
     rehype-autolink-headings "^2.0.3"
-    rehype-docz "^0.9.0"
+    rehype-docz "^0.9.4"
     rehype-slug "^2.0.1"
-    remark-docz "^0.9.0"
+    remark-docz "^0.9.4"
     remark-frontmatter "^1.2.0"
     remark-parse "^5.0.0"
     remark-parse-yaml "^0.0.1"
@@ -4313,12 +4313,12 @@ docz-core@^0.9.3:
     ws "^6.0.0"
     yargs "^12.0.1"
 
-docz-theme-default@^0.9.3:
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/docz-theme-default/-/docz-theme-default-0.9.3.tgz#5fe4490182ec080d8643ff1ef6b6f7ad206453ed"
+docz-theme-default@^0.9.5:
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/docz-theme-default/-/docz-theme-default-0.9.5.tgz#59d9009be11aca886c429158be319ad9a63b0abe"
   dependencies:
     copy-text-to-clipboard "^1.0.4"
-    docz "^0.9.3"
+    docz "^0.9.5"
     emotion "^9.2.6"
     emotion-theming "^9.2.6"
     facepaint "^1.2.1"
@@ -4340,9 +4340,9 @@ docz-theme-default@^0.9.3:
     react-syntax-highlighter "^8.0.1"
     webfontloader "^1.6.28"
 
-docz@0.9.3, docz@^0.9.3:
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/docz/-/docz-0.9.3.tgz#7024168a636dee39aff31e2fc2bfab10dcabb2a8"
+docz@0.9.5, docz@^0.9.5:
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/docz/-/docz-0.9.5.tgz#dca81e234871f0fbb4c5dbcbcc7afd822b1e62e2"
   dependencies:
     "@mdx-js/tag" "^0.15.0-2"
     "@sindresorhus/slugify" "^0.3.0"
@@ -4350,8 +4350,8 @@ docz@0.9.3, docz@^0.9.3:
     capitalize "^1.0.0"
     create-react-context "^0.2.2"
     deepmerge "^2.1.1"
-    docz-core "^0.9.3"
-    docz-theme-default "^0.9.3"
+    docz-core "^0.9.4"
+    docz-theme-default "^0.9.5"
     prop-types "^15.6.2"
     react "^16.4.2"
     react-copy-write "^0.7.0"
@@ -7232,9 +7232,9 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-load-cfg@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/load-cfg/-/load-cfg-0.9.0.tgz#09b11e03a4303b931342ac3d30026ab269eff5be"
+load-cfg@^0.9.4:
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/load-cfg/-/load-cfg-0.9.4.tgz#f3b481074a6b80a1a8a3aef9de2edf327579449a"
   dependencies:
     deepmerge "^2.1.1"
     esm "^3.0.72"
@@ -9755,9 +9755,9 @@ rehype-autolink-headings@^2.0.3:
     hast-util-is-element "^1.0.0"
     unist-util-visit "^1.1.0"
 
-rehype-docz@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/rehype-docz/-/rehype-docz-0.9.0.tgz#5834efd46146b4a99631f813598f482c7a3c2e08"
+rehype-docz@^0.9.4:
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/rehype-docz/-/rehype-docz-0.9.4.tgz#a66421d98da91d6244f086a1be13dd991b1e3d92"
   dependencies:
     babel-traverse "^6.26.0"
     babylon "^6.18.0"
@@ -9788,9 +9788,9 @@ relateurl@0.2.x:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
 
-remark-docz@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/remark-docz/-/remark-docz-0.9.0.tgz#8a4b89e92cce24c897b9e0065d02e86f767deeeb"
+remark-docz@^0.9.4:
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/remark-docz/-/remark-docz-0.9.4.tgz#1290f07c7202a250ce0c3ae2b3f4fc7286b7a21e"
   dependencies:
     unist-util-remove "^1.0.1"
     unist-util-visit "^1.4.0"
