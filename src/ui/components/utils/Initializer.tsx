@@ -40,6 +40,7 @@ export const Initializer = connector(
         actions.loadFile({ filepath: "/playground/scratch.md" })
 
         // TODO: Reload git on init. Sometimes initialze on git is failing
+        await delay(300)
         actions.initializeGitStatus("/playground")
       }
 
