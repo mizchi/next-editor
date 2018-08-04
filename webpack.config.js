@@ -25,6 +25,10 @@ const copyRules = [
   {
     from: __dirname + "/assets/**",
     to: __dirname + "/dist"
+  },
+  {
+    from: __dirname + "/node_modules/@blueprintjs/icons/resources/icons",
+    to: __dirname + "/dist/resources/icons"
   }
 ]
 

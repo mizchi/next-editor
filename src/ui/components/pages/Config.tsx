@@ -23,7 +23,7 @@ export const Config = connector(
       <Grid
         columns={["1fr"]}
         rows={[
-          "30px",
+          "50px",
           "1fr"
         ]}
         areas={[

@@ -1,7 +1,7 @@
 {
   "name": "@mizchi/next-editor",
   "author": "mizchi",
-  "version": "0.10.1",
+  "version": "0.12.0",
   "license": "MIT",
   "scripts": {
     "watch": "webpack-serve --no-reload --port 8099",
@@ -80,7 +80,7 @@
     "workbox-webpack-plugin": "3.4.1"
   },
   "dependencies": {
-    "@blueprintjs/core": "3.2.0",
+    "@blueprintjs/core": "^3.2.0",
     "browserfs": "1.4.3",
     "date-fns": "1.29.0",
     "delay": "3.0.0",

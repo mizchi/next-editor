@@ -1,11 +1,12 @@
-import flatten from "lodash/flatten"
-import uniq from "lodash/uniq"
-import { desaturate } from "polished"
+import {
+  Alignment,
+  Button,
+  Classes,
+  Navbar,
+  NavbarGroup,
+  NavbarHeading
+} from "@blueprintjs/core"
 import React from "react"
-import FaCog from "react-icons/fa/cog"
-import FaToggleOff from "react-icons/fa/toggle-off"
-import FaToggleOn from "react-icons/fa/toggle-on"
-import styled from "styled-components"
 import { connector } from "../../../actionCreators"
 
 export const GlobalHeader = connector(
@@ -20,59 +21,38 @@ export const GlobalHeader = connector(
     }
   }
 )(function GlobalHeaderImpl(props) {
-  const currentColumnConut = uniq(flatten(props.mainLayout.areas)).length
   return (
-    <Header>
-      <Title>Next Editor</Title>
-      <Menus>
-        <button
-          onClick={() => {
-            if (currentColumnConut === 2) {
-              props.setLayoutAreas({ areas: [["menu", "editor", "editor"]] })
-            } else {
-              props.setLayoutAreas({ areas: [["menu", "editor", "support"]] })
-            }
-          }}
+    <Navbar className={Classes.DARK}>
+      <NavbarGroup align={Alignment.LEFT}>
+        <NavbarHeading>NextEditor</NavbarHeading>
+        {/* <NavbarDivider />
+        <Popover
+          content={<HeaderFileMenu />}
+          position={Position.BOTTOM_LEFT}
+          minimal={true}
         >
-          {currentColumnConut === 2 ? <FaToggleOn /> : <FaToggleOff />}
-        </button>
-      </Menus>
-      <ConfigMenu>
-        {props.currentScene !== "config" && (
-          <button
-            onClick={() => {
-              props.pushScene({ nextScene: "config" })
-            }}
-          >
-            <FaCog />
-          </button>
-        )}
-      </ConfigMenu>
-    </Header>
+          <Button className="bp3-minimal" icon="cog" text="File" />
+        </Popover> */}
+      </NavbarGroup>
+      <NavbarGroup align={Alignment.RIGHT}>
+        <Button
+          className="bp3-minimal"
+          icon="cog"
+          onClick={() => {
+            props.pushScene({ nextScene: "config" })
+          }}
+        />
+      </NavbarGroup>
+    </Navbar>
   )
 })
 
-const Header = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  background-color: ${p => desaturate(0.1, "#272822")};
-`
-
-const Title = styled.div`
-  display: inline-block;
-  width: 120px;
-  color: #ddd;
-  padding-left: 10px;
-`
-
-const Menus = styled.div`
-  flex: 1;
-`
-
-const ConfigMenu = styled.div`
-  width: 40px;
-`
+// function HeaderFileMenu() {
+//   return (
+//     <Menu>
+//       <Menu.Item icon="new-text-box" text="aaa" />
+//       <Menu.Item icon="new-text-box" text="bbb" />
+//       <Menu.Item icon="new-text-box" text="ccc" />
+//     </Menu>
+//   )
+// }

@@ -1,91 +1,47 @@
+import { Button } from "@blueprintjs/core"
 import React from "react"
-import FaPlus from "react-icons/fa/plus"
-import Modal from "react-modal"
-import ReactTooltip from "react-tooltip"
 
-export class CreateNewProjectButton extends React.Component<
+export class CloneProjectModalContent extends React.Component<
   {
-    onClickCreate: (dirname: string) => void
+    onConfirm: (newProjectRoot: string) => void
+    onCancel: () => void
   },
-  { opened: boolean; newProjectPath: string }
+  {
+    isValidProjectName: boolean
+    newProjectRoot: string
+  }
 > {
   state = {
-    opened: false,
-    newProjectPath: ""
+    isValidProjectName: true,
+    newProjectRoot: ""
   }
   render() {
-    const { onClickCreate } = this.props
     return (
       <>
-        <ReactTooltip
-          place="top"
-          type="dark"
-          effect="solid"
-          id="create-project"
-        >
-          Create new project
-        </ReactTooltip>
-        <button
-          onClick={() => {
-            this.setState({ opened: true })
-          }}
-          data-tip="React-tooltip"
-          data-for="create-project"
-        >
-          <FaPlus />
-        </button>
-        <Modal
-          isOpen={this.state.opened}
-          onRequestClose={() => this.setState({ opened: false })}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-          <h2>Create Project</h2>
-          <p>Create directory to local file system.</p>
-          <div>
-            <input
-              spellCheck={false}
-              style={{ width: "100%" }}
-              value={this.state.newProjectPath}
-              onChange={event => {
-                const value = event.target.value
-                this.setState({ newProjectPath: value })
-              }}
-            />
-          </div>
-          <button
-            onClick={() => {
-              this.setState({ opened: false })
-              onClickCreate(this.state.newProjectPath)
+        <h2>Create Project</h2>
+        <p>Create directory to local file system.</p>
+        <div>
+          <input
+            spellCheck={false}
+            style={{ width: "100%" }}
+            value={this.state.newProjectRoot}
+            onChange={event => {
+              const value = event.target.value
+              this.setState({ newProjectRoot: value })
             }}
-          >
-            create
-          </button>
-          <hr />
-          <div>
-            <button
-              onClick={() =>
-                this.setState({ opened: false, newProjectPath: "" })
-              }
-            >
-              cancel
-            </button>
-          </div>
-        </Modal>
+          />
+        </div>
+        <Button
+          disabled={this.state.newProjectRoot.length === 0}
+          icon="confirm"
+          text="create"
+          onClick={() => this.props.onConfirm(this.state.newProjectRoot)}
+        />
+        <hr />
+        <div>
+          <Button text="cancel" onClick={this.props.onCancel} />
+        </div>
       </>
     )
-  }
-}
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    width: 600,
-    height: 400,
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)"
   }
 }

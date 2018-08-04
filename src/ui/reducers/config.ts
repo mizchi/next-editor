@@ -29,7 +29,7 @@ const initalState: ConfigState = {
   committerEmail: "",
   githubApiToken: "",
   githubProxy: "https://cors-buster-zashozaqfk.now.sh/github.com/",
-  theme: "default",
+  theme: "dark",
   isFirstVisit: true,
   doneTutorial: false
 }

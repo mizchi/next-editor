@@ -5,7 +5,7 @@ import { RepositoryBrowser } from "./RepositoryBrowser"
 
 export function Menu() {
   return (
-    <GridRow rows={["120px", "1fr"]} areas={["project", "file-browser"]}>
+    <GridRow rows={["90px", "1fr"]} areas={["project", "file-browser"]}>
       <GridArea name="project">
         <ProjectManager />
       </GridArea>
