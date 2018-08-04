@@ -1428,7 +1428,7 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@blueprintjs/core@^3.2.0":
+"@blueprintjs/core@3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@blueprintjs/core/-/core-3.2.0.tgz#bdc783d84713de499f3e095c0560ffa37f3d19b5"
   dependencies:
