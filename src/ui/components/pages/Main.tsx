@@ -12,7 +12,7 @@ export function Main() {
       <Grid
         columns={["1fr"]}
         rows={[
-          "30px",
+          "50px",
           "1fr"
         ]}
         areas={[

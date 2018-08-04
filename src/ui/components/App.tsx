@@ -10,7 +10,7 @@ import { StackRouter } from "./utils/StackRouter"
 import { ThemeProvider } from "./utils/ThemeProvider"
 
 // debug area
-const ENTER_PLAYGROUND = true
+const ENTER_PLAYGROUND = false
 
 export class App extends React.Component<{}> {
   render() {
