@@ -28,7 +28,7 @@
     "@mdx-js/loader": "0.14.1",
     "@mdx-js/mdx": "0.14.0",
     "@types/jest": "23.3.1",
-    "@types/lodash": "4.14.115",
+    "@types/lodash": "4.14.116",
     "@types/node": "10.5.4",
     "@types/pify": "3.0.2",
     "@types/power-assert": "1.5.0",
