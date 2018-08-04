@@ -17,7 +17,8 @@
     "docz": "docz dev",
     "docz:build": "docz",
     "analyze:size": "webpack --json | webpack-bundle-size-analyzer",
-    "analyze:unused": "webpack --json | webpack-unused -s src"
+    "analyze:unused": "webpack --json | webpack-unused -s src",
+    "analyze:pwa": "pwmetrics https://next-editor.app"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.56",
