@@ -57,7 +57,7 @@
     "npm-run-all": "4.1.3",
     "power-assert": "1.6.0",
     "prettier": "1.14.0",
-    "puppeteer": "^1.6.2",
+    "puppeteer": "1.6.2",
     "react-test-renderer": "16.4.2",
     "rimraf": "2.6.2",
     "standard-changelog": "2.0.0",
@@ -122,7 +122,7 @@
     "styled-components": "3.3.3",
     "unified": "7.0.0",
     "uuid": "3.3.2",
-    "v8n": "^1.2.0"
+    "v8n": "1.2.0"
   },
   "resolutions": {
     "uglifyjs-webpack-plugin/uglify-es": "3.3.9"
