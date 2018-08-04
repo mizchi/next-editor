@@ -10,8 +10,7 @@ export function Help() {
   return (
     <Card style={{ height: "100%" }}>
       <h1>Next Editor v{pkg.version}</h1>
-      <p>Standalne Editor with Git</p>
-      <h2>How to use</h2>
+      <p>Offline standalne editor with git</p>
       <ul>
         <li>
           Set your committer name by <FaCog />
@@ -23,12 +22,11 @@ export function Help() {
           Clone project from GitHub by <FaClone />
         </li>
       </ul>
-      <h2>Keybind</h2>
 
       <table className="bp3-html-table bp3-small .modifier">
         <thead>
           <tr>
-            <th>Key</th>
+            <th>Keymap</th>
             <th>Action</th>
           </tr>
         </thead>

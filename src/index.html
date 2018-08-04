@@ -107,7 +107,7 @@ function showUpgradeModal() {
 
   if (installed) {
     modal.innerHTML = `
-      <div style='position: absolute; outline: 1px solid black; right: 10px; bottom: 10px; width: 350px; height: 50px; background: white; padding: 10px;'>
+      <div style='position: absolute; outline: 1px solid black; right: 10px; bottom: 10px; width: 350px; height: 50px; background: white; padding: 10px; font-family: Georgia;'>
         <div>New version available!</div>
         <span>It will be applied from the next</span> - <button onclick="location.reload()">Reload</button>
       </div>
@@ -173,7 +173,6 @@ async function setupFonts() {
   const font = new FontFace('Inconsolata', 'url(/assets/Inconsolata.otf)');
   const loadedFace = await font.load()
   document.fonts.add(loadedFace);
-  document.body.style.fontFamily = 'Inconsolata'
 }
 
 const showLoadingMessage = (mes, loading = true) => {

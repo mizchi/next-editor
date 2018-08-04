@@ -22,7 +22,11 @@ export const ThemeProvider = connect((state: RootState) => ({
   return (
     <div
       className={theme === "dark" ? "bp3-dark" : "bp3-light"}
-      style={{ width: "100%", height: "100%" }}
+      style={{
+        width: "100%",
+        height: "100%",
+        fontFamily: "Inconsolata"
+      }}
     >
       <StyledThemeProvider theme={ThemeMap[theme] || DefaultTheme}>
         {children}
