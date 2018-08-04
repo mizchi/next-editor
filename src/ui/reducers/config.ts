@@ -44,17 +44,16 @@ export type ConfigState = {
   theme: string
 }
 
-export const setConfigValue: ActionCreator<{
-  key: string
-  value: string | boolean
-  valid: boolean
-}> = createAction("set-config-value", input => {
-  const rule = (rules as any)[input.key]
-  return {
-    ...input,
-    valid: rule.test(input.value)
+export const setConfigValue = createAction(
+  "set-config-value",
+  (input: { key: string; value: number | string | boolean }) => {
+    const rule = (rules as any)[input.key]
+    return {
+      ...input,
+      valid: rule.test(input.value)
+    }
   }
-})
+)
 
 const initalState: ConfigState = {
   committerName: "",
