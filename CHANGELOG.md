@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.13.0"></a>
+# [0.13.0](https://github.com/mizchi/next-editor/compare/v0.10.1...v0.13.0) (2018-08-04)
+
+
+### Bug Fixes
+
+* **deps:** pin dependencies ([e61b90a](https://github.com/mizchi/next-editor/commit/e61b90a))
+* **deps:** update dependency [@blueprintjs](https://github.com/blueprintjs)/core to v3.2.0 ([1fcab72](https://github.com/mizchi/next-editor/commit/1fcab72))
+* https://github.com/palantir/blueprint/pull/2761 ([ca855f0](https://github.com/mizchi/next-editor/commit/ca855f0))
+* Multibyte ([a421657](https://github.com/mizchi/next-editor/commit/a421657))
+
+
+### Features
+
+* Blueprint ([af83792](https://github.com/mizchi/next-editor/commit/af83792))
+* Recovery mode ([d23e8dd](https://github.com/mizchi/next-editor/commit/d23e8dd))
+
+
+
 <a name="0.12.0"></a>
 # [0.12.0](https://github.com/mizchi/next-editor/compare/v0.10.1...v0.12.0) (2018-08-03)
 
