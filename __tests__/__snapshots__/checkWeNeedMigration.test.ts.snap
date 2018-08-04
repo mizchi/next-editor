@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check we need migration 1`] = `
+Object {
+  "app": Object {
+    "mainLayout": Object {
+      "areas": Array [
+        Array [
+          "menu",
+          "editor",
+          "support",
+        ],
+      ],
+      "columns": Array [
+        "250px",
+        "1fr",
+        "1fr",
+      ],
+      "rows": Array [
+        "1fr",
+      ],
+    },
+    "sceneStack": Array [
+      "main",
+    ],
+  },
+  "buffer": Object {
+    "autosave": true,
+    "changed": false,
+    "filepath": "",
+    "filetype": "text",
+    "lastSavedValue": "",
+    "reloadCounter": 0,
+    "value": "",
+  },
+  "config": Object {
+    "committerEmail": "",
+    "committerName": "",
+    "doneTutorial": false,
+    "editorFontFamily": "Inconsolata, monospace",
+    "editorFontScale": 1,
+    "editorSpellCheck": false,
+    "githubApiToken": "",
+    "githubProxy": "https://cors-buster-zashozaqfk.now.sh/github.com/",
+    "isFirstVisit": true,
+    "theme": "dark",
+  },
+  "git": Object {
+    "branches": Array [],
+    "currentBranch": null,
+    "history": Array [],
+    "loaded": false,
+    "projectRoot": null,
+    "remoteBranches": Array [],
+    "remotes": Array [],
+    "staging": null,
+    "stagingLoading": true,
+    "type": "loading",
+  },
+  "project": Object {
+    "projectRoot": "/",
+    "projects": Array [],
+  },
+  "repository": Object {
+    "currentProjectRoot": "/playground",
+    "dirCreatingDir": null,
+    "fileCreatingDir": null,
+    "renamingFilepath": null,
+    "touchCounter": 0,
+  },
+}
+`;

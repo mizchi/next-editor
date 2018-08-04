@@ -1,7 +1,7 @@
 {
   "name": "@mizchi/next-editor",
   "author": "mizchi",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "license": "MIT",
   "scripts": {
     "watch": "webpack-serve --no-reload --port 8099",
@@ -119,7 +119,8 @@
     "remark-rehype": "3.0.0",
     "styled-components": "3.3.3",
     "unified": "7.0.0",
-    "uuid": "3.3.2"
+    "uuid": "3.3.2",
+    "v8n": "^1.2.0"
   },
   "resolutions": {
     "uglifyjs-webpack-plugin/uglify-es": "3.3.9"

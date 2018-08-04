@@ -79,17 +79,13 @@ export function Config({
             onChangeConfigValue("githubProxy", event.target.value)
           }}
         />
+        <br />
         <Card>
           CAUTION!!!: Setting token and using proxy are at your own risk. If we
           have vulnerability to access localStorage, it might be leak.
         </Card>
       </label>
 
-      {process.env.NODE_ENV === "development" && (
-        <div>
-          <Button onClick={onClickEnterPlayground} text="Enter Playground" />
-        </div>
-      )}
       <div>
         <Button onClick={onClickBack} text="Back" />
       </div>

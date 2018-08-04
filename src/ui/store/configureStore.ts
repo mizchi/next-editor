@@ -1,10 +1,11 @@
 import { applyMiddleware, compose, createStore } from "redux"
-import { persistReducer, persistStore } from "redux-persist"
+import { createMigrate, persistReducer, persistStore } from "redux-persist"
 import storage from "redux-persist/lib/storage"
 import promise from "redux-promise"
 import thunk from "redux-thunk"
-import pkg from "../../../package.json"
+import migratorDef from "../../migrator.json"
 import { rootReducer } from "../reducers"
+import { buildMigrator } from "./migrator"
 
 const win = window as any
 
@@ -25,14 +26,26 @@ const enhancer = dev
   ? composeEnhancers(applyMiddleware(thunk, promise))
   : applyMiddleware(thunk, promise)
 
+// NOTE: This is last resort for global recovery
+const GLOBAL_STATE_VERSION = 0
+
 // presist config
+console.log("STATE_VERSION:", migratorDef.version)
+
+const migrator = buildMigrator(migratorDef)
+
 const persistConfig = {
-  key: `root@${pkg.version}`,
-  storage
+  key: `@:${GLOBAL_STATE_VERSION}`,
+  version: migratorDef.version,
+  storage,
+  migrate: createMigrate(migrator, { debug: true })
 }
 
 export function configureStore() {
-  const persistedReducer = persistReducer(persistConfig, rootReducer as any)
+  const persistedReducer = persistReducer(
+    persistConfig as any,
+    rootReducer as any
+  )
   const store = createStore(persistedReducer, enhancer)
   const persistor = persistStore(store)
   return { store, persistor }
