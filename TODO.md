@@ -3,9 +3,9 @@
 ## Current
 
 - [ ] UI: Save tab state in reducer
-- [ ] Refactor: Editors
 - [ ] UI: Quick file name search: (fuzzy match)
 - [ ] UI: Rewrite buffer without file change
+- [x] Refactor: Editors
 - [x] UI: Show short filename on toolbar
 - [x] UI: Auto focus on file select
 - [x] UI: Open editing file dir on open

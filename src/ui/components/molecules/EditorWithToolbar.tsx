@@ -1,3 +1,4 @@
+import { Button, ButtonGroup, Switch } from "@blueprintjs/core"
 import path from "path"
 import React from "react"
 import { TextEditor } from "../../../editors/TextEditor"
@@ -21,7 +22,7 @@ type State = {
   wysiwyg: boolean
 }
 
-export class Editor extends React.Component<Props, State> {
+export class EditorWithToolbar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
@@ -41,7 +42,7 @@ export class Editor extends React.Component<Props, State> {
     const displayFilepath = relpath
     const basename = path.basename(relpath)
     return (
-      <GridRow rows={["1fr", "24px"]} areas={["editor", "toolbar"]}>
+      <GridRow rows={["30px", "1fr"]} areas={["toolbar", "editor"]}>
         <GridArea name="toolbar">
           <EditorToolbar
             displayFilepath={displayFilepath}
@@ -126,6 +127,8 @@ export function EditorToolbar({
         <div
           style={{
             textOverflow: "ellipsis",
+            paddingLeft: 6,
+            paddingTop: 6,
             overflow: "hidden",
             whiteSpace: "nowrap",
             width: "100%"
@@ -135,12 +138,14 @@ export function EditorToolbar({
         </div>
       </GridArea>
       <GridArea name="buttons">
-        | autosave:<input
-          type="checkbox"
-          defaultChecked={autosave}
-          onChange={onChangeAutosave}
-        />
-        &nbsp;
+        <ButtonGroup>
+          <Switch
+            alignIndicator="right"
+            label="autosave"
+            checked={autosave}
+            onChange={onChangeAutosave}
+          />
+        </ButtonGroup>
         {!autosave && (
           <button onClick={onClickSave} disabled={!changed}>
             Save(⌘S)

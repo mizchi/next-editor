@@ -3,7 +3,7 @@ import React from "react"
 import { formatMarkdown } from "../../../../lib/formatMarkdown"
 import { connector } from "../../../actionCreators"
 import { Help } from "../../atoms/Help"
-import { Editor as EditorContent } from "../../molecules/Editor"
+import { EditorWithToolbar } from "../../molecules/EditorWithToolbar"
 
 export const Editor = connector(
   state => {
@@ -25,7 +25,7 @@ export const Editor = connector(
   const { unloadFile, buffer, projectRoot } = props
   if (buffer.filepath) {
     return (
-      <EditorContent
+      <EditorWithToolbar
         projectRoot={projectRoot}
         key={
           buffer.filepath + ":" + buffer.reloadCounter.toString() || "/unknown/"
