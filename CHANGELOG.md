@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.14.2"></a>
+## [0.14.2](https://github.com/mizchi/next-editor/compare/v0.14.1...v0.14.2) (2018-08-04)
+
+
+### Bug Fixes
+
+* **deps:** update dependency isomorphic-git to v0.26.0 ([c11eaf2](https://github.com/mizchi/next-editor/commit/c11eaf2))
+
+
+
 <a name="0.14.1"></a>
 ## [0.14.1](https://github.com/mizchi/next-editor/compare/v0.14.0...v0.14.1) (2018-08-04)
 
