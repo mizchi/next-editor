@@ -73,7 +73,7 @@
     "typescript": "3.0.1",
     "uglify-es": "3.3.9",
     "uglifyjs-webpack-plugin": "1.2.7",
-    "webpack": "4.16.3",
+    "webpack": "4.16.4",
     "webpack-cli": "3.1.0",
     "webpack-hot-client": "4.1.1",
     "webpack-serve": "2.0.2",
