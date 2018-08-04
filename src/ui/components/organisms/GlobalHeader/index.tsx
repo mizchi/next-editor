@@ -2,9 +2,9 @@ import {
   Alignment,
   Button,
   Classes,
+  Navbar,
   NavbarGroup,
-  NavbarHeading,
-  Navbar
+  NavbarHeading
 } from "@blueprintjs/core"
 import React from "react"
 import styled from "styled-components"
@@ -26,7 +26,7 @@ export const GlobalHeader = connector(
     <StyledNavbar className={Classes.DARK}>
       <NavbarGroup align={Alignment.LEFT} style={sharedNavbarStyle}>
         <NavbarHeading style={{ ...sharedNavbarStyle, paddingTop: 5 }}>
-          NextEditor
+          Next Editor
         </NavbarHeading>
         {/* <NavbarDivider />
         <Popover

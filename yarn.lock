@@ -11620,6 +11620,10 @@ v8-compile-cache@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.0.0.tgz#526492e35fc616864284700b7043e01baee09f0a"
 
+v8n@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/v8n/-/v8n-1.2.0.tgz#18e2ad22926c54c675bf5821fdca19727cbf2c33"
+
 validate-npm-package-license@^3.0.1:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/validate-npm-package-license/-/validate-npm-package-license-3.0.3.tgz#81643bcbef1bdfecd4623793dc4648948ba98338"
