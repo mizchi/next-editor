@@ -6,7 +6,6 @@
   "scripts": {
     "watch": "webpack-serve --no-reload --port 8099",
     "build:prod": "rimraf dist && NODE_ENV=production webpack",
-    "analyze:size": "webpack --json | webpack-bundle-size-analyzer",
     "release": "yarn standard-version && yarn standard-changelog",
     "deploy": "yarn build:prod && netlify deploy -p dist",
     "lint": "tslint src/**.ts src/**.tsx",
@@ -16,7 +15,9 @@
     "test-e2e": "node e2e/load.js",
     "test-ci": "yarn test:ts && jest --coverage && cat ./coverage/lcov.info | coveralls",
     "docz": "docz dev",
-    "docz:build": "docz"
+    "docz:build": "docz",
+    "analyze:size": "webpack --json | webpack-bundle-size-analyzer",
+    "analyze:unused": "webpack --json | webpack-unused -s src"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.56",
