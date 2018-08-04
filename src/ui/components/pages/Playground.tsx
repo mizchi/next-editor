@@ -41,7 +41,7 @@ const ContentsBody = styled.div`
   margin: 0;
   width: 100%;
   /* NOTE: StyledNavbar height is 50px */
-  height: calc(100vh - 50px);
+  height: calc(100vh - 32px);
   border-radius: none;
 `
 
