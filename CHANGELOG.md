@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.15.7"></a>
+## [0.15.7](https://github.com/mizchi/next-editor/compare/v0.15.6...v0.15.7) (2018-08-05)
+
+
+### Bug Fixes
+
+* Restore Create new project ([dd66e59](https://github.com/mizchi/next-editor/commit/dd66e59))
+
+
+
 <a name="0.15.6"></a>
 ## [0.15.6](https://github.com/mizchi/next-editor/compare/v0.15.5...v0.15.6) (2018-08-05)
 
