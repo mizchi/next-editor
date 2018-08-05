@@ -9,12 +9,10 @@ const themes = ["default", "dark"]
 export function Config({
   config,
   onClickBack,
-  onClickEnterPlayground,
   onChangeConfigValue
 }: {
   config: ConfigState
   onClickBack: () => void
-  onClickEnterPlayground: () => void
   onChangeConfigValue: (key: string, value: string | number | boolean) => void
 }) {
   return (
@@ -83,6 +81,19 @@ export function Config({
           }}
           initialValue={config.editorFontScale}
           value={config.editorFontScale}
+        />
+      </label>
+
+      <label className="bp3-label .modifier">
+        editor:font-family
+        <input
+          spellCheck={false}
+          className="bp3-input"
+          defaultValue={config.editorFontFamily}
+          style={{ width: 400 }}
+          onChange={event => {
+            onChangeConfigValue("editorFontFamily", event.target.value)
+          }}
         />
       </label>
 

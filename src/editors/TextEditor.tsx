@@ -4,6 +4,7 @@ import styled from "styled-components"
 
 type Props = {
   fontScale: number
+  fontFamily: string
   spellCheck: boolean
   value: string
   onChange: (value: string) => void
@@ -16,6 +17,7 @@ export class TextEditor extends React.PureComponent<Props> {
       <Container>
         <StyledTextarea
           fontScale={this.props.fontScale}
+          fontFamily={this.props.fontFamily}
           innerRef={this.textareaRef}
           spellCheck={this.props.spellCheck}
           value={this.props.value}
@@ -41,11 +43,13 @@ const Container = styled.div`
 
 const StyledTextarea: React.ComponentType<{
   fontScale: number
+  fontFamily: string
   spellCheck: boolean
   value: string
   onChange: any
   innerRef: any
 }> = styled.textarea`
+  font-family: ${p => p.fontFamily};
   font-size: ${p => p.fontScale}em;
   line-height: 1.5em;
   padding: 3px 5px 3px 10px;

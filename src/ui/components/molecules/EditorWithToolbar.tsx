@@ -9,12 +9,13 @@ import { GridArea, GridColumn, GridRow } from "../utils/Grid"
 type Props = {
   projectRoot: string
   buffer: BufferState
+  fontScale: number
+  fontFamily: string
   onChange?: (e: any) => void
   onSave?: (e: any) => void
   onClose: () => void
   onSetAutosave: (value: boolean) => void
   onFormat: () => void
-  fontScale: number
 }
 
 type State = {
@@ -78,6 +79,7 @@ export class EditorWithToolbar extends React.Component<Props, State> {
             />
           ) : (
             <TextEditor
+              fontFamily={this.props.fontFamily}
               fontScale={this.props.fontScale}
               spellCheck={false}
               value={value}

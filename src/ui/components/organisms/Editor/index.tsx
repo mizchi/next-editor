@@ -10,7 +10,8 @@ export const Editor = connector(
     return {
       projectRoot: state.repository.currentProjectRoot,
       buffer: state.buffer,
-      fontScale: state.config.editorFontScale
+      fontScale: state.config.editorFontScale,
+      fontFamily: state.config.editorFontFamily
     }
   },
   actions => {
@@ -23,12 +24,13 @@ export const Editor = connector(
     }
   }
 )(function EditorImpl(props) {
-  const { unloadFile, buffer, projectRoot, fontScale } = props
+  const { unloadFile, buffer, projectRoot, fontFamily, fontScale } = props
   if (buffer.filepath) {
     return (
       <EditorWithToolbar
         projectRoot={projectRoot}
         fontScale={fontScale}
+        fontFamily={fontFamily}
         key={
           buffer.filepath + ":" + buffer.reloadCounter.toString() || "/unknown/"
         }
