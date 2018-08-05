@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.15.6"></a>
+## [0.15.6](https://github.com/mizchi/next-editor/compare/v0.15.5...v0.15.6) (2018-08-05)
+
+
+### Bug Fixes
+
+* **deps:** update dependency isomorphic-git to v0.27.0 ([8102ace](https://github.com/mizchi/next-editor/commit/8102ace))
+* remove unused pushScene ([e78da12](https://github.com/mizchi/next-editor/commit/e78da12))
+
+
+
 <a name="0.15.5"></a>
 ## [0.15.5](https://github.com/mizchi/next-editor/compare/v0.15.4...v0.15.5) (2018-08-05)
 
