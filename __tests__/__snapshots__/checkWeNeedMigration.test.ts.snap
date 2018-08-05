@@ -38,7 +38,7 @@ Object {
     "committerName": "",
     "doneTutorial": false,
     "editorFontFamily": "Inconsolata, monospace",
-    "editorFontScale": 1,
+    "editorFontScale": 1.2,
     "editorSpellCheck": false,
     "githubApiToken": "",
     "githubProxy": "https://cors-buster-zashozaqfk.now.sh/github.com/",

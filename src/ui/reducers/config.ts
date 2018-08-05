@@ -54,7 +54,7 @@ const initalState: ConfigState = {
   committerName: "",
   committerEmail: "",
   githubApiToken: "",
-  editorFontScale: 1.0,
+  editorFontScale: 1.2,
   editorFontFamily: "Inconsolata, monospace",
   editorSpellCheck: false,
   githubProxy: "https://cors-buster-zashozaqfk.now.sh/github.com/",
