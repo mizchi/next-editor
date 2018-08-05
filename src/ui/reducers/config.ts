@@ -1,9 +1,4 @@
-import {
-  ActionCreator,
-  buildActionCreator,
-  createReducer,
-  Reducer
-} from "hard-reducer"
+import { buildActionCreator, createReducer, Reducer } from "hard-reducer"
 import v8n from "v8n"
 
 v8n.extend({

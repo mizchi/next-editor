@@ -1,4 +1,5 @@
-import { Button, Card } from "@blueprintjs/core"
+import { Button, Card, Slider } from "@blueprintjs/core"
+import round from "lodash/round"
 import React from "react"
 import styled from "styled-components"
 import { ConfigState } from "../../reducers/config"
@@ -14,7 +15,7 @@ export function Config({
   config: ConfigState
   onClickBack: () => void
   onClickEnterPlayground: () => void
-  onChangeConfigValue: (key: string, value: string) => void
+  onChangeConfigValue: (key: string, value: string | number | boolean) => void
 }) {
   return (
     <Container>
@@ -68,6 +69,23 @@ export function Config({
           }}
         />
       </label>
+
+      <label className="bp3-label .modifier">
+        editor:font-size
+        <Slider
+          min={0}
+          max={3}
+          stepSize={0.1}
+          labelStepSize={0.5}
+          vertical={false}
+          onChange={value => {
+            onChangeConfigValue("editorFontScale", round(value, 1))
+          }}
+          initialValue={config.editorFontScale}
+          value={config.editorFontScale}
+        />
+      </label>
+
       <label className="bp3-label .modifier">
         GitHub: CORS Proxy
         <input

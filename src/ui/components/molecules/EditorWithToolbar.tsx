@@ -14,10 +14,10 @@ type Props = {
   onClose: () => void
   onSetAutosave: (value: boolean) => void
   onFormat: () => void
+  fontScale: number
 }
 
 type State = {
-  fontScale: number
   value: string
   wysiwyg: boolean
 }
@@ -26,7 +26,6 @@ export class EditorWithToolbar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      fontScale: 1.0,
       value: props.buffer.value,
       wysiwyg: false
     }
@@ -79,7 +78,7 @@ export class EditorWithToolbar extends React.Component<Props, State> {
             />
           ) : (
             <TextEditor
-              fontScale={this.state.fontScale}
+              fontScale={this.props.fontScale}
               spellCheck={false}
               value={value}
               onChange={newValue => {

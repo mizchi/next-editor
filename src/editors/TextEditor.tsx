@@ -9,12 +9,13 @@ type Props = {
   onChange: (value: string) => void
 }
 
-export class TextEditor extends React.Component<Props> {
+export class TextEditor extends React.PureComponent<Props> {
   textareaRef: React.RefObject<any> = React.createRef()
   render() {
     return (
       <Container>
         <StyledTextarea
+          fontScale={this.props.fontScale}
           innerRef={this.textareaRef}
           spellCheck={this.props.spellCheck}
           value={this.props.value}
@@ -39,13 +40,13 @@ const Container = styled.div`
 `
 
 const StyledTextarea: React.ComponentType<{
-  fontScale?: number
+  fontScale: number
   spellCheck: boolean
   value: string
   onChange: any
   innerRef: any
 }> = styled.textarea`
-  font-size: 1.1em;
+  font-size: ${p => p.fontScale}em;
   line-height: 1.5em;
   padding: 3px 5px 3px 10px;
   background: ${p => darken(0.02, p.theme.main)};
