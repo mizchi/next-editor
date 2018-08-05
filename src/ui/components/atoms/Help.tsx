@@ -1,8 +1,5 @@
 import { Card } from "@blueprintjs/core"
 import React from "react"
-import FaClone from "react-icons/fa/clone"
-import FaCog from "react-icons/fa/cog"
-import FaPlus from "react-icons/fa/plus"
 // import ChangeLog from "../../../../CHANGELOG.md"
 import pkg from "../../../../package.json"
 
@@ -11,18 +8,17 @@ export function Help() {
     <Card style={{ height: "100%" }}>
       <div style={{ maxWidth: "800px", margin: "0 auto" }}>
         <h1>Next Editor v{pkg.version}</h1>
-        <p>Offline standalne editor with git</p>
-        <ul>
-          <li>
-            Set your committer name by <FaCog />
-          </li>
-          <li>
-            Create project by <FaPlus />
-          </li>
-          <li>
-            Clone project from GitHub by <FaClone />
-          </li>
-        </ul>
+        <p>Editor with Git</p>
+        <p>
+          GitHub:&nbsp;
+          <a href="https://github.com/mizchi/next-editor">mizchi/next-editor</a>
+          <br />
+          Please report bug or feature requests to{" "}
+          <a href="https://github.com/mizchi/next-editor/issues/new">
+            GitHub Issue
+          </a>{" "}
+          or <a href={"https://twitter.com/mizchi"}>@mizchi</a>
+        </p>
 
         <table className="bp3-html-table bp3-small .modifier">
           <thead>
@@ -54,17 +50,7 @@ export function Help() {
             </tr>
           </tbody>
         </table>
-        <hr />
-        <p>
-          GitHub:&nbsp;
-          <a href="https://github.com/mizchi/next-editor">mizchi/next-editor</a>
-          <br />
-          Please report bug or feature requests to{" "}
-          <a href="https://github.com/mizchi/next-editor/issues/new">
-            GitHub Issue
-          </a>{" "}
-          or <a href={"https://twitter.com/mizchi"}>@mizchi</a>
-        </p>
+        {/* <hr /> */}
         {/* <hr /> */}
         {/* <ChangeLog /> */}
       </div>
