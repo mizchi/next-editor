@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.15.0"></a>
+# [0.15.0](https://github.com/mizchi/next-editor/compare/v0.14.3...v0.15.0) (2018-08-05)
+
+
+### Features
+
+* configurable font family ([0ee9f2f](https://github.com/mizchi/next-editor/commit/0ee9f2f))
+* font scale ([35361d7](https://github.com/mizchi/next-editor/commit/35361d7))
+
+
+
 <a name="0.14.3"></a>
 ## [0.14.3](https://github.com/mizchi/next-editor/compare/v0.14.2...v0.14.3) (2018-08-04)
 
