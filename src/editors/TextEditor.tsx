@@ -61,7 +61,7 @@ const StyledTextarea: React.ComponentType<{
   display: block;
   border: 0;
   box-sizing: border-box;
-  max-width: 70vw;
+  max-width: 60vw;
   margin: 0 auto;
   border-left: 1px solid rgba(0, 0, 0, 0.05);
   border-right: 1px solid rgba(0, 0, 0, 0.05);
