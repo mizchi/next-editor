@@ -15,6 +15,50 @@ export const setLayoutAreas: ActionCreator<{
   areas: AreaName[][]
 }> = createAction("set-layout-mode")
 
+export const setLayout1 = createAction(
+  "set-layout-1",
+  (_input: {}): Layout => {
+    return {
+      columns: ["250px", "1fr", "1fr"],
+      rows: ["1fr"],
+      areas: [["menu", "editor", "support"]]
+    }
+  }
+)
+
+export const setLayout2 = createAction(
+  "set-layout-2",
+  (_input: {}): Layout => {
+    return {
+      columns: ["250px", "1fr"],
+      rows: ["1fr"],
+      areas: [["menu", "editor"]]
+    }
+  }
+)
+
+export const setLayout3 = createAction(
+  "set-layout-3",
+  (_input: {}): Layout => {
+    return {
+      columns: ["1fr"],
+      rows: ["1fr"],
+      areas: [["editor"]]
+    }
+  }
+)
+
+export const setLayout4 = createAction(
+  "set-layout-4",
+  (_input: {}): Layout => {
+    return {
+      columns: ["1fr", "1fr"],
+      rows: ["1fr"],
+      areas: [["editor", "support"]]
+    }
+  }
+)
+
 export const pushScene: ActionCreator<{
   nextScene: string
 }> = createAction("push-scene")
@@ -46,6 +90,30 @@ const initialState: AppState = {
 }
 
 export const reducer: Reducer<AppState> = createReducer(initialState)
+  .case(setLayout1, (state, payload) => {
+    return {
+      ...state,
+      mainLayout: payload
+    }
+  })
+  .case(setLayout2, (state, payload) => {
+    return {
+      ...state,
+      mainLayout: payload
+    }
+  })
+  .case(setLayout3, (state, payload) => {
+    return {
+      ...state,
+      mainLayout: payload
+    }
+  })
+  .case(setLayout4, (state, payload) => {
+    return {
+      ...state,
+      mainLayout: payload
+    }
+  })
   .case(setLayoutAreas, (state, payload) => {
     return {
       ...state,

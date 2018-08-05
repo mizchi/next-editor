@@ -17,8 +17,7 @@ export const GlobalHeader = connector(
   }),
   actions => {
     return {
-      pushScene: actions.app.pushScene,
-      setLayoutAreas: actions.app.setLayoutAreas
+      pushScene: actions.app.pushScene
     }
   }
 )(function GlobalHeaderImpl(props) {
