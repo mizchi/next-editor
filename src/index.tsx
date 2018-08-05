@@ -1,6 +1,4 @@
 /// <reference> ../decls.d.ts
-import "react-contexify/dist/ReactContexify.min.css"
-
 import "normalize.css/normalize.css"
 
 import "@blueprintjs/core/lib/css/blueprint.css"
