@@ -4,7 +4,8 @@ import React from "react"
 import { lifecycle } from "recompose"
 import { connector } from "../../../actionCreators"
 import { ButtonWithModal } from "../../atoms/ButtonWithModal"
-import { CloneProjectModalContent } from "./CloneProjectButton"
+import { CloneProjectModalContent } from "./CloneProjectModalContent"
+import { CreateProjectModalContent } from "./CreateProjectModalContent"
 
 export const ProjectManager = connector(
   state => {
@@ -82,7 +83,7 @@ export const ProjectManager = connector(
           icon="add"
           renderModal={({ onClose }) => {
             return (
-              <CloneProjectModalContent
+              <CreateProjectModalContent
                 onConfirm={async dirname => {
                   onClose()
                   const newProjectRoot = path.join("/", dirname)
