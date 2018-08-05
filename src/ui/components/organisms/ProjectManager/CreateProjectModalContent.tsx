@@ -1,7 +1,7 @@
 import { Button } from "@blueprintjs/core"
 import React from "react"
 
-export class CloneProjectModalContent extends React.Component<
+export class CreateProjectModalContent extends React.Component<
   {
     onConfirm: (newProjectRoot: string) => void
     onCancel: () => void
