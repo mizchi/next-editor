@@ -5,13 +5,6 @@ import { Config } from "../Config"
 import { Main } from "../Main"
 import { configureTestStore } from "./createTestStore"
 
-jest.mock("react-toastify", () => {
-  return {
-    toast: () => "",
-    ToastContainer: () => ""
-  }
-})
-
 // Skip async actions error on componentDidMount
 process.on("unhandledRejection", () => {
   /**/

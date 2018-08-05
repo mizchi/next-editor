@@ -1,10 +1,11 @@
+import { Intent } from "@blueprintjs/core"
 import { buildActionCreator } from "hard-reducer"
 import path from "path"
-import { toast } from "react-toastify"
 import * as FS from "../../domain/filesystem"
 import { writeFile } from "../../domain/filesystem"
 import * as Git from "../../domain/git"
 import { extToFileType } from "../../lib/extToFileType"
+import { toast } from "../components/utils/toast"
 import * as BufferActions from "../reducers/buffer"
 import * as GitActions from "../reducers/git"
 import * as ProjectActions from "../reducers/project"
@@ -173,22 +174,14 @@ export async function pushCurrentBranchToOrigin(
     if (githubToken.length > 0) {
       try {
         await Git.pushBranch(projectRoot, "origin", branch, githubToken)
-        toast(`Push success`, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          pauseOnHover: true,
-          draggable: false
+        toast({
+          message: "Push success"
         })
         dispatch(startUpdate({}))
       } catch (e) {
-        toast(`Push fail: ${e.message}`, {
-          type: "error",
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          pauseOnHover: true,
-          draggable: false
+        toast({
+          intent: Intent.DANGER,
+          message: "Push success"
         })
       }
     } else {

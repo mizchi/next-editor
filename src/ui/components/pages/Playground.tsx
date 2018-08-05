@@ -16,12 +16,17 @@ import {
   Tab,
   Tabs,
   TextArea,
+  Toaster,
   Tree
 } from "@blueprintjs/core"
 import React from "react"
 import styled from "styled-components"
 import { Root } from "../atoms/Root"
 import { Grid, GridArea } from "../utils/Grid"
+
+export const AppToaster = Toaster.create({
+  position: Position.RIGHT_BOTTOM as any
+})
 
 export function Playground() {
   return (
@@ -47,6 +52,12 @@ const ContentsBody = styled.div`
 
 class Navigation extends React.PureComponent<{}> {
   public render() {
+    return (
+      <Button
+        onClick={() => AppToaster.show({ message: "Toasted" })}
+        text="show toast"
+      />
+    )
     return (
       <StyledNavbar className={Classes.DARK}>
         <NavbarGroup align={Alignment.LEFT}>

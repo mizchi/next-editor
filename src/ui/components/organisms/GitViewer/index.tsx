@@ -1,5 +1,4 @@
 import React from "react"
-import { ToastContainer } from "react-toastify"
 import { lifecycle } from "recompose"
 import { connector } from "../../../actionCreators"
 import { GitBriefHistory } from "../GitBriefHistory"
@@ -58,18 +57,6 @@ export const GitViewer = connector(
           <div>
             {projectRoot} [{currentBranch}]
           </div>
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            draggablePercent={60}
-            closeOnClick
-            rtl={false}
-            pauseOnVisibilityChange
-            draggable
-            pauseOnHover
-          />
           <BranchController
             config={config}
             remoteBranches={remoteBranches}
