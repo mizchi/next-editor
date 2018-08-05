@@ -61,17 +61,6 @@ module.exports = {
           loader: "babel-loader"
         }
       },
-      // for react-icons
-      {
-        test: /\.js$/,
-        include: [path.join(__dirname, "node_modules/react-icons")],
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-react"]
-          }
-        }
-      },
       {
         test: /\.css$/,
         use: [{ loader: "style-loader/url" }, { loader: "file-loader" }]

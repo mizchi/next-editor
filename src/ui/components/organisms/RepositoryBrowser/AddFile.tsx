@@ -1,6 +1,6 @@
+import { Icon } from "@blueprintjs/core"
 import path from "path"
 import React from "react"
-import FaFile from "react-icons/fa/file"
 import { connect } from "react-redux"
 import styled from "styled-components"
 import Actions from "../../../actionCreators"
@@ -45,7 +45,7 @@ export const AddFile = (connect as any)(
       const { value } = this.state
       return (
         <Container>
-          <FaFile />
+          <Icon icon="document" />
           <input
             ref={this.inputRef}
             value={value}

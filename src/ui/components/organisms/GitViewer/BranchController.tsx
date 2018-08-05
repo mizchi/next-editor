@@ -1,6 +1,5 @@
+import { Button } from "@blueprintjs/core"
 import React from "react"
-import FaMinusSquare from "react-icons/fa/minus-square-o"
-import FaPlusSquare from "react-icons/fa/plus-square-o"
 import { isFastForward } from "../../../../domain/git"
 import { ConfigState } from "../../../reducers/config"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
@@ -42,11 +41,12 @@ export class BranchController extends React.Component<
     } = this.props
     return (
       <fieldset>
-        <legend
-          style={{ userSelect: "none", cursor: "pointer" }}
-          onClick={() => this.setState({ opened: !this.state.opened })}
-        >
-          {this.state.opened ? <FaMinusSquare /> : <FaPlusSquare />}
+        <legend style={{ userSelect: "none", cursor: "pointer" }}>
+          <Button
+            minimal
+            icon={this.state.opened ? "minus" : "plus"}
+            onClick={() => this.setState({ opened: !this.state.opened })}
+          />
           Branch
         </legend>
         {this.state.opened && (

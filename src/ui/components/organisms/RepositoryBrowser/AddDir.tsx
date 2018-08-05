@@ -1,6 +1,6 @@
+import { Icon } from "@blueprintjs/core"
 import path from "path"
 import React from "react"
-import FaFolder from "react-icons/fa/folder"
 import { connect } from "react-redux"
 import styled from "styled-components"
 import Actions from "../../../actionCreators"
@@ -45,7 +45,7 @@ export const AddDir = (connect as any)(
       const { value } = this.state
       return (
         <Container>
-          <FaFolder />
+          <Icon icon="folder-new" />
           <input
             ref={this.inputRef}
             value={value}

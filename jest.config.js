@@ -8,7 +8,6 @@ module.exports = {
     }
   },
   moduleNameMapper: {
-    "react-icons(.*)": "<rootDir>/__tests__/mocks/dummyComponent.js",
     "(.*).md": "<rootDir>/__tests__/mocks/dummyComponent.js",
     "(.*).css": "<rootDir>/__tests__/mocks/dummyObject.js"
   },

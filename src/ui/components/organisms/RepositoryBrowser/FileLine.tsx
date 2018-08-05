@@ -1,8 +1,8 @@
+import { Icon } from "@blueprintjs/core"
 import range from "lodash/range"
 import path from "path"
 import React from "react"
 import { ContextMenuProvider } from "react-contexify"
-import FaFile from "react-icons/fa/file"
 import styled from "styled-components"
 import { connector } from "../../../actionCreators"
 import { Pathname } from "../../atoms/Pathname"
@@ -37,8 +37,10 @@ export const FileLine: React.ComponentType<OwnProps> = connector<OwnProps>(
     <ContextMenuProvider id="file" data={{ filepath }}>
       <Container selected={editingFilepath === filepath}>
         <div onClick={() => props.loadFile({ filepath })}>
-          {range(depth).map((_, k) => <span key={k}>&nbsp;&nbsp;</span>)}
-          <FaFile />
+          {range(depth).map((_, k) => (
+            <span key={k}>&nbsp;&nbsp;</span>
+          ))}
+          <Icon icon="document" />
           &nbsp;
           <Pathname ignoreGit={props.ignoreGit}>{basename}</Pathname>
         </div>

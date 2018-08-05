@@ -1,7 +1,6 @@
+import { Button } from "@blueprintjs/core"
 import format from "date-fns/format"
 import React from "react"
-import FaMinusSquare from "react-icons/fa/minus-square-o"
-import FaPlusSquare from "react-icons/fa/plus-square-o"
 import { CommitDescription } from "../../../domain/types"
 import { connector } from "../../actionCreators"
 
@@ -35,12 +34,15 @@ class GitBriefHistoryContent extends React.Component<
     return (
       <div>
         <fieldset>
-          <legend
-            style={{ userSelect: "none", cursor: "pointer" }}
-            onClick={() => this.setState({ opened: !this.state.opened })}
-          >
-            {this.state.opened ? <FaMinusSquare /> : <FaPlusSquare />}
-            History[{branch}]
+          <legend style={{ userSelect: "none", cursor: "pointer" }}>
+            <Button
+              minimal
+              icon={this.state.opened ? "minus" : "plus"}
+              onClick={() => this.setState({ opened: !this.state.opened })}
+            />
+            {/* {this.state.opened ? <Icon icon="minus" /> : <Icon icon="plus" />} */}
+            History[
+            {branch}]
           </legend>
           {this.state.opened && (
             <>

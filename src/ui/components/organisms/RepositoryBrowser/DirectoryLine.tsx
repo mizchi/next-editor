@@ -1,11 +1,8 @@
+import { Icon } from "@blueprintjs/core"
 import range from "lodash/range"
 import path from "path"
 import React from "react"
 import { ContextMenuProvider } from "react-contexify"
-import FaFile from "react-icons/fa/file"
-import FaFolder from "react-icons/fa/folder"
-import FaFolderOpen from "react-icons/fa/folder-open"
-import FaTrash from "react-icons/fa/trash"
 import Tooltip from "react-tooltip"
 import lifecycle from "recompose/lifecycle"
 import styled from "styled-components"
@@ -151,7 +148,11 @@ const DirectoryLineContent: React.ComponentClass<
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div style={{ flex: 1 }}>
                   <Prefix depth={depth} />
-                  {opened ? <FaFolderOpen /> : <FaFolder />}
+                  {opened ? (
+                    <Icon icon="folder-open" />
+                  ) : (
+                    <Icon icon="folder-close" />
+                  )}
                   &nbsp;
                   <Pathname ignoreGit={ignoreGit}>
                     {basename || `${dirpath}`}
@@ -299,19 +300,22 @@ const HoveredMenu = (props: {
     <Tooltip id="delete" effect="solid">
       Delete
     </Tooltip>
-    <FaFile
+    <Icon
+      icon="document"
       data-tip
       data-for="new-file"
       onClick={event => props.onClickFile(event as any)}
     />
-    <FaFolder
+    <Icon
+      icon="folder-new"
       data-tip
       data-for="new-dir"
       onClick={event => props.onClickDir(event as any)}
     />
     {props.basename !== ".git" &&
       props.dirpath !== props.root && (
-        <FaTrash
+        <Icon
+          icon="trash"
           data-tip
           data-for="delete"
           onClick={ev => props.onClickRemove(ev as any)}
@@ -321,5 +325,9 @@ const HoveredMenu = (props: {
 )
 
 const Prefix = ({ depth }: { depth: number }) => (
-  <>{range(depth).map((_, k) => <span key={k}>&nbsp;&nbsp;</span>)}</>
+  <>
+    {range(depth).map((_, k) => (
+      <span key={k}>&nbsp;&nbsp;</span>
+    ))}
+  </>
 )
