@@ -3,6 +3,7 @@
 exports[`Check we need migration 1`] = `
 Object {
   "app": Object {
+    "activeSupport": "git-easy",
     "mainLayout": Object {
       "areas": Array [
         Array [

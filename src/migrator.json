@@ -1,4 +1,8 @@
 {
-  "version": 1,
-  "migrations": { "0": ["reuseConfigInState"], "1": ["reuseConfigInState"] }
+  "version": 2,
+  "migrations": {
+    "0": ["reuseConfigInState"],
+    "1": ["reuseConfigInState"],
+    "2": ["reuseConfigInState"]
+  }
 }
