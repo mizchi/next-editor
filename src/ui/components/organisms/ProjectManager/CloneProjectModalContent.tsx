@@ -68,7 +68,7 @@ export class CloneProjectModalContent extends React.Component<
             // Rewrite with proxy path
             const repoPath = this.state.value.replace("https://github.com/", "")
             const clonePath = githubProxy + repoPath
-            const [, repoName] = repoPath.split("/")
+            const repoName = repoPath.split("/")[1].replace(".git", "")
             const newProjectRoot = path.join("/", repoName)
 
             this.setState({ onCloning: true })

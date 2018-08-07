@@ -32,8 +32,6 @@ export async function cloneRepository(
   })
 
   while (true) {
-    console.log("enter heuristic")
-
     await delay(1000)
     try {
       const list = await git.listFiles({ fs, dir: projectRoot })

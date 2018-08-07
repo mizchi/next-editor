@@ -20,7 +20,6 @@ export const ProjectManager = connector(
       loadProjectList: actions.project.loadProjectList,
       startProjectRootChanged: actions.editor.startProjectRootChanged,
       createNewProject: actions.project.createNewProject,
-      cloneFromGitHub: actions.project.cloneFromGitHub,
       deleteProject: actions.editor.deleteProject
     }
   },
@@ -37,6 +36,7 @@ export const ProjectManager = connector(
       githubProxy={props.githubProxy}
       onCreateNewProject={async projectRoot => {
         const newProjectRoot = path.join("/", projectRoot)
+        // TODO: fix it
         props.createNewProject({ newProjectRoot })
         await new Promise(r => setTimeout(r, 300))
         props.startProjectRootChanged({
