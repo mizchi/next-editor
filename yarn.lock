@@ -1285,7 +1285,7 @@
     core-js "^2.5.6"
     regenerator-runtime "^0.11.1"
 
-"@babel/runtime@^7.0.0-beta.55":
+"@babel/runtime@7.0.0-beta.56", "@babel/runtime@^7.0.0-beta.55":
   version "7.0.0-beta.56"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.56.tgz#cda612dffd5b1719a7b8e91e3040bd6ae64de8b0"
   dependencies:
@@ -1690,9 +1690,9 @@
   dependencies:
     csstype "^2.2.0"
 
-"@types/recompose@0.26.2":
-  version "0.26.2"
-  resolved "https://registry.yarnpkg.com/@types/recompose/-/recompose-0.26.2.tgz#761e46f39e5bc2a9640f29510a8d21a0a73dc2a7"
+"@types/recompose@0.26.4":
+  version "0.26.4"
+  resolved "https://registry.yarnpkg.com/@types/recompose/-/recompose-0.26.4.tgz#93dd6c4e28857cd799e9a807a470f66a40c49c3f"
   dependencies:
     "@types/react" "*"
 
@@ -10089,11 +10089,11 @@ recast@^0.15.0:
     private "~0.1.5"
     source-map "~0.6.1"
 
-recompose@0.27.1:
-  version "0.27.1"
-  resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.27.1.tgz#1a49e931f183634516633bbb4f4edbfd3f38a7ba"
+recompose@0.28.2:
+  version "0.28.2"
+  resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.28.2.tgz#19e679227bdf979e0d31b73ffe7ae38c9194f4a7"
   dependencies:
-    babel-runtime "^6.26.0"
+    "@babel/runtime" "7.0.0-beta.56"
     change-emitter "^0.1.2"
     fbjs "^0.8.1"
     hoist-non-react-statics "^2.3.1"
