@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.16.0"></a>
+# [0.16.0](https://github.com/mizchi/next-editor/compare/v0.15.5...v0.16.0) (2018-08-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependency isomorphic-git to v0.27.0 ([8102ace](https://github.com/mizchi/next-editor/commit/8102ace))
+* remove unused pushScene ([e78da12](https://github.com/mizchi/next-editor/commit/e78da12))
+* **deps:** update dependency recompose to v0.28.2 ([7029677](https://github.com/mizchi/next-editor/commit/7029677))
+* Restore Create new project ([5c55cf3](https://github.com/mizchi/next-editor/commit/5c55cf3))
+
+
+### Features
+
+* layout switch ([6a3b92e](https://github.com/mizchi/next-editor/commit/6a3b92e))
+* Rethink clone ui ([301cc30](https://github.com/mizchi/next-editor/commit/301cc30))
+
+
+
 <a name="0.15.7"></a>
 ## [0.15.7](https://github.com/mizchi/next-editor/compare/v0.15.6...v0.15.7) (2018-08-05)
 
