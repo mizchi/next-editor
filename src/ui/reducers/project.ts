@@ -39,7 +39,6 @@ export const cloneFromGitHub = createThunkAction(
   "clone-from-github",
   async (input: { projectRoot: string; clonePath: string }, dispatch) => {
     await cloneRepository(input.projectRoot, input.clonePath)
-    dispatch(updateProjectList(await updateProjects()))
   }
 )
 

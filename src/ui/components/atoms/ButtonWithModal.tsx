@@ -5,6 +5,7 @@ export class ButtonWithModal extends React.Component<
   {
     text: string
     icon: any
+    disabled?: boolean
     renderModal: (props: { onClose: any }) => React.ReactNode
     onClick?: (event: any) => void
   },

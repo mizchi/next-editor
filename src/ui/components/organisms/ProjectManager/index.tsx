@@ -30,92 +30,125 @@ export const ProjectManager = connector(
     }
   })
 )(props => {
-  const {
-    createNewProject,
-    cloneFromGitHub,
-    githubProxy,
-    project: { projects }
-  } = props
   return (
-    <Card style={{ height: "100%", borderRadius: 0 }}>
-      <div>
-        <div className="bp3-select .modifier">
-          <select
-            value={props.repository.currentProjectRoot}
-            onChange={ev => {
-              const nextProjectRoot = ev.target.value
-              props.startProjectRootChanged({ projectRoot: nextProjectRoot })
-            }}
-          >
-            {projects.map((p, index) => {
-              return (
-                <option value={p.projectRoot} key={index}>
-                  {p.projectRoot}
-                </option>
-              )
-            })}
-          </select>
-        </div>
-        <Button
-          disabled={props.repository.currentProjectRoot === "/playground"}
-          icon="trash"
-          onClick={async () => {
-            const ret = window.confirm(
-              `Delete ${props.repository.currentProjectRoot}`
-            )
-            if (ret) {
-              props.deleteProject({
-                dirpath: props.repository.currentProjectRoot
-              })
-
-              await new Promise(r => setTimeout(r, 300))
-              props.startProjectRootChanged({
-                projectRoot: "/playground"
-              })
-            }
-          }}
-        />
-      </div>
-      <div style={{ height: "5px" }} />
-      <ButtonGroup>
-        <ButtonWithModal
-          text="Add"
-          icon="add"
-          renderModal={({ onClose }) => {
-            return (
-              <CreateProjectModalContent
-                onConfirm={async dirname => {
-                  onClose()
-                  const newProjectRoot = path.join("/", dirname)
-                  createNewProject({ newProjectRoot })
-                  await new Promise(r => setTimeout(r, 300))
-                  props.startProjectRootChanged({ projectRoot: newProjectRoot })
-                }}
-                onCancel={onClose}
-              />
-            )
-          }}
-        />
-        <ButtonWithModal
-          text="Clone"
-          icon="git-repo"
-          renderModal={({ onClose }) => {
-            return (
-              <CloneProjectModalContent
-                onConfirm={async dirname => {
-                  const clonePath = githubProxy + dirname
-                  const [, repoName] = dirname.split("/")
-                  const projectRoot = path.join("/", repoName)
-                  cloneFromGitHub({ projectRoot, clonePath })
-                  await new Promise(r => setTimeout(r, 300))
-                  props.startProjectRootChanged({ projectRoot })
-                }}
-                onCancel={onClose as any}
-              />
-            )
-          }}
-        />
-      </ButtonGroup>
-    </Card>
+    <ProjectManagerImpl
+      projectRoot={props.repository.currentProjectRoot}
+      projects={props.project.projects}
+      githubProxy={props.githubProxy}
+      onCreateNewProject={async projectRoot => {
+        const newProjectRoot = path.join("/", projectRoot)
+        props.createNewProject({ newProjectRoot })
+        await new Promise(r => setTimeout(r, 300))
+        props.startProjectRootChanged({
+          projectRoot: newProjectRoot
+        })
+      }}
+      onCloneEnd={projectRoot => {
+        props.startProjectRootChanged({ projectRoot })
+      }}
+      onChangeProject={projectRoot => {
+        props.startProjectRootChanged({ projectRoot })
+      }}
+      onDeleteProject={async projectRoot => {
+        // TODO: Use domain directly
+        props.deleteProject({
+          dirpath: projectRoot
+        })
+        await new Promise(r => setTimeout(r, 300))
+        props.startProjectRootChanged({
+          projectRoot: "/playground"
+        })
+      }}
+    />
   )
 })
+
+class ProjectManagerImpl extends React.Component<{
+  projectRoot: string
+  projects: Array<{ projectRoot: string }>
+  githubProxy: string
+  onChangeProject: (projectRoot: string) => void
+  onCloneEnd: (projectRoot: string) => void
+  onDeleteProject: (projectRoot: string) => void
+  onCreateNewProject: (projectRoot: string) => void
+}> {
+  render() {
+    const {
+      githubProxy,
+      projects,
+      onCreateNewProject,
+      onChangeProject,
+      onCloneEnd,
+      projectRoot,
+      onDeleteProject
+    } = this.props
+
+    return (
+      <Card style={{ height: "100%", borderRadius: 0 }}>
+        <div>
+          <div className="bp3-select .modifier">
+            <select
+              value={projectRoot}
+              onChange={ev => {
+                const nextProjectRoot = ev.target.value
+                onChangeProject(nextProjectRoot)
+              }}
+            >
+              {projects.map((p, index) => {
+                return (
+                  <option value={p.projectRoot} key={index}>
+                    {p.projectRoot}
+                  </option>
+                )
+              })}
+            </select>
+          </div>
+          <Button
+            disabled={projectRoot === "/playground"}
+            icon="trash"
+            onClick={async () => {
+              const confirmed = window.confirm(`Delete ${projectRoot}`)
+              if (confirmed) {
+                onDeleteProject(projectRoot)
+              }
+            }}
+          />
+        </div>
+        <div style={{ height: "5px" }} />
+        <ButtonGroup>
+          <ButtonWithModal
+            text="Add"
+            icon="add"
+            renderModal={({ onClose }) => {
+              return (
+                <CreateProjectModalContent
+                  onConfirm={async dirname => {
+                    onClose()
+                    onCreateNewProject(dirname)
+                  }}
+                  onCancel={onClose}
+                />
+              )
+            }}
+          />
+          <ButtonWithModal
+            text="Clone"
+            icon="git-repo"
+            renderModal={({ onClose }) => {
+              return (
+                <CloneProjectModalContent
+                  githubProxy={githubProxy}
+                  onConfirm={async newProjectRoot => {
+                    onClose()
+                    onCloneEnd(newProjectRoot)
+                  }}
+                  onCancel={onClose as any}
+                />
+              )
+            }}
+          />
+        </ButtonGroup>
+      </Card>
+    )
+  }
+}

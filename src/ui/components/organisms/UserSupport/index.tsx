@@ -1,59 +1,59 @@
 import { Card, Tab, Tabs } from "@blueprintjs/core"
 import React from "react"
 import { connector } from "../../../actionCreators"
-import { BufferState } from "../../../reducers/buffer"
+import { ActiveSupport } from "../../../reducers/app"
 import { MarkdownPreview } from "../../atoms/MarkdownPreview"
 import { FileHistory } from "../FileHistory"
 import { GitEasy } from "../GitEasy"
 import { GitViewer } from "../GitViewer"
-
-type Props = {
-  filetype: string
-  filepath: string
-  value: string
-}
-type State = {
-  mode: "git-easy" | "git" | "preview-by-filetype" | "git-history"
-}
 
 export const UserSupport = connector(
   state => {
     return {
       filetype: state.buffer.filetype,
       value: state.buffer.value,
-      filepath: state.buffer.filepath
+      filepath: state.buffer.filepath,
+      activeSupport: state.app.activeSupport
     }
   },
-  _actions => ({})
-)((props: BufferState) => {
+  actions => ({
+    setActiveSupport: actions.app.setActiveSupport
+  })
+)(function UserSupportImpl(props) {
   return (
     <UserSupportContent
+      activeSupport={props.activeSupport}
       filetype={props.filetype}
       value={props.value}
       filepath={props.filepath}
+      onChangeActiveSupport={activeSupport => {
+        props.setActiveSupport({ support: activeSupport })
+      }}
     />
   )
 })
 
-class UserSupportContent extends React.Component<Props, State> {
-  state: State = {
-    // TODO: Move this into reducer
-    mode: "git-easy"
-  }
+type Props = {
+  activeSupport: ActiveSupport
+  filetype: string
+  filepath: string
+  value: string
+  onChangeActiveSupport: (support: ActiveSupport) => void
+}
 
+class UserSupportContent extends React.PureComponent<Props> {
   render() {
     // FIX: Work arround for https://github.com/palantir/blueprint/pull/2761
     if (process.env.NODE_ENV === "test") {
       return <div>FIX ME</div>
     }
-    const { filetype, value } = this.props
-    const { mode } = this.state
+    const { filetype, value, activeSupport, onChangeActiveSupport } = this.props
     return (
       <Card style={{ borderRadius: 0, height: "100%" }}>
         <Tabs
           id="TabsExample"
-          onChange={newTabId => this.setState({ mode: newTabId as any })}
-          selectedTabId={mode}
+          onChange={newTabId => onChangeActiveSupport(newTabId as any)}
+          selectedTabId={activeSupport}
           renderActiveTabPanelOnly
         >
           <Tab id="git-easy" title="Git Easy" panel={<GitEasy />} />

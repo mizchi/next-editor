@@ -10,9 +10,14 @@ const { createAction } = buildActionCreator({
 })
 
 export type AreaName = "menu" | "editor" | "support"
+export type ActiveSupport =
+  | "git-easy"
+  | "git"
+  | "preview-by-filetype"
+  | "git-history"
 
-export const setLayoutAreas: ActionCreator<{
-  areas: AreaName[][]
+export const setActiveSupport: ActionCreator<{
+  support: ActiveSupport
 }> = createAction("set-layout-mode")
 
 export const setLayout1 = createAction(
@@ -76,11 +81,13 @@ export type Layout = {
 }
 
 export type AppState = {
+  activeSupport: "git-easy" | "git" | "preview-by-filetype" | "git-history"
   sceneStack: string[]
   mainLayout: Layout
 }
 
 const initialState: AppState = {
+  activeSupport: "git-easy",
   sceneStack: ["main"],
   mainLayout: {
     columns: ["250px", "1fr", "1fr"],
@@ -114,13 +121,10 @@ export const reducer: Reducer<AppState> = createReducer(initialState)
       mainLayout: payload
     }
   })
-  .case(setLayoutAreas, (state, payload) => {
+  .case(setActiveSupport, (state, payload) => {
     return {
       ...state,
-      mainLayout: {
-        ...state.mainLayout,
-        areas: payload.areas
-      }
+      activeSupport: payload.support
     }
   })
   .case(pushScene, (state, payload) => {
