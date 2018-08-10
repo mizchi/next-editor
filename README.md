@@ -1,4 +1,4 @@
-<h1><img src="assets/Logotype-primary.png" width="65%" height="65%"  alt="Next Editor" /></h1>
+<h1><img src="assets/Logotype-primary.png" width="65%" height="65%" alt="Next Editor" /></h1>
 
 [![CircleCI](https://circleci.com/gh/mizchi/next-editor.svg?style=svg)](https://circleci.com/gh/mizchi/next-editor)
 
@@ -40,7 +40,7 @@ or
 - `yarn build:prod`
 - Deploy `public` directory to your host.
 
-### Additional CORS-PROXY
+### Optional: CORS-PROXY
 
 Register https://now.sh to deploy cors-buster
 You need proxy to push GitHub
@@ -48,6 +48,36 @@ You need proxy to push GitHub
 - `npm i -g now-cli`
 - `now wmhilton/cors-buster` (using https://github.com/wmhilton/cors-buster)
 - Set your default proxy on [src/ui/reducers/config.ts](src/ui/reducers/config.ts): `githubProxy: "<your-proxy>/github.com/"`
+
+### Optional: Custom entry
+
+```
+mkdir src-custom
+touch src-custom/index.js
+SRC="src-custom" yarn build:prod
+```
+
+```js
+// src-custom/index.js
+
+import { setupInitialRepository } from "../src/domain/git/commands/setupInitialRepository"
+import { run } from "../src/init"
+
+// Write your own bootstrap
+async function main() {
+  try {
+    await setupInitialRepository("/playground")
+  } catch (e) {
+    // Skip
+    console.error("init error", e)
+  }
+  run()
+}
+
+main()
+```
+
+This feature is for private custom build to release [next-editor.app](next-editor.app).
 
 ## How to contribute
 
