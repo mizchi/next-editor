@@ -1,21 +1,11 @@
-### https://raw.github.com/github/gitignore/160d27e2bebf784c4f4a1e070df057f3868b62bc/Node.gitignore
-
 # Logs
-logs
 *.log
-npm-debug.log*
-
-# Coverage directory used by tools like istanbul
-coverage
 
 # Dependency directories
 node_modules
 
-# Optional npm cache directory
-.npm
-
-# Output of 'npm pack'
-*.tgz
+# Mac
+.DS_Store
 
 # Yarn Integrity file
 .yarn-integrity
@@ -23,5 +13,5 @@ node_modules
 dist
 .netlify
 functions
-.DS_Store
 .docz
+src-custom
