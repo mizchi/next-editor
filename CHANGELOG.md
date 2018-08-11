@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.17.0"></a>
+# [0.17.0](https://github.com/mizchi/next-editor/compare/v0.16.1...v0.17.0) (2018-08-11)
+
+
+### Bug Fixes
+
+* context menu ([8fa3928](https://github.com/mizchi/next-editor/commit/8fa3928))
+* yarn ([fd1ed72](https://github.com/mizchi/next-editor/commit/fd1ed72))
+
+
+### Features
+
+* custom src entry ([cff2901](https://github.com/mizchi/next-editor/commit/cff2901))
+* mdx loadable ([595373e](https://github.com/mizchi/next-editor/commit/595373e))
+* Stop error propagation ([1d29d1d](https://github.com/mizchi/next-editor/commit/1d29d1d))
+
+
+
 <a name="0.16.1"></a>
 ## [0.16.1](https://github.com/mizchi/next-editor/compare/v0.16.0...v0.16.1) (2018-08-07)
 
