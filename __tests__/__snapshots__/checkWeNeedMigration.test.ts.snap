@@ -3,7 +3,7 @@
 exports[`Check we need migration 1`] = `
 Object {
   "app": Object {
-    "activeSupport": "git-easy",
+    "activeSupport": "git",
     "mainLayout": Object {
       "areas": Array [
         Array [
@@ -21,6 +21,9 @@ Object {
         "1fr",
       ],
     },
+    "networkOnline": false,
+    "openedCloneRepoModal": false,
+    "openedCreateRepoModal": false,
     "sceneStack": Array [
       "main",
     ],
@@ -41,6 +44,7 @@ Object {
     "editorFontFamily": "Inconsolata, monospace",
     "editorFontScale": 1.2,
     "editorSpellCheck": false,
+    "gitEasyMode": true,
     "githubApiToken": "",
     "githubProxy": "https://cors-buster-zashozaqfk.now.sh/github.com/",
     "isFirstVisit": true,
