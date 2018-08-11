@@ -59,7 +59,7 @@
     "optimize-css-assets-webpack-plugin": "5.0.0",
     "power-assert": "1.6.0",
     "prettier": "1.14.2",
-    "puppeteer": "1.6.2",
+    "puppeteer": "1.7.0",
     "react-test-renderer": "16.4.2",
     "rimraf": "2.6.2",
     "standard-changelog": "2.0.0",
