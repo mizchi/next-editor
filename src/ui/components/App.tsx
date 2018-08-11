@@ -6,6 +6,7 @@ import { Playground } from "./pages/Playground"
 import { GlobalErrorBoundary } from "./utils/GlobalErrorBoundary"
 import { GlobalKeyHandler } from "./utils/GlobalKeyHandler"
 import { Initializer } from "./utils/Initializer"
+import { OnlineDetector } from "./utils/OnlineDetector"
 import { StackRouter } from "./utils/StackRouter"
 import { ThemeProvider } from "./utils/ThemeProvider"
 
@@ -23,6 +24,7 @@ export class App extends React.Component<{}> {
               <ThemeProvider>
                 <Initializer>
                   {ENTER_PLAYGROUND ? <Playground /> : <StackRouter />}
+                  <OnlineDetector />
                 </Initializer>
               </ThemeProvider>
             </GlobalKeyHandler>

@@ -53,11 +53,12 @@ type OverflowRules = "hidden" | "auto" | "visible" | "scroll"
 
 export const GridArea: React.ComponentType<{
   name: string
+  absolute?: boolean
   overflowX?: OverflowRules
   overflowY?: OverflowRules
   children: React.ReactNode
 }> = p => {
-  return (
+  return p.absolute ? (
     <div
       style={{
         gridArea: p.name,
@@ -71,6 +72,16 @@ export const GridArea: React.ComponentType<{
       <div style={{ position: "absolute", width: "100%", height: "100%" }}>
         {p.children}
       </div>
+    </div>
+  ) : (
+    <div
+      style={{
+        gridArea: p.name,
+        width: "100%",
+        height: "100%"
+      }}
+    >
+      {p.children}
     </div>
   )
 }

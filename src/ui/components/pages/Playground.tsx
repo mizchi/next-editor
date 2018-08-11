@@ -52,12 +52,12 @@ const ContentsBody = styled.div`
 
 class Navigation extends React.PureComponent<{}> {
   public render() {
-    return (
-      <Button
-        onClick={() => AppToaster.show({ message: "Toasted" })}
-        text="show toast"
-      />
-    )
+    // return (
+    //   <Button
+    //     onClick={() => AppToaster.show({ message: "Toasted" })}
+    //     text="show toast"
+    //   />
+    // )
     return (
       <StyledNavbar className={Classes.DARK}>
         <NavbarGroup align={Alignment.LEFT}>
@@ -71,13 +71,6 @@ class Navigation extends React.PureComponent<{}> {
           >
             <Button className="bp3-minimal" icon="cog" text="File" />
           </Popover>
-          <AnchorButton
-            href="http://github.com/mizchi/next-editor"
-            text="Github"
-            target="_blank"
-            minimal
-            rightIcon="code"
-          />
         </NavbarGroup>
         <NavbarGroup align={Alignment.RIGHT}>
           <Button className="bp3-minimal" icon="cog" />

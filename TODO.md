@@ -6,7 +6,7 @@
   - [ ] prettier
   - [ ] monaco-editor
 - [ ] Stop react-tooltip
-- [ ] Stop absolute on grid
+- [x] Stop absolute on grid
   - [ ] Login with Modal
 - [ ] PluginLoader
 - [ ] Show toast after git.push

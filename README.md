@@ -8,7 +8,7 @@ Standalone git integrated editor (for chromebook)
 
 ![](https://i.gyazo.com/4819943cb09b3c69e183eae9a5dae748.png)
 
-Play here [next-editor.app](https://next-editor.app)
+Play here [next-editor.app](https://nedi.app)
 
 **Unstable**: Data may be wiped by update
 

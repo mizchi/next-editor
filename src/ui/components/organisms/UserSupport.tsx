@@ -1,11 +1,11 @@
 import { Card, Tab, Tabs } from "@blueprintjs/core"
 import React from "react"
-import { connector } from "../../../actionCreators"
-import { ActiveSupport } from "../../../reducers/app"
-import { MarkdownPreview } from "../../atoms/MarkdownPreview"
-import { FileHistory } from "../FileHistory"
-import { GitEasy } from "../GitEasy"
-import { GitViewer } from "../GitViewer"
+import { connector } from "../../actionCreators"
+import { ActiveSupport } from "../../reducers/app"
+import { MarkdownPreview } from "../atoms/MarkdownPreview"
+import { FileHistory } from "./FileHistory"
+import { GitEasy } from "./GitEasy"
+import { GitViewer } from "./GitViewer"
 
 export const UserSupport = connector(
   state => {

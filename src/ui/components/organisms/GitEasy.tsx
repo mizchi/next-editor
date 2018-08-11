@@ -1,9 +1,8 @@
 import { Button } from "@blueprintjs/core"
 import React from "react"
-import { connector } from "../../../actionCreators"
-import { CommandWithInput } from "../../atoms/CommandWithInput"
-import { Content, Pane } from "../../utils/Pane"
-import { GitBriefHistory } from "../GitBriefHistory"
+import { connector } from "../../actionCreators"
+import { Content, Pane } from "../utils/Pane"
+import { GitBriefHistory } from "./GitBriefHistory"
 
 // This is example reference
 export const GitEasy = connector(

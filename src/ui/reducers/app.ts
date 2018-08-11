@@ -72,6 +72,10 @@ export const replaceScene: ActionCreator<{
   nextScene: string
 }> = createAction("replace-scene")
 
+export const changeNetworkStatus: ActionCreator<{
+  online: boolean
+}> = createAction("change-network-status")
+
 export const popScene: ActionCreator<{}> = createAction("pop-scene")
 
 export type Layout = {
@@ -84,10 +88,12 @@ export type AppState = {
   activeSupport: "git-easy" | "git" | "preview-by-filetype" | "git-history"
   sceneStack: string[]
   mainLayout: Layout
+  networkOnline: boolean
 }
 
 const initialState: AppState = {
   activeSupport: "git-easy",
+  networkOnline: false,
   sceneStack: ["main"],
   mainLayout: {
     columns: ["250px", "1fr", "1fr"],
@@ -141,4 +147,7 @@ export const reducer: Reducer<AppState> = createReducer(initialState)
   .case(popScene, state => {
     const length = state.sceneStack.length
     return { ...state, sceneStack: state.sceneStack.slice(0, length - 1) }
+  })
+  .case(changeNetworkStatus, (state, payload) => {
+    return { ...state, networkOnline: payload.online }
   })

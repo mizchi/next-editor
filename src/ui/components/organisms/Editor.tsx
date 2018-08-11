@@ -1,9 +1,9 @@
 import path from "path"
 import React from "react"
-import { formatMarkdown } from "../../../../lib/formatMarkdown"
-import { connector } from "../../../actionCreators"
-import { Help } from "../../atoms/Help"
-import { EditorWithToolbar } from "../../molecules/EditorWithToolbar"
+import { formatMarkdown } from "../../../lib/formatMarkdown"
+import { connector } from "../../actionCreators"
+import { Help } from "../atoms/Help"
+import { EditorWithToolbar } from "../molecules/EditorWithToolbar"
 
 export const Editor = connector(
   state => {
