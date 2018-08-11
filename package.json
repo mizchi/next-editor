@@ -40,7 +40,7 @@
     "@types/react-dom": "16.0.6",
     "@types/react-modal": "3.2.0",
     "@types/react-redux": "6.0.5",
-    "@types/react-test-renderer": "16.0.1",
+    "@types/react-test-renderer": "16.0.2",
     "@types/react-tooltip": "3.3.5",
     "@types/recompose": "0.26.4",
     "@types/redux-logger": "3.0.6",
