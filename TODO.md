@@ -1,19 +1,16 @@
 # TODO
 
-v0.18.0
-
 ## Current
 
-- [ ] study: Lazy load with
-- [ ] webpack-html-plugin: ejs mode
+- [ ] Study: Lazy load
+  - [ ] prettier
+  - [ ] monaco-editor
+- [ ] Stop react-tooltip
 - [ ] Stop absolute on grid
   - [ ] Login with Modal
-  - [ ] Stop react-tooltip
 - [ ] PluginLoader
 - [ ] Show toast after git.push
 - [ ] Refactor: organisms
-
-## Done
 
 ---
 
@@ -28,12 +25,14 @@ v0.18.0
 
 - Stable for GitHub actions
 - Ready to use for frontend programmers
-  - Test JavaScript codes
+  - Run JavaScript test codes
   - Edit React Component
 
 ---
 
-# Done
+## v0.18.x
+
+- [x] Move to nedi.app
 
 ## v0.17.0
 
@@ -152,7 +151,7 @@ Proof of Concept
 
 ---
 
-## Icebox
+## Icebox / Ideas
 
 - [ ] UI: Quick file name search: (fuzzy match)
 - [ ] UI: Rewrite buffer without file change

@@ -147,7 +147,7 @@ async function setupServiceWorker() {
       }
       navigator.serviceWorker.addEventListener('controllerchange', e => resolve());
     }),
-    // NOTE: Start without service-worker after 3s
+    // NOTE: Start without service-worker after 5s
     new Promise(resolve => {
       setTimeout(() => {        
         resolve()
@@ -165,7 +165,7 @@ async function setupServiceWorker() {
   } else {
     setInterval(() => {
       reg.update();
-    }, 60 * 1000);
+    }, 5 * 60 * 1000);
   }
 }
 
@@ -184,8 +184,13 @@ const showLoadingMessage = (mes, loading = true) => {
   `
 }
 
+// Do not use yet
+function loadState() {
+  return JSON.parse(localStorage['persist:@:0'])
+}
+
 ;(async () => {
-  console.time('boot')
+  console.time('loading:all')
   if (window.location.hostname !== 'localhost' && window.location.protocol === 'http:') {
     window.location.href = `https://${location.host}/${window.location.search}`
   }
@@ -196,15 +201,17 @@ const showLoadingMessage = (mes, loading = true) => {
       showLoadingMessage('Checking service-worker...')
       await setupServiceWorker()
     }
+    el.innerHTML = ''
 
     // Run
-    showLoadingMessage('Loading assets...')
     await setupBrowserFS()
     await setupFonts()
 
-    showLoadingMessage('Loading...')
+    // Plugin namespace
     window.NEPlugins = {}
+    console.time('loading:main')
     await import('./main.js')
+    console.timeEnd('loading:main')
   } catch (e) {
     // TODO: Show restore guide
     showLoadingMessage(
@@ -212,7 +219,7 @@ const showLoadingMessage = (mes, loading = true) => {
       false
     )
   }
-  console.timeEnd('boot')
+  console.timeEnd('loading:all')
 })()
   </script>
 </body>
