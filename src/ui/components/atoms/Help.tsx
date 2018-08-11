@@ -1,6 +1,6 @@
 import { Card } from "@blueprintjs/core"
 import React from "react"
-import ChangeLog from "../../../../CHANGELOG.md"
+// import ChangeLog from "../../../../CHANGELOG.md"
 import pkg from "../../../../package.json"
 import { PluginEntryArea } from "./PluginEntryArea"
 
@@ -56,9 +56,9 @@ export class Help extends React.Component<any> {
           </table>
           {/* Load plugin's EntryPage */}
           <PluginEntryArea />
-          <Card>
+          {/* <Card>
             <ChangeLog />
-          </Card>
+          </Card> */}
         </div>
       </Card>
     )
