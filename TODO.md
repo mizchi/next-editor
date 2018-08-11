@@ -2,6 +2,7 @@
 
 ## Current
 
+- [ ] Show toast after git.push
 - [ ] Show login only for tester
 - [ ] Stop absolute on grid
   - [ ] Login with Modal

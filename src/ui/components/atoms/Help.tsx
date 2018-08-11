@@ -2,6 +2,7 @@ import { Card } from "@blueprintjs/core"
 import React from "react"
 import ChangeLog from "../../../../CHANGELOG.md"
 import pkg from "../../../../package.json"
+import { PluginEntryArea } from "./PluginEntryArea"
 
 export class Help extends React.Component<any> {
   render() {
@@ -54,17 +55,7 @@ export class Help extends React.Component<any> {
             </tbody>
           </table>
           {/* Load plugin's EntryPage */}
-          {Object.keys(NEPlugins).map(pluginName => {
-            const plugin = NEPlugins[pluginName]
-            const Entry = plugin.EntryPageComponent
-            return Entry ? (
-              <Entry key={pluginName} />
-            ) : (
-              <span key={pluginName}>{pluginName}</span>
-            )
-          })}
-
-          <hr />
+          <PluginEntryArea />
           <Card>
             <ChangeLog />
           </Card>
