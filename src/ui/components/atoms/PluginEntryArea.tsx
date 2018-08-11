@@ -14,11 +14,34 @@ export class PluginEntryArea extends React.Component<any> {
                 Plugin:
                 {pluginName}
               </h3>
-              {Entry && <Entry />}
+              <PluginErrorBoundary>{Entry && <Entry />}</PluginErrorBoundary>
             </Card>
           )
         })}
       </>
     )
+  }
+}
+
+class PluginErrorBoundary extends React.Component<
+  {},
+  { hasError: boolean; error: Error | null; info: any }
+> {
+  state = { hasError: false, error: null, info: null }
+  componentDidCatch(error: Error, info: any) {
+    this.setState({ hasError: true, error, info })
+    console.error(error, info)
+  }
+  render() {
+    const { hasError, error, info } = this.state
+    if (hasError && error && info) {
+      return (
+        <div style={{ padding: 10 }}>
+          <p>Plugin Loading Error: {error && (error as any).message}</p>
+        </div>
+      )
+    } else {
+      return this.props.children
+    }
   }
 }

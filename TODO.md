@@ -1,22 +1,18 @@
 # TODO
 
+v0.18.0
+
 ## Current
 
-- [ ] Show toast after git.push
-- [ ] Show login only for tester
+- [ ] webpack-html-plugin: ejs mode
 - [ ] Stop absolute on grid
   - [ ] Login with Modal
   - [ ] Stop react-tooltip
 - [ ] PluginLoader
+- [ ] Show toast after git.push
+- [ ] Refactor: organisms
 
-## Done: v0.17
-
-- [x] Fix test
-  - [x] Jest
-  - [x] TypeScript
-- [x] Restore mdx
-- [x] Create @mizchi/jest-mdx-loader
-- [x] Restore react-contextify
+## Done
 
 ---
 
@@ -37,6 +33,17 @@
 ---
 
 # Done
+
+## v0.17.0
+
+- [x] Show login only for tester
+- [x] Fix context-menu
+- [x] Fix test
+  - [x] Jest
+  - [x] TypeScript
+- [x] Restore mdx
+- [x] Create @mizchi/jest-mdx-loader
+- [x] Restore react-contextify
 
 ## 0.16.0
 
