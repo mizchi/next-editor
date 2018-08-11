@@ -5,6 +5,9 @@ import { Config } from "../Config"
 import { Main } from "../Main"
 import { configureTestStore } from "./createTestStore"
 
+const g: any = global
+g.NEPlugins = {}
+
 // Skip async actions error on componentDidMount
 process.on("unhandledRejection", () => {
   /**/

@@ -2,23 +2,16 @@
 
 ## Current
 
-- [x] UI: Save tab state in reducer
-- [ ] UI: Quick file name search: (fuzzy match)
-- [ ] UI: Rewrite buffer without file change
-- [x] Refactor: Editors
-- [x] UI: Show short filename on toolbar
-- [x] UI: Auto focus on file select
-- [x] UI: Open editing file dir on open
-- [x] UI: Start scratch.md on init
-- [x] UI: Show diff on history
-- [x] UI: Grayed out ignored files
-- [x] UI: Hide .git
-- [x] UI: Avoid staging status for .git or ignored files
-- [x] UI: Elastic plain textearea
-- [x] Prettier for markdown
+- [ ] Fix test
+- [ ] Login with Modal
+- [ ] Stop global
+- [ ] Stop absolute
+- [ ] Plugin Specifaction
 
 ## Icebox
 
+- [ ] UI: Quick file name search: (fuzzy match)
+- [ ] UI: Rewrite buffer without file change
 - [ ] UI: Inhibit checkout if hash has same content
 - [ ] UI: Expand all
 - [ ] UI: Full text search
@@ -40,8 +33,12 @@
 - [ ] GitHub: Issue integration
 - [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
 - [ ] Create dump
-- [ ] Recovery mode
-- [x] Recovery status
+- [x] Recovery mode
+- [ ] Recovery status
+
+---
+
+# Milestone
 
 ## v1.0.0
 
@@ -57,7 +54,22 @@
 
 ---
 
-## Done
+# Done
+
+## 0.16.0
+
+- [x] UI: Save tab state in reducer
+- [x] Refactor: Editors
+- [x] UI: Show short filename on toolbar
+- [x] UI: Auto focus on file select
+- [x] UI: Open editing file dir on open
+- [x] UI: Start scratch.md on init
+- [x] UI: Show diff on history
+- [x] UI: Grayed out ignored files
+- [x] UI: Hide .git
+- [x] UI: Avoid staging status for .git or ignored files
+- [x] UI: Elastic plain textearea
+- [x] Prettier for markdown
 
 ## 0.4.0
 

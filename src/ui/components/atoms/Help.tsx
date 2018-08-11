@@ -45,11 +45,11 @@ export class Help extends React.Component<any> {
               </tr>
               <tr>
                 <td>(Cmd / Ctrl) + S</td>
-                <td>Save</td>
+                <td>editor:save</td>
               </tr>
               <tr>
                 <td>(Cmd / Ctrl) + Shift + S</td>
-                <td>Commit all</td>
+                <td>editor:commit-all</td>
               </tr>
             </tbody>
           </table>
