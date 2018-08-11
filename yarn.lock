@@ -11418,11 +11418,9 @@ stylehacks@^4.0.0:
     postcss "^6.0.0"
     postcss-selector-parser "^3.0.0"
 
-stylelint-config-prettier@3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/stylelint-config-prettier/-/stylelint-config-prettier-3.3.0.tgz#cc22a4b5310c1919cee77131d6e220c60a62a480"
-  dependencies:
-    stylelint "^9.1.1"
+stylelint-config-prettier@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/stylelint-config-prettier/-/stylelint-config-prettier-4.0.0.tgz#8c712977be13bd25191ab8b986b5c07a3342a5dc"
 
 stylelint-config-recommended@2.1.0:
   version "2.1.0"
@@ -11440,7 +11438,7 @@ stylelint-processor-styled-components@1.3.2:
     babylon "^7.0.0-beta.40"
     postcss "^6.0.14"
 
-stylelint@9.4.0, stylelint@^9.1.1:
+stylelint@9.4.0:
   version "9.4.0"
   resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-9.4.0.tgz#2f2b82ae9db53a06735ae0724f41b134fdb84a10"
   dependencies:
