@@ -51,6 +51,7 @@ const StyledTextarea: React.ComponentType<{
 }> = styled.textarea`
   font-family: ${p => p.fontFamily};
   font-size: ${p => p.fontScale}em;
+  -webkit-font-smoothing: antialiased;
   line-height: 1.5em;
   padding: 3px 5px 3px 10px;
   background: ${p => darken(0.02, p.theme.main)};

@@ -1,11 +1,7 @@
 import { Button, ButtonGroup, Card } from "@blueprintjs/core"
-import path from "path"
 import React from "react"
 import { lifecycle } from "recompose"
-import { connector } from "../../../actionCreators"
-import { ButtonWithModal } from "../../atoms/ButtonWithModal"
-import { CloneProjectModalContent } from "./CloneProjectModalContent"
-import { CreateProjectModalContent } from "./CreateProjectModalContent"
+import { connector } from "../../actionCreators"
 
 export const ProjectManager = connector(
   state => {
@@ -17,9 +13,10 @@ export const ProjectManager = connector(
   },
   actions => {
     return {
+      openCreateRepoModal: actions.app.openCreateRepoModal,
+      openCloneRepoModal: actions.app.openCloneRepoModal,
       loadProjectList: actions.project.loadProjectList,
       startProjectRootChanged: actions.editor.startProjectRootChanged,
-      createNewProject: actions.project.createNewProject,
       deleteProject: actions.editor.deleteProject
     }
   },
@@ -34,14 +31,11 @@ export const ProjectManager = connector(
       projectRoot={props.repository.currentProjectRoot}
       projects={props.project.projects}
       githubProxy={props.githubProxy}
-      onCreateNewProject={async projectRoot => {
-        const newProjectRoot = path.join("/", projectRoot)
-        // TODO: fix it
-        props.createNewProject({ newProjectRoot })
-        await new Promise(r => setTimeout(r, 300))
-        props.startProjectRootChanged({
-          projectRoot: newProjectRoot
-        })
+      onClickNewProject={() => {
+        props.openCreateRepoModal({})
+      }}
+      onClickCloneProject={() => {
+        props.openCloneRepoModal({})
       }}
       onCloneEnd={projectRoot => {
         props.startProjectRootChanged({ projectRoot })
@@ -70,15 +64,17 @@ class ProjectManagerImpl extends React.Component<{
   onChangeProject: (projectRoot: string) => void
   onCloneEnd: (projectRoot: string) => void
   onDeleteProject: (projectRoot: string) => void
-  onCreateNewProject: (projectRoot: string) => void
+  onClickNewProject: () => void
+  onClickCloneProject: () => void
 }> {
   render() {
     const {
       githubProxy,
       projects,
-      onCreateNewProject,
+      onClickNewProject,
       onChangeProject,
       onCloneEnd,
+      onClickCloneProject,
       projectRoot,
       onDeleteProject
     } = this.props
@@ -116,35 +112,18 @@ class ProjectManagerImpl extends React.Component<{
         </div>
         <div style={{ height: "5px" }} />
         <ButtonGroup>
-          <ButtonWithModal
+          <Button
             text="Add"
             icon="add"
-            renderModal={({ onClose }) => {
-              return (
-                <CreateProjectModalContent
-                  onConfirm={async dirname => {
-                    onClose()
-                    onCreateNewProject(dirname)
-                  }}
-                  onCancel={onClose}
-                />
-              )
+            onClick={() => {
+              onClickNewProject()
             }}
           />
-          <ButtonWithModal
+          <Button
             text="Clone"
             icon="git-repo"
-            renderModal={({ onClose }) => {
-              return (
-                <CloneProjectModalContent
-                  githubProxy={githubProxy}
-                  onConfirm={async newProjectRoot => {
-                    onClose()
-                    onCloneEnd(newProjectRoot)
-                  }}
-                  onCancel={onClose as any}
-                />
-              )
+            onClick={() => {
+              onClickCloneProject()
             }}
           />
         </ButtonGroup>

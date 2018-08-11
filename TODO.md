@@ -2,6 +2,8 @@
 
 ## Current
 
+- [ ] View Menu
+- [ ] Project Menu
 - [ ] Study: Lazy load
   - [ ] prettier
   - [ ] monaco-editor
@@ -10,7 +12,9 @@
   - [ ] Login with Modal
 - [ ] PluginLoader
 - [ ] Show toast after git.push
-- [ ] Refactor: organisms
+- [x] Refactor: organisms
+- [ ] Update
+- [ ] Help tab
 
 ---
 

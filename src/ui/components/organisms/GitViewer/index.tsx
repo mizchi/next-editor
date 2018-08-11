@@ -45,7 +45,6 @@ export const GitViewer = connector(
     const {
       currentBranch,
       branches,
-      history,
       staging,
       stagingLoading,
       remotes,

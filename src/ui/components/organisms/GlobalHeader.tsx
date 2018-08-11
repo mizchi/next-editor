@@ -3,6 +3,7 @@ import {
   Button,
   Classes,
   Menu,
+  MenuDivider,
   MenuItem,
   Navbar,
   NavbarDivider,
@@ -35,11 +36,21 @@ export const GlobalHeader = connector(
           <NavigatorTitle networkOnline={props.networkOnline} />
         </NavbarHeading>
         <NavbarDivider />
+
         <Popover
-          content={<HeaderFileMenu />}
+          content={<RepositoryMenu />}
           position={Position.BOTTOM_LEFT}
           minimal={true}
-          // interactionKind={"hover"}
+          lazy={false}
+        >
+          <Button className="bp3-minimal" icon="projects" text="Repository" />
+        </Popover>
+
+        <Popover
+          content={<ViewMenu />}
+          position={Position.BOTTOM_LEFT}
+          minimal={true}
+          lazy={false}
         >
           <Button className="bp3-minimal" icon="grid-view" text="View" />
         </Popover>
@@ -71,11 +82,8 @@ const sharedNavbarStyle = {
   height: 32
 }
 
-export const HeaderFileMenu = connector(
-  state => ({
-    mainLayout: state.app.mainLayout,
-    currentScene: state.app.sceneStack[state.app.sceneStack.length - 1]
-  }),
+export const ViewMenu = connector(
+  _state => ({}),
   actions => {
     return {
       pushScene: actions.app.pushScene,
@@ -85,7 +93,7 @@ export const HeaderFileMenu = connector(
       setLayout4: actions.app.setLayout4
     }
   }
-)(function HeaderFileMenuImpl(props) {
+)(function ViewMenuImpl(props) {
   return (
     <Menu>
       <MenuItem
@@ -108,6 +116,47 @@ export const HeaderFileMenu = connector(
         text="Layout 4: Ctrl-4"
         onClick={() => props.setLayout4({})}
       />
+    </Menu>
+  )
+})
+
+export const RepositoryMenu = connector(
+  state => ({
+    projects: state.project.projects
+  }),
+  actions => {
+    return {
+      openProject: actions.editor.startProjectRootChanged,
+      openCreateRepoModal: actions.app.openCreateRepoModal,
+      openCloneRepoModal: actions.app.openCloneRepoModal
+    }
+  }
+)(function RepositoryMenuImpl(props) {
+  return (
+    <Menu>
+      <MenuItem
+        icon="add"
+        text="Create repository"
+        onClick={() => props.openCreateRepoModal({})}
+      />
+      <MenuItem
+        icon="git-repo"
+        text="Clone repository"
+        onClick={() => props.openCloneRepoModal({})}
+      />
+      <li className="bp3-menu-header">
+        <h6 className="bp3-heading">Open</h6>
+      </li>
+      {props.projects.map((p, index) => {
+        return (
+          <MenuItem
+            icon="document-open"
+            key={index}
+            text={p.projectRoot}
+            onClick={() => props.openProject({ projectRoot: p.projectRoot })}
+          />
+        )
+      })}
     </Menu>
   )
 })

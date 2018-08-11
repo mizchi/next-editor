@@ -2,10 +2,10 @@ import { Card, Tab, Tabs } from "@blueprintjs/core"
 import React from "react"
 import { connector } from "../../actionCreators"
 import { ActiveSupport } from "../../reducers/app"
+import { Help } from "../atoms/Help"
 import { MarkdownPreview } from "../atoms/MarkdownPreview"
 import { FileHistory } from "./FileHistory"
-import { GitEasy } from "./GitEasy"
-import { GitViewer } from "./GitViewer"
+import { GitController } from "./GitController"
 
 export const UserSupport = connector(
   state => {
@@ -55,9 +55,9 @@ class UserSupportContent extends React.PureComponent<Props> {
           onChange={newTabId => onChangeActiveSupport(newTabId as any)}
           selectedTabId={activeSupport}
           renderActiveTabPanelOnly
+          animate={false}
         >
-          <Tab id="git-easy" title="Git Easy" panel={<GitEasy />} />
-          <Tab id="git" title="Git" panel={<GitViewer />} />
+          <Tab id="git" title="Git" panel={<GitController />} />
           <Tab
             id="history"
             title="History"
@@ -70,6 +70,7 @@ class UserSupportContent extends React.PureComponent<Props> {
               panel={<MarkdownPreview source={value || ""} />}
             />
           )}
+          <Tab id="help" title="Help" panel={<Help />} />
         </Tabs>
       </Card>
     )

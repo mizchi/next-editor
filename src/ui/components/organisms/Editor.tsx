@@ -2,7 +2,7 @@ import path from "path"
 import React from "react"
 import { formatMarkdown } from "../../../lib/formatMarkdown"
 import { connector } from "../../actionCreators"
-import { Help } from "../atoms/Help"
+import { Entry } from "../atoms/Entry"
 import { EditorWithToolbar } from "../molecules/EditorWithToolbar"
 
 export const Editor = connector(
@@ -59,6 +59,6 @@ export const Editor = connector(
       />
     )
   } else {
-    return <Help />
+    return <Entry />
   }
 })

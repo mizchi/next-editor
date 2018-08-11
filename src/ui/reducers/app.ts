@@ -11,10 +11,10 @@ const { createAction } = buildActionCreator({
 
 export type AreaName = "menu" | "editor" | "support"
 export type ActiveSupport =
-  | "git-easy"
   | "git"
   | "preview-by-filetype"
   | "git-history"
+  | "help"
 
 export const setActiveSupport: ActionCreator<{
   support: ActiveSupport
@@ -76,6 +76,20 @@ export const changeNetworkStatus: ActionCreator<{
   online: boolean
 }> = createAction("change-network-status")
 
+export const openCloneRepoModal: ActionCreator<{}> = createAction(
+  "open-clone-repo-modal"
+)
+export const closeCloneRepoModal: ActionCreator<{}> = createAction(
+  "close-clone-repo-modal"
+)
+
+export const openCreateRepoModal: ActionCreator<{}> = createAction(
+  "open-create-repo-modal"
+)
+export const closeCreateRepoModal: ActionCreator<{}> = createAction(
+  "close-create-repo-modal"
+)
+
 export const popScene: ActionCreator<{}> = createAction("pop-scene")
 
 export type Layout = {
@@ -85,16 +99,20 @@ export type Layout = {
 }
 
 export type AppState = {
-  activeSupport: "git-easy" | "git" | "preview-by-filetype" | "git-history"
+  activeSupport: "git" | "preview-by-filetype" | "git-history" | "help"
   sceneStack: string[]
   mainLayout: Layout
   networkOnline: boolean
+  openedCloneRepoModal: boolean
+  openedCreateRepoModal: boolean
 }
 
 const initialState: AppState = {
-  activeSupport: "git-easy",
+  activeSupport: "git",
   networkOnline: false,
   sceneStack: ["main"],
+  openedCloneRepoModal: false,
+  openedCreateRepoModal: false,
   mainLayout: {
     columns: ["250px", "1fr", "1fr"],
     rows: ["1fr"],
@@ -150,4 +168,16 @@ export const reducer: Reducer<AppState> = createReducer(initialState)
   })
   .case(changeNetworkStatus, (state, payload) => {
     return { ...state, networkOnline: payload.online }
+  })
+  .case(openCloneRepoModal, state => {
+    return { ...state, openedCloneRepoModal: true }
+  })
+  .case(closeCloneRepoModal, state => {
+    return { ...state, openedCloneRepoModal: false }
+  })
+  .case(openCreateRepoModal, state => {
+    return { ...state, openedCreateRepoModal: true }
+  })
+  .case(closeCreateRepoModal, state => {
+    return { ...state, openedCreateRepoModal: false }
   })

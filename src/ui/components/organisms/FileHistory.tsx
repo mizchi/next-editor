@@ -95,30 +95,41 @@ class FileHistoryContent extends React.Component<
     const { filepath, projectRoot, currentBranch, onCheckout } = this.props
     const relpath = path.relative(projectRoot, filepath)
     return (
-      <div style={{ padding: 10 }}>
-        {projectRoot}: {relpath} on {currentBranch}
-        <hr />
-        {this.state.history.map((h: any) => {
-          return (
-            <Card key={h.commitId}>
-              <div>
-                {format(h.timestamp * 1000, "MM/DD-HH:mm")}
-                |&nbsp;
-                {h.message}
-                &nbsp;
-                <Button
-                  onClick={() => {
-                    onCheckout(h.blobId, h.content)
-                  }}
-                  text="checkout"
-                />
-              </div>
-              <pre className="bp3-code-block">
-                <code>{h.diffText}</code>
-              </pre>
-            </Card>
-          )
-        })}
+      <div
+        style={{
+          padding: 10,
+          width: "100%",
+          height: "75vh",
+          position: "relative",
+          overflowX: "auto",
+          overflowY: "auto"
+        }}
+      >
+        <div style={{ position: "absolute", width: "100%", height: "100%" }}>
+          {projectRoot}: {relpath} on {currentBranch}
+          <hr />
+          {this.state.history.map((h: any) => {
+            return (
+              <Card key={h.commitId}>
+                <div>
+                  {format(h.timestamp * 1000, "MM/DD-HH:mm")}
+                  |&nbsp;
+                  {h.message}
+                  &nbsp;
+                  <Button
+                    onClick={() => {
+                      onCheckout(h.blobId, h.content)
+                    }}
+                    text="checkout"
+                  />
+                </div>
+                <pre className="bp3-code-block">
+                  <code>{h.diffText}</code>
+                </pre>
+              </Card>
+            )
+          })}
+        </div>
       </div>
     )
   }

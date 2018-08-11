@@ -19,7 +19,8 @@ export const rules = {
     .string()
     .acceptableTheme(),
   isFirstVisit: v8n().boolean(),
-  doneTutorial: v8n().boolean()
+  doneTutorial: v8n().boolean(),
+  gitEasyMode: v8n().boolean()
 }
 
 const { createAction } = buildActionCreator({
@@ -37,6 +38,7 @@ export type ConfigState = {
   isFirstVisit: boolean
   doneTutorial: boolean
   theme: string
+  gitEasyMode: boolean
 }
 
 export const setConfigValue = createAction(
@@ -60,7 +62,8 @@ const initalState: ConfigState = {
   githubProxy: "https://cors-buster-zashozaqfk.now.sh/github.com/",
   theme: "dark",
   isFirstVisit: true,
-  doneTutorial: false
+  doneTutorial: false,
+  gitEasyMode: true
 }
 
 export const reducer: Reducer<ConfigState> = createReducer(initalState).case(
