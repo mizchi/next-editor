@@ -2,19 +2,19 @@
 
 ## Current
 
-- [ ] View Menu
-- [ ] Project Menu
+- [x] Fix Overflow
+- [x] View Menu
+- [x] Project Menu
 - [ ] Study: Lazy load
   - [ ] prettier
   - [ ] monaco-editor
-- [ ] Stop react-tooltip
+- [x] Stop react-tooltip
 - [x] Stop absolute on grid
   - [ ] Login with Modal
 - [ ] PluginLoader
 - [ ] Show toast after git.push
 - [x] Refactor: organisms
-- [ ] Update
-- [ ] Help tab
+- [x] Help tab
 
 ---
 

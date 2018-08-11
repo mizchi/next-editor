@@ -1,5 +1,5 @@
+import { Button, Tooltip } from "@blueprintjs/core"
 import React from "react"
-import ReactTooltip from "react-tooltip"
 
 type Props = {
   description: string
@@ -40,19 +40,13 @@ export class CommandWithSelect extends React.Component<Props, State> {
           ))}
         </select>
         &nbsp;
-        {tooltipText && (
-          <ReactTooltip place="top" type="dark" effect="solid" id={tooltipText}>
-            {tooltipText}
-          </ReactTooltip>
-        )}
-        <button
+        <Button
+          text="exec"
           data-tip
           data-for={tooltipText || undefined}
           disabled={validate && !validate(this.state.value)}
           onClick={() => onExec(this.state.value)}
-        >
-          exec
-        </button>
+        />
       </div>
     )
   }

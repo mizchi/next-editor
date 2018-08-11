@@ -1,9 +1,8 @@
-import { Icon } from "@blueprintjs/core"
+import { Icon, Tooltip } from "@blueprintjs/core"
 import range from "lodash/range"
 import path from "path"
 import React from "react"
 import { ContextMenuProvider } from "react-contexify"
-import Tooltip from "react-tooltip"
 import lifecycle from "recompose/lifecycle"
 import styled from "styled-components"
 import { readFileStats } from "../../../../domain/filesystem/queries/readFileStats"
@@ -291,35 +290,32 @@ const HoveredMenu = (props: {
   onClickRemove: (event: Event) => any
 }) => (
   <div style={{ minWidth: "30px" }}>
-    <Tooltip id="new-file" effect="solid">
-      Create new file
+    <Tooltip content="Create new file" position="top">
+      <Icon
+        icon="document"
+        onClick={event => props.onClickFile(event as any)}
+      />
     </Tooltip>
-    <Tooltip id="new-dir" effect="solid">
-      Create new directory
+
+    <Tooltip content="Creat new dir" position="top">
+      <Icon
+        icon="folder-new"
+        data-tip
+        data-for="new-dir"
+        onClick={event => props.onClickDir(event as any)}
+      />
     </Tooltip>
-    <Tooltip id="delete" effect="solid">
-      Delete
-    </Tooltip>
-    <Icon
-      icon="document"
-      data-tip
-      data-for="new-file"
-      onClick={event => props.onClickFile(event as any)}
-    />
-    <Icon
-      icon="folder-new"
-      data-tip
-      data-for="new-dir"
-      onClick={event => props.onClickDir(event as any)}
-    />
+
     {props.basename !== ".git" &&
       props.dirpath !== props.root && (
-        <Icon
-          icon="trash"
-          data-tip
-          data-for="delete"
-          onClick={ev => props.onClickRemove(ev as any)}
-        />
+        <Tooltip content="Delete" position="top">
+          <Icon
+            icon="trash"
+            data-tip
+            data-for="delete"
+            onClick={ev => props.onClickRemove(ev as any)}
+          />
+        </Tooltip>
       )}
   </div>
 )

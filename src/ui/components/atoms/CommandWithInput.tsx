@@ -1,9 +1,8 @@
+import { Button, Tooltip } from "@blueprintjs/core"
 import React from "react"
-import ReactTooltip from "react-tooltip"
 
 type Props = {
   description: string
-  tooltip?: (s: string) => string
   placeholder?: string
   validate?: (value: string) => boolean
   initialValue?: string
@@ -22,9 +21,7 @@ export class CommandWithInput extends React.Component<Props, State> {
     }
   }
   render() {
-    const { description, placeholder, onExec, validate, tooltip } = this.props
-    const { value } = this.state
-    const tooltipText = tooltip && tooltip(value)
+    const { description, placeholder, onExec, validate } = this.props
     return (
       <div>
         <span>{description}</span>
@@ -36,22 +33,14 @@ export class CommandWithInput extends React.Component<Props, State> {
           spellCheck={false}
         />
         &nbsp;
-        {tooltipText && (
-          <ReactTooltip place="top" type="dark" effect="solid" id={tooltipText}>
-            {tooltipText}
-          </ReactTooltip>
-        )}
-        <button
-          data-tip
-          data-for={tooltipText || undefined}
+        <Button
+          text="exec"
           disabled={validate && !validate(this.state.value)}
           onClick={() => {
             onExec(this.state.value)
             this.setState({ value: "" })
           }}
-        >
-          exec
-        </button>
+        />
       </div>
     )
   }

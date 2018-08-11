@@ -49,7 +49,13 @@ class UserSupportContent extends React.PureComponent<Props> {
     }
     const { filetype, value, activeSupport, onChangeActiveSupport } = this.props
     return (
-      <Card style={{ borderRadius: 0, height: "100%" }}>
+      <Card
+        style={{
+          borderRadius: 0,
+          height: "calc(100vh - 32px)",
+          overflow: "auto"
+        }}
+      >
         <Tabs
           id="TabsExample"
           onChange={newTabId => onChangeActiveSupport(newTabId as any)}

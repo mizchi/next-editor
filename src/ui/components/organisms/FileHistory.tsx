@@ -97,39 +97,32 @@ class FileHistoryContent extends React.Component<
     return (
       <div
         style={{
-          padding: 10,
-          width: "100%",
-          height: "75vh",
-          position: "relative",
-          overflowX: "auto",
-          overflowY: "auto"
+          padding: 10
         }}
       >
-        <div style={{ position: "absolute", width: "100%", height: "100%" }}>
-          {projectRoot}: {relpath} on {currentBranch}
-          <hr />
-          {this.state.history.map((h: any) => {
-            return (
-              <Card key={h.commitId}>
-                <div>
-                  {format(h.timestamp * 1000, "MM/DD-HH:mm")}
-                  |&nbsp;
-                  {h.message}
-                  &nbsp;
-                  <Button
-                    onClick={() => {
-                      onCheckout(h.blobId, h.content)
-                    }}
-                    text="checkout"
-                  />
-                </div>
-                <pre className="bp3-code-block">
-                  <code>{h.diffText}</code>
-                </pre>
-              </Card>
-            )
-          })}
-        </div>
+        {projectRoot}: {relpath} on {currentBranch}
+        <hr />
+        {this.state.history.map((h: any) => {
+          return (
+            <Card key={h.commitId}>
+              <div>
+                {format(h.timestamp * 1000, "MM/DD-HH:mm")}
+                |&nbsp;
+                {h.message}
+                &nbsp;
+                <Button
+                  onClick={() => {
+                    onCheckout(h.blobId, h.content)
+                  }}
+                  text="checkout"
+                />
+              </div>
+              <pre className="bp3-code-block">
+                <code>{h.diffText}</code>
+              </pre>
+            </Card>
+          )
+        })}
       </div>
     )
   }
