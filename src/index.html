@@ -203,7 +203,7 @@ const showLoadingMessage = (mes, loading = true) => {
     await setupFonts()
 
     showLoadingMessage('Loading...')
-
+    window.NEPlugins = {}
     await import('./main.js')
   } catch (e) {
     // TODO: Show restore guide

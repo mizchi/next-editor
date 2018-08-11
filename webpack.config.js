@@ -9,12 +9,12 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const MODE = process.env.NODE_ENV || "development"
 const DEV = MODE == "development"
 
-const SRC = process.env.SRC_CUSTOM || "src"
-const ENTRY_MAIN = path.join(__dirname, SRC || "src")
+const USE_CUSTOM_SRC = !!process.env.SRC
+const SRC = path.join(__dirname, process.env.SRC || "src")
 
 const SRC_INCLUDES = [
   path.join(__dirname, "src"),
-  ...(SRC !== "src" ? [path.join(__dirname, SRC)] : [])
+  ...(process.env.SRC ? [SRC] : [])
 ]
 
 const COPY_RULES = [
@@ -47,14 +47,14 @@ const COPY_RULES = [
   }
 ]
 
-if (SRC) {
-  console.info("You are using custom entry:", ENTRY_MAIN)
+if (USE_CUSTOM_SRC) {
+  console.info("You are using custom entry:", SRC)
 }
 
 module.exports = {
   mode: MODE,
   // devtool: DEV ? "inline-source-map" : "source-map",
-  entry: ENTRY_MAIN,
+  entry: SRC,
   resolve: {
     alias: {
       fs: path.join(__dirname, "src/lib/fs.ts")

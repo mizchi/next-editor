@@ -2,7 +2,7 @@
 
 ## Current
 
-- [ ] UI: Save tab state in reducer
+- [x] UI: Save tab state in reducer
 - [ ] UI: Quick file name search: (fuzzy match)
 - [ ] UI: Rewrite buffer without file change
 - [x] Refactor: Editors
@@ -41,7 +41,7 @@
 - [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
 - [ ] Create dump
 - [ ] Recovery mode
-- [ ] Recovery status
+- [x] Recovery status
 
 ## v1.0.0
 
