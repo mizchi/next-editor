@@ -2,11 +2,13 @@
 
 ## Current
 
-- [ ] Fix test
-- [ ] Login with Modal
-- [ ] Stop global
-- [ ] Stop absolute
-- [ ] Plugin Specifaction
+- [x] Fix test
+  - [x] Jest
+  - [x] TypeScript
+- [ ] Stop absolute on grid
+  - [ ] Login with Modal
+  - [ ] Stop react-tooltip
+- [ ] PluginLoader
 
 ## Icebox
 
@@ -14,7 +16,6 @@
 - [ ] UI: Rewrite buffer without file change
 - [ ] UI: Inhibit checkout if hash has same content
 - [ ] UI: Expand all
-- [ ] UI: Full text search
 - [ ] textlint
 - [ ] Research ipfs or webtorrent to share
 - [ ] UI: Inline Rename
@@ -22,6 +23,7 @@
 - [ ] Clone with countdown
 - [ ] Git: Cherry pick
 - [ ] Git: Rebase
+- [ ] Git: Shallow
 - [ ] Git: Ensure git clone
 - [ ] Guidance for github api token on config
 - [ ] TypeScript on monaco

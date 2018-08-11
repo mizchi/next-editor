@@ -5,6 +5,9 @@ import "normalize.css/normalize.css"
 import "@blueprintjs/core/lib/css/blueprint.css"
 import "@blueprintjs/icons/lib/css/blueprint-icons.css"
 
+// contextify
+import "react-contexify/dist/ReactContexify.css"
+
 // export fs, git
 import fs from "fs"
 import * as git from "isomorphic-git"
