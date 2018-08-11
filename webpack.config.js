@@ -108,7 +108,8 @@ module.exports = {
         new WorkboxPlugin.GenerateSW({
           swDest: "sw.js",
           clientsClaim: true,
-          skipWaiting: true
+          skipWaiting: true,
+          exclude: ["assets/icon-*.png"]
         })
       ]
 }
