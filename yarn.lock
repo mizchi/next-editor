@@ -8031,9 +8031,9 @@ monaco-editor-webpack-plugin@1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/monaco-editor-webpack-plugin/-/monaco-editor-webpack-plugin-1.5.1.tgz#2f2ff876d522e25042e5621bc81cb9eee6743010"
 
-monaco-editor@0.13.1:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.13.1.tgz#6b9ce20e4d1c945042d256825eb133cb23315a52"
+monaco-editor@0.14.2:
+  version "0.14.2"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.14.2.tgz#6c41773639aef7ebce30202cd12a723074a88813"
 
 mousetrap@^1.5.2:
   version "1.6.2"
