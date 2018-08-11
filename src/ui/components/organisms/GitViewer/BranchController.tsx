@@ -82,7 +82,6 @@ export class BranchController extends React.Component<
             <div>
               <CommandWithInput
                 description="Checkout new branch"
-                tooltip={value => `git checkout -b ${value}`}
                 validate={value =>
                   value.length > 0 && !branches.includes(value)
                 }
