@@ -10452,9 +10452,9 @@ remark-react@4.0.3:
     hast-util-sanitize "^1.0.0"
     mdast-util-to-hast "^3.0.0"
 
-remark-rehype@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/remark-rehype/-/remark-rehype-3.0.0.tgz#699342e76cc1dead191cc924fdf21910b3746160"
+remark-rehype@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/remark-rehype/-/remark-rehype-3.0.1.tgz#7c35c08e022ca55bd33719548dd555b1a721a181"
   dependencies:
     mdast-util-to-hast "^3.0.0"
 
