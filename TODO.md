@@ -2,19 +2,20 @@
 
 ## Current
 
-- [x] Fix Overflow
-- [x] View Menu
-- [x] Project Menu
-- [ ] Study: Lazy load
+Next goal: rewrite file browser with drag and drop
+
+- [ ] Stop react-contextify
+- [ ] Drag and Drop
+- [ ] Inline rename
+- [ ] PluginLoader
+- [ ] Lazy load
   - [ ] prettier
   - [ ] monaco-editor
-- [x] Stop react-tooltip
-- [x] Stop absolute on grid
-  - [ ] Login with Modal
-- [ ] PluginLoader
+
+Git
+
 - [ ] Show toast after git.push
-- [x] Refactor: organisms
-- [x] Help tab
+- [ ] Reload git status
 
 ---
 
@@ -33,6 +34,17 @@
   - Edit React Component
 
 ---
+
+## v0.19.0
+
+- [x] Fix Overflow
+- [x] View Menu
+- [x] Project Menu
+- [x] Stop react-tooltip
+- [x] Stop absolute on grid
+- [x] Login with Modal
+- [x] Refactor: organisms
+- [x] Help tab
 
 ## v0.18.x
 
