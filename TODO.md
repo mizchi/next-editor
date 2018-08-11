@@ -4,6 +4,7 @@ v0.18.0
 
 ## Current
 
+- [ ] study: Lazy load with
 - [ ] webpack-html-plugin: ejs mode
 - [ ] Stop absolute on grid
   - [ ] Login with Modal

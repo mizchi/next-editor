@@ -12,6 +12,10 @@ export class Help extends React.Component<any> {
           <h1>Next Editor v{pkg.version}</h1>
           <p>Editor with Git</p>
           <p>
+            This is pre alpha version. There is a possibility you lose data
+            without notice by upgrade
+          </p>
+          <p>
             GitHub:&nbsp;
             <a href="https://github.com/mizchi/next-editor">
               mizchi/next-editor
