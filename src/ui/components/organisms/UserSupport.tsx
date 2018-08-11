@@ -43,10 +43,6 @@ type Props = {
 
 class UserSupportContent extends React.PureComponent<Props> {
   render() {
-    // FIX: Work arround for https://github.com/palantir/blueprint/pull/2761
-    if (process.env.NODE_ENV === "test") {
-      return <div>FIX ME</div>
-    }
     const { filetype, value, activeSupport, onChangeActiveSupport } = this.props
     return (
       <Card
