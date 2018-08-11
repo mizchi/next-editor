@@ -50,7 +50,7 @@
     "copy-webpack-plugin": "4.5.2",
     "coveralls": "3.0.2",
     "css-loader": "1.0.0",
-    "docz": "0.9.5",
+    "docz": "0.9.6",
     "file-loader": "1.1.11",
     "jest": "23.4.2",
     "monaco-editor-webpack-plugin": "1.4.0",

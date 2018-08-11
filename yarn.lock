@@ -4392,9 +4392,9 @@ doctrine@^2.0.0:
   dependencies:
     esutils "^2.0.2"
 
-docz-core@^0.9.4:
-  version "0.9.4"
-  resolved "https://registry.yarnpkg.com/docz-core/-/docz-core-0.9.4.tgz#d528cee57846b925a026a8bb3bec3db03fefaa99"
+docz-core@^0.9.6:
+  version "0.9.6"
+  resolved "https://registry.yarnpkg.com/docz-core/-/docz-core-0.9.6.tgz#4b5b6914f500c00f72a03cb8d078e45e31bea304"
   dependencies:
     "@babel/core" "7.0.0-beta.55"
     "@babel/plugin-syntax-dynamic-import" "^7.0.0-beta.55"
@@ -4469,12 +4469,12 @@ docz-core@^0.9.4:
     ws "^6.0.0"
     yargs "^12.0.1"
 
-docz-theme-default@^0.9.5:
-  version "0.9.5"
-  resolved "https://registry.yarnpkg.com/docz-theme-default/-/docz-theme-default-0.9.5.tgz#59d9009be11aca886c429158be319ad9a63b0abe"
+docz-theme-default@^0.9.6:
+  version "0.9.6"
+  resolved "https://registry.yarnpkg.com/docz-theme-default/-/docz-theme-default-0.9.6.tgz#83138b79c1ffacb07beaca60f92637d5a5c62ca6"
   dependencies:
     copy-text-to-clipboard "^1.0.4"
-    docz "^0.9.5"
+    docz "^0.9.6"
     emotion "^9.2.6"
     emotion-theming "^9.2.6"
     facepaint "^1.2.1"
@@ -4496,9 +4496,9 @@ docz-theme-default@^0.9.5:
     react-syntax-highlighter "^8.0.1"
     webfontloader "^1.6.28"
 
-docz@0.9.5, docz@^0.9.5:
-  version "0.9.5"
-  resolved "https://registry.yarnpkg.com/docz/-/docz-0.9.5.tgz#dca81e234871f0fbb4c5dbcbcc7afd822b1e62e2"
+docz@0.9.6, docz@^0.9.6:
+  version "0.9.6"
+  resolved "https://registry.yarnpkg.com/docz/-/docz-0.9.6.tgz#3ecaa58858e310315aa0151324ba6915a2f482ae"
   dependencies:
     "@mdx-js/tag" "^0.15.0-2"
     "@sindresorhus/slugify" "^0.3.0"
@@ -4506,8 +4506,8 @@ docz@0.9.5, docz@^0.9.5:
     capitalize "^1.0.0"
     create-react-context "^0.2.2"
     deepmerge "^2.1.1"
-    docz-core "^0.9.4"
-    docz-theme-default "^0.9.5"
+    docz-core "^0.9.6"
+    docz-theme-default "^0.9.6"
     prop-types "^15.6.2"
     react "^16.4.2"
     react-copy-write "^0.7.0"
