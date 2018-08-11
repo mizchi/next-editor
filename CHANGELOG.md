@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.18.0"></a>
+# [0.18.0](https://github.com/mizchi/next-editor/compare/v0.17.1...v0.18.0) (2018-08-11)
+
+
+### Features
+
+* Add alert on entry ([0d4e27c](https://github.com/mizchi/next-editor/commit/0d4e27c))
+
+
+
 <a name="0.17.1"></a>
 ## [0.17.1](https://github.com/mizchi/next-editor/compare/v0.17.0...v0.17.1) (2018-08-11)
 
