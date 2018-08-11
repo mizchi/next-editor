@@ -21,12 +21,12 @@
     "analyze:pwa": "pwmetrics https://next-editor.app"
   },
   "devDependencies": {
-    "@babel/core": "7.0.0-beta.56",
-    "@babel/plugin-proposal-class-properties": "7.0.0-beta.56",
-    "@babel/plugin-syntax-object-rest-spread": "7.0.0-beta.56",
-    "@babel/preset-env": "7.0.0-beta.56",
-    "@babel/preset-react": "7.0.0-beta.56",
-    "@babel/standalone": "7.0.0-beta.56",
+    "@babel/core": "7.0.0-rc.1",
+    "@babel/plugin-proposal-class-properties": "7.0.0-rc.1",
+    "@babel/plugin-syntax-object-rest-spread": "7.0.0-rc.1",
+    "@babel/preset-env": "7.0.0-rc.1",
+    "@babel/preset-react": "7.0.0-rc.1",
+    "@babel/standalone": "7.0.0-rc.1",
     "@mdx-js/loader": "0.15.0",
     "@mdx-js/mdx": "0.15.0",
     "@types/jest": "23.3.1",
