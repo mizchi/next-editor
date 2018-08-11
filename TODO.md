@@ -2,41 +2,20 @@
 
 ## Current
 
-- [x] Fix test
-  - [x] Jest
-  - [x] TypeScript
+- [ ] Show login only for tester
 - [ ] Stop absolute on grid
   - [ ] Login with Modal
   - [ ] Stop react-tooltip
 - [ ] PluginLoader
 
-## Icebox
+## Done: v0.17
 
-- [ ] UI: Quick file name search: (fuzzy match)
-- [ ] UI: Rewrite buffer without file change
-- [ ] UI: Inhibit checkout if hash has same content
-- [ ] UI: Expand all
-- [ ] textlint
-- [ ] Research ipfs or webtorrent to share
-- [ ] UI: Inline Rename
-- [ ] UI: Drag and drop
-- [ ] Clone with countdown
-- [ ] Git: Cherry pick
-- [ ] Git: Rebase
-- [ ] Git: Shallow
-- [ ] Git: Ensure git clone
-- [ ] Guidance for github api token on config
-- [ ] TypeScript on monaco
-- [ ] Pluggable Editor by webcomponents
-- [ ] Jest integration
-- [ ] Git: Stash
-- [ ] Git: Rebase with conflict manager
-- [ ] React: Component Preview
-- [ ] GitHub: Issue integration
-- [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
-- [ ] Create dump
-- [x] Recovery mode
-- [ ] Recovery status
+- [x] Fix test
+  - [x] Jest
+  - [x] TypeScript
+- [x] Restore mdx
+- [x] Create @mizchi/jest-mdx-loader
+- [x] Restore react-contextify
 
 ---
 
@@ -161,3 +140,33 @@ Proof of Concept
 - [x] PWA's manifest.json for chrome playstore / Windows store
 - [x] Show push / fetch / merge result with modal
 - [x] Markup: first design
+
+---
+
+## Icebox
+
+- [ ] UI: Quick file name search: (fuzzy match)
+- [ ] UI: Rewrite buffer without file change
+- [ ] UI: Inhibit checkout if hash has same content
+- [ ] UI: Expand all
+- [ ] textlint
+- [ ] Research ipfs or webtorrent to share
+- [ ] UI: Inline Rename
+- [ ] UI: Drag and drop
+- [ ] Clone with countdown
+- [ ] Git: Cherry pick
+- [ ] Git: Rebase
+- [ ] Git: Shallow
+- [x] Git: Ensure git clone
+- [ ] Guidance for github api token on config
+- [ ] TypeScript on monaco
+- [ ] Pluggable Editor by webcomponents
+- [ ] Jest integration
+- [ ] Git: Stash
+- [ ] Git: Rebase with conflict manager
+- [ ] React: Component Preview
+- [ ] GitHub: Issue integration
+- [ ] Integrate https://mizchi-sandbox.github.io/grid-generator/
+- [ ] Create dump
+- [x] Recovery mode
+- [ ] Recovery status

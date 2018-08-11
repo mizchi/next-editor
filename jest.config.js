@@ -1,6 +1,7 @@
 module.exports = {
   transform: {
-    "^.+\\.tsx?$": "ts-jest"
+    "^.+\\.tsx?$": "ts-jest",
+    ".mdx?$": "@mizchi/jest-mdx-loader"
   },
   globals: {
     "ts-jest": {
@@ -8,7 +9,7 @@ module.exports = {
     }
   },
   moduleNameMapper: {
-    "(.*).md": "<rootDir>/__tests__/mocks/dummyComponent.js",
+    // "(.*).md": "<rootDir>/__tests__/mocks/dummyComponent.js",
     "(.*).css": "<rootDir>/__tests__/mocks/dummyObject.js"
   },
   testMatch: [

@@ -1,6 +1,6 @@
 import { Card } from "@blueprintjs/core"
 import React from "react"
-// import ChangeLog from "../../../../CHANGELOG.md"
+import ChangeLog from "../../../../CHANGELOG.md"
 import pkg from "../../../../package.json"
 
 export class Help extends React.Component<any> {
@@ -53,10 +53,6 @@ export class Help extends React.Component<any> {
               </tr>
             </tbody>
           </table>
-          {/* <hr /> */}
-          {/* <hr /> */}
-          {/* <ChangeLog /> */}
-
           {/* Load plugin's EntryPage */}
           {Object.keys(NEPlugins).map(pluginName => {
             const plugin = NEPlugins[pluginName]
@@ -67,6 +63,11 @@ export class Help extends React.Component<any> {
               <span key={pluginName}>{pluginName}</span>
             )
           })}
+
+          <hr />
+          <Card>
+            <ChangeLog />
+          </Card>
         </div>
       </Card>
     )

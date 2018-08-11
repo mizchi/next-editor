@@ -21,6 +21,7 @@ declare module "diff"
 declare module "react-textarea-autosize"
 declare module "*.json"
 declare module "*.css"
+declare module "*.md"
 
 declare var BrowserFS: any
 declare var NEPlugins: { [pluginName: string]: any }
