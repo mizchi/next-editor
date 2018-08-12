@@ -1,5 +1,4 @@
 declare module "isomorphic-git"
-declare module "@storybook/addon-storyshots"
 declare module "@babel/core"
 declare module "@babel/preset-react"
 declare module "react-contextify"
@@ -18,10 +17,10 @@ declare module "react-rte"
 declare module "prettier/*"
 declare module "diff3"
 declare module "diff"
-declare module "react-textarea-autosize"
 declare module "*.json"
 declare module "*.css"
 declare module "*.md"
+declare module "enzyme-adapter-react-16"
 
 declare var BrowserFS: any
 declare var NEPlugins: { [pluginName: string]: any }
