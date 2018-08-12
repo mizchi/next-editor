@@ -1,10 +1,18 @@
 import { Icon } from "@blueprintjs/core"
+import fs from "fs"
 import range from "lodash/range"
 import path from "path"
+import pify from "pify"
 import React from "react"
-import { ContextMenuProvider } from "react-contexify"
+import {
+  ContextMenu,
+  ContextMenuProvider,
+  Item,
+  Separator
+} from "react-contexify"
 import styled from "styled-components"
 import { connector } from "../../../actionCreators"
+import { Input } from "../../atoms/Input"
 import { Pathname } from "../../atoms/Pathname"
 import { Draggable } from "./Draggable"
 
@@ -14,33 +22,51 @@ type OwnProps = {
   ignoreGit: boolean
 }
 
-type Props = OwnProps & {
-  loadFile: any
-  editingFilepath: string
-  fileMoved: any
-}
-
-export const FileLine: React.ComponentType<OwnProps> = connector<OwnProps>(
-  (state, ownProps) => {
+export const FileLine: React.ComponentType<OwnProps> = connector(
+  (state, ownProps: OwnProps) => {
     return {
       ...ownProps,
-      editingFilepath: state.buffer.filepath
+      editingFilepath: state.buffer.filepath,
+      renamingPathname: state.repository.renamingPathname
     }
   },
   actions => {
     return {
       loadFile: actions.editor.loadFile,
-      fileMoved: actions.editor.fileMoved
+      fileMoved: actions.editor.fileMoved,
+      endRenaming: actions.repository.endRenaming
     }
   }
-)(function FileLineImpl(props: Props) {
+)(function FileLineImpl(props) {
   const { depth, filepath, editingFilepath, fileMoved } = props
   const basename = path.basename(filepath)
+
+  if (props.renamingPathname === filepath) {
+    return (
+      <div>
+        <Input
+          focus
+          initialValue={basename}
+          onCancel={() => {
+            props.endRenaming({})
+          }}
+          onConfirm={async (value: string) => {
+            // TODO: Move them in action
+            const dirname = path.dirname(filepath)
+            const destPath = path.join(dirname, value)
+            await pify(fs.rename)(filepath, destPath)
+            props.endRenaming({})
+            props.fileMoved({ fromPath: filepath, destPath })
+          }}
+        />
+      </div>
+    )
+  }
   return (
     <ContextMenuProvider id="file" data={{ filepath }}>
       <Draggable
-        pathname={path.dirname(filepath)}
-        type="dir"
+        pathname={filepath}
+        type="file"
         onDrop={async result => {
           if (result) {
             fileMoved(result)
@@ -77,3 +103,42 @@ const Container: React.ComponentType<{ selected: boolean }> = styled.div`
   }
 `
 Container.displayName = "FileLine:Container"
+
+export const FileContextMenu: any = connector(
+  state => ({
+    root: state.repository.currentProjectRoot
+  }),
+  actions => ({
+    addToStage: actions.editor.addToStage,
+    deleteFile: actions.editor.deleteFile,
+    startRenaming: actions.repository.startRenaming
+  })
+)(function FileContextMenuImpl(props) {
+  return (
+    <ContextMenu id="file">
+      <Item
+        onClick={({ dataFromProvider }: any) => {
+          props.startRenaming({ pathname: dataFromProvider.filepath })
+        }}
+      >
+        Rename
+      </Item>
+      <Item
+        onClick={({ dataFromProvider }: any) => {
+          props.deleteFile({ filename: dataFromProvider.filepath })
+        }}
+      >
+        Delete
+      </Item>
+      <Separator />
+      <Item
+        onClick={({ dataFromProvider }: any) => {
+          const relpath = path.relative(props.root, dataFromProvider.filepath)
+          props.addToStage({ projectRoot: props.root, relpath })
+        }}
+      >
+        Add to stage
+      </Item>
+    </ContextMenu>
+  )
+})

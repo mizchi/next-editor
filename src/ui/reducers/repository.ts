@@ -11,7 +11,7 @@ import { RepositoryState } from "./repository"
 export type RepositoryState = {
   fileCreatingDir: string | null
   dirCreatingDir: string | null
-  renamingFilepath: string | null
+  renamingPathname: string | null
   currentProjectRoot: string
   touchCounter: number
 }
@@ -24,7 +24,7 @@ const { createAction } = buildActionCreator({
 const initialState: RepositoryState = {
   fileCreatingDir: null,
   dirCreatingDir: null,
-  renamingFilepath: null,
+  renamingPathname: null,
   currentProjectRoot: "/playground",
   touchCounter: 0
 }
@@ -54,6 +54,12 @@ export const cancelDirCreating: ActionCreator<{}> = createAction(
 export const endDirCreating: ActionCreator<{ dirpath: string }> = createAction(
   "end-dir-creating"
 )
+
+export const startRenaming: ActionCreator<{ pathname: string }> = createAction(
+  "start-renaming"
+)
+
+export const endRenaming: ActionCreator<{}> = createAction("end-renaming")
 
 export const changed = createAction("changed")
 
@@ -94,5 +100,17 @@ export const reducer: Reducer<RepositoryState> = createReducer(initialState)
     return {
       ...state,
       dirCreatingDir: null
+    }
+  })
+  .case(startRenaming, (state, payload) => {
+    return {
+      ...state,
+      renamingPathname: payload.pathname
+    }
+  })
+  .case(endRenaming, state => {
+    return {
+      ...state,
+      renamingPathname: null
     }
   })

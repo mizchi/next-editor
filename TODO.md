@@ -5,8 +5,8 @@
 Next goal: rewrite file browser with drag and drop
 
 - [x] Drag and Drop
-- [ ] Inline rename
-- [ ] Stop react-contextify
+- [x] Inline rename
+- [x] Stop react-contextify => Blueprint's ContextMenu is not useful
 - [ ] PluginLoader
 - [ ] Lazy load
   - [ ] prettier
