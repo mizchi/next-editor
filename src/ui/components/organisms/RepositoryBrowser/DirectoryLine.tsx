@@ -62,10 +62,31 @@ export const DirectoryLine: React.ComponentType<OwnProps> = connector(
     return {
       fileMoved: actions.editor.fileMoved,
       startFileCreating: actions.repository.startFileCreating,
+      cancelFileCreating: actions.repository.cancelFileCreating,
+
       startDirCreating: actions.repository.startDirCreating,
+      cancelDirCreating: actions.repository.cancelDirCreating,
+
       deleteDirectory: actions.editor.deleteDirectory
     }
-  }
+  },
+  lifecycle({
+    componentWillUnmount() {
+      // TODO: Cancel dir later
+      // const p: {
+      //   isFileCreating: boolean
+      //   isDirCreating: boolean
+      //   cancelDirCreating: any
+      //   cancelFileCreating: any
+      // } = this.props as any
+      // if (p.isFileCreating) {
+      //   p.cancelFileCreating({})
+      // }
+      // if (p.isDirCreating) {
+      //   p.cancelDirCreating({})
+      // }
+    }
+  })
 )(function DirectoryLineImpl(props) {
   return <DirectoryLineContent {...props} />
 })

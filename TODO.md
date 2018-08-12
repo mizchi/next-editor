@@ -2,20 +2,15 @@
 
 ## Current
 
-Next goal: rewrite file browser with drag and drop
-
-- [x] Drag and Drop
-- [x] Inline rename
-- [x] Stop react-contextify => Blueprint's ContextMenu is not useful
+- [ ] Stop creating on unmount node
+- [ ] Fix input overflow on rename file
 - [ ] PluginLoader
 - [ ] Lazy load
   - [ ] prettier
   - [ ] monaco-editor
-
-Git
-
 - [ ] Show toast after git.push
 - [ ] Reload git status
+- [ ] Better diff
 
 ---
 
@@ -35,6 +30,12 @@ Git
 
 ---
 
+## v0.20.0
+
+- [x] Drag and Drop
+- [x] Inline rename
+- [x] Stop react-contextify => Blueprint's ContextMenu is not useful
+
 ## v0.19.0
 
 - [x] Fix Overflow
@@ -46,7 +47,7 @@ Git
 - [x] Refactor: organisms
 - [x] Help tab
 
-## v0.18.x
+## v0.18.0
 
 - [x] Move to nedi.app
 

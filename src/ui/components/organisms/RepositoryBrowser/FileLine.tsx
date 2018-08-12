@@ -10,6 +10,7 @@ import {
   Item,
   Separator
 } from "react-contexify"
+import { lifecycle } from "recompose"
 import styled from "styled-components"
 import { connector } from "../../../actionCreators"
 import { Input } from "../../atoms/Input"
@@ -36,7 +37,19 @@ export const FileLine: React.ComponentType<OwnProps> = connector(
       fileMoved: actions.editor.fileMoved,
       endRenaming: actions.repository.endRenaming
     }
-  }
+  },
+  lifecycle({
+    componentWillUnmount() {
+      const p: {
+        renamingPathname: string
+        filepath: string
+        endRenaming: any
+      } = this.props as any
+      if (p.renamingPathname === p.filepath) {
+        p.endRenaming({})
+      }
+    }
+  })
 )(function FileLineImpl(props) {
   const { depth, filepath, editingFilepath, fileMoved } = props
   const basename = path.basename(filepath)
