@@ -70,7 +70,7 @@ Object {
     "currentProjectRoot": "/playground",
     "dirCreatingDir": null,
     "fileCreatingDir": null,
-    "renamingFilepath": null,
+    "renamingPathname": null,
     "touchCounter": 0,
   },
 }
