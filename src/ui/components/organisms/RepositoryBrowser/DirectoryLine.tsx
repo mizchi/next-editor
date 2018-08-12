@@ -3,7 +3,10 @@ import range from "lodash/range"
 import path from "path"
 import React from "react"
 import { ContextMenuProvider } from "react-contexify"
+import { DragDropContext } from "react-dnd"
+import ReactDnDHTML5Backend from "react-dnd-html5-backend"
 import lifecycle from "recompose/lifecycle"
+import { compose } from "redux"
 import styled from "styled-components"
 import { readFileStats } from "../../../../domain/filesystem/queries/readFileStats"
 import { FileInfo } from "../../../../domain/types"
@@ -14,6 +17,7 @@ import * as RepositoryActions from "../../../reducers/repository"
 import { Pathname } from "../../atoms/Pathname"
 import { AddDir } from "./AddDir"
 import { AddFile } from "./AddFile"
+import { Draggable } from "./Draggable"
 import { FileLine } from "./FileLine"
 
 type OwnProps = {
@@ -32,6 +36,16 @@ type Props = OwnProps & {
   startFileCreating: typeof RepositoryActions.startFileCreating
   startDirCreating: typeof RepositoryActions.startDirCreating
   deleteDirectory: typeof EditorActions.deleteDirectory
+  fileMoved: typeof EditorActions.fileMoved
+}
+
+type DirectroyState = {
+  opened: boolean
+  fileList: FileInfo[] | null
+  loaded: boolean
+  loading: boolean
+  error: null
+  hovered: boolean
 }
 
 export const DirectoryLine: React.ComponentType<OwnProps> = connector(
@@ -46,6 +60,7 @@ export const DirectoryLine: React.ComponentType<OwnProps> = connector(
   },
   actions => {
     return {
+      fileMoved: actions.editor.fileMoved,
       startFileCreating: actions.repository.startFileCreating,
       startDirCreating: actions.repository.startDirCreating,
       deleteDirectory: actions.editor.deleteDirectory
@@ -55,18 +70,9 @@ export const DirectoryLine: React.ComponentType<OwnProps> = connector(
   return <DirectoryLineContent {...props} />
 })
 
-type State = {
-  opened: boolean
-  fileList: FileInfo[] | null
-  loaded: boolean
-  loading: boolean
-  error: null
-  hovered: boolean
-}
-
 const DirectoryLineContent: React.ComponentClass<
   Props
-> = class extends React.Component<Props, State> {
+> = class extends React.Component<Props, DirectroyState> {
   _unmounted: boolean = false
 
   constructor(props: Props) {
@@ -143,7 +149,18 @@ const DirectoryLineContent: React.ComponentClass<
               }
             }}
           >
-            <div>
+            <Draggable
+              pathname={dirpath}
+              type="dir"
+              onDrop={result => {
+                if (result) {
+                  this.props.fileMoved(result)
+                }
+              }}
+              onDropByOther={_result => {
+                this.setState({ opened: true })
+              }}
+            >
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div style={{ flex: 1 }}>
                   <Prefix depth={depth} />
@@ -187,7 +204,7 @@ const DirectoryLineContent: React.ComponentClass<
                   />
                 )}
               </div>
-            </div>
+            </Draggable>
             {opened && (
               <>
                 {this.props.isFileCreating && (
@@ -268,9 +285,17 @@ function LinkedLines({
   )
 }
 
-export const RootDirectory: React.ComponentType<OwnProps> = lifecycle({
-  // async componentDidMount() {}
-})(DirectoryLine)
+export const RootDirectory: React.ComponentType<OwnProps> = compose(
+  lifecycle({
+    async componentDidMount() {
+      //
+    }
+  }),
+  DragDropContext(ReactDnDHTML5Backend)
+)(DirectoryLine) as any
+
+// Styled
+
 const Container = styled.div`
   cursor: pointer;
   user-select: none;

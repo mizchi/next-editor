@@ -4,9 +4,9 @@
 
 Next goal: rewrite file browser with drag and drop
 
-- [ ] Stop react-contextify
-- [ ] Drag and Drop
+- [x] Drag and Drop
 - [ ] Inline rename
+- [ ] Stop react-contextify
 - [ ] PluginLoader
 - [ ] Lazy load
   - [ ] prettier
@@ -194,3 +194,4 @@ Proof of Concept
 - [ ] Create dump
 - [x] Recovery mode
 - [ ] Recovery status
+- [ ] Fix dragging style

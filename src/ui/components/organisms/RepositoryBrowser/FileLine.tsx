@@ -6,6 +6,7 @@ import { ContextMenuProvider } from "react-contexify"
 import styled from "styled-components"
 import { connector } from "../../../actionCreators"
 import { Pathname } from "../../atoms/Pathname"
+import { Draggable } from "./Draggable"
 
 type OwnProps = {
   depth: number
@@ -16,6 +17,7 @@ type OwnProps = {
 type Props = OwnProps & {
   loadFile: any
   editingFilepath: string
+  fileMoved: any
 }
 
 export const FileLine: React.ComponentType<OwnProps> = connector<OwnProps>(
@@ -27,24 +29,38 @@ export const FileLine: React.ComponentType<OwnProps> = connector<OwnProps>(
   },
   actions => {
     return {
-      loadFile: actions.editor.loadFile
+      loadFile: actions.editor.loadFile,
+      fileMoved: actions.editor.fileMoved
     }
   }
 )(function FileLineImpl(props: Props) {
-  const { depth, filepath, editingFilepath } = props
+  const { depth, filepath, editingFilepath, fileMoved } = props
   const basename = path.basename(filepath)
   return (
     <ContextMenuProvider id="file" data={{ filepath }}>
-      <Container selected={editingFilepath === filepath}>
-        <div onClick={() => props.loadFile({ filepath })}>
-          {range(depth).map((_, k) => (
-            <span key={k}>&nbsp;&nbsp;</span>
-          ))}
-          <Icon icon="document" />
-          &nbsp;
-          <Pathname ignoreGit={props.ignoreGit}>{basename}</Pathname>
-        </div>
-      </Container>
+      <Draggable
+        pathname={path.dirname(filepath)}
+        type="dir"
+        onDrop={async result => {
+          if (result) {
+            fileMoved(result)
+          }
+        }}
+        onDropByOther={_result => {
+          // Do nothing yet
+        }}
+      >
+        <Container selected={editingFilepath === filepath}>
+          <div onClick={() => props.loadFile({ filepath })}>
+            {range(depth).map((_, k) => (
+              <span key={k}>&nbsp;&nbsp;</span>
+            ))}
+            <Icon icon="document" />
+            &nbsp;
+            <Pathname ignoreGit={props.ignoreGit}>{basename}</Pathname>
+          </div>
+        </Container>
+      </Draggable>
     </ContextMenuProvider>
   )
 }) as any
