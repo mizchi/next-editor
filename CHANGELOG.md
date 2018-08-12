@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.20.0"></a>
+# [0.20.0](https://github.com/mizchi/next-editor/compare/v0.19.1...v0.20.0) (2018-08-12)
+
+
+### Bug Fixes
+
+* cancel rename on unmount ([413dd3b](https://github.com/mizchi/next-editor/commit/413dd3b))
+
+
+### Features
+
+* Drag and drop and rename ([d999240](https://github.com/mizchi/next-editor/commit/d999240))
+* Implement dnd on file browser ([97e5339](https://github.com/mizchi/next-editor/commit/97e5339))
+
+
+
 <a name="0.19.1"></a>
 ## [0.19.1](https://github.com/mizchi/next-editor/compare/v0.19.0...v0.19.1) (2018-08-12)
 
