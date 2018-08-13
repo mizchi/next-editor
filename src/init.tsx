@@ -43,15 +43,6 @@ if (process.env.NODE_ENV !== "production") {
   g.fs = fs
 }
 
-// Setup react-modal
-import Modal from "react-modal"
-if (typeof window === "object") {
-  const modal = document.createElement("div")
-  modal.setAttribute("id", "react-modal")
-  document.body.appendChild(modal)
-  Modal.setAppElement("#react-modal")
-}
-
 // Runner
 import React from "react"
 import ReactDOM from "react-dom"
