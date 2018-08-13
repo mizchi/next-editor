@@ -48,6 +48,14 @@ if (USE_CUSTOM_SRC) {
   console.info("You are using custom entry:", SRC)
 }
 
+const plugins = [
+  new HtmlPlugin({
+    inject: false,
+    template: path.join(__dirname, "src/index.html.ejs")
+  }),
+  new CopyPlugin(COPY_RULES)
+]
+
 module.exports = {
   mode: MODE,
   // devtool: DEV ? "inline-source-map" : "source-map",
@@ -83,7 +91,7 @@ module.exports = {
         use: [{ loader: "style-loader/url" }, { loader: "file-loader" }]
       },
       {
-        test: /\.md$/,
+        test: /\.mdx?$/,
         use: ["babel-loader", "@mdx-js/loader"]
       }
     ]
@@ -99,15 +107,9 @@ module.exports = {
     ]
   },
   plugins: DEV
-    ? [
-        new HtmlPlugin({
-          inject: false,
-          template: path.join(__dirname, "src/index.html")
-        }),
-        new CopyPlugin(COPY_RULES)
-      ]
+    ? plugins
     : [
-        new CopyPlugin(COPY_RULES),
+        ...plugins,
         new WorkboxPlugin.GenerateSW({
           swDest: "sw.js",
           clientsClaim: true,

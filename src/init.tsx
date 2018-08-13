@@ -1,6 +1,31 @@
 // normalize
 import "normalize.css/normalize.css"
 
+// global css
+import { injectGlobal } from "styled-components"
+
+// tslint:disable-next-line:no-unused-expression
+injectGlobal`
+select {
+  font-family: monospace;
+}
+
+textarea:focus,
+input:focus select:focus {
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 50, .5);
+  border-radius: 0px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .3);
+}
+`
+
 // blueprint
 import "@blueprintjs/core/lib/css/blueprint.css"
 import "@blueprintjs/icons/lib/css/blueprint-icons.css"
