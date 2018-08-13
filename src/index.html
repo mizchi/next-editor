@@ -76,7 +76,9 @@
 
 <body data-testid="body">
   <div class=root>
-    <div style="width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center;">
+    <!-- Dummy header to reload -->
+    <div class="header-skeleton" style="background: #394b59; height: 32px; box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.2), 0 0 0 rgba(16, 22, 26, 0), 0 1px 1px rgba(16, 22, 26, 0.4);"></div>
+    <div class="content-skeleton" style="width: 100vw; height: calc(100vh - 32px); display: flex; justify-content: center; align-items: center;">
       Next Editor
     </div>
   </div>
@@ -87,6 +89,8 @@
   <script type=module>
 
 const el = document.querySelector('.root')
+const contentEl = document.querySelector('.content-skeleton')
+
 function setupBrowserFS() {
   return new Promise(resolve => {
     BrowserFS.configure({ fs: "IndexedDB", options: {} }, err => {
@@ -176,8 +180,8 @@ async function setupFonts() {
 }
 
 const showLoadingMessage = (mes, loading = true) => {
-  el.innerHTML =`
-    <div style="width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; font-size: 1.5em;">
+  contentEl.innerHTML =`
+    <div style="width: 100vw; height: calc(100vh - 32px); display: flex; justify-content: center; align-items: center; font-size: 1.5em;">
       <span>${mes}</span>
       ${loading ? '<div id="__loader"></div>' : ''}
     </div>
@@ -201,7 +205,7 @@ function loadState() {
       showLoadingMessage('Checking service-worker...')
       await setupServiceWorker()
     }
-    el.innerHTML = ''
+    contentEl.innerHTML = ''
 
     // Run
     await setupBrowserFS()
