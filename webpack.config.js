@@ -2,6 +2,7 @@ const path = require("path")
 const CopyPlugin = require("copy-webpack-plugin")
 const WorkboxPlugin = require("workbox-webpack-plugin")
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
+const HtmlPlugin = require("html-webpack-plugin")
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 
 // Constants
@@ -18,10 +19,6 @@ const SRC_INCLUDES = [
 ]
 
 const COPY_RULES = [
-  {
-    from: path.join(__dirname, "src/index.html"),
-    to: path.join(__dirname, "dist/index.html")
-  },
   {
     from: path.join(__dirname, "src/manifest.json"),
     to: path.join(__dirname, "/dist/manifest.json")
@@ -102,7 +99,13 @@ module.exports = {
     ]
   },
   plugins: DEV
-    ? [new CopyPlugin(COPY_RULES)]
+    ? [
+        new HtmlPlugin({
+          inject: false,
+          template: path.join(__dirname, "src/index.html")
+        }),
+        new CopyPlugin(COPY_RULES)
+      ]
     : [
         new CopyPlugin(COPY_RULES),
         new WorkboxPlugin.GenerateSW({
