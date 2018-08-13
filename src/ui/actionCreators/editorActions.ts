@@ -63,6 +63,16 @@ export const deleteDirectory = createThunkAction(
   }
 )
 
+export const fileMoved = createThunkAction(
+  "file-moved",
+  async (
+    { fromPath, destPath }: { fromPath: string; destPath: string },
+    dispatch
+  ) => {
+    dispatch(startUpdate({ changedPath: [fromPath, destPath] }))
+  }
+)
+
 export const addToStage = createThunkAction(
   "add-to-stage",
   async (
@@ -138,7 +148,7 @@ export const startUpdate = createThunkAction(
     getState: () => RootState
   ) => {
     dispatch(RepositoryActions.changed({}))
-    if (isDir === false && changedPath) {
+    if (!isDir && changedPath) {
       const state = getState()
       const projectRoot = state.repository.currentProjectRoot
       const relpaths = (changedPath instanceof Array

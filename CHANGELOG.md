@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.19.1"></a>
+## [0.19.1](https://github.com/mizchi/next-editor/compare/v0.19.0...v0.19.1) (2018-08-12)
+
+
+### Bug Fixes
+
+* **deps:** update dependency monaco-editor to v0.14.2 ([13e9b70](https://github.com/mizchi/next-editor/commit/13e9b70))
+* **deps:** update dependency pify to v4 ([021d4db](https://github.com/mizchi/next-editor/commit/021d4db))
+* **deps:** update dependency remark-rehype to v3.0.1 ([bed391c](https://github.com/mizchi/next-editor/commit/bed391c))
+* Unused tooltip ([f924858](https://github.com/mizchi/next-editor/commit/f924858))
+
+
+
 <a name="0.19.0"></a>
 # [0.19.0](https://github.com/mizchi/next-editor/compare/v0.18.6...v0.19.0) (2018-08-11)
 

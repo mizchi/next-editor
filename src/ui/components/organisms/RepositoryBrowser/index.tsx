@@ -4,7 +4,7 @@ import { connector } from "../../../actionCreators"
 import { RepositoryState } from "../../../reducers/repository"
 import { DirectoryContextMenu } from "./DirectoryContextMenu"
 import { RootDirectory } from "./DirectoryLine"
-import { FileContextMenu } from "./FileContextMenu"
+import { FileContextMenu } from "./FileLine"
 
 type Props = RepositoryState
 

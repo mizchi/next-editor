@@ -1,7 +1,7 @@
 {
   "name": "@mizchi/next-editor",
   "author": "mizchi",
-  "version": "0.19.0",
+  "version": "0.19.1",
   "license": "MIT",
   "scripts": {
     "watch": "webpack-serve --no-reload --port 8099",
@@ -38,7 +38,7 @@
     "@types/power-assert": "1.5.0",
     "@types/prop-types": "15.5.5",
     "@types/react": "16.4.9",
-    "@types/react-dnd": "2.0.36",
+    "@types/react-dnd": "^2.0.36",
     "@types/react-dom": "16.0.7",
     "@types/react-modal": "3.2.1",
     "@types/react-redux": "6.0.5",
@@ -104,6 +104,8 @@
     "prop-types": "15.6.2",
     "react": "16.4.2",
     "react-contexify": "3.0.3",
+    "react-dnd": "^5.0.0",
+    "react-dnd-html5-backend": "^5.0.1",
     "react-dom": "16.4.2",
     "react-hotkeys": "1.1.4",
     "react-modal": "3.5.1",
