@@ -47,6 +47,10 @@ export function configureStore() {
     rootReducer as any
   )
   const store = createStore(persistedReducer, enhancer)
+  // expose
+  if (process.env.NODE_ENV !== "production") {
+    ;(global as any).__store = store
+  }
   const persistor = persistStore(store)
   return { store, persistor }
 }

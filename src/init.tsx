@@ -36,9 +36,12 @@ import "react-contexify/dist/ReactContexify.css"
 // export fs, git
 import fs from "fs"
 import * as git from "isomorphic-git"
-const g: any = global
-g.git = git
-g.fs = fs
+
+if (process.env.NODE_ENV !== "production") {
+  const g: any = global
+  g.git = git
+  g.fs = fs
+}
 
 // Setup react-modal
 import Modal from "react-modal"
