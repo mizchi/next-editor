@@ -6219,6 +6219,10 @@ ignore@^4.0.0:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-4.0.2.tgz#0a8dd228947ec78c2d7f736b1642a9f7317c1905"
 
+ignore@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.0.0.tgz#472ae5bde65b41995a7ca43ad5634d3fdcb60eeb"
+
 immer@^1.2.1:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.5.0.tgz#1ed9b1b653643fe9276bbc36377613523ea32a39"
@@ -6762,9 +6766,9 @@ isomorphic-fetch@^2.1.1:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
 
-isomorphic-git@0.28.1:
-  version "0.28.1"
-  resolved "https://registry.yarnpkg.com/isomorphic-git/-/isomorphic-git-0.28.1.tgz#e41ab40509e7600a47dd581e473d5d96a508afc6"
+isomorphic-git@0.28.2:
+  version "0.28.2"
+  resolved "https://registry.yarnpkg.com/isomorphic-git/-/isomorphic-git-0.28.2.tgz#74db4396234afcbdcf5a787df7745f7eed58ea89"
   dependencies:
     async-lock "^1.1.0"
     babel-runtime "^6.26.0"
@@ -6775,7 +6779,7 @@ isomorphic-git@0.28.1:
     git-apply-delta "0.0.7"
     globalyzer "^0.1.0"
     globrex "^0.1.1"
-    ignore "^4.0.0"
+    ignore "^5.0.0"
     locale2 "^2.2.0"
     marky "^1.2.0"
     minimisted "^2.0.0"
