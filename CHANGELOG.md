@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.21.0"></a>
+# [0.21.0](https://github.com/mizchi/next-editor/compare/v0.20.3...v0.21.0) (2018-08-14)
+
+
+### Bug Fixes
+
+* **deps:** update dependency [@blueprintjs](https://github.com/blueprintjs)/core to v3.3.0 ([4a44d93](https://github.com/mizchi/next-editor/commit/4a44d93))
+* **deps:** update dependency isomorphic-git to v0.28.2 ([75fe174](https://github.com/mizchi/next-editor/commit/75fe174))
+
+
+### Features
+
+* Load monaco on js ([e74aafd](https://github.com/mizchi/next-editor/commit/e74aafd))
+* Switch wysiwyg ([c87061e](https://github.com/mizchi/next-editor/commit/c87061e))
+
+
+
 <a name="0.20.3"></a>
 ## [0.20.3](https://github.com/mizchi/next-editor/compare/v0.20.2...v0.20.3) (2018-08-13)
 
