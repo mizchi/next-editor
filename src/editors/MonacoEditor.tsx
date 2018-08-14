@@ -12,7 +12,7 @@ export default class MonacoEditor extends React.Component<any, any> {
     width: "100%",
     height: "100%",
     value: null,
-    defaultValue: "",
+    initialValue: "",
     language: "javascript",
     theme: null,
     options: {},
@@ -28,6 +28,7 @@ export default class MonacoEditor extends React.Component<any, any> {
   __current_value: any
   // tslint:disable-next-line:variable-name
   __prevent_trigger_change_event: any
+  _onResize: any = null
 
   constructor(props: any) {
     super(props)
@@ -75,6 +76,7 @@ export default class MonacoEditor extends React.Component<any, any> {
   editorWillMount() {
     const { editorWillMount } = this.props
     editorWillMount(monaco)
+    window.removeEventListener("resize", this._onResize)
   }
 
   editorDidMount(editor: any) {
@@ -90,6 +92,13 @@ export default class MonacoEditor extends React.Component<any, any> {
         this.props.onChange(value, event)
       }
     })
+
+    this._onResize = (ev: any) => {
+      console.log("xxx")
+      editor.layout()
+    }
+    // window
+    window.addEventListener("resize", this._onResize)
   }
 
   initMonaco() {

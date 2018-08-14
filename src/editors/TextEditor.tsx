@@ -6,7 +6,7 @@ type Props = {
   fontScale: number
   fontFamily: string
   spellCheck: boolean
-  value: string
+  initialValue: string
   onChange: (value: string) => void
 }
 
@@ -20,7 +20,7 @@ export class TextEditor extends React.PureComponent<Props> {
           fontFamily={this.props.fontFamily}
           innerRef={this.textareaRef}
           spellCheck={this.props.spellCheck}
-          value={this.props.value}
+          value={this.props.initialValue}
           onChange={(ev: any) => {
             this.props.onChange(ev.target.value)
           }}

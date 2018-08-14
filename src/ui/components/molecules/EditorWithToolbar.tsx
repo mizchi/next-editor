@@ -19,60 +19,69 @@ type Props = {
 
 type State = {
   value: string
-  wysiwyg: boolean
-  editorComponent: React.ComponentType<any>
+  editorComponent: React.ComponentType<any> | null
   editorType: "text" | "wysiwyg" | "monaco"
 }
 
+// Cache loaded editor components
 const cache: { [key: string]: any } = {}
 
 export class EditorWithToolbar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
+    const editorType =
+      path.extname(props.buffer.filepath) === ".js" ? "monaco" : "text"
+
     this.state = {
       value: props.buffer.value,
-      wysiwyg: false,
-      editorComponent: TextEditor,
-      editorType: "text"
+      editorComponent: null,
+      editorType
     }
+  }
+
+  componentDidMount() {
+    this._loadEditorComponent(this.state.editorType)
   }
 
   async componentDidUpdate(_: any, oldState: State) {
     if (this.state.editorType !== oldState.editorType) {
-      switch (this.state.editorType) {
-        case "text": {
-          this.setState({ editorComponent: TextEditor })
-          break
-        }
-        case "wysiwyg": {
-          if (cache.wysiwyg) {
-            this.setState({ editorComponent: cache.wysiwyg })
-            break
-          }
-          console.time("load:wysiwyg")
-          const {
-            WysiwygEditor
-          } = await import(/* webpackChunkName: "wysiwyg" */ "../../../editors/WysiwygEditor")
-          this.setState({ editorComponent: WysiwygEditor })
-          cache.wysiwyg = WysiwygEditor
-          console.timeEnd("load:wysiwyg")
-          break
-        }
-        case "monaco": {
-          if (cache.monaco) {
-            this.setState({ editorComponent: cache.monaco })
-            break
-          }
-          console.time("load:monaco")
-          const {
-            JavaScriptEditor
-          } = await import(/* webpackChunkName: "monaco" */ "../../../editors/JavaScriptEditor")
-          this.setState({ editorComponent: JavaScriptEditor })
-          cache.monaco = JavaScriptEditor
-          console.timeEnd("load:monaco")
+      this._loadEditorComponent(this.state.editorType)
+    }
+  }
 
+  async _loadEditorComponent(editorType: "monaco" | "text" | "wysiwyg") {
+    switch (editorType) {
+      case "text": {
+        this.setState({ editorComponent: TextEditor })
+        break
+      }
+      case "wysiwyg": {
+        if (cache.wysiwyg) {
+          this.setState({ editorComponent: cache.wysiwyg })
           break
         }
+        console.time("load:wysiwyg")
+        const {
+          WysiwygEditor
+        } = await import(/* webpackChunkName: "wysiwyg" */ "../../../editors/WysiwygEditor")
+        this.setState({ editorComponent: WysiwygEditor })
+        cache.wysiwyg = WysiwygEditor
+        console.timeEnd("load:wysiwyg")
+        break
+      }
+      case "monaco": {
+        if (cache.monaco) {
+          this.setState({ editorComponent: cache.monaco })
+          break
+        }
+        console.time("load:monaco")
+        const {
+          JavaScriptEditor
+        } = await import(/* webpackChunkName: "monaco" */ "../../../editors/JavaScriptEditor")
+        this.setState({ editorComponent: JavaScriptEditor })
+        cache.monaco = JavaScriptEditor
+        console.timeEnd("load:monaco")
+        break
       }
     }
   }
@@ -85,18 +94,15 @@ export class EditorWithToolbar extends React.Component<Props, State> {
     const canFormat = path.extname(filepath) === ".md"
     const relpath = filepath.replace(projectRoot + "/", "")
     const displayFilepath = relpath
-    const basename = path.basename(relpath)
     const Editor = this.state.editorComponent
     return (
       <GridRow rows={["30px", "1fr"]} areas={["toolbar", "editor"]}>
         <GridArea name="toolbar">
           <EditorToolbar
+            editorType={this.state.editorType}
             displayFilepath={displayFilepath}
             canUseWysiwyg={canUseWysiwyg}
             canFormat={canFormat}
-            onToggleWysiwyg={() => {
-              this.setState({ wysiwyg: !this.state.wysiwyg })
-            }}
             changed={buffer.changed}
             autosave={buffer.autosave}
             onChangeEditor={(editorType: "text" | "wysiwyg" | "monaco") => {
@@ -117,18 +123,22 @@ export class EditorWithToolbar extends React.Component<Props, State> {
           />
         </GridArea>
         <GridArea name="editor" overflowX="hidden">
-          <Editor
-            key={this.state.editorType}
-            fontFamily={this.props.fontFamily}
-            fontScale={this.props.fontScale}
-            spellCheck={false}
-            value={value}
-            onChange={(newValue: string) => {
-              this.setState({ value: newValue }, () => {
-                onChange && onChange(this.state.value)
-              })
-            }}
-          />
+          {Editor ? (
+            <Editor
+              // key={this.state.editorType}
+              fontFamily={this.props.fontFamily}
+              fontScale={this.props.fontScale}
+              spellCheck={false}
+              initialValue={value}
+              onChange={(newValue: string) => {
+                this.setState({ value: newValue }, () => {
+                  onChange && onChange(this.state.value)
+                })
+              }}
+            />
+          ) : (
+            <>Loading...</>
+          )}
         </GridArea>
       </GridRow>
     )
@@ -136,6 +146,7 @@ export class EditorWithToolbar extends React.Component<Props, State> {
 }
 
 export function EditorToolbar({
+  editorType,
   displayFilepath,
   changed,
   autosave,
@@ -143,11 +154,11 @@ export function EditorToolbar({
   onClickClose,
   onClickFormat,
   onChangeAutosave,
-  onToggleWysiwyg,
   canUseWysiwyg,
   canFormat,
   onChangeEditor
 }: {
+  editorType: string
   displayFilepath: string
   changed: boolean
   autosave: boolean
@@ -155,11 +166,14 @@ export function EditorToolbar({
   onClickClose: any
   canUseWysiwyg: boolean
   onChangeAutosave: any
-  onToggleWysiwyg: any
   onClickFormat: any
   onChangeEditor: (editorType: "text" | "wysiwyg" | "monaco") => void
   canFormat: boolean
 }) {
+  const editorTypes = ["text", "monaco"]
+  if (canUseWysiwyg) {
+    editorTypes.push("wysiwyg")
+  }
   return (
     <GridColumn
       columns={["1fr", "240px", "26px"]}
@@ -189,12 +203,13 @@ export function EditorToolbar({
           />
           <select
             className="bp3-select"
+            value={editorType}
             onChange={ev => onChangeEditor(ev.target.value as any)}
           >
-            {["text", "wysiwyg", "monaco"].map(editorType => {
+            {editorTypes.map(type => {
               return (
-                <option value={editorType} key={editorType}>
-                  {editorType}
+                <option value={type} key={type}>
+                  {type}
                 </option>
               )
             })}
@@ -205,7 +220,6 @@ export function EditorToolbar({
             Save(⌘S)
           </button>
         )}
-        {canUseWysiwyg && <button onClick={onToggleWysiwyg}>W</button>}
         {canFormat && <button onClick={onClickFormat}>F</button>}
       </GridArea>
       <GridArea name="close">
