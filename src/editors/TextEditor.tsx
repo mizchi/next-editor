@@ -1,14 +1,9 @@
 import { darken } from "polished"
 import React from "react"
 import styled from "styled-components"
+import { EditorInterface } from "./EditorInterface"
 
-type Props = {
-  fontScale: number
-  fontFamily: string
-  spellCheck: boolean
-  initialValue: string
-  onChange: (value: string) => void
-}
+type Props = EditorInterface
 
 export class TextEditor extends React.PureComponent<Props> {
   textareaRef: React.RefObject<any> = React.createRef()
