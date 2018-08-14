@@ -40,7 +40,7 @@ export class JavaScriptEditor extends React.Component<Props, State> {
           this.setState({ value: newValue })
           onChange(this.state.value)
         }}
-        editorDidMount={(editor: any, monaco: any) => {
+        editorDidMount={(editor: any, _monaco: any) => {
           editor.focus()
         }}
       />
