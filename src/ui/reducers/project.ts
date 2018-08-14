@@ -4,7 +4,7 @@ import {
   createReducer,
   Reducer
 } from "hard-reducer"
-import { readDirectories } from "../../domain/filesystem"
+import { findRepositoriesWithGit } from "../../domain/filesystem/queries/findRepositoriesInFS"
 import { cloneRepository, createProject } from "../../domain/git"
 import { projectChanged } from "./../actionCreators/globalActions"
 
@@ -23,7 +23,7 @@ export const updateProjectList: ActionCreator<{
 export const loadProjectList = createThunkAction(
   "create-new-project",
   async (_, dispatch) => {
-    dispatch(updateProjectList(await updateProjects()))
+    dispatch(updateProjectList(await fetchProjectList()))
   }
 )
 
@@ -31,7 +31,7 @@ export const createNewProject = createThunkAction(
   "create-new-project",
   async (input: { newProjectRoot: string }, dispatch) => {
     await createProject(input.newProjectRoot)
-    dispatch(updateProjectList(await updateProjects()))
+    dispatch(updateProjectList(await fetchProjectList()))
   }
 )
 
@@ -66,8 +66,8 @@ export const reducer: Reducer<ProjectState> = createReducer(initialState)
     }
   })
 
-async function updateProjects(): Promise<{ projects: Project[] }> {
-  const projectNames = await readDirectories("/")
+async function fetchProjectList(): Promise<{ projects: Project[] }> {
+  const projectNames = await findRepositoriesWithGit("/")
   return {
     projects: projectNames.map(p => {
       return {
