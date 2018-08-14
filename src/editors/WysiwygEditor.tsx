@@ -1,11 +1,11 @@
 import React from "react"
 import RichTextEditor from "react-rte"
+import { EditorInterface } from "./EditorInterface"
+
+type Props = EditorInterface
 
 export class WysiwygEditor extends React.Component<
-  {
-    onChange: (value: string) => void
-    initialValue?: string | null
-  },
+  Props,
   {
     value: any
   }

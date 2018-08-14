@@ -8,6 +8,7 @@ import { EditorWithToolbar } from "../molecules/EditorWithToolbar"
 export const Editor = connector(
   state => {
     return {
+      theme: state.config.theme,
       projectRoot: state.repository.currentProjectRoot,
       buffer: state.buffer,
       fontScale: state.config.editorFontScale,
@@ -24,10 +25,18 @@ export const Editor = connector(
     }
   }
 )(function EditorImpl(props) {
-  const { unloadFile, buffer, projectRoot, fontFamily, fontScale } = props
+  const {
+    unloadFile,
+    buffer,
+    projectRoot,
+    fontFamily,
+    fontScale,
+    theme
+  } = props
   if (buffer.filepath) {
     return (
       <EditorWithToolbar
+        theme={theme}
         projectRoot={projectRoot}
         fontScale={fontScale}
         fontFamily={fontFamily}

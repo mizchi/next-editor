@@ -2,14 +2,13 @@
 
 ## Current
 
+- [ ] Fix monaco editor size on reload
 - [ ] Stop creating on unmount node
 - [ ] Fix input overflow on rename file
 - [ ] PluginLoader
-- [ ] Lazy load
-  - [ ] prettier
-  - [ ] monaco-editor
+- [ ] prettier lazy loader
 - [ ] Show toast after git.push
-- [ ] Reload git status
+- [ ] Reload git status correctly
 - [ ] Better diff
 
 ---
@@ -29,6 +28,11 @@
   - Edit React Component
 
 ---
+
+## v0.21.0
+
+- [x] Lazy load
+- [x] monaco-editor
 
 ## v0.20.0
 

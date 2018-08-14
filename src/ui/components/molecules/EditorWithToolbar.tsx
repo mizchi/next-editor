@@ -1,11 +1,13 @@
 import { ButtonGroup, Switch } from "@blueprintjs/core"
 import path from "path"
 import React from "react"
+import { EditorInterface } from "../../../editors/EditorInterface"
 import { TextEditor } from "../../../editors/TextEditor"
 import { BufferState } from "../../reducers/buffer"
 import { GridArea, GridColumn, GridRow } from "../utils/Grid"
 
 type Props = {
+  theme: string
   projectRoot: string
   buffer: BufferState
   fontScale: number
@@ -19,7 +21,7 @@ type Props = {
 
 type State = {
   value: string
-  editorComponent: React.ComponentType<any> | null
+  editorComponent: React.ComponentType<EditorInterface> | null
   editorType: "text" | "wysiwyg" | "monaco"
 }
 
@@ -125,6 +127,7 @@ export class EditorWithToolbar extends React.Component<Props, State> {
         <GridArea name="editor" overflowX="hidden">
           {Editor ? (
             <Editor
+              theme={this.props.theme}
               // key={this.state.editorType}
               fontFamily={this.props.fontFamily}
               fontScale={this.props.fontScale}
