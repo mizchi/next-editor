@@ -3,10 +3,33 @@ import * as monaco from "monaco-editor"
 import PropTypes from "prop-types"
 import React from "react"
 
-function noop() {}
+function noop() {
+  return
+}
 
-export default class MonacoEditor extends React.Component {
-  constructor(props) {
+export default class MonacoEditor extends React.Component<any, any> {
+  static defaultProps = {
+    width: "100%",
+    height: "100%",
+    value: null,
+    defaultValue: "",
+    language: "javascript",
+    theme: null,
+    options: {},
+    editorDidMount: noop,
+    editorWillMount: noop,
+    onChange: noop
+  }
+
+  editor: any
+
+  containerElement: any
+  // tslint:disable-next-line:variable-name
+  __current_value: any
+  // tslint:disable-next-line:variable-name
+  __prevent_trigger_change_event: any
+
+  constructor(props: any) {
     super(props)
     this.containerElement = undefined
     this.__current_value = props.value
@@ -16,7 +39,7 @@ export default class MonacoEditor extends React.Component {
     this.initMonaco()
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: any) {
     if (this.props.value !== this.__current_value) {
       // Always refer to the latest value
       this.__current_value = this.props.value
@@ -54,9 +77,9 @@ export default class MonacoEditor extends React.Component {
     editorWillMount(monaco)
   }
 
-  editorDidMount(editor) {
+  editorDidMount(editor: any) {
     this.props.editorDidMount(editor, monaco)
-    editor.onDidChangeModelContent(event => {
+    editor.onDidChangeModelContent((event: any) => {
       const value = editor.getValue()
 
       // Always refer to the latest value
@@ -95,7 +118,7 @@ export default class MonacoEditor extends React.Component {
     }
   }
 
-  assignRef = component => {
+  assignRef = (component: any) => {
     this.containerElement = component
   }
 
@@ -120,28 +143,15 @@ export default class MonacoEditor extends React.Component {
   }
 }
 
-MonacoEditor.propTypes = {
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  value: PropTypes.string,
-  defaultValue: PropTypes.string,
-  language: PropTypes.string,
-  theme: PropTypes.string,
-  options: PropTypes.object,
-  editorDidMount: PropTypes.func,
-  editorWillMount: PropTypes.func,
-  onChange: PropTypes.func
-}
-
-MonacoEditor.defaultProps = {
-  width: "100%",
-  height: "100%",
-  value: null,
-  defaultValue: "",
-  language: "javascript",
-  theme: null,
-  options: {},
-  editorDidMount: noop,
-  editorWillMount: noop,
-  onChange: noop
-}
+// MonacoEditor.propTypes = {
+//   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+//   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+//   value: PropTypes.string,
+//   defaultValue: PropTypes.string,
+//   language: PropTypes.string,
+//   theme: PropTypes.string,
+//   options: PropTypes.object,
+//   editorDidMount: PropTypes.func,
+//   editorWillMount: PropTypes.func,
+//   onChange: PropTypes.func
+// }

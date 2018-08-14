@@ -3,6 +3,7 @@ const CopyPlugin = require("copy-webpack-plugin")
 const WorkboxPlugin = require("workbox-webpack-plugin")
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 const HtmlPlugin = require("html-webpack-plugin")
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin")
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 
 // Constants
@@ -49,6 +50,7 @@ if (USE_CUSTOM_SRC) {
 }
 
 const plugins = [
+  new MonacoWebpackPlugin(),
   new HtmlPlugin({
     inject: false,
     template: path.join(__dirname, "src/index.html.ejs")
@@ -59,7 +61,12 @@ const plugins = [
 module.exports = {
   mode: MODE,
   // devtool: DEV ? "inline-source-map" : "source-map",
-  entry: SRC,
+  entry: { main: SRC },
+  output: {
+    filename: "[name].js",
+    chunkFilename: "[name].bundle.js",
+    path: path.resolve(__dirname, "dist")
+  },
   resolve: {
     alias: {
       fs: path.join(__dirname, "src/lib/fs.ts")
