@@ -99,6 +99,9 @@ class ProjectManagerImpl extends React.Component<{
               })}
             </select>
           </div>
+        </div>
+        <div style={{ height: "5px" }} />
+        <ButtonGroup>
           <Button
             disabled={projectRoot === "/playground"}
             icon="trash"
@@ -109,9 +112,7 @@ class ProjectManagerImpl extends React.Component<{
               }
             }}
           />
-        </div>
-        <div style={{ height: "5px" }} />
-        <ButtonGroup>
+
           <Button
             text="Add"
             icon="add"

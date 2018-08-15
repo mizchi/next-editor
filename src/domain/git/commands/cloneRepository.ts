@@ -21,6 +21,7 @@ export async function cloneRepository(
   if (options.onMessage) {
     emitter.on("message", options.onMessage)
   }
+
   // not async for test
   const clonePromise = git.clone({
     fs,

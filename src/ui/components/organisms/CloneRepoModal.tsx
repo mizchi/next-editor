@@ -1,5 +1,7 @@
 import { Button, Classes, Dialog, NumericInput } from "@blueprintjs/core"
+import fs from "fs"
 import path from "path"
+import pify from "pify"
 import React from "react"
 import { cloneRepository } from "../../../domain/git"
 import { connector } from "../../actionCreators"
@@ -121,8 +123,16 @@ class ModalContent extends React.Component<
             // Rewrite with proxy path
             const repoPath = this.state.value.replace("https://github.com/", "")
             const clonePath = githubProxy + repoPath
-            const repoName = repoPath.split("/")[1].replace(".git", "")
-            const newProjectRoot = path.join("/", repoName)
+            const [user, repo] = repoPath.split("/")
+            const repoWithoutGit = repo.replace(".git", "")
+
+            try {
+              pify(fs.mkdir)(path.join("/", user))
+            } finally {
+              // Exists
+            }
+
+            const newProjectRoot = path.join("/", user, repoWithoutGit)
 
             this.setState({ onCloning: true })
 
