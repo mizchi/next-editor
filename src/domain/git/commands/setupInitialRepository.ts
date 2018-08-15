@@ -1,6 +1,7 @@
 import fs from "fs"
 import * as git from "isomorphic-git"
 import path from "path"
+import pify from "pify"
 import { mkdir } from "../../filesystem/commands/mkdir"
 import { writeFile } from "../../filesystem/commands/writeFile"
 import { existsPath } from "../../filesystem/queries/existsPath"
@@ -33,6 +34,12 @@ export async function setupInitialRepository(projectRoot: string) {
     await writeFile(path.join(projectRoot, ".gitignore"), GIT_IGNORE)
     await writeFile(path.join(projectRoot, "scratch.md"), SCRATCH)
     console.info("Project: creating done")
+  }
+
+  try {
+    await pify(fs.mkdir)("/repo")
+  } catch (e) {
+    // repo exists
   }
 
   // ensure git

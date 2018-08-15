@@ -191,7 +191,7 @@ export async function pushCurrentBranchToOrigin(
       } catch (e) {
         toast({
           intent: Intent.DANGER,
-          message: "Push success"
+          message: `Push failed: ${e.message}`
         })
       }
     } else {

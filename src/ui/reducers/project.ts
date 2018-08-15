@@ -72,6 +72,7 @@ async function fetchProjectList(): Promise<{ projects: Project[] }> {
     projects: projectNames.map(p => {
       return {
         projectRoot: p
+        // .replace(/^(\/repo)/, "")
       }
     })
   }
