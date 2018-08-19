@@ -51,7 +51,7 @@
     "coveralls": "3.0.2",
     "css-loader": "1.0.0",
     "docz": "0.10.3",
-    "enzyme": "3.4.3",
+    "enzyme": "3.4.4",
     "enzyme-adapter-react-16": "1.2.0",
     "enzyme-to-json": "3.3.4",
     "file-loader": "1.1.11",
