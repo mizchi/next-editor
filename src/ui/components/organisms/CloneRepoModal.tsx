@@ -1,4 +1,10 @@
-import { Button, Classes, Dialog, NumericInput } from "@blueprintjs/core"
+import {
+  Button,
+  Classes,
+  Dialog,
+  NumericInput,
+  Switch
+} from "@blueprintjs/core"
 import fs from "fs"
 import path from "path"
 import pify from "pify"
@@ -70,13 +76,17 @@ class ModalContent extends React.Component<
     cloningProgress: string
     cloningMessage: string
     onCloning: boolean
+    singleBranch: boolean
+    depth: number | undefined
   }
 > {
   state = {
     value: "",
     cloningMessage: "",
     cloningProgress: "",
-    onCloning: false
+    onCloning: false,
+    singleBranch: true,
+    depth: undefined
   }
   render() {
     const { githubProxy, onCloneEnd } = this.props
@@ -102,19 +112,25 @@ class ModalContent extends React.Component<
             <input type="checkbox" checked={true} disabled={true} />
           </label>
           <br />
-          <label>
-            Clone Depth:
-            <NumericInput value={1} disabled={true} />
-          </label>
 
-          <p>
-            <span style={{ color: "red" }}>TODO: Unstable feature.</span>
-            <br />
-            NextEditor set a limit to&nbsp;
-            <code style={{ background: "#eee", color: "#000", padding: 3 }}>
-              git clone :url --depth 1 --single-branch master
-            </code>
-          </p>
+          <label>
+            <Switch
+              label="Set depth: 1"
+              onChange={ev => {
+                const { checked } = ev.target as any
+                if (checked) {
+                  this.setState({ depth: 1 })
+                } else {
+                  this.setState({ depth: undefined })
+                }
+              }}
+            />
+            {/* {typeof this.state.depth === "number" && (
+              <NumericInput value={this.state.depth} onChange={() => {
+                ev.
+              }} disabled={true} />
+            )} */}
+          </label>
         </div>
 
         <Button
@@ -127,8 +143,9 @@ class ModalContent extends React.Component<
             const repoWithoutGit = repo.replace(".git", "")
 
             try {
-              pify(fs.mkdir)(path.join("/", user))
-            } finally {
+              await pify(fs.mkdir)(path.join("/", user))
+            } catch (e) {
+              console.log(path.join("/", user), "exists")
               // Exists
             }
 
@@ -139,7 +156,7 @@ class ModalContent extends React.Component<
             // TODO: It's a smart UI to show progress easily
             await cloneRepository(newProjectRoot, clonePath, {
               singleBranch: true,
-              depth: 1,
+              depth: this.state.depth,
               onProgress: pe => {
                 console.log("[clone/progress]", pe)
               },
