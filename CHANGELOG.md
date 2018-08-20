@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.22.2"></a>
+## [0.22.2](https://github.com/mizchi/next-editor/compare/v0.22.0...v0.22.2) (2018-08-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency isomorphic-git to v0.28.3 ([7f574c2](https://github.com/mizchi/next-editor/commit/7f574c2))
+* **deps:** update dependency isomorphic-git to v0.30.0 ([ed85e01](https://github.com/mizchi/next-editor/commit/ed85e01))
+* **deps:** update dependency monaco-editor to v0.14.3 ([e24a20f](https://github.com/mizchi/next-editor/commit/e24a20f))
+* **deps:** update dependency v8n to v1.2.1 ([830c4bf](https://github.com/mizchi/next-editor/commit/830c4bf))
+
+
+
 <a name="0.22.1"></a>
 ## [0.22.1](https://github.com/mizchi/next-editor/compare/v0.22.0...v0.22.1) (2018-08-15)
 
