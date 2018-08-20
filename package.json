@@ -125,8 +125,5 @@
     "unified": "7.0.0",
     "uuid": "3.3.2",
     "v8n": "1.2.1"
-  },
-  "resolutions": {
-    "uglifyjs-webpack-plugin/uglify-es": "3.3.9"
   }
 }
