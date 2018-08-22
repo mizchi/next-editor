@@ -100,7 +100,7 @@
     "monaco-editor": "0.14.3",
     "normalize.css": "8.0.0",
     "pify": "4.0.0",
-    "polished": "1.9.3",
+    "polished": "2.0.2",
     "prop-types": "15.6.2",
     "react": "16.4.2",
     "react-contexify": "3.0.3",
