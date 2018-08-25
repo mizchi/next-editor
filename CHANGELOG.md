@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.22.8"></a>
+## [0.22.8](https://github.com/mizchi/next-editor/compare/v0.22.7...v0.22.8) (2018-08-25)
+
+
+### Bug Fixes
+
+* deps ([d2e6deb](https://github.com/mizchi/next-editor/commit/d2e6deb))
+* key handler ([c025cef](https://github.com/mizchi/next-editor/commit/c025cef))
+
+
+
 <a name="0.22.7"></a>
 ## [0.22.7](https://github.com/mizchi/next-editor/compare/v0.22.6...v0.22.7) (2018-08-25)
 
