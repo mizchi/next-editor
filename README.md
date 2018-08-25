@@ -1,6 +1,6 @@
 <h1><img src="assets/Logotype-primary.png" width="65%" height="65%" alt="Next Editor" /></h1>
 
-[Become a patreon](https://www.patreon.com/mizchi/overview)
+[Become a patreon](https://www.patreon.com/mizchi/overview) [BACKERS](/BACKERS.md)
 
 [![CircleCI](https://circleci.com/gh/mizchi/next-editor.svg?style=svg)](https://circleci.com/gh/mizchi/next-editor)
 
