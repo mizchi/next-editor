@@ -3,6 +3,7 @@ import path from "path"
 import React from "react"
 import { EditorInterface } from "../../../editors/EditorInterface"
 import { TextEditor } from "../../../editors/TextEditor"
+import { extToFileType } from "../../../lib/extToFileType"
 import { BufferState } from "../../reducers/buffer"
 import { GridArea, GridColumn, GridRow } from "../utils/Grid"
 
@@ -23,6 +24,7 @@ type State = {
   value: string
   editorComponent: React.ComponentType<EditorInterface> | null
   editorType: "text" | "wysiwyg" | "monaco"
+  language: string
 }
 
 // Cache loaded editor components
@@ -31,13 +33,17 @@ const cache: { [key: string]: any } = {}
 export class EditorWithToolbar extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
-    const editorType =
-      path.extname(props.buffer.filepath) === ".js" ? "monaco" : "text"
+
+    const language = extToFileType(props.buffer.filepath)
+    const editorType = ["text", "markdown"].includes(language)
+      ? "text"
+      : "monaco"
 
     this.state = {
       value: props.buffer.value,
       editorComponent: null,
-      editorType
+      editorType,
+      language
     }
   }
 
@@ -78,10 +84,10 @@ export class EditorWithToolbar extends React.Component<Props, State> {
         }
         console.time("load:monaco")
         const {
-          JavaScriptEditor
-        } = await import(/* webpackChunkName: "monaco" */ "../../../editors/JavaScriptEditor")
-        this.setState({ editorComponent: JavaScriptEditor })
-        cache.monaco = JavaScriptEditor
+          ProgramEditor
+        } = await import(/* webpackChunkName: "monaco" */ "../../../editors/ProgramEditor")
+        this.setState({ editorComponent: ProgramEditor })
+        cache.monaco = ProgramEditor
         console.timeEnd("load:monaco")
         break
       }
@@ -97,6 +103,8 @@ export class EditorWithToolbar extends React.Component<Props, State> {
     const relpath = filepath.replace(projectRoot + "/", "")
     const displayFilepath = relpath
     const Editor = this.state.editorComponent
+
+    const language = extToFileType(buffer.filepath)
     return (
       <GridRow rows={["30px", "1fr"]} areas={["toolbar", "editor"]}>
         <GridArea name="toolbar">
@@ -128,11 +136,13 @@ export class EditorWithToolbar extends React.Component<Props, State> {
           {Editor ? (
             <Editor
               theme={this.props.theme}
-              // key={this.state.editorType}
               fontFamily={this.props.fontFamily}
               fontScale={this.props.fontScale}
               spellCheck={false}
               initialValue={value}
+              options={{
+                language
+              }}
               onChange={(newValue: string) => {
                 this.setState({ value: newValue }, () => {
                   onChange && onChange(this.state.value)

@@ -5,4 +5,5 @@ export type EditorInterface = {
   initialValue: string
   theme: string
   onChange: (value: string) => void
+  options?: any
 }

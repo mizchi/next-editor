@@ -12,7 +12,7 @@ const monacoOptions = {
   minimap: { enabled: false }
 }
 
-export class JavaScriptEditor extends React.Component<Props, State> {
+export class ProgramEditor extends React.Component<Props, State> {
   constructor(props: any) {
     super(props)
     this.state = {
@@ -22,19 +22,24 @@ export class JavaScriptEditor extends React.Component<Props, State> {
 
   render() {
     const { fontScale, onChange, theme } = this.props
+    const { language, ...options } = this.props.options || {
+      language: "javascript"
+    }
     const { value } = this.state
+
     return (
       <MonacoEditor
         width="100%"
         height="100%"
-        language="javascript"
+        language={language || "javascript"}
         value={value}
         options={{
           ...monacoOptions,
           fontSize: fontScale * 12,
           theme: theme === "dark" ? "vs-dark" : null,
           tabSize: 2,
-          insertSpaces: true
+          insertSpaces: true,
+          ...options
         }}
         onChange={(newValue: string, e: Event) => {
           this.setState({ value: newValue })
