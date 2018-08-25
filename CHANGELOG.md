@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.23.0"></a>
+# [0.23.0](https://github.com/mizchi/next-editor/compare/v0.22.8...v0.23.0) (2018-08-25)
+
+
+### Bug Fixes
+
+* README ([626d7eb](https://github.com/mizchi/next-editor/commit/626d7eb))
+
+
+### Features
+
+* Load monaco by type ([d584d69](https://github.com/mizchi/next-editor/commit/d584d69))
+* show reload button on error ([6029ae6](https://github.com/mizchi/next-editor/commit/6029ae6))
+
+
+
 <a name="0.22.8"></a>
 ## [0.22.8](https://github.com/mizchi/next-editor/compare/v0.22.7...v0.22.8) (2018-08-25)
 
