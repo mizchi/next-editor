@@ -1,14 +1,16 @@
 <h1><img src="assets/Logotype-primary.png" width="65%" height="65%" alt="Next Editor" /></h1>
 
+[Become a patreon](https://www.patreon.com/mizchi/overview)
+
 [![CircleCI](https://circleci.com/gh/mizchi/next-editor.svg?style=svg)](https://circleci.com/gh/mizchi/next-editor)
 
 [![Coverage Status](https://coveralls.io/repos/github/mizchi/next-editor/badge.svg?branch=release)](https://coveralls.io/github/mizchi/next-editor?branch=release)
 
-Standalone git integrated editor (for chromebook)
+Standalone PWA Editor with Git (for Chromebook)
 
 ![](https://i.gyazo.com/4819943cb09b3c69e183eae9a5dae748.png)
 
-Play here [next-editor.app](https://nedi.app)
+Play here [nedi.app](https://nedi.app)
 
 **Unstable**: Data may be wiped by update
 
@@ -19,12 +21,7 @@ I am checking only Chrome and Chrome Canary.
 - `yarn watch`: start dev server(localhost:8099)
 - `yarn test`: run jest and typescript checking
 
-In development, you need to wait local service-worker upgrading.
-
-## Recommened dev tools
-
-- react-dev-tools: https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi
-- redux-dev-tools: https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
+no service-worker in development.
 
 ## How to create your own next-editor
 
