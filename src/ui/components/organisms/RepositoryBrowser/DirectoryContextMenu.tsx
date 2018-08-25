@@ -1,30 +1,26 @@
 import React from "react"
 import { ContextMenu, Item, Separator } from "react-contexify"
-import { connect } from "react-redux"
-import * as EditorActions from "../../../actionCreators/editorActions"
+import { connector } from "../../../actionCreators"
 import { RootState } from "../../../reducers"
-import * as RepositoryActions from "../../../reducers/repository"
 
 type OwnProps = {
   root: string
 }
 
-type Props = OwnProps & (typeof actions)
-
-const actions = {
-  startFileCreating: RepositoryActions.startFileCreating,
-  startDirCreating: RepositoryActions.startDirCreating,
-  addToStage: EditorActions.addToStage,
-  deleteFile: EditorActions.deleteFile,
-  deleteDirectory: EditorActions.deleteDirectory
-}
-
-export const DirectoryContextMenu: any = connect(
+export const DirectoryContextMenu: any = connector(
   (_state: RootState, ownProps: OwnProps) => {
     return ownProps
   },
-  actions
-)(function DirectoryContextMenuImpl(props: Props) {
+  actions => {
+    return {
+      startFileCreating: actions.repository.startFileCreating,
+      startDirCreating: actions.repository.startDirCreating,
+      addToStage: actions.editor.addToStage,
+      deleteFile: actions.editor.deleteFile,
+      deleteDirectory: actions.editor.deleteDirectory
+    }
+  }
+)(function DirectoryContextMenuImpl(props) {
   return (
     <ContextMenu id="directory">
       <Item

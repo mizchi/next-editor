@@ -1,6 +1,6 @@
 import React from "react"
-import { connect } from "react-redux"
 import { ThemeProvider as StyledThemeProvider } from "styled-components"
+import { connector } from "../../actionCreators"
 import { RootState } from "../../reducers"
 import DarkTheme from "../../themes/dark"
 import DefaultTheme from "../../themes/default"
@@ -10,9 +10,14 @@ const ThemeMap: any = {
   dark: DarkTheme
 }
 
-export const ThemeProvider = connect((state: RootState) => ({
-  theme: state.config.theme
-}))(function ThemeProviderImpl({
+export const ThemeProvider = connector(
+  (state: RootState) => ({
+    theme: state.config.theme
+  }),
+  _a => {
+    return {}
+  }
+)(function ThemeProviderImpl({
   children,
   theme
 }: {
