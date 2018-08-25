@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.22.4"></a>
+## [0.22.4](https://github.com/mizchi/next-editor/compare/v0.22.2...v0.22.4) (2018-08-25)
+
+
+### Bug Fixes
+
+* **deps:** update dependency delay to v3.1.0 ([5eee3af](https://github.com/mizchi/next-editor/commit/5eee3af))
+* **deps:** update dependency isomorphic-git to v0.32.0 ([a45bcc2](https://github.com/mizchi/next-editor/commit/a45bcc2))
+* **deps:** update dependency isomorphic-git to v0.34.0 ([1e7d929](https://github.com/mizchi/next-editor/commit/1e7d929))
+* **deps:** update dependency polished to v2 ([8f26ed7](https://github.com/mizchi/next-editor/commit/8f26ed7))
+* clone dest ([3d3d34d](https://github.com/mizchi/next-editor/commit/3d3d34d))
+
+
+
 <a name="0.22.3"></a>
 ## [0.22.3](https://github.com/mizchi/next-editor/compare/v0.22.2...v0.22.3) (2018-08-20)
 
