@@ -8,13 +8,15 @@ import { GitBriefHistory } from "./GitBriefHistory"
 export const GitEasy = connector(
   state => {
     return {
+      projectRoot: state.repository.currentProjectRoot,
       currentBranch: state.git.currentBranch,
       staging: state.git.staging
     }
   },
   actions => {
     return {
-      commitAll: actions.git.commitAll
+      commitAll: actions.git.commitAll,
+      initializeGitStatus: actions.editor.initializeGitStatus
     }
   }
 )(function GitEasyImpl(props) {
@@ -23,11 +25,16 @@ export const GitEasy = connector(
   if (!staging) {
     return <Pane>Loading...</Pane>
   } else {
-    const modified = Object.keys(staging)
-      .map((filepath: string) => {
-        return { filepath, status: staging[filepath] }
-      })
-      .filter((a: any) => !["unmodified", "ignored"].includes(a.status))
+    const stagingList = Object.keys(staging).map((filepath: string) => {
+      return { filepath, status: staging[filepath] }
+    })
+
+    const modified = stagingList.filter(
+      (a: any) => !["unmodified", "ignored"].includes(a.status)
+    )
+
+    const hasError = stagingList.some((a: any) => a.status === "__error__")
+
     return (
       <Pane>
         <Content>
@@ -35,7 +42,6 @@ export const GitEasy = connector(
             <legend>Changes</legend>
             <Button
               text="Commit All"
-              placeholder="Update"
               disabled={modified.length === 0}
               onClick={() => {
                 props.commitAll({ message: "Update" })
@@ -57,6 +63,14 @@ export const GitEasy = connector(
               </div>
             ) : (
               <div>No changes</div>
+            )}
+            {hasError && (
+              <Button
+                text="Reload git"
+                onClick={() => {
+                  props.initializeGitStatus(props.projectRoot)
+                }}
+              />
             )}
           </fieldset>
 
