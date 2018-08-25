@@ -53,7 +53,7 @@ const plugins = [
   new MonacoWebpackPlugin(),
   new HtmlPlugin({
     inject: false,
-    template: path.join(__dirname, "src/index.html.ejs")
+    template: path.join(SRC, "index.html.ejs")
   }),
   new CopyPlugin(COPY_RULES)
 ]
