@@ -1,14 +1,15 @@
 import styled from "styled-components"
 
-export const Pane: React.ComponentType<{
+type PaneType = {
   background?: string
-}> = styled.div`
+}
+export const Pane: React.ComponentType<PaneType> = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
-  background: ${p => p.background || "transparend"};
+  background: ${(p: PaneType) => p.background || "transparend"};
 `
 
 export const Content: React.ComponentType<{}> = styled.div`

@@ -108,11 +108,12 @@ const Container: React.ComponentType<{ selected: boolean }> = styled.div`
   cursor: pointer;
   user-select: none;
   padding-left: 2px;
-  /* color: ${p => (p.selected ? "rgb(255, 128, 128)" : "black")}; */
+
   &:hover {
     background: black;
     color: white;
-    color: ${p => (p.selected ? "rgb(200, 64, 64)" : "white")};
+    color: ${(p: { selected: boolean }) =>
+      p.selected ? "rgb(200, 64, 64)" : "white"};
   }
 `
 Container.displayName = "FileLine:Container"

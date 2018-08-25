@@ -1,16 +1,17 @@
 import React from "react"
 import styled, { css } from "styled-components"
 
-export const Grid: React.ComponentType<{
+type GridType = {
   columns: string[]
   areas: string[][]
   rows: string[]
   width?: string
   height?: string
-}> = styled.div`
+}
+export const Grid: React.ComponentType<GridType> = styled.div`
   display: grid;
-  grid-template-columns: ${({ columns }) => columns.join(" ")};
-  grid-template-rows: ${({ rows }) => rows.join(" ")};
+  grid-template-columns: ${({ columns }: GridType) => columns.join(" ")};
+  grid-template-rows: ${({ rows }: GridType) => rows.join(" ")};
   grid-template-areas: ${({ areas }) =>
     areas.map(r => `'${r.join(" ")}'`).join(" ")};
   width: ${p => p.width || "100%"};
@@ -18,32 +19,34 @@ export const Grid: React.ComponentType<{
 `
 Grid.displayName = "Grid"
 
-export const GridRow: React.ComponentType<{
+type GridRowType = {
   areas: string[]
   rows: string[]
   width?: string
   height?: string
-}> = styled.div`
+}
+export const GridRow: React.ComponentType<GridRowType> = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: ${({ rows }) => rows.join(" ")};
-  grid-template-areas: ${({ areas }) =>
+  grid-template-rows: ${({ rows }: GridRowType) => rows.join(" ")};
+  grid-template-areas: ${({ areas }: GridRowType) =>
     areas.map(area => `'${area}'`).join(" ")};
   width: ${p => p.width || "100%"};
   height: ${p => p.height || "100%"};
 `
 GridRow.displayName = "GridRow"
 
-export const GridColumn: React.ComponentType<{
+type GridColumnType = {
   columns: string[]
   areas: string[]
   width?: string
   height?: string
-}> = styled.div`
+}
+export const GridColumn: React.ComponentType<GridColumnType> = styled.div`
   display: grid;
-  grid-template-columns: ${({ columns }) => columns.join(" ")};
+  grid-template-columns: ${({ columns }: GridColumnType) => columns.join(" ")};
   grid-template-rows: 1fr;
-  grid-template-areas: ${({ areas }) => `'${areas.join(" ")}'`};
+  grid-template-areas: ${({ areas }: GridColumnType) => `'${areas.join(" ")}'`};
   width: ${p => p.width || "100%"};
   height: ${p => p.height || "100%"};
 `

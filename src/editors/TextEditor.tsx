@@ -36,16 +36,18 @@ const Container = styled.div`
   overflow: auto;
 `
 
-const StyledTextarea: React.ComponentType<{
+type StyledTextareaType = {
   fontScale: number
   fontFamily: string
   spellCheck: boolean
   value: string
   onChange: any
   innerRef: any
-}> = styled.textarea`
-  font-family: ${p => p.fontFamily};
-  font-size: ${p => p.fontScale}em;
+}
+
+const StyledTextarea: React.ComponentType<StyledTextareaType> = styled.textarea`
+  font-family: ${(p: StyledTextareaType) => p.fontFamily};
+  font-size: ${(p: StyledTextareaType) => p.fontScale}em;
   -webkit-font-smoothing: antialiased;
   line-height: 1.5em;
   padding: 3px 5px 3px 10px;
