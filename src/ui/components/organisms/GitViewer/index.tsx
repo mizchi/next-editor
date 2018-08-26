@@ -21,6 +21,7 @@ export const GitViewer = connector(
       mergeBranches: actions.git.mergeBranches,
       pushScene: actions.app.pushScene,
       addToStage: actions.editor.addToStage,
+      resetIndex: actions.editor.resetIndex,
       pushCurrentBranchToOrigin: actions.editor.pushCurrentBranchToOrigin,
       checkoutNewBranch: actions.git.checkoutNewBranch,
       moveToBranch: actions.editor.moveToBranch,
@@ -45,10 +46,10 @@ export const GitViewer = connector(
     const {
       currentBranch,
       branches,
-      staging,
       stagingLoading,
       remotes,
-      remoteBranches
+      remoteBranches,
+      statusMatrix
     } = git
     return (
       <div key={projectRoot} style={{ width: "100%", boxSizing: "border-box" }}>
@@ -73,22 +74,24 @@ export const GitViewer = connector(
               await props.pushCurrentBranchToOrigin(projectRoot, branchName)
             }}
             onChangeBranch={async (branchName: string) => {
-              if (staging) {
-                const data = buildGroupedGitStatus(staging)
-                if (data.hasStaged || data.hasModified) {
-                  const checked = window.confirm(
-                    `You have staged or modified changes.Checkout really?`
-                  )
-                  if (checked) {
-                    await props.moveToBranch({
-                      projectRoot,
-                      branch: branchName
-                    })
-                  }
-                } else {
-                  await props.moveToBranch({ projectRoot, branch: branchName })
-                }
-              }
+              // TODO Confirm
+              await props.moveToBranch({ projectRoot, branch: branchName })
+              // if (statusMatrix) {
+              //   const data = buildGroupedGitStatus(staging)
+              //   if (data.hasStaged || data.hasModified) {
+              //     const checked = window.confirm(
+              //       `You have staged or modified changes.Checkout really?`
+              //     )
+              //     if (checked) {
+              //       await props.moveToBranch({
+              //         projectRoot,
+              //         branch: branchName
+              //       })
+              //     }
+              //   } else {
+              //     await props.moveToBranch({ projectRoot, branch: branchName })
+              //   }
+              // }
             }}
             onClickCreateBranch={async (newBranchName: string) => {
               await props.checkoutNewBranch({
@@ -100,12 +103,10 @@ export const GitViewer = connector(
               props.pushScene({ nextScene: "config" })
             }}
           />
-          <GitBriefHistory />
           <div style={{ flex: 1 }}>
-            {staging && (
+            {statusMatrix && (
               <Staging
-                staging={staging}
-                loading={stagingLoading}
+                statusMatrix={statusMatrix}
                 config={config}
                 onClickReload={() => {
                   props.initializeGitStatus(props.projectRoot)
@@ -115,6 +116,9 @@ export const GitViewer = connector(
                 }}
                 onClickGitAdd={(relpath: string) => {
                   props.addToStage({ projectRoot, relpath })
+                }}
+                onClickGitReset={(relpath: string) => {
+                  props.resetIndex({ projectRoot, relpath })
                 }}
                 onClickGitRemove={(relpath: string) => {
                   props.removeFileFromGit({ projectRoot, relpath })
@@ -129,6 +133,7 @@ export const GitViewer = connector(
             )}
           </div>
         </div>
+        <GitBriefHistory />
       </div>
     )
   }

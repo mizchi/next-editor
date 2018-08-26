@@ -1,41 +1,31 @@
-import "../../__testHelpers__"
-
-import fs from "fs"
-import path from "path"
-import assert from "power-assert"
-import { getStagingStatus } from "../../queries/getStagingStatus"
-import { commitAll } from "../commitAll"
-
 import * as helpers from "../../__testHelpers__/helpers"
 
+import fs from "fs"
+import * as git from "isomorphic-git"
+import path from "path"
+import assert from "power-assert"
+import { commitAll } from "../commitAll"
+
 test("commit all files", async () => {
-  const root = await helpers.createTempGitProject()
-  await helpers.batchUpdateFiles(root, [["a", "1"], ["b", "2"]])
-  assert.deepEqual(await getStagingStatus(root), {
-    a: "unmodified",
-    b: "unmodified"
-  })
+  const dir = await helpers.createTempGitProject()
+  await helpers.batchUpdateFiles(dir, [["a", "1"], ["b", "2"]])
+  assert.equal(await git.status({ dir, filepath: "a" }), "unmodified")
+  assert.equal(await git.status({ dir, filepath: "b" }), "unmodified")
 
   // Update a
-  // Remove b
+  // Delete b
   // Add c
-  await fs.promises.writeFile(path.join(root, "a"), "xxx")
-  await fs.promises.writeFile(path.join(root, "c"), "new")
-  await fs.promises.unlink(path.join(root, "b"))
+  await fs.promises.writeFile(path.join(dir, "a"), "xxx")
+  await fs.promises.unlink(path.join(dir, "b"))
+  await fs.promises.writeFile(path.join(dir, "c"), "new")
 
-  // get staging status
-  const staging = await getStagingStatus(root)
+  assert.equal(await git.status({ dir, filepath: "a" }), "*modified")
+  assert.equal(await git.status({ dir, filepath: "b" }), "*deleted")
+  assert.equal(await git.status({ dir, filepath: "c" }), "*added")
 
-  // asset changed status
-  assert.deepEqual(staging, {
-    a: "*modified",
-    b: "*deleted",
-    c: "*added"
-  })
-  await commitAll(root, "Update", { name: "x", email: "y" })
+  await commitAll(dir, "Update", { name: "x", email: "y" })
 
-  assert.deepEqual(await getStagingStatus(root), {
-    a: "unmodified",
-    c: "unmodified"
-  })
+  assert.equal(await git.status({ dir, filepath: "a" }), "unmodified")
+  assert.equal(await git.status({ dir, filepath: "b" }), "absent")
+  assert.equal(await git.status({ dir, filepath: "c" }), "unmodified")
 })

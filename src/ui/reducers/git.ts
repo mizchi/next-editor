@@ -7,7 +7,11 @@ import {
 import * as git from "isomorphic-git"
 import { RootState } from "."
 import * as Git from "../../domain/git"
-import { GitStagingStatus, GitStatusString } from "../../domain/types"
+import {
+  GitStagingStatus,
+  GitStatusString,
+  StatusMatrix
+} from "../../domain/types"
 import { projectChanged } from "../actionCreators/globalActions"
 import { CommitDescription } from "./../../domain/types"
 
@@ -21,7 +25,7 @@ const {
 
 // actions
 
-export const failInitialize: ActionCreator<{}> = createAction("initialize-fail")
+export const failInitialize: ActionCreator<{}> = createAction("fail-initialize")
 
 export const endInitialize: ActionCreator<{
   history: CommitDescription[]
@@ -29,19 +33,16 @@ export const endInitialize: ActionCreator<{
   branches: string[]
   remotes: string[]
   remoteBranches: string[]
-}> = createAction("initialize-end")
+  statusMatrix: StatusMatrix
+}> = createAction("end-initialize")
 
 export const progressStagingLoading: ActionCreator<{
   status: { filepath: string; status: GitStatusString }
 }> = createAction("progress-staging")
 
-export const endStagingLoading: ActionCreator<{
-  staging: GitStagingStatus
-}> = createAction("end-staging")
-
-export const updateStaging: ActionCreator<{
-  staging: GitStagingStatus
-}> = createAction("update-staging")
+export const updateStatusMatrix: ActionCreator<{
+  matrix: StatusMatrix
+}> = createAction("update-status-matrix")
 
 export const updateBranchStatus: ActionCreator<{
   currentBranch: string
@@ -86,7 +87,6 @@ export const removeBranch = createThunkAction(
   ) => {
     const state = getState()
     await Git.deleteBranch(input.projectRoot, input.branch)
-
     // checkout master if target is currentBranch
     if (state.git.currentBranch === input.branch) {
       await Git.checkoutBranch(input.projectRoot, "master")
@@ -126,7 +126,16 @@ export const commitStagedChanges = createThunkAction(
     }
     const state = getState()
     await Git.commitChanges(projectRoot, message, author)
-    dispatch(startStagingUpdate(projectRoot, []))
+
+    if (state.git.statusMatrix) {
+      const newMat = await Git.updateStatusMatrix(
+        projectRoot,
+        state.git.statusMatrix,
+        []
+      )
+      dispatch(updateStatusMatrix({ matrix: newMat }))
+    }
+
     dispatch(updateHistory({ projectRoot, branch: state.git.currentBranch }))
   }
 )
@@ -144,38 +153,28 @@ export const commitAll = createThunkAction(
   ) => {
     const state = getState()
 
-    const hasChange =
-      Object.entries(state.git.staging as any).filter(
-        (p: any) => p[1] !== "unmodified"
-      ).length > 0
-    if (!hasChange) {
-      return
-    }
-
-    const author = {
-      name: state.config.committerName || "<none>",
-      email: state.config.committerEmail || "<none>"
-    }
     const projectRoot = state.repository.currentProjectRoot
-    await Git.commitAll(projectRoot, message, author)
-    dispatch(startStagingUpdate(projectRoot, []))
-    dispatch(updateHistory({ projectRoot, branch: state.git.currentBranch }))
+
+    if (state.git.statusMatrix) {
+      const author = {
+        name: state.config.committerName || "<none>",
+        email: state.config.committerEmail || "<none>"
+      }
+      // Commit
+      await Git.commitAll(projectRoot, message, author)
+
+      // TODO: filter commited files
+      const newMat = await Git.updateStatusMatrix(
+        projectRoot,
+        state.git.statusMatrix,
+        []
+      )
+      dispatch(updateStatusMatrix({ matrix: newMat }))
+
+      dispatch(updateHistory({ projectRoot, branch: state.git.currentBranch }))
+    }
   }
 )
-
-export function startStagingUpdate(projectRoot: string, files: string[]) {
-  return async (dispatch: any, getState: () => RootState) => {
-    const state = getState()
-    if (state.git.staging) {
-      const newStaging = await Git.updateStagingStatus(
-        projectRoot,
-        state.git.staging,
-        files
-      )
-      dispatch(updateStaging({ staging: newStaging }))
-    }
-  }
-}
 
 // State
 export type GitState = {
@@ -187,7 +186,7 @@ export type GitState = {
   remotes: string[]
   remoteBranches: string[]
   history: CommitDescription[]
-  staging: GitStagingStatus | null
+  statusMatrix: StatusMatrix | null
   stagingLoading: boolean
 }
 
@@ -200,7 +199,7 @@ const initialState: GitState = {
   remotes: [],
   remoteBranches: [],
   history: [],
-  staging: null,
+  statusMatrix: null,
   stagingLoading: true
 }
 
@@ -229,20 +228,7 @@ export const reducer: Reducer<GitState> = createReducer(initialState)
       remotes: payload.remotes,
       remoteBranches: payload.remoteBranches,
       stagingLoading: true,
-      staging: null
-    }
-  })
-  .case(endStagingLoading, (state, payload) => {
-    return {
-      ...state,
-      stagingLoading: false,
-      staging: payload.staging
-    }
-  })
-  .case(updateStaging, (state, payload) => {
-    return {
-      ...state,
-      staging: payload.staging
+      statusMatrix: payload.statusMatrix
     }
   })
   .case(updateHistory.resolved, (state, payload) => {
@@ -251,6 +237,13 @@ export const reducer: Reducer<GitState> = createReducer(initialState)
       history: payload.history
     }
   })
+  .case(updateStatusMatrix, (state, payload) => {
+    return {
+      ...state,
+      statusMatrix: payload.matrix
+    }
+  })
+
   .case(checkoutNewBranch.resolved, (state, payload) => {
     return {
       ...state,

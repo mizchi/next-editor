@@ -1,27 +1,36 @@
 import React from "react"
-import { GitStagingStatus } from "../../../../domain/types"
+import {
+  getModifiedFilenames,
+  getRemovableFilenames,
+  getRemovedFilenames,
+  getStagedFilenames
+} from "../../../../domain/git/queries/parseStatusMatrix"
+import { StatusMatrix } from "../../../../domain/types"
 import { ConfigState } from "../../../reducers/config"
 import { CommandWithInput } from "../../atoms/CommandWithInput"
-import {
-  buildGroupedGitStatus,
-  MODIFIED_KEYS,
-  STAGED_KEYS,
-  UNTRAKED_KEYS
-} from "./helpers"
 
 type Props = {
-  staging: GitStagingStatus
-  loading: boolean
+  statusMatrix: StatusMatrix
   config: ConfigState
   onClickReload: () => void
   onClickOpenConfig: () => void
   onClickGitAdd: (filepath: string) => void
   onClickGitRemove: (filepath: string) => void
   onClickGitCommit: (message: string) => void
+  onClickGitReset: (filepath: string) => void
 }
 
 export function Staging(props: Props) {
-  if (props.loading) {
+  const {
+    statusMatrix,
+    config,
+    onClickReload,
+    onClickGitAdd,
+    onClickGitCommit,
+    onClickGitRemove
+  } = props
+
+  if (statusMatrix == null) {
     return (
       <div>
         <fieldset>
@@ -32,32 +41,24 @@ export function Staging(props: Props) {
     )
   }
 
-  const {
-    staging,
-    config,
-    onClickReload,
-    onClickGitAdd,
-    onClickGitCommit,
-    onClickGitRemove
-  } = props
+  const removable = getRemovableFilenames(statusMatrix)
+  // TODO: Show removed
+  const removed = getRemovedFilenames(statusMatrix)
 
-  const {
-    grouped: inv,
-    hasChanges,
-    hasModified,
-    hasUntracked,
-    hasError,
-    hasStaged
-  } = buildGroupedGitStatus(staging)
+  const staged = getStagedFilenames(statusMatrix)
+
+  const modified = getModifiedFilenames(statusMatrix).filter(
+    f => !removable.includes(f) && !staged.includes(f) && !removed.includes(f)
+  )
+
+  const canCommit = staged.length > 0 || removed.length > 0
 
   return (
     <div>
       <fieldset>
         <legend>Staging</legend>
-        {!hasChanges && <>No changes</>}
-        {hasStaged && (
-          <fieldset>
-            <legend>staged</legend>
+        {canCommit && (
+          <>
             <CommandWithInput
               description="Commit"
               validate={value => value.length > 0}
@@ -75,79 +76,73 @@ export function Staging(props: Props) {
                   Set name/email by config
                 </button>
               )}
-            {STAGED_KEYS.map(key => {
-              const files = inv[key] || []
-              return files.map(relpath => (
-                <div key={relpath}>
-                  {relpath} ({key})
-                </div>
-              ))
-            })}
-          </fieldset>
+          </>
         )}
-        {hasModified && (
-          <fieldset>
-            <legend>modified</legend>
-            {MODIFIED_KEYS.map(key => {
-              const files = inv[key] || []
-              const needRemoveAction = ["*deleted", "*absent"].includes(key)
-              return files.map(relpath => (
-                <div key={relpath}>
-                  {relpath}
-                  &nbsp; ({key}) &nbsp;
-                  {needRemoveAction && (
-                    <button
-                      onClick={() => {
-                        onClickGitRemove(relpath)
-                      }}
-                    >
-                      remove from git
-                    </button>
-                  )}
-                  {!needRemoveAction && (
-                    <button
-                      onClick={() => {
-                        onClickGitAdd(relpath)
-                      }}
-                    >
-                      add to stage
-                    </button>
-                  )}
-                </div>
-              ))
-            })}
-          </fieldset>
-        )}
-        {hasUntracked && (
-          <fieldset>
-            <legend>untracked</legend>
-            {UNTRAKED_KEYS.map(key => {
-              const files = inv[key] || []
-              return files.map(relpath => (
-                <div key={relpath}>
-                  {relpath}
-                  &nbsp;
-                  <button
-                    onClick={() => {
-                      onClickGitAdd(relpath)
-                    }}
-                  >
-                    add to stage
-                  </button>
-                </div>
-              ))
-            })}
-          </fieldset>
-        )}
-        {hasError && (
-          <fieldset>
-            <legend>error</legend>
-            <button onClick={() => onClickReload()}>Reload</button>
-            {(inv.__error__ || []).map(relpath => {
-              return <div key={relpath}>{relpath}</div>
-            })}
-          </fieldset>
-        )}
+
+        <h5>staged</h5>
+        {staged.map(fname => {
+          // TODO: reset
+          return (
+            <p key={fname}>
+              {fname} :
+              <button
+                onClick={() => {
+                  props.onClickGitReset(fname)
+                }}
+              >
+                reset
+              </button>
+            </p>
+          )
+        })}
+
+        {removed.map(fname => {
+          // TODO: reset
+          return (
+            <p key={fname}>
+              {fname} :
+              <button
+                onClick={() => {
+                  props.onClickGitReset(fname)
+                }}
+              >
+                restore
+              </button>
+            </p>
+          )
+        })}
+
+        <h5>modified</h5>
+        {modified.map(fname => {
+          return (
+            <p key={fname}>
+              {fname} :
+              <button
+                onClick={() => {
+                  onClickGitAdd(fname)
+                }}
+              >
+                add to stage
+              </button>
+            </p>
+          )
+        })}
+
+        <h5>deleted</h5>
+        {removable.map(fname => {
+          return (
+            <p key={fname}>
+              {fname} :
+              <button
+                onClick={() => {
+                  onClickGitRemove(fname)
+                }}
+              >
+                remove from git
+              </button>
+            </p>
+          )
+        })}
       </fieldset>
     </div>
   )

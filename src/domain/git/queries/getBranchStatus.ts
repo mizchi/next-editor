@@ -22,6 +22,7 @@ export async function getBranchStatus(
       remotes.map(remote => listRemoteBranches(projectRoot, remote))
     )
   )
+
   const history = await getHistory(projectRoot, { ref: currentBranch })
   return {
     currentBranch,
