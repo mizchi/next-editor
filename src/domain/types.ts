@@ -123,3 +123,11 @@ export interface GitBlobDescription {
   object: Buffer
   source?: string
 }
+
+export type Filename = string
+export type HeadStatus = 0 | 1
+export type WorkdirStatus = 0 | 1 | 2
+export type StageStatus = 0 | 1 | 2 | 3
+
+export type StatusRow = [Filename, HeadStatus, WorkdirStatus, StageStatus]
+export type StatusMatrix = StatusRow[]

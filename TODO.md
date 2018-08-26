@@ -2,10 +2,11 @@
 
 ## Current
 
+- [ ] Use isomorphic-git plugin system
+- [ ] Use isomorphic-git status matrics
 - [ ] Fix monaco editor size on reload
 - [ ] Stop creating on unmount node
 - [ ] Fix input overflow on rename file
-- [ ] PluginLoader
 - [ ] prettier lazy loader
 - [ ] Show toast after git.push
 - [ ] Reload git status correctly
@@ -28,6 +29,11 @@
   - Edit React Component
 
 ---
+
+## v0.23.0
+
+- [x] PluginLoader
+- [ ] Reload Button on git error
 
 ## v0.21.0
 
