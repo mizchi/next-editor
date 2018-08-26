@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.24.0"></a>
+# [0.24.0](https://github.com/mizchi/next-editor/compare/v0.23.0...v0.24.0) (2018-08-26)
+
+
+### Features
+
+* Use isomorphic-git's corsProxy ([2ab64dc](https://github.com/mizchi/next-editor/commit/2ab64dc))
+
+
+
 <a name="0.23.0"></a>
 # [0.23.0](https://github.com/mizchi/next-editor/compare/v0.22.8...v0.23.0) (2018-08-25)
 
