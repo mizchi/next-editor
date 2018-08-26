@@ -10,3 +10,5 @@ Next Editor is an MIT-licensed open source project. It's an independent project 
 - [@neguse](https://twitter.com/neguse)
 - [@yuumi3](https://twitter.com/yuumi3)
 - [@tadsan](https://twitter.com/tadsan)
+
+[Become a patreon](https://www.patreon.com/mizchi/overview)
