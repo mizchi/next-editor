@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.25.0"></a>
+# [0.25.0](https://github.com/mizchi/next-editor/compare/v0.24.0...v0.25.0) (2018-08-26)
+
+
+### Features
+
+* implement new status ui ([94aef09](https://github.com/mizchi/next-editor/commit/94aef09))
+
+
+
 <a name="0.24.0"></a>
 # [0.24.0](https://github.com/mizchi/next-editor/compare/v0.23.0...v0.24.0) (2018-08-26)
 
