@@ -14,7 +14,7 @@ export const rules = {
   editorFontScale: v8n().number(),
   editorFontFamily: v8n().string(),
   editorSpellCheck: v8n().boolean(),
-  githubProxy: v8n().string(),
+  corsProxy: v8n().string(),
   theme: v8n()
     .string()
     .acceptableTheme(),
@@ -31,7 +31,7 @@ export type ConfigState = {
   committerName: string
   committerEmail: string
   githubApiToken: string
-  githubProxy: string
+  corsProxy: string
   editorSpellCheck: boolean
   editorFontFamily: string
   editorFontScale: number
@@ -59,7 +59,7 @@ const initalState: ConfigState = {
   editorFontScale: 1.2,
   editorFontFamily: "Inconsolata, monospace",
   editorSpellCheck: false,
-  githubProxy: "https://cors-buster-zashozaqfk.now.sh/github.com/",
+  corsProxy: "https://cors-buster-zashozaqfk.now.sh",
   theme: "dark",
   isFirstVisit: true,
   doneTutorial: false,

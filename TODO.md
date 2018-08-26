@@ -2,7 +2,8 @@
 
 ## Current
 
-- [ ] Use isomorphic-git plugin system
+- [x] Use isomorphic-git plugin system
+- [x] Use isomorphic-git corsProxy option
 - [ ] Use isomorphic-git status matrics
 - [ ] Fix monaco editor size on reload
 - [ ] Stop creating on unmount node

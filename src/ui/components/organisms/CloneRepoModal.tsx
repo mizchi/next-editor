@@ -1,14 +1,9 @@
-import {
-  Button,
-  Classes,
-  Dialog,
-  NumericInput,
-  Switch
-} from "@blueprintjs/core"
+import { Button, Classes, Dialog, Switch } from "@blueprintjs/core"
 import fs from "fs"
 import path from "path"
 import pify from "pify"
 import React from "react"
+import url from "url"
 import { cloneRepository } from "../../../domain/git"
 import { connector } from "../../actionCreators"
 
@@ -16,7 +11,7 @@ import { connector } from "../../actionCreators"
 export const CloneRepoModal = connector(
   state => {
     return {
-      githubProxy: state.config.githubProxy,
+      corsProxy: state.config.corsProxy,
       openedCloneRepoModal: state.app.openedCloneRepoModal
     }
   },
@@ -29,12 +24,7 @@ export const CloneRepoModal = connector(
     }
   }
 )(function CloneRepoModalImpl(props) {
-  const {
-    openedCloneRepoModal,
-    closeModal,
-    githubProxy,
-    loadProjectList
-  } = props
+  const { openedCloneRepoModal, closeModal, corsProxy, loadProjectList } = props
   return (
     <Dialog
       autoFocus
@@ -46,7 +36,7 @@ export const CloneRepoModal = connector(
     >
       <div className={Classes.DIALOG_BODY}>
         <ModalContent
-          githubProxy={githubProxy}
+          corsProxy={corsProxy}
           onCloneEnd={async projectRoot => {
             props.closeModal({})
 
@@ -68,7 +58,7 @@ export const CloneRepoModal = connector(
 
 class ModalContent extends React.Component<
   {
-    githubProxy: string
+    corsProxy: string
     onCloneEnd: (dirname: string) => void
   },
   {
@@ -89,7 +79,7 @@ class ModalContent extends React.Component<
     depth: undefined
   }
   render() {
-    const { githubProxy, onCloneEnd } = this.props
+    const { corsProxy, onCloneEnd } = this.props
     const { onCloning, cloningMessage, cloningProgress } = this.state
     return (
       <div>
@@ -137,10 +127,12 @@ class ModalContent extends React.Component<
           disabled={onCloning}
           onClick={async () => {
             // Rewrite with proxy path
-            const repoPath = this.state.value.replace("https://github.com/", "")
-            const clonePath = githubProxy + repoPath
-            const [user, repo] = repoPath.split("/")
-            const repoWithoutGit = repo.replace(".git", "")
+            const repoPath = this.state.value
+
+            const parsed: any = url.parse(repoPath)
+            const clonePath = parsed.pathname.replace(/\.git$/, "")
+            // /a/b
+            const [, user, repo] = clonePath.split("/")
 
             try {
               await pify(fs.mkdir)(path.join("/", user))
@@ -149,14 +141,15 @@ class ModalContent extends React.Component<
               // Exists
             }
 
-            const newProjectRoot = path.join("/", user, repoWithoutGit)
+            const destPath = path.join("/", user, repo)
 
             this.setState({ onCloning: true })
 
             // TODO: It's a smart UI to show progress easily
-            await cloneRepository(newProjectRoot, clonePath, {
+            await cloneRepository(destPath, repoPath, {
               singleBranch: true,
               depth: this.state.depth,
+              corsProxy, // Use cors proxy to access private repo
               onProgress: pe => {
                 console.log("[clone/progress]", pe)
               },
@@ -166,7 +159,7 @@ class ModalContent extends React.Component<
               }
             })
             this.setState({ onCloning: false })
-            onCloneEnd(newProjectRoot)
+            onCloneEnd(destPath)
           }}
           text="Clone"
         />
