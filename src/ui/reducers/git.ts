@@ -180,7 +180,7 @@ export const commitAll = createThunkAction(
 export type GitState = {
   type: "loading" | "git" | "no-git"
   loaded: boolean
-  projectRoot: string
+  // projectRoot: string
   currentBranch: string
   branches: string[]
   remotes: string[]
@@ -193,7 +193,7 @@ export type GitState = {
 const initialState: GitState = {
   type: "loading",
   loaded: false,
-  projectRoot: null as any,
+  // projectRoot: null as any,
   currentBranch: null as any,
   branches: [],
   remotes: [],
@@ -221,7 +221,7 @@ export const reducer: Reducer<GitState> = createReducer(initialState)
     return {
       type: "git",
       loaded: true,
-      projectRoot: state.projectRoot,
+      // projectRoot: state.projectRoot,
       currentBranch: payload.currentBranch,
       branches: payload.branches,
       history: payload.history,

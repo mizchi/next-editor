@@ -10,7 +10,7 @@ export const FileHistory = connector(
     return {
       filepath: state.buffer.filepath,
       currentBranch: state.git.currentBranch,
-      projectRoot: state.git.projectRoot
+      projectRoot: state.repository.currentProjectRoot
     }
   },
   actions => {
