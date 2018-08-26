@@ -55,7 +55,6 @@ Object {
     "currentBranch": null,
     "history": Array [],
     "loaded": false,
-    "projectRoot": null,
     "remoteBranches": Array [],
     "remotes": Array [],
     "stagingLoading": true,
