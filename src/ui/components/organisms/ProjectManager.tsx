@@ -7,7 +7,7 @@ export const ProjectManager = connector(
   state => {
     return {
       project: state.project,
-      githubProxy: state.config.githubProxy,
+      corsProxy: state.config.corsProxy,
       repository: state.repository
     }
   },
@@ -30,7 +30,7 @@ export const ProjectManager = connector(
     <ProjectManagerImpl
       projectRoot={props.repository.currentProjectRoot}
       projects={props.project.projects}
-      githubProxy={props.githubProxy}
+      corsProxy={props.corsProxy}
       onClickNewProject={() => {
         props.openCreateRepoModal({})
       }}
@@ -60,7 +60,7 @@ export const ProjectManager = connector(
 class ProjectManagerImpl extends React.Component<{
   projectRoot: string
   projects: Array<{ projectRoot: string }>
-  githubProxy: string
+  corsProxy: string
   onChangeProject: (projectRoot: string) => void
   onCloneEnd: (projectRoot: string) => void
   onDeleteProject: (projectRoot: string) => void
@@ -69,7 +69,7 @@ class ProjectManagerImpl extends React.Component<{
 }> {
   render() {
     const {
-      githubProxy,
+      corsProxy,
       projects,
       onClickNewProject,
       onChangeProject,

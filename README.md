@@ -44,7 +44,7 @@ You need proxy to push GitHub
 
 - `npm i -g now-cli`
 - `now wmhilton/cors-buster` (using https://github.com/wmhilton/cors-buster)
-- Set your default proxy on [src/ui/reducers/config.ts](src/ui/reducers/config.ts): `githubProxy: "<your-proxy>/github.com/"`
+- Set your default proxy on [src/ui/reducers/config.ts](src/ui/reducers/config.ts): `corsProxy: "<your-proxy>"`
 
 ### Optional: Custom entry
 

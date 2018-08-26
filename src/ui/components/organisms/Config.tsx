@@ -102,10 +102,10 @@ export function Config({
         <input
           // placeholder="proxy"
           className="bp3-input"
-          defaultValue={config.githubProxy}
+          defaultValue={config.corsProxy}
           style={{ width: 400 }}
           onChange={event => {
-            onChangeConfigValue("githubProxy", event.target.value)
+            onChangeConfigValue("corsProxy", event.target.value)
           }}
         />
         <br />

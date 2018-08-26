@@ -6,6 +6,7 @@ export async function cloneRepository(
   projectRoot: string,
   cloneDest: string,
   options: {
+    corsProxy?: string
     onProgress?: (pe: ProgressEvent) => void
     onMessage?: (message: string) => void
     depth?: number
