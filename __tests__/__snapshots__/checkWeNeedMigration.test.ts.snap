@@ -58,8 +58,8 @@ Object {
     "projectRoot": null,
     "remoteBranches": Array [],
     "remotes": Array [],
-    "staging": null,
     "stagingLoading": true,
+    "statusMatrix": null,
     "type": "loading",
   },
   "project": Object {
