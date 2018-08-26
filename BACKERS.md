@@ -6,3 +6,7 @@ Next Editor is an MIT-licensed open source project. It's an independent project 
 
 - @melponn
 - @wreulicke
+- @bokuweb
+- @neguse
+- @yuumi3
+- @tadsan
