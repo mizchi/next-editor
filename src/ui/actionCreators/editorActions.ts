@@ -1,5 +1,7 @@
 import { Intent } from "@blueprintjs/core"
+import fs from "fs"
 import { buildActionCreator } from "hard-reducer"
+import * as git from "isomorphic-git"
 import path from "path"
 import * as FS from "../../domain/filesystem"
 import { writeFile } from "../../domain/filesystem"
@@ -90,6 +92,34 @@ export const addToStage = createThunkAction(
   }
 )
 
+export const resetIndex = createThunkAction(
+  "reset-index",
+  async (
+    {
+      projectRoot,
+      relpath
+    }: {
+      projectRoot: string
+      relpath: string
+    },
+    dispatch,
+    getState
+  ) => {
+    // https://github.com/isomorphic-git/isomorphic-git/issues/395
+    await git.resetIndex({ fs, dir: projectRoot, filepath: relpath })
+
+    const state = getState()
+    if (state.git.statusMatrix) {
+      const newMat = await Git.updateStatusMatrix(
+        projectRoot,
+        state.git.statusMatrix,
+        [relpath]
+      )
+      dispatch(GitActions.updateStatusMatrix({ matrix: newMat }))
+    }
+  }
+)
+
 export const removeFileFromGit = createThunkAction(
   "remove-file-from-git",
   async (
@@ -159,8 +189,13 @@ export const startUpdate = createThunkAction(
         .filter((r: string) => {
           return !r.startsWith("..")
         })
-      if (relpaths.length > 0) {
-        dispatch(GitActions.startStagingUpdate(projectRoot, relpaths))
+      if (relpaths.length > 0 && state.git.statusMatrix) {
+        const newMat = await Git.updateStatusMatrix(
+          projectRoot,
+          state.git.statusMatrix,
+          []
+        )
+        dispatch(GitActions.updateStatusMatrix({ matrix: newMat }))
       }
     }
   }
@@ -170,6 +205,7 @@ export const startProjectRootChanged = createThunkAction(
   "start-project-root-changed",
   async ({ projectRoot }: { projectRoot: string }, dispatch) => {
     dispatch(GlobalActions.projectChanged({ projectRoot }))
+
     dispatch(await initializeGitStatus(projectRoot))
   }
 )
@@ -201,16 +237,16 @@ export async function pushCurrentBranchToOrigin(
 }
 
 export async function initializeGitStatus(projectRoot: string) {
-  return async (dispatch: any, getState: () => RootState) => {
-    dispatch(GlobalActions.projectChanged({ projectRoot }))
-
+  return async (dispatch: any) => {
     const {
       currentBranch,
       branches,
       remotes,
       remoteBranches
     } = await Git.getBranchStatus(projectRoot)
+
     const history = await Git.getHistory(projectRoot, { ref: currentBranch })
+    const matrix = await git.statusMatrix({ dir: projectRoot })
 
     dispatch(
       GitActions.endInitialize({
@@ -218,26 +254,10 @@ export async function initializeGitStatus(projectRoot: string) {
         remotes,
         currentBranch,
         branches,
-        remoteBranches
+        remoteBranches,
+        statusMatrix: matrix
       })
     )
-
-    const staging = await Git.getStagingStatus(projectRoot, status => {
-      const current = getState()
-      // stop if root changed
-      if (current.repository.currentProjectRoot === projectRoot) {
-        dispatch(
-          GitActions.progressStagingLoading({
-            status
-          })
-        )
-      }
-    })
-
-    const lastState = getState()
-    if (lastState.repository.currentProjectRoot === projectRoot) {
-      dispatch(GitActions.endStagingLoading({ staging }))
-    }
   }
 }
 
@@ -260,12 +280,13 @@ export async function updateFileContent(
     // TODO: Skip git on background
     const projectRoot = state.repository.currentProjectRoot
     const relpath = path.relative(projectRoot, filepath)
-    if (!relpath.startsWith("..")) {
-      dispatch(
-        GitActions.startStagingUpdate(state.repository.currentProjectRoot, [
-          relpath
-        ])
+    if (!relpath.startsWith("..") && state.git.statusMatrix) {
+      const newMat = await Git.updateStatusMatrix(
+        projectRoot,
+        state.git.statusMatrix,
+        []
       )
+      dispatch(GitActions.updateStatusMatrix({ matrix: newMat }))
     }
   }
 }
@@ -288,12 +309,13 @@ export async function saveFile(
     // TODO: Skip git on background
     const projectRoot = state.repository.currentProjectRoot
     const relpath = path.relative(projectRoot, filepath)
-    if (!relpath.startsWith("..")) {
-      dispatch(
-        GitActions.startStagingUpdate(state.repository.currentProjectRoot, [
-          relpath
-        ])
+    if (!relpath.startsWith("..") && state.git.statusMatrix) {
+      const newMat = await Git.updateStatusMatrix(
+        projectRoot,
+        state.git.statusMatrix,
+        []
       )
+      dispatch(GitActions.updateStatusMatrix({ matrix: newMat }))
     }
   }
 }

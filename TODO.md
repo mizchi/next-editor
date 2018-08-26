@@ -2,9 +2,9 @@
 
 ## Current
 
-- [x] Use isomorphic-git plugin system
-- [x] Use isomorphic-git corsProxy option
-- [ ] Use isomorphic-git status matrics
+- [ ] Reset except config
+- [ ] Use git matrix on repository viewer
+- [ ] Restore file on reset
 - [ ] Fix monaco editor size on reload
 - [ ] Stop creating on unmount node
 - [ ] Fix input overflow on rename file
@@ -31,10 +31,20 @@
 
 ---
 
+## v0.25.0
+
+- [x] Use isomorphic-git status matrix
+- [x] Implement git reset
+
+## v0.24.0
+
+- [x] Use isomorphic-git plugin system
+- [x] Use isomorphic-git corsProxy option
+
 ## v0.23.0
 
 - [x] PluginLoader
-- [ ] Reload Button on git error
+- [x] Reload Button on git error
 
 ## v0.21.0
 
