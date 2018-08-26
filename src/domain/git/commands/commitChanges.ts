@@ -1,4 +1,3 @@
-import fs from "fs"
 import * as git from "isomorphic-git"
 export function commitChanges(
   projectRoot: string,
@@ -8,7 +7,6 @@ export function commitChanges(
   return git.commit({
     author,
     dir: projectRoot,
-    fs,
     message
   })
 }

@@ -1,4 +1,3 @@
-import fs from "fs"
 import {
   ActionCreator,
   buildActionCreator,
@@ -60,7 +59,6 @@ export const mergeBranches = createThunkAction(
     dispatch
   ) => {
     await git.merge({
-      fs,
       dir: projectRoot,
       ours: ref1,
       theirs: ref2

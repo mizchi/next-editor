@@ -1,3 +1,5 @@
+import "../../__testHelpers__"
+
 import fs from "fs"
 import * as git from "isomorphic-git"
 import path from "path"
@@ -14,7 +16,6 @@ test("getFileStatus", async () => {
   assert(s0 === "__error__")
 
   await git.commit({
-    fs,
     dir: root,
     message: "init",
     author: { name: "e", email: "e" }
@@ -31,17 +32,16 @@ test("getFileStatus", async () => {
 
   // remove a
   await fs.promises.unlink(path.join(root, "a"))
-  const s3 = await git.status({ fs, dir: root, filepath: "a" })
+  const s3 = await git.status({ dir: root, filepath: "a" })
   assert(s3 === "*deleted")
 
   // remove a from git
-  await git.remove({ fs, dir: root, filepath: "a" })
-  const s4 = await git.status({ fs, dir: root, filepath: "a" })
+  await git.remove({ dir: root, filepath: "a" })
+  const s4 = await git.status({ dir: root, filepath: "a" })
   assert(s4 === "deleted")
 
   // absent after commit
   await git.commit({
-    fs,
     dir: root,
     message: "a",
     author: { name: "e", email: "e" }

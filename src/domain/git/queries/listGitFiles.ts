@@ -1,4 +1,3 @@
-import fs from "fs"
 import * as git from "isomorphic-git"
 import { zipWith } from "lodash"
 import { getFileStatus } from "./getFileStatus"
@@ -13,7 +12,6 @@ export async function listGitFiles(
   }>
 > {
   const files: string[] = await git.listFiles({
-    fs,
     dir: projectRoot,
     ref
   })

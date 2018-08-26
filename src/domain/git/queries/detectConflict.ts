@@ -1,5 +1,4 @@
 import diff3Merge from "diff3"
-import fs from "fs"
 import * as git from "isomorphic-git"
 import uniq from "lodash/uniq"
 // tslint:disable-next-line
@@ -34,7 +33,6 @@ export async function detectConflict(
 
     if (aOid) {
       const { object } = await git.readObject({
-        fs,
         dir,
         oid: aOid.oid
       })
@@ -43,7 +41,6 @@ export async function detectConflict(
 
     if (bOid) {
       const { object } = await git.readObject({
-        fs,
         dir,
         oid: bOid.oid
       })
@@ -51,7 +48,6 @@ export async function detectConflict(
     }
     if (cOid) {
       const { object } = await git.readObject({
-        fs,
         dir,
         oid: cOid.oid
       })

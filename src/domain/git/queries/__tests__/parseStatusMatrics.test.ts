@@ -1,3 +1,5 @@
+import "../../__testHelpers__"
+
 import assert from "assert"
 import fs from "fs"
 import * as git from "isomorphic-git"
@@ -21,7 +23,7 @@ test("detect changed paths", async () => {
   await fs.promises.unlink(path.join(dir, "b"))
 
   await fs.promises.writeFile(path.join(dir, "c"), "added")
-  await git.add({ fs, dir, filepath: "c" })
+  await git.add({ dir, filepath: "c" })
 
   await fs.promises.writeFile(path.join(dir, "z"), "not staged")
   const mat = await (git as any).statusMatrix({ dir })

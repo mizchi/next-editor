@@ -1,3 +1,5 @@
+import "../../__testHelpers__"
+
 import EventEmitter from "events"
 import fs from "fs"
 import * as git from "isomorphic-git"
@@ -16,7 +18,6 @@ test.skip("clone", async () => {
   })
 
   const clonePromise = git.clone({
-    fs,
     dir: root,
     url: "https://github.com/mizchi/next-editor"
   })

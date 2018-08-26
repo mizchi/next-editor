@@ -1,4 +1,3 @@
-import fs from "fs"
 import * as git from "isomorphic-git"
 import { getStagingStatus } from "../queries/getStagingStatus"
 
@@ -15,21 +14,20 @@ export async function commitAll(
       case "modified":
       case "*added":
       case "*modified": {
-        await git.add({ fs, dir: root, filepath })
+        await git.add({ dir: root, filepath })
         break
       }
       case "deleted":
       case "absent":
       case "*absent":
       case "*deleted": {
-        await git.remove({ fs, dir: root, filepath })
+        await git.remove({ dir: root, filepath })
         break
       }
     }
   }
 
   return git.commit({
-    fs,
     dir: root,
     message,
     author

@@ -1,3 +1,5 @@
+import "../../__testHelpers__"
+
 import fs from "fs"
 import * as git from "isomorphic-git"
 import path from "path"
@@ -16,7 +18,7 @@ test("searchTree", async () => {
     ["b/c/f", "α"]
   ])
 
-  const repo = { fs, dir: root }
+  const repo = { dir: root }
   const sha = await git.resolveRef({ ...repo, ref: "master" })
   const { object: commit } = await git.readObject({ ...repo, oid: sha })
 
@@ -24,7 +26,7 @@ test("searchTree", async () => {
   assert.deepEqual(oids.map(o => o.filepath), ["a", "b/c/f", "b/d", "b/e"])
 
   const oid = oids[0].oid
-  const { object: blob } = await git.readObject({ oid, fs, dir: root })
+  const { object: blob } = await git.readObject({ oid, dir: root })
   assert(blob.toString() === "x")
 })
 

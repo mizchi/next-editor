@@ -1,4 +1,3 @@
-import fs from "fs"
 import * as git from "isomorphic-git"
 import difference from "lodash/difference"
 import uniq from "lodash/uniq"
@@ -9,13 +8,11 @@ export async function getTrackingStatus(
   projectRoot: string
 ): Promise<GitTrackingStatus> {
   const trackedByHead: string[] = await git.listFiles({
-    fs,
     dir: projectRoot,
     ref: "HEAD"
   })
 
   const trackedByIndex: string[] = await git.listFiles({
-    fs,
     dir: projectRoot
   })
 
@@ -37,7 +34,6 @@ export async function getUntrackingFiles(
   projectRoot: string
 ): Promise<string[]> {
   const tracked: string[] = await git.listFiles({
-    fs,
     dir: projectRoot,
     ref: "HEAD"
   })

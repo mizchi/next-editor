@@ -1,4 +1,3 @@
-import fs from "fs"
 import * as git from "isomorphic-git"
 import flatten from "lodash/flatten"
 import { CommitDescription } from "../../types"
@@ -15,8 +14,8 @@ export async function getBranchStatus(
   remotes: string[]
   remoteBranches: string[]
 }> {
-  const currentBranch = await git.currentBranch({ fs, dir: projectRoot })
-  const branches = await git.listBranches({ fs, dir: projectRoot })
+  const currentBranch = await git.currentBranch({ dir: projectRoot })
+  const branches = await git.listBranches({ dir: projectRoot })
   const remotes = await getRemotes(projectRoot)
   const remoteBranches = flatten(
     await Promise.all(

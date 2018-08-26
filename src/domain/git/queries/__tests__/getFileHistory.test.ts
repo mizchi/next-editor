@@ -1,3 +1,5 @@
+import "../../__testHelpers__"
+
 import assert from "power-assert"
 import * as helpers from "../../__testHelpers__/helpers"
 import { getFileHistory, getFileHistoryWithDiff } from "../getFileHistory"

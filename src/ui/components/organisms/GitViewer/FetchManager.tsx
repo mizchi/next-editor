@@ -1,5 +1,4 @@
 import { Intent } from "@blueprintjs/core"
-import fs from "fs"
 import * as git from "isomorphic-git"
 import React from "react"
 import { toast } from "../../utils/toast"
@@ -41,7 +40,6 @@ export class FetchManager extends React.Component<
               onClick={async () => {
                 try {
                   ;(git.fetch as any)({
-                    fs,
                     dir: projectRoot,
                     remote: this.state.selectedRemote
                   })

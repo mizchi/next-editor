@@ -4,6 +4,10 @@ import path from "path"
 import rimraf from "rimraf"
 import uuid from "uuid"
 
+import { plugins } from "isomorphic-git"
+
+plugins.set("fs", fs)
+
 const repos: string[] = []
 
 afterAll(() => {
@@ -17,7 +21,7 @@ export async function createTempGitProject() {
   repos.push(tempRoot)
 
   await fs.promises.mkdir(tempRoot)
-  await git.init({ fs, dir: tempRoot })
+  await git.init({ dir: tempRoot })
 
   return tempRoot
 }
@@ -29,10 +33,9 @@ export async function batchUpdateFiles(
 ): Promise<string> {
   for (const [filename, content] of files) {
     await fs.promises.writeFile(path.join(projectRoot, filename), content)
-    await git.add({ fs, dir: projectRoot, filepath: filename })
+    await git.add({ dir: projectRoot, filepath: filename })
   }
   return git.commit({
-    fs,
     dir: projectRoot,
     message,
     author: { name: "test", email: "test" }

@@ -46,21 +46,18 @@ export async function setupInitialRepository(projectRoot: string) {
   if (await existsPath(j(projectRoot, ".git"))) {
     // Pass
   } else {
-    await git.init({ fs, dir: projectRoot })
+    await git.init({ dir: projectRoot })
     await git.add({
       dir: "/playground",
-      filepath: "README.md",
-      fs
+      filepath: "README.md"
     })
     await git.add({
       dir: "/playground",
-      filepath: ".gitignore",
-      fs
+      filepath: ".gitignore"
     })
     await git.add({
       dir: "/playground",
-      filepath: "scratch.md",
-      fs
+      filepath: "scratch.md"
     })
     await git.commit({
       author: {
@@ -68,7 +65,6 @@ export async function setupInitialRepository(projectRoot: string) {
         name: "system"
       },
       dir: "/playground",
-      fs,
       message: "Init"
     })
   }

@@ -1,3 +1,5 @@
+import "../../__testHelpers__"
+
 import fs from "fs"
 import * as git from "isomorphic-git"
 import path from "path"
@@ -15,7 +17,7 @@ test("detect unmodified / modified", async () => {
 
   // Update a
   await fs.promises.writeFile(path.join(root, "a"), "3")
-  await git.add({ fs, dir: root, filepath: "a" })
+  await git.add({ dir: root, filepath: "a" })
   assert.deepEqual(await getStagingStatus(root), {
     a: "modified",
     b: "unmodified"
@@ -23,7 +25,7 @@ test("detect unmodified / modified", async () => {
 
   // Back to unmodified
   await fs.promises.writeFile(path.join(root, "a"), "1")
-  await git.add({ fs, dir: root, filepath: "a" })
+  await git.add({ dir: root, filepath: "a" })
   assert.deepEqual(await getStagingStatus(root), {
     a: "unmodified",
     b: "unmodified"
@@ -54,7 +56,7 @@ test("list added files", async () => {
     a: "unmodified",
     b: "*added"
   })
-  await git.add({ fs, dir: root, filepath: "b" })
+  await git.add({ dir: root, filepath: "b" })
 
   assert.deepEqual(await getStagingStatus(root), {
     a: "unmodified",

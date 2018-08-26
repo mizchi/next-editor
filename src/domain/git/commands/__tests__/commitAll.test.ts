@@ -1,3 +1,5 @@
+import "../../__testHelpers__"
+
 import fs from "fs"
 import path from "path"
 import assert from "power-assert"

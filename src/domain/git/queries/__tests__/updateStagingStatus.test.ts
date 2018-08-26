@@ -1,3 +1,5 @@
+import "../../__testHelpers__"
+
 import fs from "fs"
 import * as git from "isomorphic-git"
 import path from "path"
@@ -62,7 +64,7 @@ test("remove dir", async () => {
   })
 
   for (const filepath of targetFiles) {
-    await git.remove({ fs, dir: root, filepath })
+    await git.remove({ dir: root, filepath })
   }
   assert.deepEqual(await getStagingStatus(root), {
     a: "unmodified",
@@ -71,7 +73,6 @@ test("remove dir", async () => {
   })
 
   await git.commit({
-    fs,
     dir: root,
     message: "x",
     author: { name: "x", email: "y" }

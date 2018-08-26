@@ -1,11 +1,10 @@
-import fs from "fs"
 import * as git from "isomorphic-git"
 
 export function listBranches(
   projectRoot: string,
   remote: string | null = null
 ): Promise<string[]> {
-  return git.listBranches({ fs, dir: projectRoot, remote })
+  return git.listBranches({ dir: projectRoot, remote })
 }
 
 export async function listRemoteBranches(
@@ -14,7 +13,6 @@ export async function listRemoteBranches(
 ): Promise<string[]> {
   try {
     const branches: string[] = await git.listBranches({
-      fs,
       dir: projectRoot,
       remote
     })
