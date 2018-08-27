@@ -4,6 +4,7 @@ exports[`Check we need migration 1`] = `
 Object {
   "app": Object {
     "activeSupport": "git",
+    "isMobile": false,
     "mainLayout": Object {
       "areas": Array [
         Array [

@@ -1,5 +1,5 @@
 {
-  "version": 7,
+  "version": 8,
   "migrations": {
     "0": ["reuseConfigInState"],
     "1": ["reuseConfigInState"],
@@ -8,6 +8,7 @@
     "4": ["reuseConfigInState"],
     "5": ["reuseConfigInState"],
     "6": ["reuseConfigInState"],
-    "7": ["reuseConfigInState"]
+    "7": ["reuseConfigInState"],
+    "8": ["reuseConfigInState"]
   }
 }
