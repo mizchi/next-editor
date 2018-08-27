@@ -18,6 +18,7 @@ type Props = {
   onClose: () => void
   onSetAutosave: (value: boolean) => void
   onFormat: () => void
+  useTextEditor?: boolean
 }
 
 type State = {
@@ -35,9 +36,10 @@ export class EditorWithToolbar extends React.Component<Props, State> {
     super(props)
 
     const language = extToFileType(props.buffer.filepath)
-    const editorType = ["text", "markdown"].includes(language)
-      ? "text"
-      : "monaco"
+    const editorType =
+      props.useTextEditor || ["text", "markdown"].includes(language)
+        ? "text"
+        : "monaco"
 
     this.state = {
       value: props.buffer.value,

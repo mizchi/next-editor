@@ -2,6 +2,7 @@ import React from "react"
 import { connector } from "../../actionCreators"
 import { RootState } from "../../reducers"
 import { Config } from "../pages/Config"
+import { Edit } from "../pages/Edit"
 import { Main } from "../pages/Main"
 
 type Props = {
@@ -19,6 +20,9 @@ export const StackRouter = connector(selector, _a => ({}))(
     switch (props.currentScene) {
       case "main": {
         return <Main />
+      }
+      case "edit": {
+        return <Edit />
       }
       case "config": {
         return <Config />

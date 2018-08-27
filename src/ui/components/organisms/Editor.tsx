@@ -8,6 +8,7 @@ import { EditorWithToolbar } from "../molecules/EditorWithToolbar"
 export const Editor = connector(
   state => {
     return {
+      isMobile: state.app.isMobile,
       theme: state.config.theme,
       projectRoot: state.repository.currentProjectRoot,
       buffer: state.buffer,
@@ -36,6 +37,7 @@ export const Editor = connector(
   if (buffer.filepath) {
     return (
       <EditorWithToolbar
+        useTextEditor={props.isMobile}
         theme={theme}
         projectRoot={projectRoot}
         fontScale={fontScale}

@@ -27,6 +27,7 @@ export const FileLine: React.ComponentType<OwnProps> = connector(
   (state, ownProps: OwnProps) => {
     return {
       ...ownProps,
+      isMobile: state.app.isMobile,
       editingFilepath: state.buffer.filepath,
       renamingPathname: state.repository.renamingPathname
     }
@@ -35,7 +36,8 @@ export const FileLine: React.ComponentType<OwnProps> = connector(
     return {
       loadFile: actions.editor.loadFile,
       fileMoved: actions.editor.fileMoved,
-      endRenaming: actions.repository.endRenaming
+      endRenaming: actions.repository.endRenaming,
+      pushScene: actions.app.pushScene
     }
   },
   lifecycle({
@@ -90,7 +92,14 @@ export const FileLine: React.ComponentType<OwnProps> = connector(
         }}
       >
         <Container selected={editingFilepath === filepath}>
-          <div onClick={() => props.loadFile({ filepath })}>
+          <div
+            onClick={() => {
+              props.loadFile({ filepath })
+              if (props.isMobile) {
+                props.pushScene({ nextScene: "edit" })
+              }
+            }}
+          >
             {range(depth).map((_, k) => (
               <span key={k}>&nbsp;&nbsp;</span>
             ))}
