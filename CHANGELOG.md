@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.26.0"></a>
+# [0.26.0](https://github.com/mizchi/next-editor/compare/v0.23.0...v0.26.0) (2018-08-27)
+
+
+### Bug Fixes
+
+* **deps:** update dependency isomorphic-git to v0.34.2 ([e1cce35](https://github.com/mizchi/next-editor/commit/e1cce35))
+* **deps:** update dependency polished to v2.0.3 ([f2deac4](https://github.com/mizchi/next-editor/commit/f2deac4))
+* avoid git.projectRoot ([2be68cc](https://github.com/mizchi/next-editor/commit/2be68cc))
+
+
+### Features
+
+* create github repo by octokit ([2cd4965](https://github.com/mizchi/next-editor/commit/2cd4965))
+* Enter scene edit on mobile ([d886f49](https://github.com/mizchi/next-editor/commit/d886f49))
+* implement new status ui ([6fe27c8](https://github.com/mizchi/next-editor/commit/6fe27c8))
+* Mobile view ([c2b3e1c](https://github.com/mizchi/next-editor/commit/c2b3e1c))
+* Use isomorphic-git's corsProxy ([b967963](https://github.com/mizchi/next-editor/commit/b967963))
+
+
+
 <a name="0.25.1"></a>
 ## [0.25.1](https://github.com/mizchi/next-editor/compare/v0.25.0...v0.25.1) (2018-08-26)
 
