@@ -61,6 +61,7 @@ export const GridArea: React.ComponentType<{
   overflowY?: OverflowRules
   children: React.ReactNode
 }> = p => {
+  return <div> {p.children} </div>
   return p.absolute ? (
     <div
       style={{

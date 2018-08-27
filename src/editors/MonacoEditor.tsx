@@ -94,7 +94,6 @@ export default class MonacoEditor extends React.Component<any, any> {
     })
 
     this._onResize = (ev: any) => {
-      console.log("xxx")
       editor.layout()
     }
     // window

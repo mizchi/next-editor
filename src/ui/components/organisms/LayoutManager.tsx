@@ -1,3 +1,4 @@
+import { Card } from "@blueprintjs/core"
 import flatten from "lodash/flatten"
 import uniq from "lodash/uniq"
 import React from "react"
@@ -5,6 +6,7 @@ import { connector } from "../../actionCreators"
 import { AreaName } from "../../reducers/app"
 import { Grid, GridArea } from "../utils/Grid"
 import { Editor } from "./Editor"
+import { GitController } from "./GitController"
 import { Menu } from "./Menu"
 import { UserSupport } from "./UserSupport"
 
@@ -17,6 +19,7 @@ const AreaMap: any = {
 export const LayoutManager = connector(
   state => {
     return {
+      isMobile: state.app.isMobile,
       mainLayout: state.app.mainLayout
     }
   },
@@ -24,6 +27,23 @@ export const LayoutManager = connector(
     return {}
   }
 )(function LayoutManagerImpl(props) {
+  if (props.isMobile) {
+    return (
+      <div
+        style={{
+          boxSizing: "border-box",
+          fontSize: "1.6em",
+          padding: 10
+        }}
+      >
+        <Menu />
+        <Card>
+          <GitController />
+        </Card>
+      </div>
+    )
+  }
+
   const { mainLayout } = props
   const areaNames: AreaName[] = uniq(flatten(mainLayout.areas))
   return (

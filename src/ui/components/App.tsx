@@ -8,6 +8,7 @@ import { Playground } from "./pages/Playground"
 import { GlobalErrorBoundary } from "./utils/GlobalErrorBoundary"
 import { GlobalKeyHandler } from "./utils/GlobalKeyHandler"
 import { Initializer } from "./utils/Initializer"
+import { MediaDetector } from "./utils/MediaDetector"
 import { OnlineDetector } from "./utils/OnlineDetector"
 import { StackRouter } from "./utils/StackRouter"
 import { ThemeProvider } from "./utils/ThemeProvider"
@@ -29,6 +30,7 @@ export class App extends React.Component<{}> {
                   <OnlineDetector />
                   <CreateRepoModal />
                   <CloneRepoModal />
+                  <MediaDetector />
                 </Initializer>
               </ThemeProvider>
             </GlobalKeyHandler>
