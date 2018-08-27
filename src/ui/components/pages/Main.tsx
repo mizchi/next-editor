@@ -29,7 +29,7 @@ export function Main() {
         <GridArea
           name="content"
         >
-          <LayoutManager/>
+          <LayoutManager />
         </GridArea>
       </Grid>
     </Root>

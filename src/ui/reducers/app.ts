@@ -86,11 +86,16 @@ export const closeCloneRepoModal: ActionCreator<{}> = createAction(
 export const openCreateRepoModal: ActionCreator<{}> = createAction(
   "open-create-repo-modal"
 )
+
 export const closeCreateRepoModal: ActionCreator<{}> = createAction(
   "close-create-repo-modal"
 )
 
 export const popScene: ActionCreator<{}> = createAction("pop-scene")
+
+export const setIsMobile: ActionCreator<{ isMobile: boolean }> = createAction(
+  "set-is-mobile"
+)
 
 export type Layout = {
   areas: AreaName[][]
@@ -105,6 +110,7 @@ export type AppState = {
   networkOnline: boolean
   openedCloneRepoModal: boolean
   openedCreateRepoModal: boolean
+  isMobile: boolean
 }
 
 const initialState: AppState = {
@@ -117,7 +123,8 @@ const initialState: AppState = {
     columns: ["250px", "1fr", "1fr"],
     rows: ["1fr"],
     areas: [["menu", "editor", "support"]]
-  }
+  },
+  isMobile: false
 }
 
 export const reducer: Reducer<AppState> = createReducer(initialState)
@@ -180,4 +187,7 @@ export const reducer: Reducer<AppState> = createReducer(initialState)
   })
   .case(closeCreateRepoModal, state => {
     return { ...state, openedCreateRepoModal: false }
+  })
+  .case(setIsMobile, (state, payload) => {
+    return { ...state, isMobile: payload.isMobile }
   })
