@@ -217,9 +217,16 @@ export async function pushCurrentBranchToOrigin(
   return async (dispatch: any, getState: () => RootState) => {
     const state = getState()
     const githubToken = state.config.githubApiToken
+    const corsProxy = state.config.corsProxy
     if (githubToken.length > 0) {
       try {
-        await Git.pushBranch(projectRoot, "origin", branch, githubToken)
+        await Git.pushBranch(
+          projectRoot,
+          "origin",
+          branch,
+          githubToken,
+          corsProxy
+        )
         toast({
           message: "Push success"
         })

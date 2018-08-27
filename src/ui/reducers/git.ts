@@ -7,11 +7,7 @@ import {
 import * as git from "isomorphic-git"
 import { RootState } from "."
 import * as Git from "../../domain/git"
-import {
-  GitStagingStatus,
-  GitStatusString,
-  StatusMatrix
-} from "../../domain/types"
+import { GitStatusString, StatusMatrix } from "../../domain/types"
 import { projectChanged } from "../actionCreators/globalActions"
 import { CommitDescription } from "./../../domain/types"
 
@@ -48,6 +44,16 @@ export const updateBranchStatus: ActionCreator<{
   currentBranch: string
   branches: string[]
 }> = createAction("update-branch-status")
+
+export const updateRemotes = createAsyncAction(
+  "update-remotes",
+  async (input: { projectRoot: string }) => {
+    const remotes = (await git.listRemotes({ dir: input.projectRoot })).map(
+      (a: { remote: string; url: string }) => a.remote
+    )
+    return { remotes }
+  }
+)
 
 export const mergeBranches = createThunkAction(
   "merge-branches",
@@ -237,6 +243,13 @@ export const reducer: Reducer<GitState> = createReducer(initialState)
       history: payload.history
     }
   })
+  .case(updateRemotes.resolved, (state, payload) => {
+    return {
+      ...state,
+      remotes: payload.remotes
+    }
+  })
+
   .case(updateStatusMatrix, (state, payload) => {
     return {
       ...state,

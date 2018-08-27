@@ -75,12 +75,13 @@ class FileHistoryContent extends React.Component<
           timestamp: c.commit.committer.timestamp,
           content: c.blob.object.toString(),
           diffText: c.diff
+            .filter(d => d.added || d.removed)
             .map(d => {
               if (d.added) {
-                return "+ " + d.value
+                return `+ : ${d.value}`
               }
               if (d.removed) {
-                return "- " + d.value
+                return `- : ${d.value}`
               }
               return d.value
             })

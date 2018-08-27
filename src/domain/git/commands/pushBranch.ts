@@ -4,14 +4,15 @@ export async function pushBranch(
   projectRoot: string,
   remote: string,
   ref: string,
-  token: string
+  token: string,
+  corsProxy: string
 ) {
   const ret = await (git.push as any)({
     dir: projectRoot,
     remote,
     ref,
-    authUsername: token,
-    authPassword: token
+    corsProxy,
+    token
   })
 
   if (ret.errors && ret.errors.length > 0) {

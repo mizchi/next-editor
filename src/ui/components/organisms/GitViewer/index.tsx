@@ -3,7 +3,6 @@ import { lifecycle } from "recompose"
 import { connector } from "../../../actionCreators"
 import { GitBriefHistory } from "../GitBriefHistory"
 import { BranchController } from "./BranchController"
-import { buildGroupedGitStatus } from "./helpers"
 import { Staging } from "./Staging"
 
 export const GitViewer = connector(

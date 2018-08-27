@@ -3,7 +3,12 @@ import * as git from "isomorphic-git"
 import React from "react"
 import { toast } from "../../utils/toast"
 
-type Props = { projectRoot: string; remotes: string[] }
+type Props = {
+  projectRoot: string
+  remotes: string[]
+  corsProxy: string
+  token: string
+}
 
 export class FetchManager extends React.Component<
   Props,
@@ -16,7 +21,7 @@ export class FetchManager extends React.Component<
     }
   }
   render() {
-    const { projectRoot, remotes } = this.props
+    const { projectRoot, remotes, corsProxy, token } = this.props
     const { selectedRemote } = this.state
 
     return (
@@ -39,12 +44,16 @@ export class FetchManager extends React.Component<
             <button
               onClick={async () => {
                 try {
-                  ;(git.fetch as any)({
+                  await (git.fetch as any)({
                     dir: projectRoot,
-                    remote: this.state.selectedRemote
+                    remote: this.state.selectedRemote,
+                    corsProxy,
+                    username: token,
+                    password: token
                   })
                   // TODO: show updated branch
                   toast({
+                    intent: Intent.SUCCESS,
                     message: `Fetch done: ${this.state.selectedRemote}`
                   })
                 } catch (e) {

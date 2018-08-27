@@ -16,7 +16,10 @@ export async function getBranchStatus(
 }> {
   const currentBranch = await git.currentBranch({ dir: projectRoot })
   const branches = await git.listBranches({ dir: projectRoot })
-  const remotes = await getRemotes(projectRoot)
+  const remotes: string[] = (await git.listRemotes({ dir: projectRoot })).map(
+    (a: { remote: string; url: string }) => a.remote
+  )
+
   const remoteBranches = flatten(
     await Promise.all(
       remotes.map(remote => listRemoteBranches(projectRoot, remote))

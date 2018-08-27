@@ -112,7 +112,12 @@ export class BranchController extends React.Component<
                   </button>
                 )}
                 <div>
-                  <FetchManager projectRoot={projectRoot} remotes={remotes} />
+                  <FetchManager
+                    projectRoot={projectRoot}
+                    remotes={remotes}
+                    corsProxy={config.corsProxy}
+                    token={config.githubApiToken}
+                  />
                 </div>
                 <div>
                   <CommandWithSelect
