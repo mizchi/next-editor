@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.26.2"></a>
+## [0.26.2](https://github.com/mizchi/next-editor/compare/v0.26.1...v0.26.2) (2018-08-28)
+
+
+### Bug Fixes
+
+* landing html ([2efdd87](https://github.com/mizchi/next-editor/commit/2efdd87))
+
+
+
 <a name="0.26.1"></a>
 ## [0.26.1](https://github.com/mizchi/next-editor/compare/v0.26.0...v0.26.1) (2018-08-27)
 
