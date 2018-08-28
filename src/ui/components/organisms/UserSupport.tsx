@@ -4,6 +4,7 @@ import { connector } from "../../actionCreators"
 import { ActiveSupport } from "../../reducers/app"
 import { Help } from "../atoms/Help"
 import { MarkdownPreview } from "../atoms/MarkdownPreview"
+import { TextlintLinter } from "../atoms/TextlintLinter"
 import { FileHistory } from "./FileHistory"
 import { GitController } from "./GitController"
 
@@ -72,6 +73,20 @@ class UserSupportContent extends React.PureComponent<Props> {
               panel={<MarkdownPreview source={value || ""} />}
             />
           )}
+          {["text", "markdown"].includes(filetype) && (
+            <Tab
+              id="linter"
+              title="Linter"
+              panel={
+                <TextlintLinter
+                  filename={this.props.filepath}
+                  filetype={filetype as any}
+                  source={value || ""}
+                />
+              }
+            />
+          )}
+
           <Tab id="help" title="Help" panel={<Help />} />
         </Tabs>
       </Card>

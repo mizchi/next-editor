@@ -21,6 +21,9 @@ declare module "*.json"
 declare module "*.css"
 declare module "*.md"
 declare module "enzyme-adapter-react-16"
+declare module "@textlint/textlint-plugin-markdown"
+declare module "textlint-rule-no-todo"
+declare module "textlint-rule-prh"
 
 declare var BrowserFS: any
 declare var NEPlugins: { [pluginName: string]: any }
