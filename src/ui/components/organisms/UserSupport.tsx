@@ -1,4 +1,4 @@
-import { Card, Tab, Tabs } from "@blueprintjs/core"
+import { Button, Card, Tab, Tabs } from "@blueprintjs/core"
 import React from "react"
 import { connector } from "../../actionCreators"
 import { ActiveSupport } from "../../reducers/app"
@@ -71,6 +71,26 @@ class UserSupportContent extends React.PureComponent<Props> {
               id="preview-by-filetype"
               title="Preview"
               panel={<MarkdownPreview source={value || ""} />}
+            />
+          )}
+          {filetype === "markdown" && (
+            <Tab
+              id="publish"
+              title="Publish"
+              panel={
+                <>
+                  {Object.values(NEPlugins).map((plugin: any) => {
+                    return (
+                      plugin.AdditionalSupportComponents &&
+                      plugin.AdditionalSupportComponents.map(
+                        (Comp: any, index: number) => {
+                          return React.createElement(Comp, { key: index })
+                        }
+                      )
+                    )
+                  })}
+                </>
+              }
             />
           )}
           {["text", "markdown"].includes(filetype) && (

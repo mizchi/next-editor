@@ -2,6 +2,8 @@
 
 ## Current
 
+- [x] Textlint base
+
 - [ ] Reset except config
 - [ ] Use git matrix on repository viewer
 - [ ] Restore file on reset
