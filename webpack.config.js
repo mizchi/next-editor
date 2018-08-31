@@ -86,6 +86,14 @@ module.exports = {
           }
         ]
       },
+      // {
+      //   test: /\.tsx?$/,
+      //   use: [
+      //     {
+      //       loader: "babel-loader"
+      //     }
+      //   ]
+      // },
       {
         test: /\.js$/,
         include: SRC_INCLUDES,

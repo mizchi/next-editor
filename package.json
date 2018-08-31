@@ -23,9 +23,11 @@
   "devDependencies": {
     "@babel/core": "7.0.0",
     "@babel/plugin-proposal-class-properties": "7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-syntax-object-rest-spread": "7.0.0",
     "@babel/preset-env": "7.0.0",
     "@babel/preset-react": "7.0.0",
+    "@babel/preset-typescript": "^7.0.0",
     "@babel/standalone": "7.0.0",
     "@mdx-js/loader": "0.15.0",
     "@mdx-js/mdx": "0.15.0",

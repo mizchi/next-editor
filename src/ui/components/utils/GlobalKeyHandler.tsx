@@ -1,18 +1,17 @@
 import React from "react"
 import { HotKeys } from "react-hotkeys"
 import { connect } from "react-redux"
-import { defaultKeyMap, ImplCommandList, implCommandMap } from "./commandMap"
-// type Props = { children: React.ReactNode; dispatch: any }
+import { defaultKeyMap, implCommandMap } from "./commandMap"
 
 export const GlobalKeyHandler = connect(_state => {
   return {}
 })(function GlobalKeyHandlerImpl({ children, dispatch }: any) {
   const keyMap = { ...defaultKeyMap }
   const handlers: {
-    [key in ImplCommandList]: (dispatch: any, event: any) => void
-  } = Object.keys(ImplCommandList).reduce(
+    [key: string]: (dispatch: any, event: any) => void
+  } = Object.keys(implCommandMap).reduce(
     (acc, _key: any) => {
-      const key: ImplCommandList = _key
+      const key: string = _key
       const fn = implCommandMap[key]
       if (fn) {
         return {
