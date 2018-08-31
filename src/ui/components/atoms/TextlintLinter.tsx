@@ -27,7 +27,7 @@ export class TextlintLinter extends React.Component<LinterProps, LinterState> {
     if (this._linter == null) {
       const {
         runTextlint
-      } = await import(/* webpackChunkName: "textlint" */ "../../../lib/runTextlint")
+      } = await import(/* webpackChunkName: "linter" */ "../../../lib/runTextlint")
       this._linter = runTextlint
     }
 
