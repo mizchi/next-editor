@@ -13150,9 +13150,9 @@ v8-compile-cache@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.0.2.tgz#a428b28bb26790734c4fc8bc9fa106fccebf6a6c"
 
-v8n@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/v8n/-/v8n-1.2.1.tgz#c43c8e43f68a2a347ef2c20772521fa0d1aa4066"
+v8n@1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/v8n/-/v8n-1.2.2.tgz#9fe01e972c810bc4577a262b6465f4c4e61b2852"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
