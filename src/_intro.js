@@ -11,14 +11,12 @@ function showUpgradeModal() {
     document.body.appendChild(modal)
   }
 
-  if (installed) {
-    modal.innerHTML = `
-      <div style='position: absolute; outline: 1px solid black; right: 10px; bottom: 10px; width: 350px; height: 50px; background: white; padding: 10px; font-family: Georgia;'>
-        <div>New version available!</div>
-        <span>It will be applied from the next</span> - <button onclick="location.reload()">Reload</button>
-      </div>
-    `
-  }
+  modal.innerHTML = `
+    <div style='position: absolute; outline: 1px solid black; right: 10px; bottom: 10px; width: 350px; height: 50px; background: white; padding: 10px; font-family: Georgia;'>
+      <div>New version available!</div>
+      <span>It will be applied from the next</span> - <button onclick="location.reload()">Reload</button>
+    </div>
+  `
 }
 
 async function setupServiceWorker() {
