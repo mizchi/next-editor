@@ -1,23 +1,7 @@
-// This file is inline code in index.html to avoid cache
-// Webpack Reloader does not work for this file
+const IS_LOCALHOST = location.href.indexOf("localhost") > -1
+const USE_SW = !IS_LOCALHOST
 
 const contentEl = document.querySelector(".content-skeleton")
-
-function setupBrowserFS() {
-  return new Promise(resolve => {
-    const script = document.createElement("script")
-    script.src = "/assets/browserfs.min.js"
-    script.onload = () => {
-      BrowserFS.configure({ fs: "IndexedDB", options: {} }, err => {
-        if (err) {
-          throw err
-        }
-        resolve()
-      })
-    }
-    document.head.appendChild(script)
-  })
-}
 
 let modal = null
 function showUpgradeModal() {
@@ -37,59 +21,20 @@ function showUpgradeModal() {
 }
 
 async function setupServiceWorker() {
-  if (navigator.serviceWorker == null) {
-    throw new Error("Your browser can not use serviceWorker")
-  }
-
   let isFirstInstall = navigator.serviceWorker.controller == null
 
   navigator.serviceWorker.addEventListener("controllerchange", () => {
     if (isFirstInstall) {
       isFirstInstall = false
     } else {
-      const modal = document.createElement("div")
-      modal.innerHTML = `
-        <div style='position: absolute; outline: 1px solid black; right: 10px; bottom: 50px; width: 350px; height: 50px; background: white; padding: 10px;'>
-          <div>New version available!</div>
-          <span>It will be applied from the next</span> - <button onclick="location.reload()">Reload</button>
-        </div>
-      `
-      document.body.appendChild(modal)
+      showUpgradeModal()
     }
   })
 
   const reg = await navigator.serviceWorker.register("/sw.js")
-  await Promise.race([
-    navigator.serviceWorker.ready,
-    // NOTE: Sometimes(development only?) navigator.serviceWorker.ready is never ready.
-    new Promise(resolve => {
-      if (navigator.serviceWorker.controller) {
-        return resolve()
-      }
-      navigator.serviceWorker.addEventListener("controllerchange", e =>
-        resolve()
-      )
-    }),
-    // NOTE: Start without service-worker after 5s
-    new Promise(resolve => {
-      setTimeout(() => {
-        resolve()
-        if (navigator.serviceWorker.controller == null) {
-          console.warn("Start without service-worker")
-        }
-      }, 5000)
-    })
-  ])
-
-  if (location.href.indexOf("localhost") > -1) {
-    setInterval(() => {
-      reg.update()
-    }, 3 * 1000)
-  } else {
-    setInterval(() => {
-      reg.update()
-    }, 5 * 60 * 1000)
-  }
+  await navigator.serviceWorker.ready
+  // start sw check
+  setInterval(() => reg.update(), IS_LOCALHOST ? 3 * 1000 : 5 * 60 * 1000)
 }
 
 async function setupFonts() {
@@ -98,36 +43,25 @@ async function setupFonts() {
   document.fonts.add(loadedFace)
 }
 
-const showLoadingMessage = (mes, loading = true) => {
-  contentEl.innerHTML = [mes, loading ? '<div id="__loader"></div>' : ""].join(
-    ""
-  )
-}
-
 // Do not use yet
 function loadState() {
   return JSON.parse(localStorage["persist:@:0"])
 }
 
 ;(async () => {
-  if (
-    window.location.hostname !== "localhost" &&
-    window.location.protocol === "http:"
-  ) {
-    window.location.href =
-      "https://" + location.host + "/" + window.location.search
-  }
-
   try {
     // SW
-    if (window.location.hostname !== "localhost") {
-      showLoadingMessage("Checking service-worker...")
+    if (USE_SW) {
+      contentEl.innerHTML = "Checking service-worker..."
+      console.time("loading:sw")
       await setupServiceWorker()
+      console.time("loading:sw")
     }
+
     contentEl.innerHTML = ""
 
     // Run
-    await Promise.all([setupBrowserFS(), setupFonts()])
+    await setupFonts()
 
     // Plugin namespace
     window.NEPlugins = {}

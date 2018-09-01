@@ -1,3 +1,4 @@
+const webpack = require("webpack")
 const path = require("path")
 const CopyPlugin = require("copy-webpack-plugin")
 const WorkboxPlugin = require("workbox-webpack-plugin")
@@ -55,7 +56,12 @@ const plugins = [
     inject: false,
     template: path.join(SRC, "index.html.ejs")
   }),
-  new CopyPlugin(COPY_RULES)
+  new CopyPlugin(COPY_RULES),
+  new webpack.ProvidePlugin({
+    BrowserFS: "bfsGlobal",
+    process: "processGlobal",
+    Buffer: "bufferGlobal"
+  })
 ]
 
 module.exports = {
@@ -69,11 +75,24 @@ module.exports = {
   },
   resolve: {
     alias: {
-      fs: path.join(__dirname, "src/lib/fs.ts")
+      fs: "browserfs/dist/shims/fs.js",
+      buffer: "browserfs/dist/shims/buffer.js",
+      path: "browserfs/dist/shims/path.js",
+      processGlobal: "browserfs/dist/shims/process.js",
+      bufferGlobal: "browserfs/dist/shims/bufferGlobal.js",
+      bfsGlobal: require.resolve("browserfs")
     },
+    // alias: {
+    //   fs: path.join(__dirname, "src/lib/fs.ts")
+    // },
     extensions: [".ts", ".tsx", ".js"]
   },
+  node: {
+    process: false,
+    Buffer: false
+  },
   module: {
+    noParse: /browserfs\.js/,
     rules: [
       {
         test: /\.tsx?$/,
