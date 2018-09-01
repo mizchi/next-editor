@@ -41,7 +41,7 @@ async function setupServiceWorker() {
       contentEl.innerHTML = "Checking service-worker..."
       console.time("loading:sw")
       await setupServiceWorker()
-      console.time("loading:sw")
+      console.timeEnd("loading:sw")
       contentEl.innerHTML = ""
     }
 
