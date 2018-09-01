@@ -17,7 +17,6 @@ export async function updateStatusMatrix(
       dir: projectRoot,
       pattern
     })
-    console.log("row for", pattern, newMat)
 
     for (const newRow of newMat) {
       const [fpath] = newRow

@@ -43,7 +43,6 @@ export function getRemovableFilenames(matrix: StatusMatrix) {
 }
 
 export function getRemovedFilenames(matrix: StatusMatrix) {
-  console.log(matrix)
   return matrix
     .filter(row => row[WORKDIR] === HEAD_ABSENT && row[STAGE] === STAGE_ABSENT)
     .map(row => row[FILE])
