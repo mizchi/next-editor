@@ -2,6 +2,7 @@ const IS_LOCALHOST = location.href.indexOf("localhost") > -1
 const USE_SW = !IS_LOCALHOST
 
 const contentEl = document.querySelector(".content-skeleton")
+let isFirstInstall = navigator.serviceWorker.controller == null
 
 let modal = null
 function showUpgradeModal() {
@@ -21,8 +22,6 @@ function showUpgradeModal() {
 }
 
 async function setupServiceWorker() {
-  let isFirstInstall = navigator.serviceWorker.controller == null
-
   navigator.serviceWorker.addEventListener("controllerchange", () => {
     if (isFirstInstall) {
       isFirstInstall = false
@@ -37,17 +36,6 @@ async function setupServiceWorker() {
   setInterval(() => reg.update(), IS_LOCALHOST ? 3 * 1000 : 5 * 60 * 1000)
 }
 
-async function setupFonts() {
-  const font = new FontFace("Inconsolata", "url(/assets/Inconsolata.otf)")
-  const loadedFace = await font.load()
-  document.fonts.add(loadedFace)
-}
-
-// Do not use yet
-function loadState() {
-  return JSON.parse(localStorage["persist:@:0"])
-}
-
 ;(async () => {
   try {
     // SW
@@ -56,22 +44,17 @@ function loadState() {
       console.time("loading:sw")
       await setupServiceWorker()
       console.time("loading:sw")
+      contentEl.innerHTML = ""
     }
-
-    contentEl.innerHTML = ""
-
-    // Run
-    await setupFonts()
 
     // Plugin namespace
     window.NEPlugins = {}
-    console.time("loading:main")
 
-    // Lazy evaluation
+    console.time("loading:main")
     await import(/* webpackIgnore: true */ "./main.js")
     console.timeEnd("loading:main")
   } catch (e) {
     // TODO: Show restore guide
-    showLoadingMessage("Something wrong: " + e.message, false)
+    contentEl.textContent = "Something wrong: " + e.message
   }
 })()

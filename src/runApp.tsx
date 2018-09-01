@@ -49,6 +49,33 @@ import React from "react"
 import ReactDOM from "react-dom"
 import { App } from "./ui/components/App"
 
-export async function run(opts: {} = {}) {
+export async function run(opts = {}) {
+  // Run
+  await Promise.all([setupFonts(), loadBrowserFS()])
+
   ReactDOM.render(<App />, document.querySelector(".root"))
+}
+
+async function setupFonts() {
+  const font = new FontFace("Inconsolata", "url(/assets/Inconsolata.otf)")
+  const loadedFace = await font.load()
+  ;(document as any).fonts.add(loadedFace)
+}
+
+async function loadBrowserFS() {
+  return new Promise(resolve => {
+    const BrowserFS = require("browserfs")
+    BrowserFS.install(window)
+    BrowserFS.configure({ fs: "IndexedDB", options: {} }, (err: any) => {
+      if (err) {
+        throw err
+      }
+      resolve()
+    })
+  })
+}
+
+// Do not use yet
+function loadState() {
+  return JSON.parse((window as any).localStorage["persist:@:0"])
 }
