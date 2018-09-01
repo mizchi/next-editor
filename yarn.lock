@@ -1819,9 +1819,9 @@
     core-js "^2.5.6"
     regenerator-runtime "^0.11.1"
 
-"@babel/runtime@7.0.0-beta.56":
-  version "7.0.0-beta.56"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.56.tgz#cda612dffd5b1719a7b8e91e3040bd6ae64de8b0"
+"@babel/runtime@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0.tgz#adeb78fedfc855aa05bc041640f3f6f98e85424c"
   dependencies:
     regenerator-runtime "^0.12.0"
 
@@ -7538,9 +7538,9 @@ isomorphic-fetch@^2.1.1:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
 
-isomorphic-git@0.34.2:
-  version "0.34.2"
-  resolved "https://registry.yarnpkg.com/isomorphic-git/-/isomorphic-git-0.34.2.tgz#b43d55fca78d52301663f1e3288c53403a5f2801"
+isomorphic-git@0.35.0:
+  version "0.35.0"
+  resolved "https://registry.yarnpkg.com/isomorphic-git/-/isomorphic-git-0.35.0.tgz#32e210d1c4fc7c9da9e3e140f95f9ba07d7649a8"
   dependencies:
     async-lock "^1.1.0"
     babel-runtime "^6.26.0"
@@ -10984,11 +10984,11 @@ recast@^0.15.0:
     private "~0.1.5"
     source-map "~0.6.1"
 
-recompose@0.28.2:
-  version "0.28.2"
-  resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.28.2.tgz#19e679227bdf979e0d31b73ffe7ae38c9194f4a7"
+recompose@0.30.0:
+  version "0.30.0"
+  resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.30.0.tgz#82773641b3927e8c7d24a0d87d65aeeba18aabd0"
   dependencies:
-    "@babel/runtime" "7.0.0-beta.56"
+    "@babel/runtime" "^7.0.0"
     change-emitter "^0.1.2"
     fbjs "^0.8.1"
     hoist-non-react-statics "^2.3.1"
