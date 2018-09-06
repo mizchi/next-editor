@@ -84,7 +84,7 @@ export const checkoutNewBranch = createThunkAction(
   }
 )
 
-export const removeBranch = createThunkAction(
+export const deleteBranch = createThunkAction(
   "remove-branches",
   async (
     input: { projectRoot: string; branch: string },
@@ -93,12 +93,14 @@ export const removeBranch = createThunkAction(
   ) => {
     const state = getState()
     await Git.deleteBranch(input.projectRoot, input.branch)
+
     // checkout master if target is currentBranch
     if (state.git.currentBranch === input.branch) {
       await Git.checkoutBranch(input.projectRoot, "master")
     }
-    const { branches } = await Git.getBranchStatus(input.projectRoot)
-    return { branches, currentBranch: input.branch }
+
+    const data = await Git.getBranchStatus(input.projectRoot)
+    return { branches: data.branches, currentBranch: input.branch }
   }
 )
 

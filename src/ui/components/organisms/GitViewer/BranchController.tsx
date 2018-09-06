@@ -16,7 +16,7 @@ export class BranchController extends React.Component<
     remoteBranches: string[]
     onChangeBranch: (branchName: string) => void
     onClickCreateBranch: (branchName: string) => void
-    onClickRemoveBranch: (branchName: string) => void
+    // onClickDeleteBranch: (branchName: string) => void
     onClickGitPush: (branchName: string) => void
     onClickOpenConfig: () => void
     onClickMerge: (ref1: string, ref2: string) => void
@@ -36,7 +36,7 @@ export class BranchController extends React.Component<
       onChangeBranch,
       onClickCreateBranch,
       onClickGitPush,
-      onClickRemoveBranch,
+      // onClickDeleteBranch,
       projectRoot
     } = this.props
     return (
@@ -64,9 +64,10 @@ export class BranchController extends React.Component<
                 }}
               />
             </div>
-            <div>
+            {/* TODO: Fix it. Buggy. */}
+            {/* <div>
               <CommandWithSelect
-                key={currentBranch}
+                // key={currentBranch + branches.join("$")}
                 description="Delete branch"
                 tooltip={value => `git branch -d ${value}`}
                 initialValue={""}
@@ -75,10 +76,10 @@ export class BranchController extends React.Component<
                 }}
                 options={[""].concat(branches.filter(b => b !== "master"))}
                 onExec={value => {
-                  onClickRemoveBranch(value)
+                  onClickDeleteBranch(value)
                 }}
               />
-            </div>
+            </div> */}
             <div>
               <CommandWithInput
                 description="Checkout new branch"
