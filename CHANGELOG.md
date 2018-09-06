@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.27.5"></a>
+## [0.27.5](https://github.com/mizchi/next-editor/compare/v0.27.1...v0.27.5) (2018-09-06)
+
+
+### Bug Fixes
+
+* **deps:** update dependency [@blueprintjs](https://github.com/blueprintjs)/core to v3.5.1 ([b82b99c](https://github.com/mizchi/next-editor/commit/b82b99c))
+* loading ([71123fd](https://github.com/mizchi/next-editor/commit/71123fd))
+* **deps:** update dependency [@octokit](https://github.com/octokit)/rest to v15.11.1 ([fa3f43c](https://github.com/mizchi/next-editor/commit/fa3f43c))
+* **deps:** update dependency delay to v4 ([717fb73](https://github.com/mizchi/next-editor/commit/717fb73))
+* **deps:** update dependency isomorphic-git to v0.35.1 ([105c748](https://github.com/mizchi/next-editor/commit/105c748))
+* **deps:** update dependency v8n to v1.2.2 ([fc4f0bd](https://github.com/mizchi/next-editor/commit/fc4f0bd))
+
+
+
 <a name="0.27.4"></a>
 ## [0.27.4](https://github.com/mizchi/next-editor/compare/v0.27.3...v0.27.4) (2018-09-01)
 
