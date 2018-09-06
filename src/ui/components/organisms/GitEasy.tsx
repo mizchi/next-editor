@@ -8,6 +8,7 @@ import * as Parser from "../../../domain/git/queries/parseStatusMatrix"
 import { connector } from "../../actionCreators"
 import { toast } from "../utils/toast"
 import { GitBriefHistory } from "./GitBriefHistory"
+import Octokit from "@octokit/rest"
 
 // This is example reference
 export const GitEasy = connector(
@@ -50,6 +51,9 @@ export const GitEasy = connector(
               // Start
               const sp = props.projectRoot.split("/")
               const repo = sp[sp.length - 1]
+              console.log(process.env)
+              process.browser = true
+              // debugger
 
               const octokit = require("@octokit/rest")()
 

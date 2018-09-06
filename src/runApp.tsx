@@ -1,3 +1,7 @@
+// Avoid error on Octokit
+// This caused by node process.env
+;(process as any).browser = true
+
 // normalize
 import "normalize.css/normalize.css"
 
