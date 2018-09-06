@@ -51,9 +51,6 @@ export const GitEasy = connector(
               // Start
               const sp = props.projectRoot.split("/")
               const repo = sp[sp.length - 1]
-              console.log(process.env)
-              process.browser = true
-              // debugger
 
               const octokit = require("@octokit/rest")()
 
@@ -129,12 +126,12 @@ export const GitEasy = connector(
           }}
           data-testid="commit-all-button"
         />
-        <Button
+        {/* <Button
           text="Reload git"
           onClick={() => {
             props.initializeGitStatus(props.projectRoot)
           }}
-        />
+        /> */}
 
         {!hasChanges && <p>No Changes</p>}
         {hasChanges && (
