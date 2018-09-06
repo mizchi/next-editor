@@ -1551,9 +1551,9 @@
     "@types/node" "*"
     "@types/react" "*"
 
-"@types/react-redux@6.0.6":
-  version "6.0.6"
-  resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-6.0.6.tgz#87f1d0a6ea901b93fcaf95fa57641ff64079d277"
+"@types/react-redux@6.0.7":
+  version "6.0.7"
+  resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-6.0.7.tgz#ac61cd8d137ca7205b831d66e279f42fe2a1c3cd"
   dependencies:
     "@types/react" "*"
     redux "^4.0.0"
