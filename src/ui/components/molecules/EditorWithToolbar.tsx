@@ -209,7 +209,8 @@ export function EditorToolbar({
         </div>
       </GridArea>
       <GridArea name="buttons">
-        <ButtonGroup>
+        {/* TODO: for demo */}
+        {/* <ButtonGroup>
           <Switch
             alignIndicator="right"
             label="autosave"
@@ -235,7 +236,7 @@ export function EditorToolbar({
             Save(⌘S)
           </button>
         )}
-        {canFormat && <button onClick={onClickFormat}>F</button>}
+        {canFormat && <button onClick={onClickFormat}>F</button>} */}
       </GridArea>
       <GridArea name="close">
         <button onClick={onClickClose}>x</button>
