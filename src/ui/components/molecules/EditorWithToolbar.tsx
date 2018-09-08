@@ -1,4 +1,3 @@
-import { ButtonGroup, Switch } from "@blueprintjs/core"
 import path from "path"
 import React from "react"
 import { EditorInterface } from "../../../editors/EditorInterface"
