@@ -79,7 +79,7 @@ export function Staging(props: Props) {
           </>
         )}
 
-        <h5>staged</h5>
+        {staged.length > 0 && <h5>staged</h5>}
         {staged.map(fname => {
           // TODO: reset
           return (
@@ -112,7 +112,7 @@ export function Staging(props: Props) {
           )
         })}
 
-        <h5>modified</h5>
+        {modified.length > 0 && <h5>modified</h5>}
         {modified.map(fname => {
           return (
             <p key={fname}>
@@ -128,7 +128,7 @@ export function Staging(props: Props) {
           )
         })}
 
-        <h5>deleted</h5>
+        {removable.length > 0 && <h5>deleted</h5>}
         {removable.map(fname => {
           return (
             <p key={fname}>
