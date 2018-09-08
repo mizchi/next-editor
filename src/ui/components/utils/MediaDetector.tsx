@@ -32,7 +32,7 @@ class MediaDetectorImpl extends React.Component<{
 
   _update() {
     const w = window.innerWidth
-    this.props.onChangeIsMobile(w < 768)
+    // this.props.onChangeIsMobile(w < 768)
   }
 
   componentDidMount() {
