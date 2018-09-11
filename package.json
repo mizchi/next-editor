@@ -87,7 +87,7 @@
     "webpack-cli": "3.1.0",
     "webpack-hot-client": "4.1.1",
     "webpack-serve": "2.0.2",
-    "workbox-webpack-plugin": "3.4.1"
+    "workbox-webpack-plugin": "3.5.0"
   },
   "dependencies": {
     "@blueprintjs/core": "3.5.1",

@@ -2197,6 +2197,12 @@ babel-core@^6.0.0, babel-core@^6.26.0, babel-core@^6.26.3:
     slash "^1.0.0"
     source-map "^0.5.7"
 
+babel-extract-comments@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/babel-extract-comments/-/babel-extract-comments-1.0.0.tgz#0a2aedf81417ed391b85e18b4614e693a0351a21"
+  dependencies:
+    babylon "^6.18.0"
+
 babel-generator@^6.18.0, babel-generator@^6.26.0:
   version "6.26.1"
   resolved "https://registry.yarnpkg.com/babel-generator/-/babel-generator-6.26.1.tgz#1844408d3b8f0d35a404ea7ac180f087a601bd90"
@@ -2392,7 +2398,7 @@ babel-plugin-syntax-jsx@^6.18.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz#0af32a9a6e13ca7a3fd5069e62d7b0f58d0d8946"
 
-babel-plugin-syntax-object-rest-spread@^6.13.0:
+babel-plugin-syntax-object-rest-spread@^6.13.0, babel-plugin-syntax-object-rest-spread@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
 
@@ -2417,6 +2423,13 @@ babel-plugin-transform-merge-sibling-variables@^6.9.0:
 babel-plugin-transform-minify-booleans@^6.9.0:
   version "6.9.4"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-minify-booleans/-/babel-plugin-transform-minify-booleans-6.9.4.tgz#acbb3e56a3555dd23928e4b582d285162dd2b198"
+
+babel-plugin-transform-object-rest-spread@^6.26.0:
+  version "6.26.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-object-rest-spread/-/babel-plugin-transform-object-rest-spread-6.26.0.tgz#0f36692d50fef6b7e2d4b3ac1478137a963b7b06"
+  dependencies:
+    babel-plugin-syntax-object-rest-spread "^6.8.0"
+    babel-runtime "^6.26.0"
 
 babel-plugin-transform-property-literals@^6.9.0:
   version "6.9.4"
@@ -5418,6 +5431,10 @@ get-caller-file@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.3.tgz#f978fa4c90d1dfe7ff2d6beda2a515e713bdcf4a"
 
+get-own-enumerable-property-symbols@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/get-own-enumerable-property-symbols/-/get-own-enumerable-property-symbols-2.0.1.tgz#5c4ad87f2834c4b9b4e84549dc1e0650fb38c24b"
+
 get-pkg-repo@^1.0.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/get-pkg-repo/-/get-pkg-repo-1.4.0.tgz#c73b489c06d80cc5536c2c853f9e05232056972d"
@@ -6501,7 +6518,7 @@ is-number@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/is-number/-/is-number-4.0.0.tgz#0026e37f5454d73e356dfe6564699867c6a7f0ff"
 
-is-obj@^1.0.0:
+is-obj@^1.0.0, is-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/is-obj/-/is-obj-1.0.1.tgz#3e4729ac1f5fde025cd7d83a896dab9f4f67db0f"
 
@@ -11263,6 +11280,14 @@ stringify-entities@^1.0.1:
     is-alphanumerical "^1.0.0"
     is-hexadecimal "^1.0.0"
 
+stringify-object@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/stringify-object/-/stringify-object-3.2.2.tgz#9853052e5a88fb605a44cd27445aa257ad7ffbcd"
+  dependencies:
+    get-own-enumerable-property-symbols "^2.0.1"
+    is-obj "^1.0.1"
+    is-regexp "^1.0.0"
+
 strip-ansi@3.0.1, strip-ansi@^3.0.0, strip-ansi@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-3.0.1.tgz#6a385fb8853d952d5ff05d0e8aaf94278dc63dcf"
@@ -11290,6 +11315,13 @@ strip-bom@^2.0.0:
   resolved "https://registry.yarnpkg.com/strip-bom/-/strip-bom-2.0.0.tgz#6219a85616520491f35788bdbf1447a99c7e6b0e"
   dependencies:
     is-utf8 "^0.2.0"
+
+strip-comments@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/strip-comments/-/strip-comments-1.0.2.tgz#82b9c45e7f05873bee53f37168af930aa368679d"
+  dependencies:
+    babel-extract-comments "^1.0.0"
+    babel-plugin-transform-object-rest-spread "^6.26.0"
 
 strip-eof@^1.0.0:
   version "1.0.0"
@@ -12649,21 +12681,21 @@ wordwrap@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
 
-workbox-background-sync@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-background-sync/-/workbox-background-sync-3.4.1.tgz#6957a0ff622ee08b7af958d561cf2d4821edb640"
+workbox-background-sync@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-background-sync/-/workbox-background-sync-3.5.0.tgz#bc9a6fe58dd7e3c3b235225a35894e3f567965a0"
   dependencies:
-    workbox-core "^3.4.1"
+    workbox-core "^3.5.0"
 
-workbox-broadcast-cache-update@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-broadcast-cache-update/-/workbox-broadcast-cache-update-3.4.1.tgz#9861cd2b6d874d41be26a34bc5bdd7a794d3badf"
+workbox-broadcast-cache-update@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-broadcast-cache-update/-/workbox-broadcast-cache-update-3.5.0.tgz#3be074b5abb333decd27fa2b31c39b643cdaad3f"
   dependencies:
-    workbox-core "^3.4.1"
+    workbox-core "^3.5.0"
 
-workbox-build@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-build/-/workbox-build-3.4.1.tgz#65af4c81b05dac6a1819c88b8a2a944ddf5cec04"
+workbox-build@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-build/-/workbox-build-3.5.0.tgz#893e31b1e28727ac0ec993222b9c132f77ea4607"
   dependencies:
     babel-runtime "^6.26.0"
     common-tags "^1.4.0"
@@ -12672,91 +12704,93 @@ workbox-build@^3.4.1:
     joi "^11.1.1"
     lodash.template "^4.4.0"
     pretty-bytes "^4.0.2"
-    workbox-background-sync "^3.4.1"
-    workbox-broadcast-cache-update "^3.4.1"
-    workbox-cache-expiration "^3.4.1"
-    workbox-cacheable-response "^3.4.1"
-    workbox-core "^3.4.1"
-    workbox-google-analytics "^3.4.1"
-    workbox-navigation-preload "^3.4.1"
-    workbox-precaching "^3.4.1"
-    workbox-range-requests "^3.4.1"
-    workbox-routing "^3.4.1"
-    workbox-strategies "^3.4.1"
-    workbox-streams "^3.4.1"
-    workbox-sw "^3.4.1"
+    stringify-object "^3.2.2"
+    strip-comments "^1.0.2"
+    workbox-background-sync "^3.5.0"
+    workbox-broadcast-cache-update "^3.5.0"
+    workbox-cache-expiration "^3.5.0"
+    workbox-cacheable-response "^3.5.0"
+    workbox-core "^3.5.0"
+    workbox-google-analytics "^3.5.0"
+    workbox-navigation-preload "^3.5.0"
+    workbox-precaching "^3.5.0"
+    workbox-range-requests "^3.5.0"
+    workbox-routing "^3.5.0"
+    workbox-strategies "^3.5.0"
+    workbox-streams "^3.5.0"
+    workbox-sw "^3.5.0"
 
-workbox-cache-expiration@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-cache-expiration/-/workbox-cache-expiration-3.4.1.tgz#6c92317ca43be7e3030662ffbb3fd413c1689f18"
+workbox-cache-expiration@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-cache-expiration/-/workbox-cache-expiration-3.5.0.tgz#bc6ee8e6105c0251d6331a772cf48c6a77470fb9"
   dependencies:
-    workbox-core "^3.4.1"
+    workbox-core "^3.5.0"
 
-workbox-cacheable-response@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-cacheable-response/-/workbox-cacheable-response-3.4.1.tgz#5517b4d5a86c2ad5d48000109335c5af23f47e40"
+workbox-cacheable-response@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-cacheable-response/-/workbox-cacheable-response-3.5.0.tgz#5073dbfb905639caac15285e31d779203fc9f66e"
   dependencies:
-    workbox-core "^3.4.1"
+    workbox-core "^3.5.0"
 
-workbox-core@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-core/-/workbox-core-3.4.1.tgz#dd6d8ad7398a0e6224c04b079841045af0c62e1f"
+workbox-core@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-core/-/workbox-core-3.5.0.tgz#42d19d4322bfa17a67ab8a58f474784ae8dd8e80"
 
-workbox-google-analytics@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-google-analytics/-/workbox-google-analytics-3.4.1.tgz#98f407b7d157be68087e0f3edb432cba291fd614"
+workbox-google-analytics@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-google-analytics/-/workbox-google-analytics-3.5.0.tgz#fb4af515ecd207054370beae2917b08c7e9175dc"
   dependencies:
-    workbox-background-sync "^3.4.1"
-    workbox-core "^3.4.1"
-    workbox-routing "^3.4.1"
-    workbox-strategies "^3.4.1"
+    workbox-background-sync "^3.5.0"
+    workbox-core "^3.5.0"
+    workbox-routing "^3.5.0"
+    workbox-strategies "^3.5.0"
 
-workbox-navigation-preload@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-navigation-preload/-/workbox-navigation-preload-3.4.1.tgz#d3eb75239cc4eed9314b25e233da2ba282dcc84d"
+workbox-navigation-preload@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-navigation-preload/-/workbox-navigation-preload-3.5.0.tgz#3d2514976ce2a1208c92e29dac2cb2976636f18d"
   dependencies:
-    workbox-core "^3.4.1"
+    workbox-core "^3.5.0"
 
-workbox-precaching@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-precaching/-/workbox-precaching-3.4.1.tgz#2d4a3f6ae8d825e17ef51dddc51aae5ef2876fb5"
+workbox-precaching@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-precaching/-/workbox-precaching-3.5.0.tgz#5b92690f424fe4c438c11823363e7468e5af8bf4"
   dependencies:
-    workbox-core "^3.4.1"
+    workbox-core "^3.5.0"
 
-workbox-range-requests@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-range-requests/-/workbox-range-requests-3.4.1.tgz#098474efecce49148ba925c75753e0ac96a8dd9a"
+workbox-range-requests@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-range-requests/-/workbox-range-requests-3.5.0.tgz#fe4cb1f67be015eeef379c0dd479c31436a1a53d"
   dependencies:
-    workbox-core "^3.4.1"
+    workbox-core "^3.5.0"
 
-workbox-routing@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-routing/-/workbox-routing-3.4.1.tgz#c5ac213480869da29a91a88db57b679ba7ddf58a"
+workbox-routing@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-routing/-/workbox-routing-3.5.0.tgz#93ab4037b49f243c5b5cc7a09b2b391700cdb4d1"
   dependencies:
-    workbox-core "^3.4.1"
+    workbox-core "^3.5.0"
 
-workbox-strategies@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-strategies/-/workbox-strategies-3.4.1.tgz#96f7947a9611ea599fcb71d44a5abab503fbe288"
+workbox-strategies@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-strategies/-/workbox-strategies-3.5.0.tgz#13cb04776cad4fa8b758b155245119909119cea6"
   dependencies:
-    workbox-core "^3.4.1"
+    workbox-core "^3.5.0"
 
-workbox-streams@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-streams/-/workbox-streams-3.4.1.tgz#b639843431ea38825909a557e54108fdc469f0eb"
+workbox-streams@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-streams/-/workbox-streams-3.5.0.tgz#a2295c5e28f05eecb3c275296e1f67e2f07d2eac"
   dependencies:
-    workbox-core "^3.4.1"
+    workbox-core "^3.5.0"
 
-workbox-sw@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-sw/-/workbox-sw-3.4.1.tgz#7b51fc14c44b4e880c369f97681472cf6e117113"
+workbox-sw@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-sw/-/workbox-sw-3.5.0.tgz#492a9b99f110d52f7ebda8bd0b045f0484685dae"
 
-workbox-webpack-plugin@3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/workbox-webpack-plugin/-/workbox-webpack-plugin-3.4.1.tgz#e91a4ab1e427b7d46afb7c185e99ca172e306d26"
+workbox-webpack-plugin@3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/workbox-webpack-plugin/-/workbox-webpack-plugin-3.5.0.tgz#21bcf5ab4f814992252af2aaeb2a0ec51d81339f"
   dependencies:
     json-stable-stringify "^1.0.1"
-    workbox-build "^3.4.1"
+    workbox-build "^3.5.0"
 
 worker-farm@^1.5.2:
   version "1.6.0"
