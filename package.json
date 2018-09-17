@@ -127,7 +127,7 @@
     "remark-react": "4.0.3",
     "remark-rehype": "3.0.1",
     "styled-components": "3.4.5",
-    "textlint-rule-no-todo": "2.0.0",
+    "textlint-rule-no-todo": "2.0.1",
     "textlint-rule-prh": "5.2.0",
     "unified": "7.0.0",
     "uuid": "3.3.2",
