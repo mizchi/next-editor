@@ -4469,9 +4469,9 @@ doctrine@^2.0.0:
   dependencies:
     esutils "^2.0.2"
 
-docz-core@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/docz-core/-/docz-core-0.11.1.tgz#2f8478132be0434cd2e1366f0662a8173a6bb9f5"
+docz-core@^0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/docz-core/-/docz-core-0.11.2.tgz#49ea5f827a9f94a78b8b980984312396fa4a53dc"
   dependencies:
     "@babel/core" "7.0.0"
     "@babel/polyfill" "7.0.0"
@@ -4516,7 +4516,6 @@ docz-core@^0.11.1:
     react-dev-utils "^5.0.2"
     react-docgen-typescript-loader "^3.0.0-rc.0"
     react-hot-loader "4.3.6"
-    rehype-autolink-headings "^2.0.3"
     rehype-docz "^0.11.0"
     rehype-slug "^2.0.1"
     remark-docz "^0.11.0"
@@ -4545,13 +4544,13 @@ docz-core@^0.11.1:
     ws "^6.0.0"
     yargs "^12.0.1"
 
-docz-theme-default@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/docz-theme-default/-/docz-theme-default-0.11.1.tgz#ca2e4661b2ffac8dea0e9672668eea12285f0e6b"
+docz-theme-default@^0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/docz-theme-default/-/docz-theme-default-0.11.2.tgz#288bd7fb5b67467c685460dc18b1ea0eb2e2ce40"
   dependencies:
     codemirror "^5.40.0"
     copy-text-to-clipboard "^1.0.4"
-    docz "^0.11.1"
+    docz "^0.11.2"
     emotion "^9.2.8"
     emotion-theming "^9.2.6"
     facepaint "^1.2.1"
@@ -4574,9 +4573,9 @@ docz-theme-default@^0.11.1:
     react-sizes "^1.0.4"
     webfontloader "^1.6.28"
 
-docz@0.11.1, docz@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/docz/-/docz-0.11.1.tgz#bbf93d4468b68cc4fb58d10b6a21fd3ee469bcf0"
+docz@0.11.2, docz@^0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/docz/-/docz-0.11.2.tgz#e5293e0f5fc8ee19b2191514837240acb6590223"
   dependencies:
     "@mdx-js/tag" "^0.15.0"
     "@sindresorhus/slugify" "^0.3.0"
@@ -4584,8 +4583,8 @@ docz@0.11.1, docz@^0.11.1:
     capitalize "^1.0.0"
     create-react-context "^0.2.3"
     deepmerge "^2.1.1"
-    docz-core "^0.11.1"
-    docz-theme-default "^0.11.1"
+    docz-core "^0.11.2"
+    docz-theme-default "^0.11.2"
     prop-types "^15.6.2"
     react "^16.5.0"
     react-copy-write "^0.8.0"
@@ -5191,7 +5190,7 @@ extend-shallow@^3.0.0, extend-shallow@^3.0.2:
     assign-symbols "^1.0.0"
     is-extendable "^1.0.1"
 
-extend@^3.0.0, extend@^3.0.1, extend@~3.0.2:
+extend@^3.0.0, extend@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
 
@@ -10483,15 +10482,6 @@ regjsparser@^0.3.0:
   resolved "https://registry.yarnpkg.com/regjsparser/-/regjsparser-0.3.0.tgz#3c326da7fcfd69fa0d332575a41c8c0cdf588c96"
   dependencies:
     jsesc "~0.5.0"
-
-rehype-autolink-headings@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/rehype-autolink-headings/-/rehype-autolink-headings-2.0.3.tgz#b23d02937019b8e33566362fc1541df42e99b0e5"
-  dependencies:
-    extend "^3.0.1"
-    hast-util-has-property "^1.0.0"
-    hast-util-is-element "^1.0.0"
-    unist-util-visit "^1.1.0"
 
 rehype-docz@^0.11.0:
   version "0.11.0"
