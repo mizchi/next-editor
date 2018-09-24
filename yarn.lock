@@ -1620,11 +1620,12 @@
   dependencies:
     unist-util-visit "^1.3.0"
 
-"@mdx-js/loader@0.15.2":
-  version "0.15.2"
-  resolved "https://registry.yarnpkg.com/@mdx-js/loader/-/loader-0.15.2.tgz#5c2aa76710ee41bd6bda5e8b372b6b0f4132f4d9"
+"@mdx-js/loader@0.15.4":
+  version "0.15.4"
+  resolved "https://registry.yarnpkg.com/@mdx-js/loader/-/loader-0.15.4.tgz#06dc6bc81a1f66c018558b9b2d2d82a2a1cef639"
   dependencies:
     "@mdx-js/tag" "^0.15.0"
+    loader-utils "^1.1.0"
 
 "@mdx-js/loader@^0.15.0":
   version "0.15.0"
