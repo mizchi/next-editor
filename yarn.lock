@@ -1843,9 +1843,9 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-dom@16.0.7":
-  version "16.0.7"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.7.tgz#54d0f867a76b90597e8432030d297982f25c20ba"
+"@types/react-dom@16.0.8":
+  version "16.0.8"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.8.tgz#6e1366ed629cadf55860cbfcc25db533f5d2fa7d"
   dependencies:
     "@types/node" "*"
     "@types/react" "*"
