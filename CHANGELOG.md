@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.27.12"></a>
+## [0.27.12](https://github.com/mizchi/next-editor/compare/v0.27.1...v0.27.12) (2018-09-30)
+
+
+### Bug Fixes
+
+* **deps:** update dependency [@blueprintjs](https://github.com/blueprintjs)/core to v3.5.1 ([b82b99c](https://github.com/mizchi/next-editor/commit/b82b99c))
+* **deps:** update dependency [@blueprintjs](https://github.com/blueprintjs)/core to v3.6.1 ([8af1606](https://github.com/mizchi/next-editor/commit/8af1606))
+* **deps:** update dependency [@octokit](https://github.com/octokit)/rest to v15.11.1 ([fa3f43c](https://github.com/mizchi/next-editor/commit/fa3f43c))
+* **deps:** update dependency [@octokit](https://github.com/octokit)/rest to v15.12.1 ([74238fe](https://github.com/mizchi/next-editor/commit/74238fe))
+* **deps:** update dependency delay to v4 ([717fb73](https://github.com/mizchi/next-editor/commit/717fb73))
+* **deps:** update dependency delay to v4.0.1 ([80605f1](https://github.com/mizchi/next-editor/commit/80605f1))
+* **deps:** update dependency isomorphic-git to v0.35.1 ([105c748](https://github.com/mizchi/next-editor/commit/105c748))
+* **deps:** update dependency isomorphic-git to v0.35.2 ([453e664](https://github.com/mizchi/next-editor/commit/453e664))
+* **deps:** update dependency isomorphic-git to v0.36.1 ([e236b2b](https://github.com/mizchi/next-editor/commit/e236b2b))
+* loading ([71123fd](https://github.com/mizchi/next-editor/commit/71123fd))
+* **deps:** update dependency lodash to v4.17.11 ([c503b39](https://github.com/mizchi/next-editor/commit/c503b39))
+* **deps:** update dependency polished to v2.2.0 ([577fbbf](https://github.com/mizchi/next-editor/commit/577fbbf))
+* **deps:** update dependency textlint-rule-no-todo to v2.0.1 ([dc429cd](https://github.com/mizchi/next-editor/commit/dc429cd))
+* **deps:** update dependency v8n to v1.2.2 ([fc4f0bd](https://github.com/mizchi/next-editor/commit/fc4f0bd))
+* **deps:** update react monorepo to v16.5.0 ([9db469d](https://github.com/mizchi/next-editor/commit/9db469d))
+* **deps:** update react monorepo to v16.5.1 ([715d2b6](https://github.com/mizchi/next-editor/commit/715d2b6))
+
+
+
 <a name="0.27.11"></a>
 ## [0.27.11](https://github.com/mizchi/next-editor/compare/v0.27.1...v0.27.11) (2018-09-22)
 
