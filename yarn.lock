@@ -4543,6 +4543,12 @@ debug@3.1.0, debug@^3.0.0, debug@^3.1.0:
   dependencies:
     ms "2.0.0"
 
+debug@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.0.1.tgz#f9bb36d439b8d1f0dd52d8fb6b46e4ebb8c1cd5b"
+  dependencies:
+    ms "^2.1.1"
+
 decamelize-keys@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/decamelize-keys/-/decamelize-keys-1.1.0.tgz#d171a87933252807eb3cb61dc1c1445d078df2d9"
@@ -7171,15 +7177,15 @@ isomorphic-fetch@^2.1.1:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
 
-isomorphic-git@0.35.4:
-  version "0.35.4"
-  resolved "https://registry.yarnpkg.com/isomorphic-git/-/isomorphic-git-0.35.4.tgz#b8e51bae2b6e6950ff296d96b07c8bfaee5590f3"
+isomorphic-git@0.36.1:
+  version "0.36.1"
+  resolved "https://registry.yarnpkg.com/isomorphic-git/-/isomorphic-git-0.36.1.tgz#a69e8f2dfc5311bf4e836fcb03c77986b6a386ff"
   dependencies:
     "@babel/runtime" "^7.0.0"
     async-lock "^1.1.0"
     clean-git-ref "1.0.3"
     crc "^3.5.0"
-    debug "^3.1.0"
+    debug "^4.0.1"
     diff-lines "^1.1.0"
     git-apply-delta "0.0.7"
     globalyzer "^0.1.0"
@@ -8611,6 +8617,10 @@ ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
+ms@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
+
 mute-stream@0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.5.tgz#8fbfabb0a98a253d3184331f9e8deb7372fac6c0"
@@ -9460,9 +9470,9 @@ pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
 
-polished@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/polished/-/polished-2.2.0.tgz#5ca7e178cc5352bd7fd1efc45342f7c6d59cc982"
+polished@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/polished/-/polished-2.1.1.tgz#767bd417b9df3fa317bc0f3935d1d6b4cb182235"
   dependencies:
     "@babel/runtime" "^7.0.0"
 
