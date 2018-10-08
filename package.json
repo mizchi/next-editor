@@ -70,7 +70,7 @@
     "rimraf": "2.6.2",
     "standard-changelog": "2.0.1",
     "standard-version": "4.4.0",
-    "style-loader": "0.23.0",
+    "style-loader": "0.23.1",
     "stylelint": "9.6.0",
     "stylelint-config-prettier": "4.0.0",
     "stylelint-config-recommended": "2.1.0",
