@@ -10,7 +10,7 @@ const j = path.join
 
 const INTRODUCTION = `# Playground
 
-This file may be rewrite by update
+This file may be rewritten by an update
 
 You can edit this field.
 `
