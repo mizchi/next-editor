@@ -30,7 +30,7 @@
     "@babel/preset-typescript": "7.1.0",
     "@babel/standalone": "7.1.0",
     "@mdx-js/loader": "0.15.4",
-    "@mdx-js/mdx": "0.15.4",
+    "@mdx-js/mdx": "0.20.1",
     "@mizchi/jest-mdx-loader": "0.1.2",
     "@types/enzyme": "3.1.14",
     "@types/jest": "23.3.2",
