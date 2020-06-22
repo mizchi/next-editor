@@ -9,8 +9,24 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/assets/icon-55x55.png",
-      "sizes": "55x55",
+      "src": "/assets/icon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icon-24x24.png",
+      "sizes": "24x24",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+
+    {
+      "src": "/assets/icon-48x48.png",
+      "sizes": "48x48",
       "type": "image/png"
     },
     {
