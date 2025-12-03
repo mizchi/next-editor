@@ -1616,10 +1616,12 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
-"@types/recompose@0.26.5":
-  version "0.26.5"
-  resolved "https://registry.yarnpkg.com/@types/recompose/-/recompose-0.26.5.tgz#8496b63c535a60c3584b8b0aca54bfb86679ed70"
+"@types/recompose@0.30.15":
+  version "0.30.15"
+  resolved "https://registry.yarnpkg.com/@types/recompose/-/recompose-0.30.15.tgz#29ba4e6ffc7714c9026fd709931125f42c11ed3f"
+  integrity sha512-glX9JbRTG4WSaWxDrsHlinoRC1YRb0vNr+ocPBgBTJgMawkYx8fqwuduahzy25XBSc3xfG/k9b5XPyW6FuHVkw==
   dependencies:
+    "@types/prop-types" "*"
     "@types/react" "*"
 
 "@types/redux-logger@3.0.6":
